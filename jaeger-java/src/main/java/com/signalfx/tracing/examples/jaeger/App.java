@@ -1,4 +1,4 @@
-package com.signalfx.tracing.examples;
+package com.signalfx.tracing.examples.jaeger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -153,6 +153,8 @@ public class App
             for (int i = 0; i < NUM_PARTS; i++) {
                 piEstimate += completionService.take().get() * 4.0;
             }
+
+            executor.shutdown();
 
             System.out.println("pi ~= " + piEstimate);
         // Handle exceptions in our application logic.  We have access to the span object here
