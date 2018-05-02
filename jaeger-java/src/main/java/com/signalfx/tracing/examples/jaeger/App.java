@@ -14,7 +14,6 @@ import io.jaegertracing.samplers.ConstSampler;
 import io.jaegertracing.senders.zipkin.Zipkin2Sender;
 import io.opentracing.Scope;
 import io.opentracing.Span;
-import io.opentracing.Tracer;
 import io.opentracing.log.Fields;
 import io.opentracing.tag.Tags;
 import io.opentracing.util.GlobalTracer;
@@ -34,7 +33,7 @@ public class App
      * intended to be called once.  If you are using a DI framework, this logic would be used by
      * that to create a single instance of the tracer and inject it to every class that needs it.
      */
-    private static Tracer createTracer() {
+    private static io.opentracing.Tracer createTracer() {
         String ingestUrl = System.getProperty("ingestUrl", "https://ingest.signalfx.com");
         String accessToken = System.getProperty("accessToken");
 
@@ -55,7 +54,7 @@ public class App
         OkHttpSender sender = senderBuilder.build();
 
         // Build the Jaeger Tracer instance, which implements the opentracing Tracer interface.
-        Tracer tracer = new io.jaegertracing.Tracer.Builder("signalfx-jaeger-java-example")
+        io.opentracing.Tracer tracer = new io.jaegertracing.Tracer.Builder("signalfx-jaeger-java-example")
                 // This configures the tracer to send all spans, but you will probably want to use
                 // something less verbose.
                 .withSampler(new ConstSampler(true))
@@ -79,8 +78,10 @@ public class App
     {
         // Create a single instance of a Jaeger tracer that will be used throughout the application.
         // If you are using a DI framework, you should rely on that as much as possible to provide
-        // this instance.
-        Tracer tracer = createTracer();
+        // this instance.  Here we are defining the tracer as an OpenTracing tracer, since it implements
+        // that interface.  You should generally use the OpenTracing interface where possible to make
+        // it potentially easier to swap out tracers in the future.
+        io.opentracing.Tracer tracer = createTracer();
 
         // Here we create and start a root span that will be the parent of the other spans. We have
         // used the `start` method instead of `startActive` so that we can get a reference to the span
