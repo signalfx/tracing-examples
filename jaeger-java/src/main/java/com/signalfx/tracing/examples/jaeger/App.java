@@ -171,6 +171,11 @@ public class App
             // manually finish the span.
             parentSpan.finish();
         }
+
+        // This is a hack to make sure the tracer flushes and sends the spans since this is a very
+        // short-lived application.  Normally if you were using a DI framework, this could be part
+        // of the cleanup code for the singleton tracer instance.
+        ((io.jaegertracing.Tracer)(tracer)).close();
     }
 
     /**
