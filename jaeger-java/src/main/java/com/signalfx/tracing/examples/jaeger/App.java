@@ -1,5 +1,6 @@
 package com.signalfx.tracing.examples.jaeger;
 
+import io.jaegertracing.senders.zipkin.Zipkin2Reporter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletionService;
@@ -9,15 +10,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
-import io.jaegertracing.reporters.RemoteReporter;
 import io.jaegertracing.samplers.ConstSampler;
-import io.jaegertracing.senders.zipkin.Zipkin2Sender;
 import io.opentracing.Scope;
 import io.opentracing.Span;
 import io.opentracing.log.Fields;
 import io.opentracing.tag.Tags;
 import io.opentracing.util.GlobalTracer;
 import okhttp3.Request;
+import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.okhttp3.OkHttpSender;
 
 /**
@@ -60,7 +60,7 @@ public class App
                 .withSampler(new ConstSampler(true))
                 // Configure the tracer to send spans in the Zipkin V2 JSON format instead of the
                 // default Jaeger protocol, which we do not support.
-                .withReporter(new RemoteReporter.Builder().withSender(Zipkin2Sender.create(sender)).build())
+                .withReporter(new Zipkin2Reporter(AsyncReporter.create(sender)))
                 .build();
 
         // It is considered best practice to at least register the GlobalTracer instance, even if you
