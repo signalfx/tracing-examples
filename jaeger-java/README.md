@@ -1,7 +1,7 @@
 # Jaeger Java Example
 
 This is a very simple Java class that shows the use of the Jaeger Java tracer client with SignalFx.
-See [./src/main/java/com/signalfx/tracing/examples/App.java](./src/main/java/com/signalfx/tracing/examples/App.java)
+See [./src/main/java/com/signalfx/tracing/examples/jaeger/App.java](./src/main/java/com/signalfx/tracing/examples/jaeger/App.java)
 for the code and more information.
 
 ## Building
