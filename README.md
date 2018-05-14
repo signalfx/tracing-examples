@@ -7,4 +7,15 @@ ingest server using the Zipkin v2 JSON format.
 
 ## Examples
 
- - [Jaeger Java Client](./jaeger-java)
+### Jaeger client libraries
+
+ - [Java](./jaeger-java)
+ - [Go](./jaeger-go)
+
+### Zipkin client libraries
+
+ - [Brave Java Client](./zipkin-brave-java)
+
+### OpenTracing ecosystem
+
+ - [Java Kafka tracing](./opentracing-kafka-java)

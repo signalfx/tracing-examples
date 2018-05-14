@@ -9,7 +9,9 @@ for the code and more information.
 To build this example, simply run `mvn package`.  This will create a jar that
 you can run with:
 
-`java -DaccessToken=MY_ORG_ACCESS_TOKEN` -jar ./target/jaeger-example-1.0-SNAPSHOT-shaded.jar
+```
+java -DaccessToken=MY_ORG_ACCESS_TOKEN -jar ./target/jaeger-example-1.0-SNAPSHOT-shaded.jar
+```
 
 Provide your SignalFx organization's access token in the `accessToken` property.  This will run
 the example app and send a single trace with the service name
