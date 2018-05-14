@@ -12,9 +12,9 @@ applications that you can run with:
 
 ```
 $ java -DaccessToken=MY_ORG_ACCESS_TOKEN -DkafkaBrokers=BROKER_LIST -DkafkaTopic=TOPIC_NAME \
-       -jar ./producer/opentracing-kafka-java-producer-example-1.0-SNAPSHOT-shaded.jar &
+       -jar ./producer/target/opentracing-kafka-java-producer-example-1.0-SNAPSHOT-shaded.jar &
 $ java -DaccessToken=MY_ORG_ACCESS_TOKEN -DkafkaBrokers=BROKER_LIST -DkafkaTopic=TOPIC_NAME \
-       -jar ./producer/opentracing-kafka-java-consumer-example-1.0-SNAPSHOT-shaded.jar &
+       -jar ./consumer/target/opentracing-kafka-java-consumer-example-1.0-SNAPSHOT-shaded.jar &
 ```
 
 Provide your SignalFx organization's access token in the `accessToken` property,
