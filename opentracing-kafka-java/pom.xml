@@ -28,6 +28,11 @@
       <version>2.6.0</version>
     </dependency>
     <dependency>
+      <groupId>io.opentracing.brave</groupId>
+      <artifactId>brave-opentracing</artifactId>
+      <version>0.29.0</version>
+    </dependency>
+    <dependency>
       <groupId>io.opentracing.contrib</groupId>
       <artifactId>opentracing-kafka-client</artifactId>
       <version>0.0.11</version>

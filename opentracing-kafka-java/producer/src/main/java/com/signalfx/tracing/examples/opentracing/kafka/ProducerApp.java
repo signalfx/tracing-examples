@@ -1,6 +1,8 @@
 package com.signalfx.tracing.examples.opentracing.kafka;
 
+import java.io.Closeable;
 import java.util.Properties;
+import java.util.concurrent.CountDownLatch;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -9,10 +11,12 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.LongSerializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 
+import brave.Tracing;
+import brave.opentracing.BraveTracer;
+import brave.sampler.CountingSampler;
 import io.opentracing.Scope;
 import io.opentracing.Tracer;
 import io.opentracing.contrib.kafka.TracingKafkaProducer;
-import io.opentracing.util.GlobalTracer;
 import okhttp3.Request;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.okhttp3.OkHttpSender;
@@ -21,19 +25,18 @@ public class ProducerApp {
 
     private static final String NAME = "signalfx-opentracing-kafka-java-producer-example";
 
-    public static void main(String[] args) {
-        // Create a single instance of a Jaeger tracer that will be used throughout the application.
-        // If you are using a DI framework, you should rely on that as much as possible to provide
-        // this instance.  Here we are defining the tracer as an OpenTracing tracer, since it implements
-        // that interface.  You should generally use the OpenTracing interface where possible to make
-        // it potentially easier to swap out tracers in the future.
-        Tracer tracer = createTracer();
+    public static void main(String[] args) throws Exception {
+        // Here we instantiate our TracingHelper class and get the tracer from it.  Normally this would
+        // be done by your DI framework and the resulting tracer injected to each class that needs it.
+        TracingHelper tracingHelper = new TracingHelper();
+        Tracer tracer = tracingHelper.getTracer();
 
         Producer<Long, String> producer = createKafkaProducer(tracer);
 
         String kafkaTopic = System.getProperty("kafkaTopic");
+        CountDownLatch latch = new CountDownLatch(1);
 
-        try (Scope scope = tracer.buildSpan("root").startActive(true)) {
+        try (Scope scope = tracer.buildSpan("producer.say_hi").startActive(true)) {
             System.out.printf("Sending message on Kafka topic %s...%n", kafkaTopic);
             producer.send(new ProducerRecord<>(kafkaTopic, 42L, "Hello, world!"), (r, e) -> {
                 if (e != null) {
@@ -42,8 +45,13 @@ public class ProducerApp {
                 } else {
                     System.out.printf("Sent Kafka message on %s.%n", kafkaTopic);
                 }
+                latch.countDown();
             });
         }
+
+        latch.await();
+        tracingHelper.close();
+        System.out.println("Done.");
     }
 
     /**
@@ -60,44 +68,70 @@ public class ProducerApp {
     }
 
     /**
-     * Create a Jaeger tracer instance that is configured to send span data to SignalFx.  This is
-     * intended to be called once.  If you are using a DI framework, this logic would be used by
-     * that to create a single instance of the tracer and inject it to every class that needs it.
+     * A helper class that encapsulates all of the Brave objects that need to be created and cleaned up
+     * upon shutdown.  If you are using a DI framework, this logic would be used by that
+     * to create a single instance of the tracer and inject it to every class that needs it.  Be sure
+     * to incorporate the logic in the close method to your DI framework's shutdown logic.
      */
-    private static Tracer createTracer() {
-        String ingestUrl = System.getProperty("ingestUrl", "https://ingest.signalfx.com");
-        String accessToken = System.getProperty("accessToken");
+    private static class TracingHelper implements Closeable {
 
-        // Build the sender that does the HTTP request containing spans to our ingest server.
-        OkHttpSender.Builder senderBuilder = OkHttpSender.newBuilder()
-                .compressionEnabled(true)
-                .endpoint(ingestUrl + "/v1/trace");
+        // We need to keep references to all of these components because they have to be closed upon
+        // shutdown in a certain order to avoid losing spans.
+        private AsyncReporter<zipkin2.Span> reporter;
+        private Tracer tracer;
+        private OkHttpSender sender;
 
-        // Add an interceptor to inject the SignalFx X-SF-Token auth header.
-        senderBuilder.clientBuilder().addInterceptor(chain -> {
-            Request request = chain.request().newBuilder()
-                    .addHeader("X-SF-Token", accessToken)
-                    .build();
+        TracingHelper() {
+            // The ingest url is where the span data will be sent, which can normally just be the default
+            // value of this property.
+            String ingestUrl = System.getProperty("ingestUrl", "https://ingest.signalfx.com");
+            // This would be your organization's SignalFx access token, accessed in whatever manner most
+            // appropriate to your environment.
+            String accessToken = System.getProperty("accessToken");
 
-            return chain.proceed(request);
-        });
+            // Build the sender that does the HTTP request containing spans to our ingest server.
+            OkHttpSender.Builder senderBuilder = OkHttpSender.newBuilder()
+                    .compressionEnabled(true)
+                    .endpoint(ingestUrl + "/v1/trace");
 
-        OkHttpSender sender = senderBuilder.build();
+            // Add an interceptor to inject the SignalFx X-SF-Token auth header.
+            senderBuilder.clientBuilder().addInterceptor(chain -> {
+                Request request = chain.request().newBuilder()
+                        .addHeader("X-SF-Token", accessToken)
+                        .build();
+                return chain.proceed(request);
+            });
 
-        // Build the Jaeger Tracer instance, which implements the opentracing Tracer interface.
-        io.opentracing.Tracer tracer = new io.jaegertracing.Tracer.Builder(NAME)
-                // This configures the tracer to send all spans, but you will probably want to use
-                // something less verbose.
-                .withSampler(new ConstSampler(true))
-                // Configure the tracer to send spans in the Zipkin V2 JSON format instead of the
-                // default Jaeger protocol, which we do not support.
-                .withReporter(new Zipkin2Reporter(AsyncReporter.create(sender)))
-                .build();
+            this.sender = senderBuilder.build();
+            this.reporter = AsyncReporter.create(sender);
 
-        // It is considered best practice to at least register the GlobalTracer instance, even if you
-        // don't generally use it.
-        GlobalTracer.register(tracer);
+            // Create the Tracing instance from which we obtain the tracer instance
+            this.tracer = BraveTracer.create(
+                    Tracing.newBuilder()
+                    // This sets the name of the local application and will be fairly prominent in the Zipkin UI.
+                    .localServiceName(NAME)
+                    .spanReporter(reporter)
+                    // Use a sampler that always reports spans.  You can swap this out for other samplers.
+                    .sampler(CountingSampler.create(1.0f))
+                    .build());
+        }
 
-        return tracer;
+        /**
+         * Return the tracer instance from the Tracing object.  This is what spans are created through.
+         */
+        public Tracer getTracer() {
+            return tracer;
+        }
+
+        /**
+         * This might be part of the shutdown logic if using a DI framework.  It should be called one way
+         * or another though.
+         */
+        @Override
+        public void close() {
+            reporter.flush();
+            reporter.close();
+            sender.close();
+        }
     }
 }

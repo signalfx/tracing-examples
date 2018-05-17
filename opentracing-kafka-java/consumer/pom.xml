@@ -9,7 +9,6 @@
     <relativePath>../pom.xml</relativePath>
   </parent>
 
-  <groupId>com.signalfx.tracing.examples</groupId>
   <artifactId>opentracing-kafka-java-consumer-example</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
