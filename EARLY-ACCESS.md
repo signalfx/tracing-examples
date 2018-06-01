@@ -18,9 +18,9 @@ applying real-time analytics to span/trace data.
 Some key functionality we intend to deliver over the coming year includes:
 * Ingesting, storing and visualizing instrumentation agnostic trace data
 * Rapid end-to-end troubleshooting with service maps, slice/dice high-cardinality spans, trace latency histogram
-* Per end-point & service profiles and the ability to create alerts on metricized spans and traces
-* Visualizing service dependency graphs and dependency-aware alerting gets you to root cause rapidly
-* Infra metrics related tospans/traces to help with problem isolation quickly
+* RED Metrics for spans, per end-point & service profiles and built-in alerts
+* Dependency-aware alerting & troubleshooting to get you to root cause rapidly
+* Infra metrics related to spans/traces to help with problem isolation quickly
 More details on roadmap available by contacting the email alias below.
 
 ## Early Access Program
