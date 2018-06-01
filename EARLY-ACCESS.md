@@ -29,9 +29,9 @@ Early Access Program (EAP) for Distributed Tracing is intended for early
 interaction, engagement and feedback with a select set of customers that 
 we consider design partners on the journey to delivering a best in class
 distributed tracing and microservices APM solution. This EAP is intended
-to give you access to those new features as we're building them. As such,
+to give you access to new features as we're building them - as such,
 they should be considered "alpha quality": you may experience bugs or user
-experience nits along the way. We'll be looking forward to your feedback
+experience nits along the way and we'll be looking forward to your feedback
 as we continue to build this new and exciting facet of SignalFx's offering. 
 
 In it's first phase, June 2018, we are starting with the ability to ingest
