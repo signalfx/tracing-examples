@@ -6,7 +6,7 @@ New applications and existing monolithic apps are being decomposed into
 distributed service-oriented/microservices-based software systems using various
 tools, languages, frameworks and cloud services. These new environments require
 a new way to understand user transactions that flow across service boundaries
-with a transaction goes thru 10s/100s of services to complete a single user
+with a transaction going through 10s/100s of services to complete a single user
 request.
 
 SignalFx's Distributed tracing will offer unique insights into distributed
