@@ -41,11 +41,8 @@ exciting facet of SignalFx's offering.
 
 For the duration of this Early Access Program for our Distributed
 Tracing & APM features, please refrain from using our normal support
-channels and instead direct all feedback and questions to the
-`#tracing-eap-$customer` Slack channel.
-
-_If you haven't been invited to the Slack channel, reach out to
-`max@signalfx.com` or `mohit@signalfx.com`._
+channels and instead directly email all feedback and questions to the
+`tracing-feedback@signalfx.com`.
 
 ## Sending trace data to SignalFx
 
