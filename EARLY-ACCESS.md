@@ -54,7 +54,7 @@ your feedback and questions via email to `tracing-feedback@signalfx.com`.
 Akin to our approach for metrics instrumentation, SignalFx intends to remain as
 instrumentation-agnostic as possible, leveraging open-source and open standards
 for client-side tracing instrumentation and wire formats. We intend to ingest
-instrumentation based on Zipkin's v2 JSON format in the Early Access Program and
+spans in Zipkin's v2 JSON format in the Early Access Program and
 add support for Jaeger's wire format, OpenCensus, and AWS X-Ray later in the
 year. We've developed a normalized data model to ingest & represent different
 formats so you can use SignalFx to provide powerful real-time data exploration
