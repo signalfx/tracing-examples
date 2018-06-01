@@ -1,21 +1,63 @@
-# SignalFx Distributed Tracing & APM Early Access Program
+# Distributed Tracing & Microservices APM Early Access Program
 
-This document is an introduction and a guide to SignalFx's upcoming
-Distributed Tracing & APM features, now available to a few select users
-through as part of an Early Access Program (EAP).
+## Overview
+New applications and existing monolithic apps are being decomposed into 
+distributed service-oriented/microservices-based software systems using 
+various tools, languages, frameworks and cloud services. These new environments
+require a new way to understand user transactions that flow across service
+boundaries when a transaction goes thru 10s/100s of services to complete
+a single user request.
 
-As you've been made aware, SignalFx is working on a new facet of its
-monitoring solution for modern applications. Distributed systems tracing
-offers unique insights into application performance and troubleshooting
-that complements a metrics-based monitoring approach and that can
-deliver additional value when supported by a class-leading real-time
-metrics analytics platform.
+SignalFx's Distributed tracing will offer unique insights into distributed 
+applications - performance and troubleshooting - complementing metrics-based
+monitoring approach; by utilizing our class-leading real-time metrics analytics
+platform, we intend to make distributed tracing useful beyond end-to-end 
+troubleshooting and uplevel it to a performance optimization solution by 
+applying real-time analytics to span/trace data.
 
+Some key functionality we intend to deliver over the coming year includes:
+* Ingesting, storing and visualizing instrumentation agnostic trace data
+* End-to-End troubleshooting with service maps, slice/dice data, trace latency histogram
+* Per end-point & service profiles and the ability to create alerts on metricized spans and traces
+* Visualizing service dependency graphs and dependency-aware alerting gets you to root cause rapidly
+* Infra metrics related tospans/traces to help with problem isolation quickly
+More details on roadmap available by contacting the email alias below.
+
+## Early Access Program
+
+Early Access Program (EAP) for Distributed Tracing is intended for early 
+interaction, engagement and feedback with a select set of customers that 
+we consider design partners on the journey to delivering a best in class
+distributed tracing and microservices APM solution. This EAP is intended
+to give you access to those new features as we're building them. As such,
+they should be considered "alpha quality": you may experience bugs or user
+experience nits along the way. We'll be looking forward to your feedback
+as we continue to build this new and exciting facet of SignalFx's offering. 
+
+In it's first phase, June 2018, we are starting with the ability to ingest
+spans sent to us using Zipkin v2 wire format and visualize specific traces 
+via trace-ids. We will continue to rapidly add functionality mentioned above
+with a monthly/quaterly cadence and expect to receive candid feedback from
+this Early Access group so we can continue to iterate towards an outstanding
+product that solves customer problems in truly unique, innovative ways.
+
+## Feedback and support requests
+
+For the duration of this Early Access Program for our Distributed
+Tracing & APM features, please refrain from using our normal support
+channels and direct all your feedback and questions to
+`tracing-feedback@signalfx.com`.
+
+## Instrumentation
 Akin to our approach for metrics instrumentation, SignalFx intends to
 remain as instrumentation-agnostic as possible, leveraging open-source
 and open standards for client-side tracing instrumentation and wire
-formats. SignalFx will provide powerful real-time data exploration
-capabilities and easy-to-use trace visualization and analysis features.
+formats. We intend to ingest instrumentation based on Zipkin v2 format
+in the early access program and add OpenTracing with Jaegar, OpenCensus,
+AWS X-Ray later in the year. We've developed a normalized data model to
+ingest & represent different formats so you can use SignalFx to provide
+powerful real-time data exploration capabilities and easy-to-use trace
+visualization and analysis features for the instrumentation of your choice.
 
 <p align="center">
   <a href="https://signalfx.com">
@@ -31,18 +73,7 @@ capabilities and easy-to-use trace visualization and analysis features.
        alt="ZipKin" /></a>
 </p>
 
-This EAP is intended to give you access to those new features as we're
-building them. As such, they should be considered "alpha quality": you
-may experience bugs or user experience nits along the way. We'll be
-looking forward to your feedback as we continue to build this new and
-exciting facet of SignalFx's offering.
 
-## Feedback and support requests
-
-For the duration of this Early Access Program for our Distributed
-Tracing & APM features, please refrain from using our normal support
-channels and instead directly email all feedback and questions to
-`tracing-feedback@signalfx.com`.
 
 ## Sending trace data to SignalFx
 
