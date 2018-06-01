@@ -41,7 +41,7 @@ exciting facet of SignalFx's offering.
 
 For the duration of this Early Access Program for our Distributed
 Tracing & APM features, please refrain from using our normal support
-channels and instead directly email all feedback and questions to the
+channels and instead directly email all feedback and questions to
 `tracing-feedback@signalfx.com`.
 
 ## Sending trace data to SignalFx
@@ -138,7 +138,7 @@ Trace search is not yet available in this EAP. To visualize a trace in
 SignalFx, you'll need to know its trace ID. Then go to
 [`https://app.signalfx.com/#/trace`](https://app.signalfx.com/#/trace)
 and put in the trace ID in the input field at the top left of the page.
-Alternatively, you can also go directly to
+Alternatively, you can go directly to
 `https://app.signalfx.com/#/trace/<trace-id>`.
 
 _Screenshot of trace view page's input field_
