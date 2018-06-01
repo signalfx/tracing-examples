@@ -43,7 +43,7 @@ above with a monthly/quaterly cadence and expect to receive candid feedback from
 this Early Access group so we can continue to iterate towards an outstanding
 product that solves customer problems in truly unique, innovative ways.
 
-### Feedback and support requests
+## Feedback and support requests
 
 For the duration of this Early Access Program for our Distributed Tracing & APM
 features, please refrain from using our normal support channels and direct all
@@ -75,7 +75,7 @@ instrumentation of your choice.
        alt="ZipKin" /></a>
 </p>
 
-### Sending trace data to SignalFx
+## Sending trace data to SignalFx
 
 SignalFx's ingest API now exposes a new endpoint for ingesting trace data,
 available at `https://ingest.signalfx.com/v1/trace`. As of June 2018, this
@@ -104,7 +104,7 @@ Content-Type: application/json; charset=utf-8
 {"invalid":{},"valid":3}
 ```
 
-### Span validation
+## Span validation
 
 SignalFx checks several elements of the received spans to make sure they are
 valid and respect certain limitations. Spans that do not comply to the following
