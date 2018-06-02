@@ -175,12 +175,35 @@ you'll need to know its trace ID. Then go to
 in the trace ID in the input field at the top left of the page. Alternatively,
 you can go directly to `https://app.signalfx.com/#/trace/<trace-id>`.
 
-_Screenshot of trace view page's input field_
+<p align="center">
+  <img src="./trace-id-input.jpg" />
+</p>
 
 ### Navigating the trace
 
-_Screenshot of minimap and main viewport_
+Once loaded, the top of the page will show a minimap that will help navigate
+large traces. Scrolling into the minimap view changes the zoom (time dilation)
+of the main trace view below. You can also directly select a horizontal area on
+the minimap to set the scope of the main trace view.
+
+<p align="center">
+  <img src="./trace-minimap.jpg" />
+</p>
+
+On the main trace view, scrolling navigates up and down the trace tree. You can
+fold sections of the trace by clicking on the down carets to the left of the
+spans.
+
+</p>
+  <img src="./trace-view.jpg" />
+</p>
 
 ### Trace and span metadata
 
-_Screenshot of sidebar_
+The right side of the screen is dedicated to trace and span metadata. You can
+select any span of the trace by clicking on it to show its detailed metadata,
+tags and annotations.
+
+<p align="center">
+  <img src="./trace-and-span-metadata.jpg" />
+</p>
