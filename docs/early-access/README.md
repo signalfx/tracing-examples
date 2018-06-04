@@ -104,6 +104,13 @@ Content-Type: application/json; charset=utf-8
 {"invalid":{},"valid":3}
 ```
 
+### About timestamps and durations
+
+Note that span timestamps represent _microseconds_ since UTC Epoch, and span
+durations are expressed in _microseconds_ as well. Trace and span data returned
+by SignalFx's APIs will also have timestamps and durations expressed in
+microseconds.
+
 ### Span validation
 
 SignalFx checks several elements of the received spans to make sure they are
@@ -120,6 +127,9 @@ API's response.
 * the span's `name` must be present and must be a unicode string no longer than
   1024 characters, and that does not contain any single or double quotes (same
   rules as for metric names)
+* the span's timestamp must be no older than your [data
+  retention](#data-retention) and must not be more than 1 hour into the future
+  -- as a relatively loose safeguard against clock skew.
 * the span may contain no more than 128 key/value pair `tags`
 * tag keys must be unicode strings no longer than 128 characters and cannot
   start with `_` or `sf_`
@@ -207,3 +217,11 @@ tags and annotations.
 <p align="center">
   <img src="./trace-and-span-metadata.jpg" />
 </p>
+
+## Data retention
+
+Full trace data is kept for approximately eight days, relative to the spans'
+timestamp (and not the time at which it was received). Note that for the
+duration of this Early Access Program, SignalFx makes no guarantees as to the
+availability and persistence of the trace data. We will provide clear SLAs and
+data retention limits as we approach GA.
