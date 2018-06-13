@@ -175,7 +175,7 @@ Tracer tracer = tracing.tracer();
 For a more complete example, refer to the [Zipkin Brave
 Java](./-zipkin-brave-java/) example. You'll also find other examples for Jaeger
 tracing libraries and for other programming languages in this
-[tracing-examples](./) repository.
+[tracing-examples](https://github.com/signalfx/tracing-examples) repository.
 
 ## Visualizing traces
 
