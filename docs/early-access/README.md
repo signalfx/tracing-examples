@@ -177,6 +177,13 @@ Java](./-zipkin-brave-java/) example. You'll also find other examples for Jaeger
 tracing libraries and for other programming languages in this
 [tracing-examples](https://github.com/signalfx/tracing-examples) repository.
 
+### Metrics about received spans
+
+SignalFx emits two counter metrics into your organization,
+`sf.org.numSpansReceived` and `sf.org.numSpansReceivedByToken`, to help you
+visualize how many spans you are sending to SignalFx. In the future, we'll also
+publish metrics about invalid spans that were rejected (and why).
+
 ## Visualizing traces
 
 Trace search is not yet available in this EAP. To visualize a trace in SignalFx,
