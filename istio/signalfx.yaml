@@ -1,0 +1,61 @@
+apiVersion: "config.istio.io/v1alpha2"
+kind: signalfx
+metadata:
+  name: handler
+  namespace: istio-system
+spec:
+  # Access token for the org to which to send spans
+  access_token: YOUR_ACCESS_TOKEN
+  # You can enable metrics, but tracing overlaps significantly and metrics can
+  # be derived from traces.
+  disable_metrics: true
+  # This will send all spans to SiganlFx. If this gets to be too much for the
+  # adapter to handle you can turn it down much lower.
+  tracing_sample_probability: 1.0
+  tracing_buffer_size: 1000
+
+---
+apiVersion: "config.istio.io/v1alpha2"
+kind: tracespan
+metadata:
+  name: signalfx
+  namespace: istio-system
+spec:
+  traceId: request.headers["x-b3-traceid"] | ""
+  spanId: request.headers["x-b3-spanid"] | ""
+  parentSpanId: request.headers["x-b3-parentspanid"] | ""
+  spanName: request.path | "/"
+  startTime: request.time
+  endTime: response.time
+  httpStatusCode: response.code | 0
+  clientSpan: context.reporter.type == "outbound"
+  spanTags:
+    api.protocol: api.protocol | "unknown"
+    destination.ip: destination.ip | ip("0.0.0.0")
+    destination.labels: destination.labels
+    destination.name: destination.name | "unknown"
+    destination.namespace: destination.namespace | "unknown"
+    request.auth.principal: request.auth.principal | "unknown"
+    request.host: request.host | ""
+    request.method: request.method | ""
+    request.size: request.size | 0
+    request.useragent: request.useragent | ""
+    response.size: response.size | 0
+    source.ip: source.ip | ip("0.0.0.0")
+    source.labels: source.labels
+    source.name: source.name | "unknown"
+    source.namespace: source.namespace | "unknown"
+    source.version: source.labels["version"] | "unknown"
+
+---
+apiVersion: "config.istio.io/v1alpha2"
+kind: rule
+metadata:
+  name: signalfx
+  namespace: istio-system
+spec:
+  match: "true" # If omitted match is true.
+  actions:
+  - handler: handler.signalfx
+    instances:
+    - signalfx.tracespan
