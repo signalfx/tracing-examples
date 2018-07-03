@@ -1,0 +1,81 @@
+admin:
+  access_log_path: /tmp/admin_access.log
+  address:
+    socket_address: { address: 0.0.0.0, port_value: 9901 }
+
+static_resources:
+  listeners:
+  - name: listener_0
+    address:
+      socket_address: { address: 0.0.0.0, port_value: 10000 }
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          stat_prefix: ingress_http
+          tracing:
+            operation_name: egress
+          route_config:
+            name: local_route
+            virtual_hosts:
+            - name: local_service
+              domains: ["*"]
+              routes:
+              - match: { prefix: "/" }
+                route: { host_rewrite: www.google.com, cluster: service_google }
+          http_filters:
+          - name: envoy.router
+
+  - name: trace_0
+    address:
+      socket_address: { address: 127.0.0.1, port_value: 19876 }
+    filter_chains:
+    - filters:
+      - name: envoy.http_connection_manager
+        config:
+          stat_prefix: zipkin_http
+          route_config:
+            name: local_route
+            request_headers_to_add:
+              - header: {key: X-SF-Token, value: MY-ACCESS-TOKEN}
+            virtual_hosts:
+            - name: local_service
+              domains: ["zipkin_inbound"]
+              routes:
+              - match: { path: "/v1/trace" }
+                route: { host_rewrite: 'ingest.signalfx.com', cluster: zipkin_outbound }
+          http_filters:
+          - name: envoy.router
+
+  clusters:
+  - name: service_google
+    connect_timeout: 0.25s
+    type: LOGICAL_DNS
+    # Comment out the following line to test on v6 networks
+    dns_lookup_family: V4_ONLY
+    lb_policy: ROUND_ROBIN
+    hosts: [{ socket_address: { address: google.com, port_value: 443 }}]
+    tls_context: { sni: www.google.com }
+
+  - name: zipkin_inbound
+    connect_timeout: 1s
+    type: static
+    hosts:
+    - socket_address:
+        address: 127.0.0.1
+        port_value: 19876
+
+  - name: zipkin_outbound
+    connect_timeout: 2s
+    type: LOGICAL_DNS
+    lb_policy: ROUND_ROBIN
+    hosts:
+    - socket_address:
+        address: 172.17.0.3
+        port_value: 3000
+tracing:
+  http:
+    name: envoy.zipkin
+    config:
+      collector_cluster: zipkin_inbound
+      collector_endpoint: "/v1/trace"
