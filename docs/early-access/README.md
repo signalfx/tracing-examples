@@ -54,7 +54,7 @@ your feedback and questions via email to `tracing-feedback@signalfx.com`.
 Akin to our approach for metrics instrumentation, SignalFx intends to remain as
 instrumentation-agnostic as possible, leveraging open-source and open standards
 for client-side tracing instrumentation and wire formats. We intend to ingest
-spans in Zipkin's v2 JSON format in the Early Access Program and
+spans in Zipkin's JSON formats (both v1 and v2) in the Early Access Program and
 add support for Jaeger's wire format, OpenCensus, and AWS X-Ray later in the
 year. We've developed a normalized data model to ingest & represent different
 formats so you can use SignalFx to provide powerful real-time data exploration
@@ -79,8 +79,8 @@ instrumentation of your choice.
 
 SignalFx's ingest API now exposes a new endpoint for ingesting trace data,
 available at `https://ingest.signalfx.com/v1/trace`. As of June 2018, this
-endpoint only accepts lists of spans encoded in [Zipkin's v2 JSON
-format](https://zipkin.io/zipkin-api/).
+endpoint accepts lists of spans encoded in [Zipkin's JSON
+formats](https://zipkin.io/zipkin-api/) (both v1 and v2 encodings).
 
 Like the rest of SignalFx's APIs, you need to provide a valid `X-SF-Token`
 header. You may also compress the payload with GZip and set the
