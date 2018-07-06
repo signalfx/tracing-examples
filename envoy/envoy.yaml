@@ -37,7 +37,7 @@ static_resources:
           route_config:
             name: local_route
             request_headers_to_add:
-              - header: {key: X-SF-Token, value: MY-ACCESS-TOKEN}
+              - header: {key: X-SF-Token, value: MY_ACCESS_TOKEN }
             virtual_hosts:
             - name: local_service
               domains: ["zipkin_inbound"]
@@ -71,8 +71,10 @@ static_resources:
     lb_policy: ROUND_ROBIN
     hosts:
     - socket_address:
-        address: 172.17.0.3
-        port_value: 3000
+        address: ingest.signalfx.com
+        port_value: 443
+    tls_context: { sni: ingest.signalfx.com }
+
 tracing:
   http:
     name: envoy.zipkin

@@ -11,11 +11,11 @@ not have that field, spans will not be emitted for those connections.
 
 The [example envoy config](./envoy.yaml) extends the standard google.com proxy
 that is used in the Envoy documentation to send spans for the requests to
-SignalFx.  All you have to do to get it working is to replace `MY-ACCESS-TOKEN`
+SignalFx.  All you have to do to get it working is to replace `MY_ACCESS_TOKEN`
 with your organization's SignalFx access token.  Then you can run it in Envoy
 using Docker:
 
-`docker run --rm -it -v $(pwd)/envoy.yaml:/etc/envoy/envoy.yaml -p 10000:10000 envoyproxy:envoy:latest`
+`docker run --rm -it -v $(pwd)/envoy.yaml:/etc/envoy/envoy.yaml -p 10000:10000 envoyproxy/envoy:latest`
 
 If you hit `localhost:10000` it should show you the Google homepage and then
 you should see traces in SignalFx that show the various requests made to
