@@ -28,7 +28,7 @@ spec:
   startTime: request.time
   endTime: response.time
   httpStatusCode: response.code | 0
-  clientSpan: context.reporter.type == "outbound"
+  clientSpan: context.reporter.kind == "outbound"
   spanTags:
     api.protocol: api.protocol | "unknown"
     destination.ip: destination.ip | ip("0.0.0.0")
