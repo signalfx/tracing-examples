@@ -30,13 +30,8 @@
   version = "1.0.2"
 
 [[constraint]]
-  name = "github.com/openzipkin/zipkin-go"
-  version = "0.1.0"
-
-[[constraint]]
   name = "github.com/uber/jaeger-client-go"
-  branch = "zipkin2-reporter"
-  source = "https://github.com/signalfx/jaeger-client-go"
+  version = "2.14.0"
 
 [prune]
   go-tests = true

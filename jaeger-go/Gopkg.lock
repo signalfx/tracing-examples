@@ -18,23 +18,12 @@
   version = "v1.0.2"
 
 [[projects]]
-  name = "github.com/openzipkin/zipkin-go"
-  packages = [
-    "model",
-    "reporter",
-    "reporter/http"
-  ]
-  revision = "f197ec29e729f226d23370ea60f0e49b8f44ccf4"
-  version = "v0.1.0"
-
-[[projects]]
   name = "github.com/pkg/errors"
   packages = ["."]
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
 
 [[projects]]
-  branch = "zipkin2-reporter"
   name = "github.com/uber/jaeger-client-go"
   packages = [
     ".",
@@ -52,11 +41,11 @@
     "thrift-gen/jaeger",
     "thrift-gen/sampling",
     "thrift-gen/zipkincore",
-    "utils",
-    "zipkin"
+    "transport",
+    "utils"
   ]
-  revision = "fc4fd328e10a0a443d67e4cae5d3f76510e16023"
-  source = "https://github.com/signalfx/jaeger-client-go"
+  revision = "b043381d944715b469fd6b37addfd30145ca1758"
+  version = "v2.14.0"
 
 [[projects]]
   name = "github.com/uber/jaeger-lib"
@@ -73,6 +62,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "8878716d606fb239249119e29e11f10b009b490b1ff71fa599753fdcf1feaa1c"
+  inputs-digest = "2bf16b03d17e13ed292ce0a9745bdcd28f5d20ddf0550f072874b89fc536d94a"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -7,13 +7,12 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"net/http"
 	"os"
 
 	opentracing "github.com/opentracing/opentracing-go"
-	zipkinHttp "github.com/openzipkin/zipkin-go/reporter/http"
+	"github.com/uber/jaeger-client-go"
 	jaegercfg "github.com/uber/jaeger-client-go/config"
-	jaegerZipkin "github.com/uber/jaeger-client-go/zipkin"
+	"github.com/uber/jaeger-client-go/transport"
 )
 
 // Constants used by the demo application logic
@@ -117,20 +116,10 @@ func createTracer() (opentracing.Tracer, io.Closer) {
 		log.Fatal("Could not parse Jaeger env vars: ", err.Error())
 	}
 
-	// This will be called by the Zipkin reporter to add the SignalFx access
-	// token authentication header to each request to SignalFx
-	addAccessToken := func(req *http.Request) {
-		req.Header.Set("X-SF-Token", accessToken)
-	}
-
-	// Wrap the Zipkin reporter in a Jaeger Zipkin reporter adapter, which
-	// handles the conversion of Jaeger spans to Zipkin spans.  We also specify
-	// our request modifier function to add the access token.
-	zipkinReporter := jaegerZipkin.Reporter{
-		zipkinHttp.NewReporter(
-			ingestUrl+"/v1/trace",
-			zipkinHttp.RequestCallback(addAccessToken)),
-	}
+	// Create a Jaeger HTTP Thrift transport, pointing it to our trace endpoint
+	// which accepts thrift encoded spans.
+	transport := transport.NewHTTPTransport(ingestUrl+"/v1/trace",
+		transport.HTTPBasicAuth("auth", accessToken))
 
 	// Here we override the service name for the tracer for this example.  This
 	// would otherwise be set from the env var JAEGER_SERVICE_NAME.
@@ -144,9 +133,10 @@ func createTracer() (opentracing.Tracer, io.Closer) {
 		Param: 1,
 	}
 
-	// This creates the Jaeger tracer from the configuration, using our Zipkin
-	// reporter.
-	tracer, closer, err := cfg.NewTracer(jaegercfg.Reporter(&zipkinReporter))
+	// This creates the Jaeger tracer from the configuration, using our Thrift
+	// HTTP transport.
+	tracer, closer, err := cfg.NewTracer(
+		jaegercfg.Reporter(jaeger.NewRemoteReporter(transport)))
 	if err != nil {
 		log.Fatal("Could not initialize jaeger tracer: ", err.Error())
 	}
