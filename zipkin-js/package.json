@@ -1,0 +1,17 @@
+{
+  "name": "zipkin-signalfx-example",
+  "version": "1.0.0",
+  "description": "An example showing how to send spans to SignalFx using the Zipkin JS tracer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "node-fetch": "^2.1.2",
+    "zipkin": "^0.13.0",
+    "zipkin-instrumentation-fetch": "^0.13.0",
+    "zipkin-transport-http": "^0.13.0"
+  }
+}
