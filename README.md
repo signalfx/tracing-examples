@@ -3,7 +3,7 @@
 This repository contains a set of simple example applications that demonstrate
 using SignalFx with various open source tracers.  We do not yet have our own
 tracer, so you must use a third-party tracer configured to send to the SignalFx
-ingest server using the Zipkin v2 JSON format.
+ingest server using the Zipkin v1/2 JSON or Jaeger Thrift format.
 
 ## Examples
 
@@ -12,9 +12,16 @@ ingest server using the Zipkin v2 JSON format.
  - [Java](./jaeger-java)
  - [Go](./jaeger-go)
 
-### Zipkin client libraries
+### Zipkin tracer libraries
 
- - [Brave Java Client](./zipkin-brave-java)
+ - [Brave Java Tracer](./zipkin-brave-java)
+ - [Zipkin JS Tracer](./zipkin-js)
+
+### Service Meshes
+
+ - [Istio](./istio) - We have a mixer adapter that will automatically sent
+     trace spans for inter-container traffic.
+ - [Envoy](./envoy) - You can configure Envoy to send us trace spans.
 
 ### OpenTracing ecosystem
 
