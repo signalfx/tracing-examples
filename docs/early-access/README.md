@@ -54,12 +54,13 @@ your feedback and questions via email to `tracing-feedback@signalfx.com`.
 Akin to our approach for metrics instrumentation, SignalFx intends to remain as
 instrumentation-agnostic as possible, leveraging open-source and open standards
 for client-side tracing instrumentation and wire formats. We intend to ingest
-spans in Zipkin's JSON formats (both v1 and v2) in the Early Access Program and
-add support for Jaeger's wire format, OpenCensus, and AWS X-Ray later in the
-year. We've developed a normalized data model to ingest & represent different
+spans in Zipkin's JSON formats (both v1 and v2) as well as Jaeger Thrift format. 
+We've developed a normalized data model to ingest & represent different
 formats so you can use SignalFx to provide powerful real-time data exploration
 capabilities and easy-to-use trace visualization and analysis features for the
-instrumentation of your choice.
+instrumentation of your choice. You'll find more details and examples for how to
+instrument and export spans to us at [tracing-examples](https://github.com/signalfx/tracing-examples)
+
 
 <p align="center">
   <a href="https://signalfx.com">
@@ -73,6 +74,10 @@ instrumentation of your choice.
   <a href="https://zipkin.io">
   <img src="https://avatars3.githubusercontent.com/u/11860887?s=100&v=4"
        alt="ZipKin" /></a>
+    <a href="https://opencensus.io">
+  <img src="https://avatars3.githubusercontent.com/u/11860887?s=100&v=4"
+       alt="OpenCensus" /></a>
+
 </p>
 
 ## Sending trace data to SignalFx
