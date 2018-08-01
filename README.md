@@ -1,11 +1,26 @@
-# SignalFx Distributed Tracing Examples
+# SignalFx Distributed Tracing Instrumentation
 
-This repository contains a set of simple example applications that demonstrate
-using SignalFx with various open source tracers.  We do not yet have our own
-tracer, so you must use a third-party tracer configured to send to the SignalFx
-ingest server using the Zipkin v1/2 JSON or Jaeger Thrift format.
+## Instrumentation Agnostic
+SignalFx Distributed Tracing intends to be instrumentation agnostic; supporting &
+ingesting variety of popular open instrumentation libraries including Zipkin, 
+OpenTracing & OpenCensus. So long as the tracer configured to send spans to SignalFx
+ingest endpoint uses the Zipkin v1/2 JSON wire format or Jaeger Thrift format, we will
+accept spans irrespective of how they were instrumented - via one of the above mentioned 
+open libraries or a homegrown one. Our goal is to build on the shoulders of giant 
+communities rather than force customers into proprietary libraries/agents and give 
+customers choice to decide what works for them from an instrumentation perspective
+without worrying about vendor lock-in by virtue of the instrumentation used.
+
+For customers who have not yet instrumented their code, our default recommendation is
+to use OpenTracing to instrument since it has a growing ecosystem of library owners & 
+frameworks instrumenting their code with it & use Jaeger tracer libraries to export 
+spans to us  - both of these are CNCF projects with a rapidly growing community behind them.
+
 
 ## Examples
+This repository contains a set of simple example applications that demonstrate
+using SignalFx with various open source tracers.  
+
 
 ### Jaeger client libraries
 
