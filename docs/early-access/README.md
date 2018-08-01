@@ -85,7 +85,8 @@ instrument and export spans to us at [tracing-examples](https://github.com/signa
 SignalFx's ingest API now exposes a new endpoint for ingesting trace data,
 available at `https://ingest.signalfx.com/v1/trace`. As of June 2018, this
 endpoint accepts lists of spans encoded in [Zipkin's JSON
-formats](https://zipkin.io/zipkin-api/) (both v1 and v2 encodings).
+formats](https://zipkin.io/zipkin-api/) (both v1 and v2 encodings) or Jaeger
+Thrift format.
 
 Like the rest of SignalFx's APIs, you need to provide a valid `X-SF-Token`
 header. You may also compress the payload with GZip and set the
