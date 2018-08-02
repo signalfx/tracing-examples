@@ -25,6 +25,7 @@ using SignalFx with various open source tracers.
 
  - [Java](./jaeger-java)
  - [Go](./jaeger-go)
+ - [Python](./jaeger-python)
 
 ### Zipkin tracer libraries
 
