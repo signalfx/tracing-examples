@@ -1,0 +1,19 @@
+{
+  "name": "jaeger-nodejs",
+  "version": "1.0.0",
+  "description": "Jaeger tracer example with SignalFx",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "jaeger-client": "^3.12.0",
+    "node-fetch": "^2.2.0",
+    "opentracing": "^0.14.3"
+  },
+  "prettier": {
+    "printWidth": 120
+  }
+}

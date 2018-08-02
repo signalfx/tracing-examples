@@ -78,9 +78,9 @@ language/platform.
 
 - [Jaeger Go](./jaeger-go): our recommended tracer for Golang.
 
-### NodeJS
+### Node.js
 
-- [Jaeger Node](./jaeger-nodejs)
+- [Jaeger Node.js](./jaeger-nodejs)
 - [Zipkin JS Tracer](./zipkin-js): Zipkin's instrumentation library for
   Javascript (currently supports a broader range of instrumentations than the
   Jaeger Node tracer and supports running in a browser).
