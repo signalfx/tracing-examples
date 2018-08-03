@@ -54,13 +54,13 @@ your feedback and questions via email to `tracing-feedback@signalfx.com`.
 Akin to our approach for metrics instrumentation, SignalFx intends to remain as
 instrumentation-agnostic as possible, leveraging open-source and open standards
 for client-side tracing instrumentation and wire formats. We intend to ingest
-spans in Zipkin's JSON formats (both v1 and v2) as well as Jaeger Thrift format. 
-We've developed a normalized data model to ingest & represent different
-formats so you can use SignalFx to provide powerful real-time data exploration
+spans in Zipkin's JSON formats (both v1 and v2) as well as Jaeger Thrift format.
+We've developed a normalized data model to ingest & represent different formats
+so you can use SignalFx to provide powerful real-time data exploration
 capabilities and easy-to-use trace visualization and analysis features for the
 instrumentation of your choice. You'll find more details and examples for how to
-instrument and export spans to us at [tracing-examples](https://github.com/signalfx/tracing-examples)
-
+instrument and export spans to SignalFx in our
+[tracing-examples](https://github.com/signalfx/tracing-examples) repository.
 
 <p align="center">
   <a href="https://signalfx.com">
@@ -71,13 +71,13 @@ instrument and export spans to us at [tracing-examples](https://github.com/signa
   <img src="https://avatars2.githubusercontent.com/u/15482765?s=100&v=4"
        alt="OpenTracing" /></a>
   &nbsp;&nbsp;
+  <a href="https://opencensus.io">
+  <img src="https://avatars3.githubusercontent.com/u/26944525?s=100&v=4"
+       alt="OpenCensus" /></a>
+  &nbsp;&nbsp;
   <a href="https://zipkin.io">
   <img src="https://avatars3.githubusercontent.com/u/11860887?s=100&v=4"
        alt="ZipKin" /></a>
-    <a href="https://opencensus.io">
-  <img src="https://avatars3.githubusercontent.com/u/11860887?s=100&v=4"
-       alt="OpenCensus" /></a>
-
 </p>
 
 ## Sending trace data to SignalFx
@@ -145,16 +145,17 @@ API's response.
 
 ### Sending spans from code
 
-Any OpenTracing-compatible `Tracer` implementation that can report spans in
-Zipkin's v2 JSON format can be used to send spans to SignalFx from your
-applications. Here's an example using Zipkin's [Brave Java
-library](https://github.com/openzipkin/brave):
+Any OpenTracing-compatible `Tracer` implementation that can report spans
+in Zipkin's JSON formats (v1 or v2), or in Jaeger's Thrift format can be
+used to send spans to SignalFx from your applications. Here's an example
+using Jaeger's Java client library:
 
 ```java
 String ingestUrl = "https://ingest.signalfx.com/v1/trace";
 String accessToken = "...";
 String serviceName = "...";
 
+// Setup the HttpSender to report to SignalFx with the access token
 OkHttpSender.Builder senderBuilder = OkHttpSender.newBuilder()
         .compressionEnabled(true)
         .endpoint(ingestUrl);
@@ -167,21 +168,27 @@ senderBuilder.clientBuilder().addInterceptor(chain -> {
 });
 
 OkHttpSender sender = senderBuilder.build();
-AsyncReporter reporter = AsyncReporter.create(sender);
 
-Tracing tracing = Tracing.newBuilder()
-        .localServiceName("my-app")
-        .spanReporter(reporter)
-        // Configure a sampler as desired.
-        .sampler(CountingSampler.create(1.0f))
+// Build the Jaeger Tracer instance, which implements the OpenTracing
+// Tracer interface.
+Tracer tracer = new JaegerTracer.Builder("service-name")
+        // This configures the tracer to send all spans, but you will
+        // probably want to use something less verbose.
+        .withSampler(new ConstSampler(true))
+        .withReporter(new ZipkinV2Reporter(AsyncReporter.create(sender)))
         .build();
-Tracer tracer = tracing.tracer();
+
+// It is considered best practice to at least register the GlobalTracer
+// instance, even if you don't generally use it.
+GlobalTracer.register(tracer);
 ```
 
-For a more complete example, refer to the [Zipkin Brave
-Java](./-zipkin-brave-java/) example. You'll also find other examples for Jaeger
-tracing libraries and for other programming languages in this
-[tracing-examples](https://github.com/signalfx/tracing-examples) repository.
+For a more complete example, refer to the [Jaeger
+Java](https://github.com/signalfx/tracing-examples/jaeger-java/)
+example. You'll also find other examples for Jaeger tracing libraries
+and for other programming languages in this
+[tracing-examples](https://github.com/signalfx/tracing-examples)
+repository.
 
 ### Metrics about received spans
 
@@ -190,51 +197,17 @@ SignalFx emits two counter metrics into your organization,
 visualize how many spans you are sending to SignalFx. In the future, we'll also
 publish metrics about invalid spans that were rejected (and why).
 
-## Visualizing traces
-
-Trace search is not yet available in this EAP. To visualize a trace in SignalFx,
-you'll need to know its trace ID. Then go to
-[`https://app.signalfx.com/#/trace`](https://app.signalfx.com/#/trace) and put
-in the trace ID in the input field at the top left of the page. Alternatively,
-you can go directly to `https://app.signalfx.com/#/trace/<trace-id>`.
-
-<p align="center">
-  <img src="./trace-id-input.jpg" />
-</p>
-
-### Navigating the trace
-
-Once loaded, the top of the page will show a minimap that will help navigate
-large traces. Scrolling into the minimap view changes the zoom (time dilation)
-of the main trace view below. You can also directly select a horizontal area on
-the minimap to set the scope of the main trace view.
-
-<p align="center">
-  <img src="./trace-minimap.jpg" />
-</p>
-
-On the main trace view, scrolling navigates up and down the trace tree. You can
-fold sections of the trace by clicking on the down carets to the left of the
-spans.
-
-</p>
-  <img src="./trace-view.jpg" />
-</p>
-
-### Trace and span metadata
-
-The right side of the screen is dedicated to trace and span metadata. You can
-select any span of the trace by clicking on it to show its detailed metadata,
-tags and annotations.
-
-<p align="center">
-  <img src="./trace-and-span-metadata.jpg" />
-</p>
-
 ## Data retention
 
-Full trace data is kept for approximately eight days, relative to the spans'
-timestamp (and not the time at which it was received). Note that for the
-duration of this Early Access Program, SignalFx makes no guarantees as to the
-availability and persistence of the trace data. We will provide clear SLAs and
-data retention limits as we approach GA.
+Full trace data is kept for eight days, relative to the spans' timestamp (and
+not the time at which it was received). Note that for the duration of this Early
+Access Program, SignalFx makes no guarantees as to the availability and
+persistence of the trace data. We will provide clear SLAs and data retention
+limits as we approach GA.
+
+## Exploring trace data
+
+### The Traces page
+
+### Viewing a trace
+
