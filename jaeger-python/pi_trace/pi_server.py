@@ -61,6 +61,7 @@ class PiHandler(http_server.BaseHTTPRequestHandler):
 
                 span.log_kv(dict(event='calculation finished.'))
             except Exception as e:
+                span.set_tag(tags.ERROR, True)
                 tb = traceback.format_exc()
                 span.log_kv({'event': 'error',
                              'error.kind': str(type(e)),

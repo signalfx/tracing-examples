@@ -82,6 +82,7 @@ def request_partial(start, end, queue, url, parent_span=None):
 
         span.set_tag(tags.HTTP_STATUS_CODE, r.status_code)
         if r.status_code != 200:
+            span.set_tag(tags.ERROR, True)
             # Log unexpected conditions and state information for debugging
             span.log_kv({'event': 'error', 'event.object': r.content.decode()})
             queue.put(0)
