@@ -6,3 +6,7 @@ but Zipkin currently supports [a much larger
 set](https://github.com/openzipkin/zipkin-js#instrumentations) so we recommend
 using [Zipkin's JS tracer](https://github.com/openzipkin/zipkin-js).  It works
 in both Node and the browser.
+
+## Resources
+
+ - [Zipkin JS Tracer](https://github.com/openzipkin/zipkin-js)

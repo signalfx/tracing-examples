@@ -5,9 +5,10 @@ tracer client](https://github.com/openzipkin/brave) with SignalFx. See
 [./src/main/java/com/signalfx/tracing/examples/brave/App.java](./src/main/java/com/signalfx/tracing/examples/brave/App.java)
 for the code and more information.
 
-Brave's relationship to the OpenTracing API is [rather tenuous](https://github.com/opentracing/opentracing.io/issues/258)
-so we don't recommend using the [OpenTracing adapter for Brave](https://github.com/openzipkin-contrib/brave-opentracing/)
-at this time.  This example uses Brave directly.
+You can use the [OpenTracing adapter for
+Brave](https://github.com/openzipkin-contrib/brave-opentracing/) to make use of
+the OpenTracing instrumentation available for Java (see [Other
+Resources](#other-resources)).  This example uses Brave directly.
 
 ## Building
 
@@ -36,3 +37,7 @@ that come included with Brave.
 Zipkin Brave has [a good example
 project](https://github.com/openzipkin/brave-webmvc-example) that goes into
 more detail on how to use the tracer, as well as how to propagate span context across processes.
+
+The opentracing-contrib org on GitHub has a large list of [instrumentations for
+Java
+libraries](https://github.com/opentracing-contrib?utf8=%E2%9C%93&q=java-&type=&language=).

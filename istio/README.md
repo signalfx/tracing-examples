@@ -6,8 +6,8 @@ and are sent to the Istio telemetry server, where our adapter receives them and
 sends them to SignalFx.
 
 **To use this adapter you must be using a version of the mixer on the telemetry
-server that includes the SignalFx adapter, which means version (FILL IN VERSION
-ONCE IT RELEASES) or higher.**
+server that includes the SignalFx adapter.  It has not been released yet, but
+we will update this page once there is public release available.**
 
 Istio gives you considerable flexibility on which tags to include on spans. The
 tag values are derived from [Istio attribute

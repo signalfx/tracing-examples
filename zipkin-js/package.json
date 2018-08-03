@@ -10,7 +10,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "node-fetch": "^2.1.2",
-    "zipkin": "^0.13.0",
+    "zipkin": "^0.14.0",
     "zipkin-instrumentation-fetch": "^0.13.0",
     "zipkin-transport-http": "^0.13.0"
   }
