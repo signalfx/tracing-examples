@@ -75,6 +75,10 @@ instrument and export spans to SignalFx in our
   <img src="https://avatars3.githubusercontent.com/u/26944525?s=100&v=4"
        alt="OpenCensus" /></a>
   &nbsp;&nbsp;
+  <a href="https://jaegertracing.io">
+  <img src="https://avatars3.githubusercontent.com/u/28545596?s=100&v=4"
+       alt="Jaeger Tracing" /></a>
+  &nbsp;&nbsp;
   <a href="https://zipkin.io">
   <img src="https://avatars3.githubusercontent.com/u/11860887?s=100&v=4"
        alt="ZipKin" /></a>
@@ -207,7 +211,145 @@ limits as we approach GA.
 
 ## Exploring trace data
 
+For this early release of SignalFx's distributed tracing and microservices APM
+features, we focused on fulfulling the troubleshooting workflow: allowing you to
+work your way from an alert or an anomaly witnessed in a chart to a
+representative trace in which you can pinpoint the root cause of the issue.
+
+Alerts viewed in SignalFx will now show a _"View traces from this time window"_
+link as part of the alert details. Similarly, charts' hamburger menu offers a
+_"View Traces from this time window"_ option. Both take you to the new _Traces_
+page, carrying over the relevant time context.
+
+> Upcoming: more context and metadata will be captured from the alert or chart
+> to further scope the search to the relevant traces.
+
 ### The Traces page
+
+<p align="center">
+  <img src="traces-index.jpg"
+       alt="Screenshot of the traces index page" />
+</p>
+
+The _Traces_ page is where you can search, filter and visualize your trace data.
+It can be reached by selecting _TRACES > All Traces_ in the navigation menu, or
+directly at `https://app.signalfx.com/#/traces`. The top bar offers several
+filters that, together, can help you surface a particular subset of traces that
+you're interested in:
+
+- the _Service_ filter will match traces that contain spans going through the
+  selected service(s);
+- the _Operation_ filter will match traces that contain spans of the selected
+  name(s);
+- the _Filter_ field allows you to further constrain the search to spans
+  containing the given `key:value` pair metadata tags;
+- the _Duration_ filter will match traces in the specified range (for example:
+  `> 3s` for traces longer than 3 seconds, or `100ms to 2s` for traces lasting
+  between 100ms and 2s);
+- last but not least, the _Time_ filter allows you to select the time window in
+  which to search.
+
+<p align="center">
+  <img src="traces-filtering.jpg"
+       alt="The traces index page with a service filter applied" />
+</p>
+
+> Upcoming: multi-select for services and operation names, an easier experience
+> for selecting and writing tags to filter on, and auto-suggest of tag names.
+
+The contents of the _Traces_ page are computed and rendered from the results of
+this search. The _Dependency Map_ is dynamically generated, representing the
+services and interactions between those services captured by the matched traces.
+Hovering over nodes and edges will reveal additional information about those
+services and interactions: number of requests/traces, error rate and average
+duration.
+
+By default, the map is colored by service. Each service is assigned a color in a
+stable manner. When viewing a trace, coloring by service will represent those
+services by the same color. Alternatively, you can choose to color the map
+according to the error rate: a 0% error rate will color nodes green, and
+progressively more yellow, orange and red as the error rate increases to 100%.
+
+The _Latency Distribution_ histogram represents the distribution of durations of
+the matched traces. It allows you to quickly identify abnormal traces, long tail
+issues, or bi-modal distributions.
+
+> Upcoming: the ability to select an area of the distribution to filter for
+> traces with a duration within the selected range.
+
+The bottom of the page shows a representative sample of the matched traces (or
+all the results, if there aren't too many of them). The traces are grouped by
+initiating operation. Each group shows the services involved in those traces,
+the error rate, and a box-and-whisker representation of the distribution of the
+traces within the group.
+
+<p align="center">
+  <img src="traces-list.jpg"
+       alt="The traces index page with a service filter applied" />
+</p>
+
+Clicking on a group's heading will expand and collapse the group, revealing the
+individual traces. Each entry provides a link to view the trace, the exact time
+of the trace (in your configured timezone), the services traversed by the trace
+and how many spans were recorded on each service, as well as the precise
+duration of the trace.
 
 ### Viewing a trace
 
+You can view an individual trace either by finding one from the _Traces_ page or
+by entering its trace ID in the designated input field. You can also link
+directly to a trace by going to `https://app.signalfx.com/#/trace/<traceId>`.
+
+One of the main goals of the trace view is to guide you to the interesting
+sections of the trace as quickly as possible. This is why when the trace is
+loaded, you start with a "zoomed out" view of the trace's structure in the main
+area. If the trace doesn't have a lot of spans and fits in the view, it will be
+automatically zoomed in. The _View Options_ dropdown allows you to control
+collapsing options, for example to collapse all the non-RPC spans, leaving only
+the inter-service interactions shown.
+
+The sidebar to the right contains metadata about the trace itself, a summary of
+the services involved in this transaction and a map of those services. Finally,
+the _Top Contributors_ section offers insights into which service(s), or which
+operation(s), are the main drivers of latency in this trace based on how much
+time they contribute to the overall trace. This can help you quickly identify a
+problematic service or expensive operation in the path of that transaction.
+
+<p align="center">
+  <img src="trace-view-zoomed-out.jpg"
+       alt="The traces index page with a service filter applied" />
+</p>
+
+Scrolling into the main area controls the zoom. Span labels will appear when you
+reach maximum zoom. After that, you can continue to scroll to control the "time
+dilation", allowing you to see short duration spans in more details. You can pan
+around the trace with click-and-drag.
+
+When zoomed in, span labels are rendered, showing the name of the service and
+the name of the operation that was captured by each span. Parent/child
+relationships between spans are also represented by the lines connecting the
+spans together. Each sub-tree can be individually collapsed or expanded by
+clicking the downwards caret to the left of a span with children.
+
+<p align="center">
+  <img src="trace-view-zoomed-in.jpg"
+       alt="The traces index page with a service filter applied" />
+</p>
+
+#### Span details
+
+Hovering over spans in the main view reveals a tooltip with a quick summary of
+the span. To view the full details of a span's metadata, select a span by
+clicking on it; this will open a new section called _Span Metadata_ in the
+sidebar. All the span's metadata tags and annotations will be displayed there.
+
+> Upcoming: improved and intelligent rendering of span metadata tag values based
+> on the tag name, in particular for tags known to OpenTracing.
+
+You can deselect a span by clicking back on it, or by clicking anywhere in the
+empty space of the trace view.
+
+<p align="center">
+  <img src="trace-view-span-selected.jpg"
+       alt="The traces index page with a service filter applied" />
+</p>
