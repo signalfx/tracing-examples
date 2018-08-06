@@ -218,6 +218,14 @@ link as part of the alert details. Similarly, charts' hamburger menu offers a
 _"View Traces from this time window"_ option. Both take you to the new _Traces_
 page, carrying over the relevant time context.
 
+<p align="center">
+  <img src="alert-to-traces.jpg" width="48%"
+       alt="Screenshot of the alert modal showing a link to view traces" />
+  &nbsp;
+  <img src="charts-to-traces.jpg" width="48%"
+       alt="Screenshot of a dashboard showing a chart menu option to view traces" />
+</p>
+
 > Upcoming: more context and metadata will be captured from the alert or chart
 > to further scope the search to the relevant traces.
 
@@ -282,7 +290,7 @@ traces within the group.
 
 <p align="center">
   <img src="traces-list.jpg"
-       alt="The traces index page with a service filter applied" />
+       alt="The grouped list of traces at the bottom of the traces index page" />
 </p>
 
 Clicking on a group's heading will expand and collapse the group, revealing the
@@ -314,7 +322,7 @@ problematic service or expensive operation in the path of that transaction.
 
 <p align="center">
   <img src="trace-view-zoomed-out.jpg"
-       alt="The traces index page with a service filter applied" />
+       alt="Screenshot of the trace view page with a trace zoomed out" />
 </p>
 
 Scrolling into the main area controls the zoom. Span labels will appear when you
@@ -330,7 +338,7 @@ clicking the downwards caret to the left of a span with children.
 
 <p align="center">
   <img src="trace-view-zoomed-in.jpg"
-       alt="The traces index page with a service filter applied" />
+       alt="Screenshot of the trace view page with a trace zoomed in" />
 </p>
 
 #### Span details
@@ -348,5 +356,5 @@ empty space of the trace view.
 
 <p align="center">
   <img src="trace-view-span-selected.jpg"
-       alt="The traces index page with a service filter applied" />
+       alt="Screenshot of the trace view page with a span selected" />
 </p>
