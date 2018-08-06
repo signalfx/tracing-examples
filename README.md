@@ -3,14 +3,33 @@
 ## Instrumentation Agnostic
 
 SignalFx Distributed Tracing intends to be instrumentation agnostic; supporting
-& ingesting variety of popular open instrumentation libraries including Zipkin,
-OpenTracing & OpenCensus. So long as the tracer configured to send spans to
+& ingesting variety of popular open instrumentation libraries including 
+[OpenTracing](http://opentracing.io/), [Zipkin](https://zipkin.io/) &
+[OpenCensus](https://opencensus.io/). So long as the tracer configured to send spans to
 SignalFx ingest endpoint uses the Zipkin v1/2 JSON wire format or Jaeger Thrift
 format, we will accept spans irrespective of how they were instrumented - via
 one of the above mentioned open libraries or a homegrown one. Our goal is to
 build on the shoulders of giant communities rather than re-invent the wheel with
 proprietary libraries/agents and give customers choice to decide what works for
 them without worrying about vendor lock-in.
+
+<p align="center">
+  <a href="https://opentracing.io">
+  <img src="https://avatars2.githubusercontent.com/u/15482765?s=100&v=4"
+       alt="OpenTracing" /></a>
+  &nbsp;&nbsp;
+  <a href="https://jaegertracing.io">
+  <img src="https://avatars3.githubusercontent.com/u/28545596?s=100&v=4"
+       alt="Jaeger Tracing" /></a>
+  &nbsp;&nbsp;
+  <a href="https://zipkin.io">
+  <img src="https://avatars3.githubusercontent.com/u/11860887?s=100&v=4"
+       alt="ZipKin" /></a>
+    &nbsp;&nbsp;
+  <a href="https://opencensus.io">
+  <img src="https://avatars3.githubusercontent.com/u/26944525?s=100&v=4"
+       alt="OpenCensus" /></a>
+</p>
 
 For customers who have not yet instrumented their code, our default
 recommendation is to use OpenTracing to instrument since it has a growing
