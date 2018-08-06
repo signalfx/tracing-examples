@@ -1,6 +1,5 @@
 package com.signalfx.tracing.examples.jaeger;
 
-import io.jaegertracing.zipkin.reporters.ZipkinV2Reporter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletionService;
@@ -9,8 +8,8 @@ import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
-import io.jaegertracing.samplers.ConstSampler;
+import io.jaegertracing.internal.samplers.ConstSampler;
+import io.jaegertracing.zipkin.ZipkinV2Reporter;
 import io.opentracing.Scope;
 import io.opentracing.Span;
 import io.opentracing.log.Fields;
@@ -54,7 +53,10 @@ public class App
         OkHttpSender sender = senderBuilder.build();
 
         // Build the Jaeger Tracer instance, which implements the opentracing Tracer interface.
-        io.opentracing.Tracer tracer = new io.jaegertracing.Tracer.Builder("signalfx-jaeger-java-example")
+        io.opentracing.Tracer tracer = new io.jaegertracing.Configuration("signalfx-jaeger-java-example")
+                // We need to get a builder so that we can directly inject the
+                // reporter instance.
+                .getTracerBuilder()
                 // This configures the tracer to send all spans, but you will probably want to use
                 // something less verbose.
                 .withSampler(new ConstSampler(true))
@@ -175,7 +177,7 @@ public class App
         // This is a hack to make sure the tracer flushes and sends the spans since this is a very
         // short-lived application.  Normally if you were using a DI framework, this could be part
         // of the cleanup code for the singleton tracer instance.
-        ((io.jaegertracing.Tracer)(tracer)).close();
+        ((io.jaegertracing.internal.JaegerTracer)(tracer)).close();
     }
 
     /**
