@@ -5,7 +5,7 @@
 SignalFx Distributed Tracing intends to be instrumentation agnostic; supporting
 & ingesting variety of popular open instrumentation libraries including Zipkin,
 OpenTracing & OpenCensus. So long as the tracer configured to send spans to
-SignalFx wngest endpoint uses the Zipkin v1/2 JSON wire format or Jaeger Thrift
+SignalFx ingest endpoint uses the Zipkin v1/2 JSON wire format or Jaeger Thrift
 format, we will accept spans irrespective of how they were instrumented - via
 one of the above mentioned open libraries or a homegrown one. Our goal is to
 build on the shoulders of giant communities rather than re-invent the wheel with
