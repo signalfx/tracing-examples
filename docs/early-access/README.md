@@ -67,10 +67,6 @@ instrument and export spans to SignalFx in our
   <img src="https://avatars2.githubusercontent.com/u/15482765?s=100&v=4"
        alt="OpenTracing" /></a>
   &nbsp;&nbsp;
-  <a href="https://opencensus.io">
-  <img src="https://avatars3.githubusercontent.com/u/26944525?s=100&v=4"
-       alt="OpenCensus" /></a>
-  &nbsp;&nbsp;
   <a href="https://jaegertracing.io">
   <img src="https://avatars3.githubusercontent.com/u/28545596?s=100&v=4"
        alt="Jaeger Tracing" /></a>
@@ -78,6 +74,11 @@ instrument and export spans to SignalFx in our
   <a href="https://zipkin.io">
   <img src="https://avatars3.githubusercontent.com/u/11860887?s=100&v=4"
        alt="ZipKin" /></a>
+    &nbsp;&nbsp;
+  <a href="https://opencensus.io">
+  <img src="https://avatars3.githubusercontent.com/u/26944525?s=100&v=4"
+       alt="OpenCensus" /></a>
+
 </p>
 
 ## Sending trace data to SignalFx
