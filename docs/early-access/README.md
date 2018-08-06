@@ -63,10 +63,6 @@ instrument and export spans to SignalFx in our
 [tracing-examples](https://github.com/signalfx/tracing-examples) repository.
 
 <p align="center">
-  <a href="https://signalfx.com">
-  <img src="https://avatars2.githubusercontent.com/u/8184587?s=100&v=4"
-       alt="SignalFx" title="SignalFx" /></a>
-  &nbsp;&nbsp;
   <a href="https://opentracing.io">
   <img src="https://avatars2.githubusercontent.com/u/15482765?s=100&v=4"
        alt="OpenTracing" /></a>
