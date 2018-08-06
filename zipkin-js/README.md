@@ -1,12 +1,11 @@
-# Zipkin Javascript
+# Zipkin Javascript Example
 
-OpenTracing currently only has [two Javascript libraries
-instrumented](https://github.com/opentracing-contrib?utf8=%E2%9C%93&q=javascript&type=&language=),
-but Zipkin currently supports [a much larger
-set](https://github.com/openzipkin/zipkin-js#instrumentations) so we recommend
-using [Zipkin's JS tracer](https://github.com/openzipkin/zipkin-js).  It works
-in both Node and the browser.
+This is an example of [Zipkin's Javascript tracing
+library](https://github.com/openzipkin/zipkin-js). Zipkin's Javascript
+tracer works for both Node and the browser. See [./index.js](./index.js)
+for the code and more information.
 
 ## Resources
 
- - [Zipkin JS Tracer](https://github.com/openzipkin/zipkin-js)
+- [Supported instrumentations for
+  Node.js](https://github.com/openzipkin/zipkin-js#instrumentations)

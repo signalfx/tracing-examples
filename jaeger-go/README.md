@@ -1,7 +1,7 @@
 # Jaeger Go Tracer Example
 
-This is a simple example of using the Jaeger Go tracer with SignalFx.  See
-[./main.go](./main.go) for the example code.
+This is a simple example of using the Jaeger Go tracer with SignalFx.
+See [./main.go](./main.go) for the example code.
 
 ## Building
 
@@ -16,9 +16,5 @@ $ ./jaeger-go
 
 ## Resources
 
-[Jaeger Go Tracer](https://github.com/jaegertracing/jaeger-client-go) - The
-primary tracer implementation used in this example.
-
-[OpenTracing Go](https://github.com/opentracing/opentracing-go) - The Jaeger
-tracer conforms to this interface and should be used whenever possible.  This
-example shows the use of the OpenTracing interface.
+- [Jaeger Go Tracer](https://github.com/jaegertracing/jaeger-client-go)
+- [OpenTracing Go](https://github.com/opentracing/opentracing-go)
