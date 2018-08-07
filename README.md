@@ -38,13 +38,13 @@ Jaeger tracer libraries to export spans to us - both of these are CNCF projects
 with a rapidly growing community behind them.
 
 ## How should I think about instrumenting my application to enable distributed tracing?
-RPC layer(s) and web framework(s) are the best places to start when thinking about
+RPC layer(s) and service/web framework(s) are the best places to start when thinking about
 how to go about instrumentating your application - both of these will likely have 
 a large coverage area and touch a significant number of transaction paths to give
 you baseline tracing coverage and visualize an end-to-end trace with a service-map.
 
 Next you should identify services critical to your business and look for areas 
-not covered by your service framework. Within these services, identify high value
+not covered by rpc or service/web frameworks. Within these services, identify high value
 transactions and associated critical paths - instrument enough of these.
 
 
