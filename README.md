@@ -44,8 +44,8 @@ a large coverage area and touch a significant number of transaction paths to giv
 you baseline tracing coverage and visualize an end-to-end trace with a service-map.
 
 Next you should identify services critical to your business and look for areas 
-not covered by your service framework. Within these services, identify critical paths
-of high value transactions and instrument enough of these.
+not covered by your service framework. Within these services, identify high value
+transactions and associated critical paths - instrument enough of these.
 
 
 - [Guide to help strategize instrumentation for your distributed application](http://opentracing.io/documentation/pages/instrumentation/instrumenting-large-systems.html)
