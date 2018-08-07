@@ -37,6 +37,27 @@ ecosystem of library owners & frameworks instrumenting their code with it & use
 Jaeger tracer libraries to export spans to us - both of these are CNCF projects
 with a rapidly growing community behind them.
 
+## How should I think about instrumenting my application to enable distributed tracing?
+RPC layer(s) and web framework(s) are the best places to start when thinking about
+how to go about instrumentating your application - both of these will likely have 
+a large coverage area and touch a significant number of transaction paths to give
+you baselines coverage and visualize an end-to-end trace with a service-map.
+
+Next you should identify services critical to your business and look for areas 
+not covered by your service framework. Within these services, identify critical paths
+of high value transactions and instrument enough of these.
+
+Good guide to help strategize instrumentation for your distributed application: 
+https://github.com/opentracing-contrib/
+
+RPC and Web frameworks pre-instrumented with OpenTracing:
+https://github.com/opentracing-contrib/
+
+Service-Meshes are another way to quickly get inter-service visibility:
+https://istio.io/docs/tasks/telemetry/distributed-tracing/
+
+
+
 ## Examples
 
 This repository contains a set of simple example applications that demonstrate
