@@ -36,9 +36,7 @@ considered "alpha quality": you may experience bugs or user experience nits
 along the way and we'll be looking forward to your feedback as we continue to
 build this new and exciting facet of SignalFx's offering.
 
-We are starting with the ability to ingest spans
-sent to us using Zipkin's JSON formats (both v1 and v2) as well as Jaeger Thrift
-wire format. We will continue to rapidly add functionality mentioned
+We will continue to rapidly add functionality mentioned
 above with a monthly/quaterly cadence and expect to receive candid feedback from
 this Early Access group so we can continue to iterate towards an outstanding
 product that solves customer problems in truly unique, innovative ways.
