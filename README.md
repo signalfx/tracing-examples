@@ -52,7 +52,7 @@ of high value transactions and instrument enough of these.
 
 - [RPC and Web Frameworks pre-instrumented with OpenTracing](http://github.com/opentracing-contrib)
 
-- [Service-Mesh is another increasingly popular way to quickly get inter-service visibility](http://istio.io/docs/tasks/telemetry/distributed-tracing/)
+- [Service-Mesh is another increasingly popular way to quickly get rpc/inter-service visibility](http://istio.io/docs/tasks/telemetry/distributed-tracing/)
 
 
 
