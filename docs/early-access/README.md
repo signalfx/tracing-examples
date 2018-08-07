@@ -299,6 +299,28 @@ of the trace (in your configured timezone), the services traversed by the trace
 and how many spans were recorded on each service, as well as the precise
 duration of the trace.
 
+### Result sampling
+
+Because the number of traces matching your search criteria might be very large,
+SignalFx will compute the dependency map and distribution histogram on a random
+sample of those results. The request counts, error rates and latency averages
+and distrubions are all computed from those results as well. When this happens,
+you will see the following banner at the top of the page:
+
+<p align="center">
+  <img src="sampling.jpg"
+       alt="Screenshot of a banner that appears on the traces index page when the result set was sampled" />
+</p>
+
+If you search is constrained enough to fit within that sample size, the banner
+will disappear. During the Early Access Program, this sample size is set fairly
+low (around 5000 results); we'll continue to work on raising that number to
+improve the accuracy of the distribution histogram.
+
+Additionally, to avoid showing unmanageably large lists in the traces table, we
+further reduce the number of individual results that are returned to populate
+the grouped traces table.
+
 ### Viewing a trace
 
 You can view an individual trace either by finding one from the _Traces_ page or
