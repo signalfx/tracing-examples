@@ -47,13 +47,13 @@ Next you should identify services critical to your business and look for areas
 not covered by your service framework. Within these services, identify critical paths
 of high value transactions and instrument enough of these.
 
-Good guide to help strategize instrumentation for your distributed application: 
+- Good guide to help strategize instrumentation for your distributed application: 
 https://github.com/opentracing-contrib/
 
-RPC and Web frameworks pre-instrumented with OpenTracing:
+- RPC and Web frameworks pre-instrumented with OpenTracing:
 https://github.com/opentracing-contrib/
 
-Service-Meshes are another way to quickly get inter-service visibility:
+- Service-Meshes are another way to quickly get inter-service visibility:
 https://istio.io/docs/tasks/telemetry/distributed-tracing/
 
 
