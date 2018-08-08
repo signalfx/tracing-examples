@@ -45,7 +45,7 @@ you baseline tracing coverage and visualize an end-to-end trace with a service-m
 
 Next you should identify services critical to your business and look for areas 
 not covered by rpc or service/web frameworks. Within these services, identify high value
-transactions and associated critical paths - instrument enough of these.
+transactions and critical paths - instrument enough of these.
 
 
 - [Guide to help strategize instrumentation for your distributed application](http://opentracing.io/documentation/pages/instrumentation/instrumenting-large-systems.html)
