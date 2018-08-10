@@ -11,6 +11,12 @@ sends them to SignalFx.
 > to use Istio to report traces to SignalFx, please use a recent nightly build
 > of Istio. Istio publishes nightly built Docker images for the mixer under
 > `docker.io/istionightly/mixer:nightly-master`.
+>
+> Until the next release of Istio, you'll find the documentation about SignalFx
+> mixer adapter's support for tracing [in its unreleased form
+> here](https://github.com/istio/istio/blob/master/mixer/adapter/signalfx/config/adapter.signalfx.config.pb.html#L129).
+> Note that default settings should suffice as tracing support is enabled by
+> default.
 
 Istio gives you considerable flexibility on which tags to include on spans. The
 tag values are derived from [Istio attribute
