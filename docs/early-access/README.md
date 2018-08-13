@@ -113,16 +113,18 @@ Content-Type: application/json; charset=utf-8
 
 If you want to use the SignalFx 
 [Metricproxy](https://github.com/signalfx/metricproxy) your already existing
-SignalFx listener and forwarder configurations can be used forward trace data
+SignalFx listener and forwarder configurations can be used toforward trace data
 to our ingest endpoint.  You will want to upgrade to at least 0.10.11 to
-support both jaeger and zipkin formats.  If you configure your listener as
-below, you would send requests to `<proxyhost>:8080/v1/trace`.
+support both Jaeger and Zipkin formats.  
+
+Once you have configured the metricproxy with the listener configuration below,
+simply point your tracers to report spans to `<proxyhost>:8080/v1/trace`.
 
 ```
-        {
-            "ListenAddr": "0.0.0.0:8080",
-            "Type": "signalfx"
-        }
+{
+    "ListenAddr": "0.0.0.0:8080",
+    "Type": "signalfx"
+}
 ```
 
 ### About timestamps and durations
