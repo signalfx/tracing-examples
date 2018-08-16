@@ -33,7 +33,7 @@ spec:
     api.protocol: api.protocol | "unknown"
     destination.ip: destination.ip | ip("0.0.0.0")
     destination.labels: destination.labels
-    destination.name: destination.name | "unknown"
+    destination.name: destination.service.name | "unknown"
     destination.namespace: destination.namespace | "unknown"
     request.auth.principal: request.auth.principal | "unknown"
     request.host: request.host | ""
@@ -43,7 +43,7 @@ spec:
     response.size: response.size | 0
     source.ip: source.ip | ip("0.0.0.0")
     source.labels: source.labels
-    source.name: source.name | "unknown"
+    source.name: source.workload.name | "unknown"
     source.namespace: source.namespace | "unknown"
     source.version: source.labels["version"] | "unknown"
 
