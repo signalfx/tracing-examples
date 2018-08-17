@@ -20,6 +20,7 @@ This will run the example app and send a single trace with the service name
 
 ## Other Resources
 
-Here is a good tutorial on general use (not SignalFx-specific) of the Jaeger
-Java implementation:
-https://github.com/yurishkuro/opentracing-tutorial/tree/master/java
+ - [A good tutorial on general use of the Jaeger Java tracer](https://github.com/yurishkuro/opentracing-tutorial/tree/master/java)
+ - [Example of using Jaeger with Spring
+   Boot](http://www.hawkular.org/blog/2017/06/9/opentracing-spring-boot.html#_jaeger):
+   There is a demo repo linked at the bottom of the article as well
