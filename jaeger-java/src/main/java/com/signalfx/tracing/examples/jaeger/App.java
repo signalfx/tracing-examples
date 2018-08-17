@@ -61,7 +61,7 @@ public class App
                 // something less verbose.
                 .withSampler(new ConstSampler(true))
                 // Configure the tracer to send spans in the Zipkin V2 JSON format instead of the
-                // default Jaeger protocol, which we do not support.
+                // default Jaeger UDP protocol, which we do not support.
                 .withReporter(new ZipkinV2Reporter(AsyncReporter.create(sender)))
                 .build();
 
