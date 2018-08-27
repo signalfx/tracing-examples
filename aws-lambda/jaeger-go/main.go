@@ -57,7 +57,7 @@ func main() {
 }
 
 func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    // Create a tracer for the lifetime of the request
+	// Create a tracer for the lifetime of the request
 	tracer, tracerCloser := createTracer()
 	defer tracerCloser.Close() // We always want to initiate a span flush on exit
 
@@ -65,10 +65,6 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	// https://github.com/opentracing/opentracing-go/blob/master/ext/tags.go
 	rootSpan := tracer.StartSpan("RequestHandler", ext.SpanKindRPCServer)
 	defer rootSpan.Finish() // We always want to close spans at end of execution
-
-	// Collect the current trace ID for response body to facilitate querying
-	traceId := getSpanTraceId(rootSpan.Context())
-	rootSpan.SetTag("TraceID", traceId)
 
 	// Obtain Lambda-provided context information and tag span for
 	// debugging and analytics
@@ -86,6 +82,9 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 	rootSpan.SetTag("result", result)
 	rootSpan.SetTag("statusCode", statusCode)
+
+	// Collect the current trace ID for response body to facilitate querying
+	traceId := getSpanTraceId(rootSpan.Context())
 
 	body := Body{traceId, result, choice}
 	_responseBody, err := json.Marshal(body)

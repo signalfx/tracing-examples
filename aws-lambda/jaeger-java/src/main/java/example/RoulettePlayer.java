@@ -204,7 +204,6 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
     private String getTraceId(Span span) {
         long traceId = ((io.jaegertracing.internal.JaegerSpanContext) span.context()).getTraceId();
         String formattedTraceId = String.format("%016x", traceId);
-        span.setTag("TraceId", formattedTraceId);
         return formattedTraceId;
     }
 
