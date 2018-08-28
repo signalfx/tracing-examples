@@ -184,11 +184,10 @@ function playRoulette(choice, parentSpan) {
 }
 
 function spinRouletteWheel(span) {
-  span.log({ event: 'Spinning Wheel.' });
   let position;
   for (let i = 0; i < 10000; i++) { // Simulate meaningful work
     position = getRandomPosition();
   }
-  span.log({ event: 'Finished Spinning Wheel.' });
+  span.setTag('position', position);
   return position;
 }

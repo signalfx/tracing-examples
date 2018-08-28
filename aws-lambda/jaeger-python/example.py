@@ -156,10 +156,8 @@ class RoulettePlayer(object):
         return num_to_choice[randint(0, 37)]
 
     def spin_roulette_wheel(self, span):
-        span.log_kv(dict(event='Spinning Wheel.'))
         for _ in range(10000):  # simulate meaningful work
             position = self.get_random_position()
-        span.log_kv(dict(event='Finished Spinning Wheel.'))
         span.set_tag('position', position)
         return position
 

@@ -224,12 +224,10 @@ func spinRouletteWheel(parentCtx opentracing.SpanContext) (actual string) {
 	defer childSpan.Finish()
 
 	// Log events (key/value pairs) to record the time of event occurences
-	childSpan.LogKV("event", "Spinning Wheel")
 	for i := 0; i < 1000; i++ { // simulate meaningful work
 		position := getRandomNumber()
 		actual = numToChoice[position]
 	}
-	childSpan.LogKV("event", "Finished Spinning Wheel")
 	childSpan.SetTag("position", actual)
 	return actual
 }

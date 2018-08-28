@@ -246,18 +246,10 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
     private String spinRouletteWheel() {
         Span span = tracer.activeSpan();
 
-        Map<String, Object> logFields = new HashMap();
-        logFields.put(Fields.EVENT, "Spinning Wheel.");
-        span.log(logFields);
-
         String position = "0";
         for (int i = 0; i < 1000000; i++) { // simulate meaningful work
             position = getRandomPosition();
         }
-
-        logFields = new HashMap();
-        logFields.put(Fields.EVENT, "Finished Spinning Wheel.");
-        span.log(logFields);
         span.setTag("Position", position);
 
         return position;
