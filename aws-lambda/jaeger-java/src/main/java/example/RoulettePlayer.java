@@ -6,7 +6,10 @@
  * GET /my_resource/?choice=36 -> 404 Loss
  * GET /my_resource/?choice=00 -> 200 Win
  *
- * Winning requests will produce a logged Exception.
+ * Winning requests will produce a logged error.  You can trigger a winning event by
+ * setting a "win" query parameter with an arbitrary value.
+ *
+ * GET /my_resource/?win=true
  */
 package example;
 
@@ -110,6 +113,11 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
         // Create and start an active root span that will finish() when the Scope resouce is closed
         try (Scope scope = tracer.buildSpan("handleRequest").startActive(true)) {
             Span span = scope.span();
+
+            // Use OpenTracing tags to denote request-level information
+            Tags.HTTP_METHOD.set(span, requestEvent.getHttpMethod());
+            Tags.HTTP_URL.set(span, requestEvent.getPath());
+
             // Retrieve any execution context information and tag for future
             // debugging or analytics:
             // https://docs.aws.amazon.com/lambda/latest/dg/java-context-object.html
@@ -150,7 +158,7 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
             }
 
             span.setTag("Result", result);
-            span.setTag("StatusCode", statusCode);
+            Tags.HTTP_STATUS.set(span, statusCode);
 
             APIGatewayProxyResponseEvent responseEvent = new APIGatewayProxyResponseEvent()
                     .withStatusCode(statusCode)
@@ -169,6 +177,7 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
     /**
      * getChoice retrieves a user's spin choice from an API Gateway request.
      * If no or an invalid choice is provided in the request, it selects one at random.
+     * If a "win" query parameter has been provided, returns "win" to guarantee success.
      */
     private String getChoice(APIGatewayProxyRequestEvent requestEvent) {
         // Retrive the current span from our Tracer's ScopeManager
@@ -180,12 +189,16 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
             Map<String, String> logFields = new HashMap();
             logFields.put(Fields.EVENT, "No choice query parameter provided.");
             span.log(logFields);
+            queryParameters = new HashMap();
         }
 
+        Boolean winFlag = false;
         String choice;
-        if (queryParameters != null
-            && queryParameters.containsKey("choice")
-            && choiceToNum.containsKey(queryParameters.get("choice"))) {
+        if (queryParameters.containsKey("win")) {
+            choice = "win";
+            winFlag = true;
+        } else if (queryParameters.containsKey("choice")
+                   && choiceToNum.containsKey(queryParameters.get("choice"))) {
             choice = queryParameters.get("choice");
             span.log("Request contains valid choice " + choice);
         } else {
@@ -193,6 +206,7 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
 		    span.setTag("randomChoice", choice);
             span.log("Request didn't provide valid choice. Using " + choice + " selected at random.");
         }
+        span.setTag("winFlag", winFlag);
         return choice;
     }
 
@@ -222,7 +236,7 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
         }
         span.setTag("Actual", actual);
 
-        if (actual.equals(choice)) {
+        if (actual.equals(choice) || choice.equals("win")) {
             throw new RouletteException("Confirmation Bias!");
         }
 

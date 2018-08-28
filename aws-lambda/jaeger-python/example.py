@@ -5,7 +5,10 @@
 # GET /my_resource/?choice=36 -> 404 Loss
 # GET /my_resource/?choice=00 -> 200 Win
 #
-# Winning requests will produce a logged exception.
+# Winning requests will produce a logged error.  You can trigger a winning event by
+# setting a "win" query parameter with an arbitrary value.
+#
+# GET /my_resource/?win=true
 #
 from random import randint
 import traceback
@@ -30,7 +33,7 @@ class RouletteError(Exception):
 class RoulettePlayer(object):
 
     def __init__(self):
-        # Though a best practice to have a global, persistent Tracer, because of the 
+        # Though a best practice to have a global, persistent Tracer, because of the
         # asynchronous nature of the Jaeger Python client, in this demo we cycle through a Tracer
         # instance per RequestResponse invocation.  Here we opt not to freeze background span
         # processing for future context thawing and attempt to flush spans before returning
@@ -43,10 +46,14 @@ class RoulettePlayer(object):
         self.tracer = self.create_tracer()  # Create a tracer for the lifetime of the request
 
     def handle_request(self, event, context):
-	# Create the root span, specifying a span.kind tag in the process
-	# https://github.com/opentracing/opentracing-python/blob/master/opentracing/ext/tags.py
+        # Create the root span, specifying a span.kind tag in the
+        # https://github.com/opentracing/opentracing-python/blob/master/opentracing/ext/tags.py
         span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
         with self.tracer.start_span('handle_request', tags=span_tags) as span:
+            # Use OpenTracing tags to denote request-level information
+            span.set_tag(tags.HTTP_METHOD, event['httpMethod'])
+            span.set_tag(tags.HTTP_URL, event['path'])
+
             # Retrieve any execution context information and tag for future
             # debugging or analytics: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
             span.set_tag('aws_request_id', context.aws_request_id)
@@ -109,9 +116,19 @@ class RoulettePlayer(object):
         return config.new_tracer()
 
     def get_choice(self, event, span):
+        """
+        Retrieve a user's spin choice from an API Gateway request.
+        If no or an invalid choice is provided in the request, it selects one at random.
+        If a "win" query parameter has been provided, returns "win" to guarantee success.
+        """
         query_parameters = event.get('queryStringParameters') or {}
+        win = query_parameters.get('win')
         choice = query_parameters.get('choice')
-        if choice not in choice_to_num:
+        win_flag = False
+        if win is not None:
+            win_flag = True
+            choice = 'win'
+        elif choice not in choice_to_num:
             random_choice = self.get_random_position()
             span.set_tag('random_choice', random_choice)
             if choice is None:
@@ -121,6 +138,7 @@ class RoulettePlayer(object):
             choice = random_choice
         else:
             span.log_kv(dict(event='Request contains valid choice {}.'.format(choice)))
+        span.set_tag('win_flag', win_flag)
         return choice
 
     def play_roulette(self, choice, span):
@@ -129,7 +147,7 @@ class RoulettePlayer(object):
             actual = self.spin_roulette_wheel(child_span)
         span.set_tag('actual', actual)
 
-        if actual == choice:
+        if actual == choice or choice == 'win':
             raise RouletteError('Confirmation Bias!')
 
         return 'You lost! The ball landed on {}.'.format(actual)

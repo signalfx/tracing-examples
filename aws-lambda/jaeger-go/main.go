@@ -5,7 +5,10 @@
 // GET /my_resource/?choice=36 -> 404 Loss
 // GET /my_resource/?choice=00 -> 200 Win
 //
-// Winning requests will produce a logged error.
+// Winning requests will produce a logged error.  You can trigger a winning event by
+// setting a "win" query parameter with an arbitrary value.
+//
+// GET /my_resource/?win=true
 //
 package main
 
@@ -66,6 +69,10 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 	rootSpan := tracer.StartSpan("RequestHandler", ext.SpanKindRPCServer)
 	defer rootSpan.Finish() // We always want to close spans at end of execution
 
+	// Use OpenTracing tags to denote request-level information
+	ext.HTTPMethod.Set(rootSpan, request.HTTPMethod)
+	ext.HTTPUrl.Set(rootSpan, request.Path)
+
 	// Obtain Lambda-provided context information and tag span for
 	// debugging and analytics
 	// https://github.com/aws/aws-lambda-go/blob/master/lambdacontext/context.go
@@ -78,10 +85,14 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 	// Invoke Lambda business logic, providing an opentracing.SpanContext for
 	// establishing span references
-	result, statusCode := playRoulette(choice, rootSpan.Context())
+	result, statusCode, err := playRoulette(choice, rootSpan.Context())
+	if err != nil {
+		ext.Error.Set(rootSpan, true)
+		rootSpan.LogKV("error", err) // Log the error event
+	}
 
 	rootSpan.SetTag("result", result)
-	rootSpan.SetTag("statusCode", statusCode)
+	ext.HTTPStatusCode.Set(rootSpan, uint16(statusCode))
 
 	// Collect the current trace ID for response body to facilitate querying
 	traceId := getSpanTraceId(rootSpan.Context())
@@ -152,7 +163,15 @@ func getSpanTraceId(ctx opentracing.SpanContext) string {
 
 // getChoice retrieves a user's spin choice from an API Gateway request.
 // If none or an invalid choice is provided in the request, it selects one at random.
+// If a "win" query parameter has been provided, returns "win" to guarantee success.
 func getChoice(request events.APIGatewayProxyRequest, span opentracing.Span) (choice string) {
+	_, winOk := request.QueryStringParameters["win"]
+	if winOk {
+		span.SetTag("WinFlag", true)
+		return "win"
+	} else {
+		span.SetTag("WinFlag", false)
+	}
 	choiceQP, qpOk := request.QueryStringParameters["choice"]
 	if !qpOk {
 		span.LogKV("event", "No choice query parameter provided.")
@@ -173,7 +192,7 @@ func getChoice(request events.APIGatewayProxyRequest, span opentracing.Span) (ch
 	return choice
 }
 
-func playRoulette(choice string, parentCtx opentracing.SpanContext) (result string, statusCode int) {
+func playRoulette(choice string, parentCtx opentracing.SpanContext) (result string, statusCode int, err error) {
 	// Retrieve previously initialized Tracer
 	tracer := opentracing.GlobalTracer()
 
@@ -187,24 +206,15 @@ func playRoulette(choice string, parentCtx opentracing.SpanContext) (result stri
 	actual := spinRouletteWheel(span.Context())
 	span.SetTag("actual", actual)
 
-	// Here we defer a recover function to handle panic events and override playRoulette' named return values
-	// upon winning Roulette spins.
-	defer func() {
-		if r := recover(); r != nil {
-			// Mark span as having panicked using OpenTracing.Tag helper
-			ext.Error.Set(span, true)
-			span.LogKV("error", r) // Log the error event and panic value
-			statusCode = 200
-			result = "You Won!"
-		}
-	}()
-
-	if actual == choice {
-		panic(errors.New("Confirmation Bias!"))
+	if actual == choice || choice == "win" {
+		err = fmt.Errorf("Confirmation Bias!")
+		statusCode = 200
+		result = "You Won!"
+	} else {
+		statusCode = 404
+		result = fmt.Sprintf("You Lost! The ball landed on %s.", actual)
 	}
-	statusCode = 404
-	result = fmt.Sprintf("You Lost! The ball landed on %s.", actual)
-	return result, statusCode
+	return result, statusCode, err
 }
 
 func spinRouletteWheel(parentCtx opentracing.SpanContext) (actual string) {

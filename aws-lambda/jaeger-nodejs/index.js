@@ -5,7 +5,10 @@
 // GET /my_resource/?choice=36 -> 404 Loss
 // GET /my_resource/?choice=00 -> 200 Win
 //
-// Winning requests will produce a logged exception.
+// Winning requests will produce a logged error.  You can trigger a winning event by
+// setting a "win" query parameter with an arbitrary value.
+//
+// GET /my_resource/?win=true
 //
 const { initTracer } = require('jaeger-client');
 const opentracing = require('opentracing');
@@ -31,6 +34,10 @@ function handleRequest(event, context) {
   const tracer = createTracer();
   const rootSpan = tracer.startSpan('handleRequest');
 
+  // Use OpenTracing tags to denote request-level information
+  rootSpan.setTag(opentracing.Tags.HTTP_METHOD, event.httpMethod);
+  rootSpan.setTag(opentracing.Tags.HTTP_URL, event.path);
+
   // Here we get our current traceId to include in response
   // for ease of demo trace retrieval only.
   const traceId = getTraceId(rootSpan);
@@ -43,7 +50,7 @@ function handleRequest(event, context) {
 
   const choice = getChoice(event, rootSpan);
 
-  let result, statusCode, error = null;
+  let result, statusCode;
   try {
     // A span's context is needed for establishing references
     result = playRoulette(choice, rootSpan);
@@ -51,7 +58,6 @@ function handleRequest(event, context) {
   } catch (err) {
     result = 'You Won!';
     statusCode = 200;
-    error = err;
     rootSpan.setTag(opentracing.Tags.ERROR, true);
     rootSpan.log({
       event: 'error',
@@ -61,6 +67,7 @@ function handleRequest(event, context) {
     });
   }
   rootSpan.setTag('result', result);
+  rootSpan.setTag(opentracing.Tags.HTTP_STATUS_CODE, statusCode);
 
   const response = {
     statusCode,
@@ -70,7 +77,7 @@ function handleRequest(event, context) {
   rootSpan.finish();
   tracer.close();
 
-  return { error, response };
+  return { error: null, response };
 }
 
 function createTracer() {
@@ -124,8 +131,17 @@ function getTraceId(span) {
   return pad(high) + pad(low);
 }
 
+
+// Retrieve a user's spin choice from an API Gateway request.
+// If no or an invalid choice is provided in the request, it selects one at random.
+// If a "win" query parameter has been provided, returns "win" to guarantee success.
 function getChoice(event, span) {
   const queryStringParameters = event.queryStringParameters || {};
+  let { win } = queryStringParameters;
+  if (Boolean(win)) {
+    span.setTag('winFlag', true);
+    return 'win';
+  }
   let { choice } = queryStringParameters;
   if (!choiceToNum.hasOwnProperty(choice)) {
     choice = getRandomPosition();
@@ -134,6 +150,7 @@ function getChoice(event, span) {
   } else {
     span.log({ event: `Request contains valid choice ${choice}` });
   }
+  span.setTag('winFlag', false);
   return choice;
 }
 
@@ -157,7 +174,7 @@ function playRoulette(choice, parentSpan) {
 
   span.setTag('actual', actual);
   try {
-    if (choice === actual) {
+    if (choice === actual || choice === 'win') {
       throw new Error('Confirmation Bias!');
     }
     return `You Lost! The ball landed on ${actual}.`;
