@@ -68,7 +68,7 @@ __Appending the SignalFx Reporter__
 		};
 	}
 ```
-See [SignalFxJaegerReporterConfiguration.java](/src/main/java/example/SignalFxJaegerReporterConfiguration.java) for the full source code.
+See [SignalFxJaegerReporterConfiguration.java](https://github.com/signalfx/tracing-examples/tree/spring-boot-examples/jaeger-java-spring-boot-web/src/main/java/example/SignalFxJaegerReporterConfiguration.java) for the full source code.
 
 ### 3. Define Spring properties
 
@@ -85,7 +85,7 @@ opentracing.reporter.signalfx.access_token=<<Access Token>>
 By default the Jaeger library will sample 100% of requests if no other sampling strategies are defined, which works well for our example application. If this isn't desireable define a strategy by using the [Jaeger Spring configuration options](https://github.com/opentracing-contrib/java-spring-jaeger/blob/master/README.md#configuration-options).
 #### Configuration References
 
-- [Full example application.properties](/src/main/resources/application.properties)
+- [Full example application.properties](https://github.com/signalfx/tracing-examples/tree/spring-boot-examples/jaeger-java-spring-boot-web/src/main/resources/application.properties)
 - [Jaeger Sampling Configuration Documentation](https://www.jaegertracing.io/docs/sampling/#client-sampling-configuration)
 - [Spring Configuration Source Code](https://github.com/opentracing-contrib/java-spring-jaeger/blob/master/opentracing-spring-jaeger-starter/src/main/java/io/opentracing/contrib/java/spring/jaeger/starter/JaegerConfigurationProperties.java)
 
