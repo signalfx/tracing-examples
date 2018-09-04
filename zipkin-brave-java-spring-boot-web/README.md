@@ -42,7 +42,7 @@ you're already using the Spring Boot Web libraries.
 #### Gradle
 
 ```gradle
-classpath 'io.zipkin.reporter2:zipkin-reporter`
+classpath 'io.zipkin.reporter2:zipkin-reporter'
 classpath 'io.zipkin.reporter2:zipkin-sender-okhttp3'
 classpath 'io.opentracing.contrib:opentracing-spring-zipkin-web-starter'
 ```
