@@ -48,7 +48,8 @@ header.
 
 #### Defining the SignalFx Reporter
 
-```java    @Value("${opentracing.reporter.signalfx.ingest_url:https://ingest.signalfx.com/v1/trace}")
+```java    
+@Value("${opentracing.reporter.signalfx.ingest_url:https://ingest.signalfx.com/v1/trace}")
 private String ingestUrl;
     
 @Value("${opentracing.reporter.signalfx.access_token}")
@@ -111,7 +112,9 @@ isn't desireable define a strategy by using the [Jaeger Spring configuration opt
 
 Note: The example project uses [Maven](https://maven.apache.org) to build and 
 package the Spring Boot application. 
+
 ## 1. Download/clone the project from the git repository
+
 ```bash
 git clone https://github.com/signalfx/tracing-examples.git
 cd tracing-examples/jaeger-java-spring-boot-web
@@ -137,15 +140,14 @@ Open <http://localhost:8080/flip> in your browser.
 
 ## Defining a subspan
 
-The example application sends `Span`s to SignalFx for 100% of requests. Most of 
+The example application sends `Spans` to SignalFx for 100% of requests. Most of 
 the instrumentation is done by the `Jaeger Spring` library.  The [main application](https://github.com/signalfx/tracing-examples/tree/spring-boot-examples/jaeger-java-spring-boot-web/src/main/java/com/signalfx/tracing/examples/Application.java#L39) 
 also wraps a function in a subspan called `calculateOdds`:  
 ```java
-private boolean returnFalseWithProbability(Double probability) {
-    try (Scope scope = tracer.buildSpan("calculateOdds").startActive(true)) {
-        Double greaterThanValue = (100-probability)/100;
-        return Math.random() > greaterThanValue;
-    } 
+private boolean trueWithProbability(double probability) {
+	try (Scope scope = tracer.buildSpan("calculateOdds").startActive(true)) {
+	    return Math.random() <= probability;
+	}
 }
 ```
 
