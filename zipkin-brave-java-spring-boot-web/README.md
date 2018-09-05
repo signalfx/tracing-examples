@@ -154,9 +154,9 @@ the instrumentation is done by the `Zipkin Spring` library.  The
 also wraps a function in a subspan called `calculateOdds`:  
 ```java
 private boolean trueWithProbability(double probability) {
-	try (Scope scope = tracer.buildSpan("calculateOdds").startActive(true)) {
-	    return Math.random() <= probability;
-	}
+    try (Scope scope = tracer.buildSpan("calculateOdds").startActive(true)) {
+        return Math.random() <= probability;
+    }
 }
 ```
 

@@ -145,9 +145,9 @@ the instrumentation is done by the `Jaeger Spring` library.  The [main applicati
 also wraps a function in a subspan called `calculateOdds`:  
 ```java
 private boolean trueWithProbability(double probability) {
-	try (Scope scope = tracer.buildSpan("calculateOdds").startActive(true)) {
-	    return Math.random() <= probability;
-	}
+    try (Scope scope = tracer.buildSpan("calculateOdds").startActive(true)) {
+        return Math.random() <= probability;
+    }
 }
 ```
 
