@@ -69,6 +69,9 @@ language/platform.
   Java.
 - [Java Kafka tracing](./opentracing-kafka-java): an example of tracing Kafka
   using Zipkin Brave with OpenTracing bindings.
+- Spring Boot Examples:
+  - [Jaeger Spring Boot](./jaeger-java-spring-boot-web): An example of instrumenting a Spring Boot application with Jaeger
+  - [Zipkin Brave Spring Boot](./zipkin-brave-java-spring-boot-web): An example of instrumenting a Spring Boot application with Zipkin
 
 ### Python
 
