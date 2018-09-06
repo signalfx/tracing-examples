@@ -2,10 +2,11 @@
 
 # About
 
-This example project demonstrates how to use Spring Boot, Jaeger, and SignalFx 
-together. This example uses the [Java Spring Jaeger](https://github.com/opentracing-contrib/java-spring-jaeger)
-Project and demonstrates how to configure the `Java Spring Jaeger` project to 
-report traces to SignalFx.
+This example project demonstrates how to use Spring Boot, Jaeger, and SignalFx
+together. This example uses the [Java Spring
+Jaeger](https://github.com/opentracing-contrib/java-spring-jaeger) Project and
+demonstrates how to configure the `Java Spring Jaeger` project to report traces
+to SignalFx.
 
 # References
 
@@ -14,8 +15,8 @@ report traces to SignalFx.
 
 # Configuration
 
-The example project demonstrates the following modifications to a Spring 
-Application to send your trace spans to SignalFx. The following changes assume 
+The example project demonstrates the following modifications to a Spring
+Application to send your trace spans to SignalFx. The following changes assume
 you're already using the Spring Boot Web libraries.
 
 ## Required Configuration
@@ -39,22 +40,21 @@ classpath 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter'
 
 ### 2. Configure a SignalFx OpenTracing Reporter
 
-By providing a bean of type `ReporterAppender` in our `@Configuration` class, we 
-can  add a custom reporter to the list of `Reporters` used by Jaeger. The Jaeger 
-Spring library allows for HTTP output but SignalFx requires that the 
-access token be provided as a `X-SF-Token` request header.  To 
-accomplish this we redefine a `Reporter` that explicitly adds the required 
-header.  
+By providing a bean of type `ReporterAppender` in our `@Configuration` class, we
+can  add a custom reporter to the list of `Reporters` used by Jaeger. The Jaeger
+Spring library allows for HTTP output but SignalFx requires that the access
+token be provided as a `X-SF-Token` request header.  To accomplish this we
+redefine a `Reporter` that explicitly adds the required header.
 
 #### Defining the SignalFx Reporter
 
-```java    
+```java
 @Value("${opentracing.reporter.signalfx.ingest_url:https://ingest.signalfx.com/v1/trace}")
 private String ingestUrl;
-    
+
 @Value("${opentracing.reporter.signalfx.access_token}")
 private String accessToken;
-    
+
 private Reporter createSignalFxReporter() {
     // Setup the HttpSender to report to SignalFx with the access token
     OkHttpClient signalFxHttpClientWithAuthHeaders = new OkHttpClient.Builder()
@@ -64,7 +64,7 @@ private Reporter createSignalFxReporter() {
             .build();
           return chain.proceed(request);
         }).build();
-        
+
     HttpSender.Builder senderBuilder = new HttpSender.Builder(ingestUrl)
         .withClient(signalFxHttpClientWithAuthHeaders);
 
@@ -77,7 +77,7 @@ private Reporter createSignalFxReporter() {
 #### Appending the SignalFx Reporter
 
 ```java
-@Bean 
+@Bean
 public ReporterAppender getSignalFxReporterAppender() {
     return (Collection<Reporter> reporters) -> {
         reporters.add(createSignalFxReporter());
@@ -89,8 +89,8 @@ See [SignalFxJaegerReporterConfiguration.java](./src/main/java/com/signalfx/trac
 
 ### 3. Define Spring properties
 
-`spring.application.name` is used as the service name and is picked up by core 
-OpenTracing libraries. `opentracing.reporter.signalfx.access_token` is required 
+`spring.application.name` is used as the service name and is picked up by core
+OpenTracing libraries. `opentracing.reporter.signalfx.access_token` is required
 to send data to SignalFx.
 
 ```ini
@@ -100,11 +100,12 @@ opentracing.reporter.signalfx.access_token=<<Access Token>>
 
 ## Optional Configuration
 
-### Sampling 
+### Sampling
 
-By default the Jaeger library will sample 100% of requests if no other sampling 
-strategies are defined, which works well for our example application. If this 
-isn't desireable define a strategy by using the [Jaeger Spring configuration options](https://github.com/opentracing-contrib/java-spring-jaeger/blob/master/README.md#configuration-options).
+By default the Jaeger library will sample 100% of requests if no other sampling
+strategies are defined, which works well for our example application. If this
+isn't desireable define a strategy by using the [Jaeger Spring configuration
+options](https://github.com/opentracing-contrib/java-spring-jaeger/blob/master/README.md#configuration-options).
 #### Configuration References
 
 - [Full example application.properties](./src/main/resources/application.properties)
@@ -113,8 +114,8 @@ isn't desireable define a strategy by using the [Jaeger Spring configuration opt
 
 # Running the example project
 
-Note: The example project uses [Maven](https://maven.apache.org) to build and 
-package the Spring Boot application. 
+Note: The example project uses [Maven](https://maven.apache.org) to build and
+package the Spring Boot application.
 
 ## 1. Download/clone the project from the git repository
 
@@ -135,16 +136,17 @@ $ mvn package
 $ java -jar target/coin-flip-service-with-jaeger-0.0.1-SNAPSHOT.jar
 ```
 
-## 4. Make requests to the application to generate `Spans` 
+## 4. Make requests to the application to generate spans
 
-Open <http://localhost:8080/flip> in your browser. 
+Open <http://localhost:8080/flip> in your browser.
 
 # Illustrated Concepts
 
 ## Defining a subspan
 
-The example application sends spans to SignalFx for 100% of requests. Most of 
-the instrumentation is done by the `Jaeger Spring` library.  The [main application](./src/main/java/com/signalfx/tracing/examples/Application.java#L39)
+The example application sends spans to SignalFx for 100% of requests. Most of
+the instrumentation is done by the `Jaeger Spring` library.  The [main
+application](./src/main/java/com/signalfx/tracing/examples/Application.java#L39)
 also wraps a function in a subspan called `calculateOdds`:
 
 ```java
@@ -157,12 +159,12 @@ private boolean trueWithProbability(double probability) {
 
 ## Tagging the current Span
 
-After the coin has been 'flipped', we tag the span so we can differentiate 
-any telemetry between the outcome of the coin flip.
+After the coin has been 'flipped', we tag the span so we can differentiate any
+telemetry between the outcome of the coin flip.
 
 ```java
 tracer.activeSpan().setTag("flipResult", flipResult);
 ```
 
-See the [example code](./src/main/java/com/signalfx/tracing/examples/Application.java#L29) 
+See the [example code](./src/main/java/com/signalfx/tracing/examples/Application.java#L29)
 for more context.
