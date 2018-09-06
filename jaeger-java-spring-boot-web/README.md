@@ -5,7 +5,7 @@
 This example project demonstrates how to use Spring Boot, Jaeger, and SignalFx 
 together. This example uses the [Java Spring Jaeger](https://github.com/opentracing-contrib/java-spring-jaeger)
 Project and demonstrates how to configure the `Java Spring Jaeger` project to 
-report `Spans` to SignalFx.
+report traces to SignalFx.
 
 # References
 
@@ -15,7 +15,7 @@ report `Spans` to SignalFx.
 # Configuration
 
 The example project demonstrates the following modifications to a Spring 
-Application to send your `Spans` to SignalFx. The following changes assume 
+Application to send your trace spans to SignalFx. The following changes assume 
 you're already using the Spring Boot Web libraries.
 
 ## Required Configuration
@@ -42,7 +42,7 @@ classpath 'io.opentracing.contrib:opentracing-spring-jaeger-web-starter'
 By providing a bean of type `ReporterAppender` in our `@Configuration` class, we 
 can  add a custom reporter to the list of `Reporters` used by Jaeger. The Jaeger 
 Spring library allows for HTTP output but SignalFx requires that the 
-`Access Token` be provided in the request header under `X-SF-Token`.  To 
+access token be provided as a `X-SF-Token` request header.  To 
 accomplish this we redefine a `Reporter` that explicitly adds the required 
 header.  
 
@@ -57,12 +57,13 @@ private String accessToken;
     
 private Reporter createSignalFxReporter() {
     // Setup the HttpSender to report to SignalFx with the access token
-    OkHttpClient signalFxHttpClientWithAuthHeaders = new OkHttpClient.Builder().addInterceptor(chain -> {
-        Request request = chain.request().newBuilder()
+    OkHttpClient signalFxHttpClientWithAuthHeaders = new OkHttpClient.Builder()
+        .addInterceptor(chain -> {
+          Request request = chain.request().newBuilder()
             .addHeader("X-SF-Token", accessToken)
             .build();
-        return chain.proceed(request);
-    }).build();
+          return chain.proceed(request);
+        }).build();
         
     HttpSender.Builder senderBuilder = new HttpSender.Builder(ingestUrl)
         .withClient(signalFxHttpClientWithAuthHeaders);
@@ -83,13 +84,15 @@ public ReporterAppender getSignalFxReporterAppender() {
     };
 }
 ```
-See [SignalFxJaegerReporterConfiguration.java](https://github.com/signalfx/tracing-examples/tree/spring-boot-examples/jaeger-java-spring-boot-web/src/main/java/com/signalfx/tracing/examples/SignalFxJaegerReporterConfiguration.java) for the full source code.
+
+See [SignalFxJaegerReporterConfiguration.java](./src/main/java/com/signalfx/tracing/examples/SignalFxJaegerReporterConfiguration.java) for the full source code.
 
 ### 3. Define Spring properties
 
-`spring.application.name` is used as the `Service Name` and is picked up by core 
+`spring.application.name` is used as the service name and is picked up by core 
 OpenTracing libraries. `opentracing.reporter.signalfx.access_token` is required 
 to send data to SignalFx.
+
 ```ini
 spring.application.name=Coin Flip
 opentracing.reporter.signalfx.access_token=<<Access Token>>
@@ -104,7 +107,7 @@ strategies are defined, which works well for our example application. If this
 isn't desireable define a strategy by using the [Jaeger Spring configuration options](https://github.com/opentracing-contrib/java-spring-jaeger/blob/master/README.md#configuration-options).
 #### Configuration References
 
-- [Full example application.properties](https://github.com/signalfx/tracing-examples/tree/spring-boot-examples/jaeger-java-spring-boot-web/src/main/resources/application.properties)
+- [Full example application.properties](./src/main/resources/application.properties)
 - [Jaeger Sampling Configuration Documentation](https://www.jaegertracing.io/docs/sampling/#client-sampling-configuration)
 - [Spring Configuration Source Code](https://github.com/opentracing-contrib/java-spring-jaeger/blob/master/opentracing-spring-jaeger-starter/src/main/java/io/opentracing/contrib/java/spring/jaeger/starter/JaegerConfigurationProperties.java)
 
@@ -115,20 +118,20 @@ package the Spring Boot application.
 
 ## 1. Download/clone the project from the git repository
 
-```bash
-git clone https://github.com/signalfx/tracing-examples.git
-cd tracing-examples/jaeger-java-spring-boot-web
+```
+$ git clone https://github.com/signalfx/tracing-examples.git
+$ cd tracing-examples/jaeger-java-spring-boot-web
 ```
 
 ## 2. Compile and package the Spring Boot Application
 
-```bash
+```
 $ mvn package
 ```
 
 ## 3. Start your Spring Boot Application
 
-```bash
+```
 $ java -jar target/coin-flip-service-with-jaeger-0.0.1-SNAPSHOT.jar
 ```
 
@@ -140,9 +143,10 @@ Open <http://localhost:8080/flip> in your browser.
 
 ## Defining a subspan
 
-The example application sends `Spans` to SignalFx for 100% of requests. Most of 
-the instrumentation is done by the `Jaeger Spring` library.  The [main application](https://github.com/signalfx/tracing-examples/tree/spring-boot-examples/jaeger-java-spring-boot-web/src/main/java/com/signalfx/tracing/examples/Application.java#L39) 
-also wraps a function in a subspan called `calculateOdds`:  
+The example application sends spans to SignalFx for 100% of requests. Most of 
+the instrumentation is done by the `Jaeger Spring` library.  The [main application](./src/main/java/com/signalfx/tracing/examples/Application.java#L39)
+also wraps a function in a subspan called `calculateOdds`:
+
 ```java
 private boolean trueWithProbability(double probability) {
     try (Scope scope = tracer.buildSpan("calculateOdds").startActive(true)) {
@@ -153,10 +157,12 @@ private boolean trueWithProbability(double probability) {
 
 ## Tagging the current Span
 
-After the coin has been 'flipped', we tag the `Span` so we can differentiate 
-any telemetry between the outcome of the coin flip.  
+After the coin has been 'flipped', we tag the span so we can differentiate 
+any telemetry between the outcome of the coin flip.
+
 ```java
 tracer.activeSpan().setTag("flipResult", flipResult);
 ```
-See the [example code](https://github.com/signalfx/tracing-examples/tree/spring-boot-examples/jaeger-java-spring-boot-web/src/main/java/com/signalfx/tracing/examples/Application.java#L29) 
+
+See the [example code](./src/main/java/com/signalfx/tracing/examples/Application.java#L29) 
 for more context.
