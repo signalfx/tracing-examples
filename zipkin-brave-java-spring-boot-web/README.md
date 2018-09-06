@@ -113,7 +113,7 @@ opentracing.reporter.signalfx.access_token=<<Access Token>>
 
 ### Configuration References
 
-- [Full example application.properties]./src/main/resources/application.properties)
+- [Full example application.properties](./src/main/resources/application.properties)
 - [Jaeger Sampling Configuration Documentation](https://www.jaegertracing.io/docs/sampling/#client-sampling-configuration)
 - [Spring Configuration Source Code](https://github.com/opentracing-contrib/java-spring-jaeger/blob/master/opentracing-spring-jaeger-starter/src/main/java/io/opentracing/contrib/java/spring/jaeger/starter/JaegerConfigurationProperties.java)
 
