@@ -18,7 +18,7 @@ const (
 	ingestUrl = "https://ingest.signalfx.com/v1/trace"
 
 	// the service name to export these spans with
-	serviceName = "test-go-jaeger"
+	serviceName = "signalfx-opencensus-jaeger-go-example"
 
 	// please provide a valid access token
 	accessToken = ""
@@ -93,6 +93,9 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		increment(ctx)
 	}
 
+	// add a tag with the final value of count
+	span.AddAttributes(trace.Int64Attribute("final_count", int64(count)))
+
 	fmt.Fprint(w, randInt)
 }
 
@@ -104,4 +107,18 @@ func increment(ctx context.Context) {
 	defer span.End()
 
 	count++
+
+	// tag the span with the current value of count
+	span.AddAttributes(trace.Attribute{
+		key:   "count",
+		value: count,
+	})
+
+	// an annotation is a group of attributes with a relative timestamp and is
+	// viewed as a log item on the span
+	attributes := []trace.Attribute{
+		trace.Int64Attribute("count", int64(count)),
+		trace.StringAttribute("full_timestamp", time.Now().String()),
+	}
+	span.Annotate(attributes, "attributes_list")
 }
