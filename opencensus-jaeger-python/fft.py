@@ -21,7 +21,7 @@ def fft(x):
     # retrieve the stored tracer
     tracer = execution_context.get_opencensus_tracer()
 
-    with (tracer.span(name="fft")) as span_fft:
+    with tracer.span(name="fft") as span_fft:
         # tag the span with the signal being processed
         span_fft.add_attribute("x", ' '.join(str(x_i) for x_i in x))
 
@@ -45,7 +45,7 @@ def gen_x():
     # retrieve the stored tracer
     tracer = execution_context.get_opencensus_tracer()
 
-    with (tracer.span(name="generate signal")) as span_gen_x:
+    with tracer.span(name="generate_signal") as span_gen_x:
         return [ randint(X_MIN, X_MAX) for i in range(X_LENGTH) ]
 
 
@@ -53,15 +53,14 @@ def mag_fft(x):
     # retrieve the stored tracer
     tracer = execution_context.get_opencensus_tracer()
 
-    with (tracer.span(name="magnitude of fft")) as print_span:
-        # print(' '.join("%5.3f" % abs(f) for f in x))
+    with tracer.span(name="magnitude_of_fft") as mag_span:
         return ' '.join("%5.3f" % abs(f) for f in x)
 
 
 def main():
     # create the exporter and set it in the tracer
     exporter = jaeger_exporter.JaegerExporter(
-            service_name="test_python_service",
+            service_name="signalfx-opencensus-jaeger-python-example",
             host_name="ingest.signalfx.com",
             username="auth",
             password=access_token,
@@ -76,7 +75,7 @@ def main():
 
     # start the span using "with", and it will automatically close and export the
     # span as you leave scope
-    with (tracer.span(name="main")) as span_main:
+    with tracer.span(name="main") as span_main:
         x = fft(gen_x())
 
         # tag the main span with the result
