@@ -76,10 +76,14 @@ language/platform.
 ### Python
 
 - [Jaeger Python](./jaeger-python): our recommended tracer for Python.
+- [OpenCensus Python](./opencensus-jaeger-python): OpenCensus's instrumentation
+  library with a Jaeger reporter in Python.
 
 ### Go
 
 - [Jaeger Go](./jaeger-go): our recommended tracer for Golang.
+- [OpenCensus Go](./opencensus-jaeger-go): OpenCensus's instrumentation library
+  with a Jaeger reporter in Golang.
 
 ### Node.js
 
