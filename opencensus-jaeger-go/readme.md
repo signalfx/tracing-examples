@@ -58,6 +58,31 @@ used to associate child spans with this as its parent.
 unless the span crosses multiple methods.
 
 
+## Tags and annotations
+
+Spans can be tagged with useful and interesting values before being exported.
+The three currently supported types are `bool`, `int64`, and `string`.
+```go
+span.AddAttributes(
+    trace.BoolAttribute("has_error", error),
+    trace.Int64Attribute("error_count", count),
+    trace.StringAttribute("error_message", message),
+)
+```
+
+Another useful way to attach information with a span is an annotation.
+Annotations are a list of attributes that have a timestamp relative to the
+start of the span.
+```go
+attributes := []trace.Attribute{
+	trace.Int64Attribute("count", int64(count)),
+	trace.StringAttribute("full_timestamp", time.Now().String()),
+}
+
+span.Annotate(attributes, "annotation")
+```
+
+
 # Running the example
 
 ```go
