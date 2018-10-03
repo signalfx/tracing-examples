@@ -11,6 +11,6 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "jaeger-client": "git+https://github.com/jaegertracing/jaeger-client-node.git"
+    "jaeger-client": "^3.12.0"
   }
 }
