@@ -30,16 +30,16 @@ Some key functionality we intend to deliver over the coming year includes:
 Our Early Access Program (EAP) for Distributed Tracing is intended for early
 interaction, engagement and feedback with a select set of customers that we
 consider design partners on the journey to delivering a best in class
-distributed tracing and microservices APM solution. This EAP is intended to give
-you access to new features as we're building them - as such, they should be
+distributed tracing and microservices APM solution. This EAP will give you
+access to new features as we're building them - as such, they should be
 considered "alpha quality": you may experience bugs or user experience nits
 along the way and we'll be looking forward to your feedback as we continue to
 build this new and exciting facet of SignalFx's offering.
 
-We will continue to rapidly add functionality mentioned
-above with a monthly/quaterly cadence and expect to receive candid feedback from
-this Early Access group so we can continue to iterate towards an outstanding
-product that solves customer problems in truly unique, innovative ways.
+We will continue to rapidly add functionality mentioned above with a
+monthly/quaterly cadence and expect to receive candid feedback from this Early
+Access group so we can continue to iterate towards an outstanding product that
+solves customer problems in truly unique, innovative ways.
 
 ### Feedback and support requests
 
@@ -111,12 +111,12 @@ Content-Type: application/json; charset=utf-8
 
 ### Metricproxy
 
-If you want to use the SignalFx 
+If you want to use the SignalFx
 [Metricproxy](https://github.com/signalfx/metricproxy), your already existing
-SignalFx listener and forwarder configurations can be used to forward trace
-data to our ingest endpoint.  Make sure that you upgrade to version 0.10.11
-or above of the metricproxy to get support for trace data in both Jaeger and
-Zipkin formats.  
+SignalFx listener and forwarder configurations can be used to forward trace data
+to our ingest endpoint.  Make sure that you upgrade to version 0.10.11 or above
+of the metricproxy to get support for trace data in both Jaeger and Zipkin
+formats.
 
 Once you have configured the metricproxy with the listener configuration below,
 simply point your tracers to report spans to `<proxyhost>:8080/v1/trace`.
@@ -154,12 +154,10 @@ API's response.
 * the span's timestamp must be no older than your [data
   retention](#data-retention) and must not be more than 1 hour into the future
   -- as a relatively loose safeguard against clock skew.
-* the span may contain no more than 128 key/value pair `tags`
 * tag keys must be unicode strings no longer than 128 characters and cannot
   start with `_` or `sf_`
-* tag values must be unicode strings no longer than 1024 characters
-* the span may contain no more than 128 `annotations`, and annotation values
-  must be unicode strings no longer than 1024 characters
+* the total size of the tag keys, values and annotations must be less
+  than 64kB
 
 ### Sending spans from code
 
