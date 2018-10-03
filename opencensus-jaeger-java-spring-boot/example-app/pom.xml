@@ -40,6 +40,8 @@
             <version>0.2.1</version>
         </dependency>
 
+        <!-- Opencensus instrumentation -->
+        <!-- https://github.com/census-instrumentation/opencensus-java -->
         <dependency>
             <groupId>io.opencensus</groupId>
             <artifactId>opencensus-api</artifactId>

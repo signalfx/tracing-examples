@@ -25,7 +25,6 @@ import io.opencensus.trace.Tracer;
 import io.opencensus.trace.Tracing;
 
 
-
 @SpringBootApplication
 @RestController
 public class Application implements WebMvcConfigurer {
@@ -37,10 +36,6 @@ public class Application implements WebMvcConfigurer {
             carrier.setRequestProperty(key, value);
         }
     };
-
-    @Value("${signalfx.access_token}")
-    private String accessToken;
-    
 
     @RequestMapping("/test")
     public String test() throws Exception {
@@ -88,7 +83,6 @@ public class Application implements WebMvcConfigurer {
             BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line;
             while ((line = rd.readLine()) != null) {
-                // result.append(line);
                 result += line;
             }
             rd.close();
@@ -109,8 +103,6 @@ public class Application implements WebMvcConfigurer {
             .setRecordEvents(true)
             .setSampler(Samplers.alwaysSample())
             .startSpan();
-
-        // span.putAttribute("X-SF-Token", AttributeValue.stringAttributeValue(accessToken));
 
         return span;
     }

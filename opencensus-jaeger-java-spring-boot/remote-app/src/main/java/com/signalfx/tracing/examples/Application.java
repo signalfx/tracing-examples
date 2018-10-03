@@ -31,12 +31,6 @@ import io.opencensus.trace.Tracing;
 public class Application implements WebMvcConfigurer {
 
     private static final Tracer tracer = Tracing.getTracer();
-    private static final TextFormat textFormat = Tracing.getPropagationComponent().getB3Format();
-    private static final TextFormat.Setter setter = new TextFormat.Setter<HttpURLConnection>() {
-        public void put(HttpURLConnection carrier, String key, String value) {
-            carrier.setRequestProperty(key, value);
-        }
-    };
 
     private static int requestCount = 0;
 
