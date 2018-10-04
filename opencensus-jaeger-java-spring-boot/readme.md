@@ -7,8 +7,14 @@ can be sent across multiple apps.
 
 # Setup and Usage
 
+In order to authenticate with SignalFx, the `HttpSender` that sends spans must
+be configured with a header that has the access token. The ability to configure
+and set a `HttpSender` is not currently possible until the next exporter
+release, `0.17.0`. However, it is currently available in a snapshot release.
+
 To enable snapshot releases, add this to the list of profiles in
 `~/.m2/settings.xml`:
+
 ```xml
 <profile>
     <id>allow-snapshots</id>
@@ -25,6 +31,7 @@ To enable snapshot releases, add this to the list of profiles in
 ```
 
 Add these dependencies to the application:
+
 ```xml
 <dependency>
     <groupId>io.opentracing.contrib</groupId>
@@ -52,6 +59,7 @@ Add these dependencies to the application:
 ## Create and set the exporter
 
 Add the following imports:
+
 ```java
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -59,6 +67,7 @@ import com.uber.jaeger.senders.HttpSender;
 ```
 
 Create an OkHttpClient instance with the necessary access token headers.
+
 ```java
 OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
     Request request = chain.request()
@@ -72,6 +81,7 @@ OkHttpClient client = new OkHttpClient.Builder().addInterceptor(chain -> {
 
 Build a sender with this client and register a trace exporter using
 `createWithSender`, which accepts a sender and a service name.
+
 ```java
 HttpSender sender = new HttpSender.Builder(ingestEndpoint)
                                   .withClient(client)
@@ -85,6 +95,7 @@ Now the tracer can be retrieved from anywhere using `Tracing.getTracer()`.
 ## Using spans
 
 The following imports are necessary for working with spans.
+
 ```java
 import io.opencensus.common.Scope;
 import io.opencensus.trace.AttributeValue;
@@ -98,6 +109,7 @@ import io.opencensus.trace.Tracing;
 ```
 
 A span is built and started from the tracer.
+
 ```java
 Span span = tracer.spanBuilder(name)
                   .setRecordEvents(true)
@@ -110,6 +122,7 @@ span.end();
 ```
 
 To start a new child span:
+
 ```java
 try (Scope ws = tracer.withSpan(span)) {
     // child span start
@@ -123,6 +136,7 @@ When making a HTTP request, the current span can be injected to ensure that the
 remote process can create spans under the right context.
 
 Create a `TextFormat` and inject the span for propagation:
+
 ```java
 TextFormat textFormat = Tracing.getPropagationComponent().getB3Format();
 TextFormat.Setter setter = new TextFormat.Setter<HttpURLConnection>() {
@@ -137,6 +151,7 @@ conn.setRequestMethod(HttpMethod.GET.name());
 ```
 
 The request endpoint can then extract the span.
+
 ```java
 TextFormat textFormat = Tracing.getPropagationComponent().getB3Format();
 TextFormat.Getter getter = new TextFormat.Getter<HttpServletRequest>() {
@@ -149,6 +164,7 @@ SpanContext spanContext = textFormat.extract(request, getter);
 ```
 
 A new child span can be built with this `SpanContext`.
+
 ```java
 Span span = tracer.spanBuilderWithRemoteParent(spanName, spanContext)
                   .setRecordEvents(true)
@@ -160,6 +176,7 @@ Span span = tracer.spanBuilderWithRemoteParent(spanName, spanContext)
 # Running the example
 
 In the example-app directory, build and run the package.
+
 ```bash
 mvn package
 java -jar target/opencensus-with-jaeger-0.0.1-SNAPSHOT.jar
@@ -167,9 +184,11 @@ java -jar target/opencensus-with-jaeger-0.0.1-SNAPSHOT.jar
 
 This will start the app listening on port 8098. Going to
 http://localhost:8098/test in a browser will create the traces and send them to
-SignalFx.
+SignalFx. However, unless a second app, `remote-app`, is running, there will be
+no text to display, and the spans will be tagged with an error message.
 
-There is a second app in the remote-app folder.
+The second app is in the `remote-app` folder.
+
 ```bash
 mvn package
 java -jar target/remote-opencensus-with-jaeger-0.0.1-SNAPSHOT.jar

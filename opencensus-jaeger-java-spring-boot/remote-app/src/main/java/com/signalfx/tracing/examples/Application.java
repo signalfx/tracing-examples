@@ -24,58 +24,78 @@ import io.opencensus.trace.Status;
 import io.opencensus.trace.Tracer;
 import io.opencensus.trace.Tracing;
 
-
-
+/**
+ * This app simply keeps track of the number of times a request has been made
+ * to /count.
+ */
 @SpringBootApplication
 @RestController
 public class Application implements WebMvcConfigurer {
 
+    /**
+     * The globally registered tracer
+     */
     private static final Tracer tracer = Tracing.getTracer();
 
+    /**
+     * This keeps track of the number of requests made
+     */
     private static int requestCount = 0;
 
-
+    /**
+     * Start a span and call a method that increments a count
+     *
+     * @return the result of the called function
+     */
     @RequestMapping("/count")
     public String count() throws Exception {
-
         // start parent span
-        Span span = buildSpan("request count");
+        Span span = buildSpan("count");
+        span.putAttribute("http.method", AttributeValue.stringAttributeValue("GET"));
         span.addAnnotation("Count endpoint");
 
-        String result = "";
-
+        // Give the scope as a resource for the called function
         try (Scope ws = tracer.withSpan(span)) {
-
-            result = getRequestCount();
+            return getRequestCount();
+        } finally {
+            span.end();
         }
-
-        span.end();
-        return result;
     }
 
+    /**
+     * This functions starts a new span, annotates it with the count prior to
+     * the latest request, and returns a string with the new number of requests.
+     *
+     * @return a string with the total number of requests
+     */
     public String getRequestCount() {
+        // annotate the span with the old request count
         Span span = buildSpan("getRequestCount");
         span.addAnnotation("number of requests so far, not counting this one: " + requestCount);
 
+        // update the request count and create a string with it
         requestCount++;
         String result = "Total number of requests: " + requestCount;
 
         span.end();
-        
         return result;
     }
 
+    /**
+     * Use the tracer span builder to create and start a new span
+     *
+     * @param name the span's name
+     * @return the new span
+     */
     public Span buildSpan(String name) {
         Span span = tracer.spanBuilder(name)
             .setRecordEvents(true)
             .setSampler(Samplers.alwaysSample())
             .startSpan();
-
         return span;
     }
 
     public static void main(String[] args) {
-
         SpringApplication.run(Application.class, args);
     }
 }
