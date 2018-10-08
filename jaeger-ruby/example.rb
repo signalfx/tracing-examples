@@ -18,19 +18,17 @@ get '/' do
 end
 
 def random
-    num = rand(1000)
-    OpenTracing.start_active_span("random_number") do
-        span = OpenTracing.active_span
-        span.set_tag("number", num)
+    OpenTracing.start_active_span("random_number") do |scope|
+        num = rand(1000)
+        scope.span.set_tag("number", num)
         fibonacci(0, 1, num)
     end
     num
 end
 
 def fibonacci(first, second, num)
-    OpenTracing.start_active_span("fibonacci") do
-        span = OpenTracing.active_span
-        span.set_tag("sequence_number", first)
+    OpenTracing.start_active_span("fibonacci") do |scope|
+        scope.span.set_tag("sequence_number", first)
 
         if second < num
             fibonacci(second, first + second, num)
