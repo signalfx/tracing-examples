@@ -14,10 +14,18 @@ http_sender = Jaeger::Client::HttpSender.new(url: ingest_url, headers: headers, 
 OpenTracing.global_tracer = Jaeger::Client.build(service_name: service_name, sender: http_sender)
 
 get '/' do
-    "#{random}\n"
+    output = ""
+    OpenTracing.start_active_span("/") do |scope|
+        scope.span.set_tag("http.method", "GET")
+        scope.span.set_tag("http.status_code", 200)
+        scope.span.set_tag("span.kind", "server")
+        output = "#{random}\n"
+    end
+    output
 end
 
 def random
+    num = 0
     OpenTracing.start_active_span("random_number") do |scope|
         num = rand(1000)
         scope.span.set_tag("number", num)
