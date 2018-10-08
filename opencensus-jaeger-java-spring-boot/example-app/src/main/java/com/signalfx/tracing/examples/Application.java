@@ -102,7 +102,8 @@ public class Application implements WebMvcConfigurer {
      */
     public String remoteProcess() {
         // start a new span and annotate it
-        Span span = buildSpan("remoteProcess");
+        // mark this span as a "client" kind since it is the outbound request
+        Span span = buildSpan("remoteProcess", Span.Kind.CLIENT);
         span.addAnnotation("Remote child span");
 
         // the url to request
@@ -142,6 +143,24 @@ public class Application implements WebMvcConfigurer {
         Span span = tracer.spanBuilder(name)
             .setRecordEvents(true)
             .setSampler(Samplers.alwaysSample())
+            .startSpan();
+
+        return span;
+    }
+
+    /**
+     * This uses the tracer spanBuilder to create and start a span
+     *
+     * @param name Name of the new span
+     * @param kind The kind of span, client or server
+     * @return the newly created span
+     */
+    public Span buildSpan(String name, Span.Kind kind) {
+        // build a span using the default span builder and set it to always sample
+        Span span = tracer.spanBuilder(name)
+            .setRecordEvents(true)
+            .setSampler(Samplers.alwaysSample())
+            .setSpanKind(kind)
             .startSpan();
 
         return span;

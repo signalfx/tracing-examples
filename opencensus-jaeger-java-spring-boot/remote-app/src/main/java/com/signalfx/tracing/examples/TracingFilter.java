@@ -59,10 +59,11 @@ public class TracingFilter extends OncePerRequestFilter {
 
         try {
             // extract the span context if its present and create a builder with
-            // it as the parent context
+            // it as the parent context.
+            // the span kind is set to SERVER since the request is received here
             spanContext = textFormat.extract(request, getter);
             spanBuilder = tracer.spanBuilderWithRemoteParent(spanName, spanContext)
-                                .setSpanKind(Span.Kind.CLIENT);
+                                .setSpanKind(Span.Kind.SERVER);
         } catch (SpanContextParseException e) {
             // create a normal spanBuilder if there was no span to extract
             spanBuilder = tracer.spanBuilder(spanName);
