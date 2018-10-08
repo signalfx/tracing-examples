@@ -55,13 +55,14 @@ public class TracingFilter extends OncePerRequestFilter {
         SpanContext spanContext;
         SpanBuilder spanBuilder;
 
-        String spanName = request.getMethod() + " " + request.getRequestURI();
+        String spanName = "doFilterInternal_" + request.getRequestURI();
 
         try {
             // extract the span context if its present and create a builder with
             // it as the parent context
             spanContext = textFormat.extract(request, getter);
-            spanBuilder = tracer.spanBuilderWithRemoteParent(spanName, spanContext);
+            spanBuilder = tracer.spanBuilderWithRemoteParent(spanName, spanContext)
+                                .setSpanKind(Span.Kind.CLIENT);
         } catch (SpanContextParseException e) {
             // create a normal spanBuilder if there was no span to extract
             spanBuilder = tracer.spanBuilder(spanName);
@@ -70,6 +71,7 @@ public class TracingFilter extends OncePerRequestFilter {
         // Start a new span for the request
         Span span = spanBuilder.setRecordEvents(true)
                 .setSampler(Samplers.alwaysSample()).startSpan();
+        span.putAttribute("http.method", AttributeValue.stringAttributeValue(request.getMethod()));
 
         // continue the filter chain and close the span
         try (Scope s = tracer.withSpan(span)) {

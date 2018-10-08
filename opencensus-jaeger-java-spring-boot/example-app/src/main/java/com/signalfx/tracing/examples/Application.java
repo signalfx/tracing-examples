@@ -107,7 +107,6 @@ public class Application implements WebMvcConfigurer {
 
         // the url to request
         String url = "http://localhost:8099/count";
-        String result = "";
 
         try (Scope ws = tracer.withSpan(span)) {
             // Make the request and inject the current span into the header.
@@ -118,21 +117,18 @@ public class Application implements WebMvcConfigurer {
             conn.setRequestMethod(HttpMethod.GET.name());
 
             // read the response
-            result = IOUtils.toString(conn.getInputStream(), "UTF-8");
+            return IOUtils.toString(conn.getInputStream(), "UTF-8");
         } catch (Exception e) {
             // the request failed for some reason, just set the status and a message
             span.setStatus(Status.ABORTED);
             span.addAnnotation("Error calling endpoint");
             span.putAttribute("error", AttributeValue.booleanAttributeValue(true));
-
-            // set the result as an empty string
-            result = "";
         } finally {
             // close the span once finished
             span.end();
         }
 
-        return result;
+        return "";
     }
 
     /**

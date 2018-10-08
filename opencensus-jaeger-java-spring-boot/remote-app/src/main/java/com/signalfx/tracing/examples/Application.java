@@ -71,7 +71,7 @@ public class Application implements WebMvcConfigurer {
     public String getRequestCount() {
         // annotate the span with the old request count
         Span span = buildSpan("getRequestCount");
-        span.addAnnotation("number of requests so far, not counting this one: " + requestCount);
+        span.putAttribute("number_of_requests_so_far", AttributeValue.longAttributeValue(requestCount));
 
         // update the request count and create a string with it
         requestCount++;
