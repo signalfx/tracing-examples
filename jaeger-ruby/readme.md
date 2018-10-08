@@ -96,6 +96,12 @@ For more examples on usage, visit [opentracing-ruby](https://github.com/opentrac
 
 Install the gem as shown above in the Setup and Configuration section.
 
+Set the `SIGNALFX_ACCESS_TOKEN` environment variable to a valid token.
+
+```bash
+export SIGNALFX_ACCESS_TOKEN=<token>
+```
+
 Run the example with
 
 ```bash

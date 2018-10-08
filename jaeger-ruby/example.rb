@@ -4,7 +4,7 @@ require 'opentracing'
 require 'jaeger/client'
 require 'jaeger/client/http_sender'
 
-access_token = ""
+access_token = ENV['SIGNALFX_ACCESS_TOKEN']
 service_name = "signalfx-jaeger-ruby-example"
 ingest_url = "http://ingest.signalfx.com/v1/trace"
 headers = { "X-SF-Token" => access_token }
