@@ -77,10 +77,10 @@ public class Application implements WebMvcConfigurer {
             childProcess();
         }
 
-        // any new spans created by remoteProcess will be nested in this one,
+        // any new spans created by callRemoteProcess will be nested in this one
         // and when leaving the block the parent span is closed as well.
         try (Scope ws = tracer.withSpan(span)) {
-            return remoteProcess();
+            return callRemoteProcess();
         } finally {
             span.end();
         }
@@ -100,11 +100,12 @@ public class Application implements WebMvcConfigurer {
      *
      * @return response text from the remote or an empty string
      */
-    public String remoteProcess() {
+    public String callRemoteProcess() {
         // start a new span and annotate it
         // mark this span as a "client" kind since it is the outbound request
-        Span span = buildSpan("remoteProcess", Span.Kind.CLIENT);
-        span.addAnnotation("Remote child span");
+        Span span = buildSpan("callRemoteProcess");
+        span.putAttribute("span.kind", AttributeValue.stringAttributeValue("client"));
+        span.addAnnotation("Call a remote process to start a child span");
 
         // the url to request
         String url = "http://localhost:8099/count";
@@ -143,24 +144,6 @@ public class Application implements WebMvcConfigurer {
         Span span = tracer.spanBuilder(name)
             .setRecordEvents(true)
             .setSampler(Samplers.alwaysSample())
-            .startSpan();
-
-        return span;
-    }
-
-    /**
-     * This uses the tracer spanBuilder to create and start a span
-     *
-     * @param name Name of the new span
-     * @param kind The kind of span, client or server
-     * @return the newly created span
-     */
-    public Span buildSpan(String name, Span.Kind kind) {
-        // build a span using the default span builder and set it to always sample
-        Span span = tracer.spanBuilder(name)
-            .setRecordEvents(true)
-            .setSampler(Samplers.alwaysSample())
-            .setSpanKind(kind)
             .startSpan();
 
         return span;
