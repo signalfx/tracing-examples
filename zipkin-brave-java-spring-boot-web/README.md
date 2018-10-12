@@ -153,7 +153,7 @@ Open <http://localhost:8080/flip> in your browser.
 
 The example application sends spans to SignalFx for 100% of requests. Most of
 the instrumentation is done by the `Zipkin Spring` library.  The [main
-application]./src/main/java/com/signalfx/tracing/examples/Application.java#L41)
+application](./src/main/java/com/signalfx/tracing/examples/Application.java#L41)
 also wraps a function in a subspan called `calculateOdds`:
 
 ```java
