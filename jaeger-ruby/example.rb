@@ -11,7 +11,7 @@ access_token = ENV['SIGNALFX_ACCESS_TOKEN']
 service_name = "signalfx-jaeger-ruby-example"
 
 # the SignalFx ingest endpoint
-ingest_url = "http://ingest.signalfx.com/v1/trace"
+ingest_url = "https://ingest.signalfx.com/v1/trace"
 
 # create the header table and encoder needed for the Http Sender
 headers = { "X-SF-Token" => access_token }
