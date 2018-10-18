@@ -72,6 +72,7 @@ language/platform.
 - Spring Boot Examples:
   - [Jaeger Spring Boot](./jaeger-java-spring-boot-web): An example of instrumenting a Spring Boot application with Jaeger
   - [Zipkin Brave Spring Boot](./zipkin-brave-java-spring-boot-web): An example of instrumenting a Spring Boot application with Zipkin
+  - [OpenCensus Spring Boot](./opencensus-jaeger-java-spring-boot): An example using the OpenCensus project's Jaeger exporter for java.
 
 ### Python
 
