@@ -128,6 +128,62 @@ simply point your tracers to report spans to `<proxyhost>:8080/v1/trace`.
 }
 ```
 
+### Smart Gateway
+
+If you're looking to use the SignalFx Smart Gateway code first install go
+1.11.1 and git and have them in your path. You will need to get the sampling.a
+file from SignalFx and then run the following on the box you want to install
+onto. 
+
+```
+curl -s \
+https://raw.githubusercontent.com/signalfx/metricproxy/release/install.sh > /tmp/install.sh
+sudo sh /tmp/install.sh /path/to/sampling.a
+```
+
+To enable Smart Sampling you will need to add a stanza to your config file like
+the example below. The only value you should have to configure is where the
+gateway writes out state when restarting. An example of your gateway config may
+look like below and needs to be located at /etc/sfdbconfig.conf.
+
+```
+{
+  "LocalDebugServer": "0.0.0.0:6060",
+  "LogDir": "/var/log/sfproxy",
+  "ListenFrom": [
+    {
+      "Type": "signalfx",
+      "ListenAddr": "0.0.0.0:8080"
+    }
+  ],
+  "ForwardTo": [
+    {
+      "type": "signalfx",
+      "DefaultAuthToken": "PUTYOURTOKENHERE",
+      "Name": "smart-gateway-c5.9x",
+      "FormatVersion": 3,
+      "DrainingThreads": 10,
+      "MaxDrainSize": 30000,
+      "BufferSize": 1000000,
+      "TraceSample": {
+        "BackupLocation": "/var/config/sfproxy/data"
+      }
+    }
+  ]
+}
+```
+
+Where /var/log/sfproxy is where you want logs to go, and
+/var/config/sfproxy/data is a good location to save data to for persistent
+restarts.
+
+If this was your config when running the smart gateway you would point your
+traces to <that machine>:8080/v1/trace
+
+Datapoints would point to <that machine>:8080/v2/datapoint and events to
+<that machine>:8080/v2/event if you want to use it as one gateway for
+everything.
+
 ### About timestamps and durations
 
 Note that span timestamps represent _microseconds_ since UTC Epoch, and span
