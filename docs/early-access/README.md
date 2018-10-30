@@ -130,23 +130,22 @@ simply point your tracers to report spans to `<proxyhost>:8080/v1/trace`.
 
 ### Smart Gateway
 
-If you're looking to use the SignalFx Smart Gateway code first install go
-1.11.1 and git and have them in your `$PATH`. You will need to get the sampling.a
-file from SignalFx and then run the below command on the box you want to install
-onto. 
+If you're looking to use the SignalFx Smart Gateway, first install Golang
+1.11.1 and Git and have them both in your `$PATH`. Then, get the `sampling.a`
+binary file from SignalFx and run the commands below on the host you want to
+install the Smart Gateway onto:
 
 ```
-curl -s \
-https://raw.githubusercontent.com/signalfx/metricproxy/release/install.sh > /tmp/install.sh
-sudo sh /tmp/install.sh /path/to/sampling.a
+$ curl -s https://raw.githubusercontent.com/signalfx/metricproxy/release/install.sh > /tmp/install.sh
+$ sudo sh /tmp/install.sh /path/to/sampling.a
 ```
 
 To enable Smart Sampling you will need to add a stanza to your config file like
 the example below. The only value you should have to configure is where the
-Smart Gateway writes out state when restarting. An example of your Smart Gateway
-config may look like below and needs to be located at `/etc/sfdbconfig.conf`.
+Smart Gateway writes out state when restarting (the `BackupLocation`). The
+configuration file needs to be placed at `/etc/sfdbconfig.conf`.
 
-```
+```json
 {
   "StatsDelay": 10s,
   "LogDir": "/var/log/sfproxy",
@@ -171,16 +170,18 @@ config may look like below and needs to be located at `/etc/sfdbconfig.conf`.
 
 Where `/var/log/sfproxy` is where you want logs to go, and
 `/var/config/sfproxy/data` is a good location to save data to for persistent
-restarts.
+restarts. You can also change the `Name` to some identifier of your choosing.
 
-If this was your config when running the Smart Gateway you would point your
-traces to `<that machine>:8080/v1/trace`
-
-Datapoints would point to `<that machine>:8080/v2/datapoint` and events to
-`<that machine>:8080/v2/event` if you want to use it as one Smart Gateway for
+You can then point your applications to report their trace spans to
+`<that machine>:8080/v1/trace`. You can also send datapoints to
+`<that machine>:8080/v2/datapoint` and events to
+`<that machine>:8080/v2/event` if you want to use one Smart Gateway for
 everything.
 
-Sizing recommendations are as follows:
+#### Instance sizing
+
+Recommended instance sizing to run the Smart Gateway are as follows, based
+on your expected volume of trace spans per minute (SPM):
 
 |SPM|AWS EC2 Type|
 |---|---|
