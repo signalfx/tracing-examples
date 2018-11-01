@@ -100,3 +100,7 @@ language/platform.
   to automatically send metrics and trace spans for inter-container traffic.
 - [Envoy](./envoy): the Envoy proxy can be configured to report trace spans to
   SignalFx.
+
+### Ruby
+
+- [Jaeger Ruby](./jaeger-ruby): a Jaeger trace exporter for Ruby
