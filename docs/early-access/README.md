@@ -81,7 +81,14 @@ instrument and export spans to SignalFx in our
 
 ## Sending trace data to SignalFx
 
-Listed below are three options to send trace data to SignalFx. First two options: send directly to Trace Ingest API or via the Metrics Proxy can be used for limited PoC/testing. The third option using the Smart Gateway should be used in production environments and it enables tail-based sampling by analyzing all traces in your environment and keeping the ones that matter most i.e. traces with higher than expected latency & errors. 
+Listed below are three options to send trace data to SignalFx. 
+
+The first two options, sending directly to our Trace Ingest API or via
+the Metric Proxy, should only be used for limited PoC/testing. The third
+option described below, using the SignalFx Smart Gateway, is the 
+recommended production deployment. It enables tail-based sampling by
+analyzing all traces in your environment and keeping the ones that matter
+most i.e. traces with higher than expected latency & errors. 
 
 
 ### Sending directly to our Trace Ingest API (only for "Limited PoC / Testing" with small trace volume)
