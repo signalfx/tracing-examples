@@ -81,6 +81,18 @@ instrument and export spans to SignalFx in our
 
 ## Sending trace data to SignalFx
 
+Listed below are three options to send trace data to SignalFx. 
+
+The first two options, sending directly to our Trace Ingest API or via
+the Metric Proxy, should only be used for limited PoC/testing. The third
+option described below, using the SignalFx Smart Gateway, is the 
+recommended production deployment. It enables tail-based sampling by
+analyzing all traces in your environment and keeping the ones that matter
+most i.e. traces with higher than expected latency & errors. 
+
+
+### Sending directly to our Trace Ingest API (only for "Limited PoC / Testing" with small trace volume)
+
 SignalFx's ingest API now exposes a new endpoint for ingesting trace data,
 available at `https://ingest.signalfx.com/v1/trace`. As of June 2018, this
 endpoint accepts lists of spans encoded in [Zipkin's JSON
@@ -109,7 +121,7 @@ Content-Type: application/json; charset=utf-8
 {"invalid":{},"valid":3}
 ```
 
-### Metricproxy
+### Metricproxy (only for "Limited PoC / Testing" with small trace volume)
 
 If you want to use the SignalFx
 [Metricproxy](https://github.com/signalfx/metricproxy), your already existing
@@ -128,17 +140,12 @@ simply point your tracers to report spans to `<proxyhost>:8080/v1/trace`.
 }
 ```
 
-### Smart Gateway
+### Smart Gateway (recommended in production; enables tail-based sampling)
 
-If you're looking to use the SignalFx Smart Gateway, first install Golang
-1.11.1 and Git and have them both in your `$PATH`. Then, get the `sampling.a`
-binary file from SignalFx and run the commands below on the host you want to
-install the Smart Gateway onto:
-
-```
-$ curl -s https://raw.githubusercontent.com/signalfx/metricproxy/release/install.sh > /tmp/install.sh
-$ sudo sh /tmp/install.sh /path/to/sampling.a
-```
+If you're looking to use the SignalFx Smart Gateway, Get the SignalFx 
+Smart Gateway binary from SignalFx (smart-gateway), and follow the 
+deployment steps mentioned at the following link for metrics proxy: 
+https://github.com/signalfx/metricproxy
 
 To enable Smart Sampling you will need to add a stanza to your config file like
 the example below. The only value you should have to configure is where the
