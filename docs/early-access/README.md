@@ -142,8 +142,9 @@ simply point your tracers to report spans to `<proxyhost>:8080/v1/trace`.
 
 ### Smart Gateway (recommended in production; enables tail-based sampling)
 
-If you're looking to use the SignalFx Smart Gateway, get the metricproxy binary (linux amd64) 
-from SignalFx, then follow the deployment steps highlighted at this link: 
+If you're looking to use the SignalFx Smart Gateway, Get the SignalFx 
+Smart Gateway binary from SignalFx (smart-gateway), and follow the 
+deployment steps mentioned at the following link for metrics proxy: 
 https://github.com/signalfx/metricproxy
 
 To enable Smart Sampling you will need to add a stanza to your config file like
