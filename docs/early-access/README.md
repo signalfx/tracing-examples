@@ -154,7 +154,7 @@ configuration file needs to be placed at `/etc/sfdbconfig.conf`.
 
 ```json
 {
-  "StatsDelay": 10s,
+  "StatsDelay": "10s",
   "LogDir": "/var/log/sfproxy",
   "ListenFrom": [
     {
@@ -166,7 +166,7 @@ configuration file needs to be placed at `/etc/sfdbconfig.conf`.
     {
       "type": "signalfx",
       "DefaultAuthToken": "PUTYOURTOKENHERE",
-      "Name": "smart-gateway-c5.9x",
+      "Name": "smart-gateway",
       "TraceSample": {
         "BackupLocation": "/var/config/sfproxy/data"
       }
