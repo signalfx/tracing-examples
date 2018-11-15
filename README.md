@@ -93,6 +93,11 @@ language/platform.
   Javascript (currently supports a broader range of instrumentations than the
   Jaeger Node tracer and supports running in a browser).
 
+### Ruby
+
+- [Jaeger Ruby](./jaeger-ruby): a Jaeger trace exporter for Ruby
+
+
 ### Service Meshes
 
 - [Istio](./istio): use the [SignalFx mixer
@@ -101,6 +106,8 @@ language/platform.
 - [Envoy](./envoy): the Envoy proxy can be configured to report trace spans to
   SignalFx.
 
-### Ruby
+### AWS Lambda Functions
 
-- [Jaeger Ruby](./jaeger-ruby): a Jaeger trace exporter for Ruby
+- [AWS Lambda Ruby](./aws-lambda): Examples for instrumenting spans for AWS Lambda written in Java, Python, Node, Go
+
+
