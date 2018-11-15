@@ -108,6 +108,6 @@ language/platform.
 
 ### AWS Lambda Functions
 
-- [AWS Lambda Ruby](./aws-lambda): Examples for instrumenting spans for AWS Lambda written in Java, Python, Node, Go
+- [AWS Lambda](./aws-lambda): Examples for instrumenting spans for AWS Lambda written in Java, Python, Node, Go
 
 
