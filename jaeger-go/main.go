@@ -7,12 +7,9 @@ import (
 	"fmt"
 	"io"
 	"log"
-	"os"
 
 	opentracing "github.com/opentracing/opentracing-go"
-	"github.com/uber/jaeger-client-go"
 	jaegercfg "github.com/uber/jaeger-client-go/config"
-	"github.com/uber/jaeger-client-go/transport"
 )
 
 // Constants used by the demo application logic
@@ -24,7 +21,10 @@ const (
 func main() {
 	// Create our tracer.  This should only have to be done once per
 	// application.
-	tracer, tracerCloser := createTracer()
+	tracer, tracerCloser, err := createTracer()
+	if err != nil {
+		log.Fatal("Could not create Jaeger tracer", err)
+	}
 
 	// Create an initial span that will trace our application run.  We are
 	// calling it "root" but the name can be anything.  StartSpan both creates
@@ -95,39 +95,26 @@ func calculatePart(termStart int, termEnd int) float64 {
 	return partialSum
 }
 
-func createTracer() (opentracing.Tracer, io.Closer) {
-	// Since the tracer sends spans to your SignalFx organization, you must
-	// provide an access token for that organization.  This token is used below
-	// to populate an HTTP header.
-	accessToken := os.Getenv("SIGNALFX_ACCESS_TOKEN")
-	ingestUrl := os.Getenv("SIGNALFX_INGEST_URL")
-	if ingestUrl == "" {
-		// This is the default ingest URL for SignalFx where span data will be
-		// sent.
-		ingestUrl = "https://ingest.signalfx.com"
-	}
-
+func createTracer() (opentracing.Tracer, io.Closer, error) {
 	// This creates a configuration struct for Jaeger based on environment
-	// variables.
-	// See https://github.com/jaegertracing/jaeger-client-go/blob/master/README.md#environment-variables
+	// variables. See https://github.com/jaegertracing/jaeger-client-go/blob/master/README.md#environment-variables
+	// The rest of this setup expects that JAEGER_ENDPOINT and JAEGER_PASSWORD
+	// have already been set on the application's environment.
 	cfg, err := jaegercfg.FromEnv()
 	if err != nil {
 		// parsing errors might happen here, such as when we get a string where we expect a number
-		log.Fatal("Could not parse Jaeger env vars: ", err.Error())
+		return nil, nil, err
 	}
 
-	// Create a Jaeger HTTP Thrift transport, pointing it to our trace endpoint
-	// which accepts thrift encoded spans.
-	transport := transport.NewHTTPTransport(ingestUrl+"/v1/trace",
-		transport.HTTPBasicAuth("auth", accessToken))
+	// Here we set a default service name for the tracer for this example.  This
+	// would already be set if you set the JAEGER_SERVICE_NAME env var.
+	if cfg.ServiceName == "" {
+		cfg.ServiceName = "signalfx-jaeger-go-example"
+	}
 
-	// Here we override the service name for the tracer for this example.  This
-	// would otherwise be set from the env var JAEGER_SERVICE_NAME.
-	cfg.ServiceName = "signalfx-jaeger-go-example"
-
-	// Here we are configuring span sampling so that all spans are sampled.
-	// For large applications this is probably not feasible.
-	// See https://github.com/jaegertracing/jaeger-client-go/blob/master/README.md#sampling
+	// Here we are configuring span sampling so that all spans are sampled and
+	// sent. Our standard deployment model sends all spans from the application
+	// to the Smart Agent and Gateway.
 	cfg.Sampler = &jaegercfg.SamplerConfig{
 		Type:  "const",
 		Param: 1,
@@ -135,10 +122,9 @@ func createTracer() (opentracing.Tracer, io.Closer) {
 
 	// This creates the Jaeger tracer from the configuration, using our Thrift
 	// HTTP transport.
-	tracer, closer, err := cfg.NewTracer(
-		jaegercfg.Reporter(jaeger.NewRemoteReporter(transport)))
+	tracer, closer, err := cfg.NewTracer()
 	if err != nil {
-		log.Fatal("Could not initialize jaeger tracer: ", err.Error())
+		return nil, nil, err
 	}
 
 	// Set the tracer as the global tracer in case you want to start a span
@@ -148,5 +134,5 @@ func createTracer() (opentracing.Tracer, io.Closer) {
 	// obvious what is going on.
 	opentracing.SetGlobalTracer(tracer)
 
-	return tracer, closer
+	return tracer, closer, nil
 }
