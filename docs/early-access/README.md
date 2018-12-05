@@ -185,6 +185,9 @@ You can then point your applications to report their trace spans to
 `<that machine>:8080/v2/event` if you want to use one Smart Gateway for
 everything.
 
+It is recommended you compress your span payloads. Content-Encoding of `gzip`
+is supported by the Smart Gateway.
+
 #### Instance sizing
 
 Recommended instance sizing to run the Smart Gateway are as follows, based
