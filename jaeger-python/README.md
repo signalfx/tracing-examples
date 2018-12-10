@@ -11,9 +11,9 @@ To run this example locally, from this directory do the following:
 ```
 $ pip install -r requirements.txt
 $ # Run the server in the background (or from another shell)
-$ python pi_trace/pi_server.py -a MyOrgAccessToken &
+$ python pi_trace/pi_server.py -a <OptionalOrgAccessToken> &
 $ # Launch the client
-$ python pi_trace/pi_client.py -a MyOrgAccessToken
+$ python pi_trace/pi_client.py -a <OptionalOrgAccessToken>
 ```
 
 ## Resources
@@ -21,16 +21,13 @@ $ python pi_trace/pi_client.py -a MyOrgAccessToken
 - [Jaeger Bindings for Python OpenTracing
   API](https://github.com/jaegertracing/jaeger-client-python): the primary
   tracer implementation used in this example, a SignalFx fork of which provides
-  a required HTTPSender.
-- [OpenTracing Python
-  Instrumentation](https://github.com/uber-common/opentracing-python-instrumentation):
-  a helper library for useful span context storage and retrieval, as well as
-  instrumented libraries that are unused by this example.
+  a required HTTPSender and OpenTracing 2.0 API adoption.
 - [OpenTracing
   Python](https://github.com/opentracing/opentracing-python): the Jaeger Python
   tracer conforms to this interface, which is intended to be used by
   instrumented libraries and applications when possible over tracer
-  implementation-dependent functionality.
+  implementation-dependent functionality.  It also provides helpful scope management
+  utilities for automatically creating trace span relationships throughout your application.
 
 ## Other Resources
 
