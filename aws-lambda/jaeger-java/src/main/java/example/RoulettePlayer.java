@@ -35,7 +35,7 @@ import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.okhttp3.OkHttpSender;
 
 // This example is for an API Gateway-proxied Lambda function.  Use your custom event parameters where needed.
-public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent>{
+public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEvent, APIGatewayProxyResponseEvent> {
 
     // Roulette wheel address to position mapping, helpful for "00"
     private static final String[] numToChoice = initNumToChoice();
@@ -61,19 +61,23 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
     private Tracer tracer;
 
     /**
-     * It's expected that there will be a single instance of an opentracing.Tracer per process, 
+     * It's expected that there will be a single instance of an opentracing.Tracer per process,
      * and it's a best practice to register it with io.opentracing.util.GlobalTracer.
      * However, since no RequestHandler will ever field more than one request at a time in Lambda
      * we will cycle through io.opentracing.Tracer member instances to allow forcing a span flush
      * at the end of each request.
      */
     private static io.opentracing.Tracer initTracer() {
-        String ingestUrl = "https://ingest.signalfx.com/v1/trace";
+        String ingestUrl = System.getenv("SIGNALFX_INGEST_URL");
         String accessToken = System.getenv("SIGNALFX_ACCESS_TOKEN");
-        if (accessToken == null) {
-            throw new RuntimeException(
-                "You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token."
-            );
+        if (ingestUrl == null) {
+            if (accessToken == null) {
+                throw new RuntimeException(
+                        "You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token " +
+                                "if you don't set SIGNALFX_INGEST_URL to point to your Gateway."
+                );
+            }
+            ingestUrl = "https://ingest.signalfx.com/v1/trace";
         }
 
         // Build the sender that does the HTTP request containing spans to our ingest server.
@@ -83,10 +87,11 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
 
         // Add an interceptor to inject the SignalFx X-SF-Token auth header.
         senderBuilder.clientBuilder().addInterceptor(chain -> {
-            Request request = chain.request().newBuilder()
-                    .addHeader("X-SF-Token", accessToken)
-                    .build();
-
+            Request.Builder builder = chain.request().newBuilder();
+            if (accessToken != null) {
+                builder.addHeader("X-SF-Token", accessToken);
+            }
+            Request request = builder.build();
             return chain.proceed(request);
         });
 
@@ -169,7 +174,7 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
             // This is a Jaeger-specific requirement to make sure the Tracer flushes
             // and sends its spans since this is a short lived handler that regenerates
             // the Tracer member variable with every invocation.
-            ((io.jaegertracing.internal.JaegerTracer)  tracer).close();
+            ((io.jaegertracing.internal.JaegerTracer) tracer).close();
         }
     }
 
@@ -198,19 +203,19 @@ public class RoulettePlayer implements RequestHandler<APIGatewayProxyRequestEven
             choice = "win";
             winFlag = true;
         } else if (queryParameters.containsKey("choice")
-                   && choiceToNum.containsKey(queryParameters.get("choice"))) {
+                && choiceToNum.containsKey(queryParameters.get("choice"))) {
             choice = queryParameters.get("choice");
             span.log("Request contains valid choice " + choice);
         } else {
-            choice = getRandomPosition(); 
-		    span.setTag("randomChoice", choice);
+            choice = getRandomPosition();
+            span.setTag("randomChoice", choice);
             span.log("Request didn't provide valid choice. Using " + choice + " selected at random.");
         }
         span.setTag("winFlag", winFlag);
         return choice;
     }
 
-    /** 
+    /**
      * Converts a long to Zipkin trace ID format. Per OpenTracing, trace IDs are implementation
      * specific, so this Jaeger interface is not intended for instrumentation and is for
      * ease of demo trace retrieval only.

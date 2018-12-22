@@ -17,8 +17,8 @@ $ mvn package
 
 The resulting `./target/lambda-java-example.jar` can be uploaded to S3 or in your browser via the AWS Console
 during function creation.  Register your handler as `example.RoulettePlayer::handleRequest` and don't forget
-to set the `SIGNALFX_ACCESS_TOKEN` environment variable.  You should be able verify the application with
-the following test event:
+to set the `SIGNALFX_INGEST_URL` environment variable to point to your Gateway.  You should be able verify the
+application with the following test event:
 
 ```
 {

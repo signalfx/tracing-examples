@@ -17,8 +17,8 @@ $ zip -r my_traced_node_lambda.zip *
 
 The resulting `my_traced_node_lambda.zip` can be uploaded to S3 or in your browser via the AWS Console
 during function creation. Register your handler as `index.requestHandler` and don't forget to set the
-`SIGNALFX_ACCESS_TOKEN` environment variable.  You should be able test the application with
-the following test event:
+`SIGNALFX_INGEST_URL` environment variable to point to your Gateway.  You should be able test the application
+with the following test event:
 
 ```
 {
