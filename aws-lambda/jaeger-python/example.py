@@ -92,23 +92,27 @@ class RoulettePlayer(object):
 
     def create_tracer(self):
         access_token = os.getenv('SIGNALFX_ACCESS_TOKEN')
-        if access_token is None:
-            raise Exception('You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token.')
+        ingest_url = os.getenv('SIGNALFX_INGEST_URL')
+
+        if ingest_url is None:
+            if access_token is None:
+                raise Exception("You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token "
+                                "if you don't set SIGNALFX_INGEST_URL to point to your Gateway.")
+            ingest_url = 'https://ingest.signalfx.com/v1/trace'
 
         # Establish a jaeger-client-python configuration to report spans to SignalFx
+        config = {'sampler': {'type': 'const',
+                              'param': 1},
+                  'jaeger_endpoint': ingest_url,
+                  'reporter_flush_interval': .01,
+                  'logging': False}  # Report helpful span submission statements and errors to log handler
+
+        if access_token is not None:
+            # Required static username for Access Token authentication via Basic Access
+            config.update(dict(jaeger_user='auth', jaeger_password=access_token))
+
         config = Config(
-            config={
-                'sampler': {
-                    'type': 'const',
-                    'param': 1,
-                },
-                'jaeger_endpoint': 'https://ingest.signalfx.com/v1/trace',
-                'jaeger_format_params': '',  # No format query parameters required by SignalFx
-                'jaeger_user': 'auth',  # Required static username for Access Token authentication via Basic Access
-                'jaeger_password': access_token,
-                'reporter_flush_interval': .01,
-                'logging': False,  # Report helpful span submission statements and errors to log handler
-            },
+            config=config,
             service_name='signalfx-lambda-python-example',
             validate=True,  # Have jaeger_client fail quickly on invalid configuration
         )

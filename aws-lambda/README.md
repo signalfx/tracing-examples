@@ -25,7 +25,7 @@ requests to an API Gateway endpoint.
           |      ↑ 
       Trigger  Respond 
           ↓      |        
-    [Your Lambda Function] — Spans via HTTP POST → [SignalFx]
+    [Your Lambda Function] — Spans via HTTP POST → [SignalFx Gateway]
 ```
 
 If you are using asynchronous or non-`RequestResponse` invocation types, the examples can still serve
@@ -37,14 +37,17 @@ will need to be updated to reflect your application's functionality.
 ## Deployment and Configuration
 
 Each example provides a description of generating and configuring a Deployment Package for its respective
-runtime.  All of these examples presume the setting of the `SIGNALFX_ACCESS_TOKEN` environment variable
-to associate your traces with your organization.  If this variable is not set for your Lambda function via the
-AWS Console or CLI, all invocations will generate an internal server error that will be logged to CloudWatch.
+runtime.  All of these examples presume the setting of the `SIGNALFX_INGEST_URL` environment variable to
+forward your traces to your deployed SignalFx Gateway or `SIGNALFX_ACCESS_TOKEN` for direct association
+with your organization.  **Please note that bypassing the SignalFx Gateway is for demonstration purposes
+only, and is not a supported deployment pattern.  The Gateway enables many powerful analytical features for
+μAPM.** If neither the variables are set for your Lambda function via the AWS Console or CLI, all invocations
+will generate an internal server error that will be logged to CloudWatch.
 
 ```
 $ update-function-configuration \
   --function-name <MyTracedFunction> \
-  --environment Variables={SIGNALFX_ACCESS_TOKEN=<MyAccessToken>}
+  --environment Variables={SIGNALFX_INGEST_URL=<MyGateway>}
 ```
 
 

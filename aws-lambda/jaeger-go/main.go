@@ -109,11 +109,15 @@ func handleRequest(ctx context.Context, request events.APIGatewayProxyRequest) (
 
 func createTracer() (opentracing.Tracer, io.Closer) {
 	accessToken := os.Getenv("SIGNALFX_ACCESS_TOKEN")
-	if accessToken == "" {
-		// Raised panic contexts will be logged to CloudWatch
-		panic(errors.New("You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token."))
+	ingestUrl := os.Getenv("SIGNALFX_INGEST_URL")
+	if ingestUrl == "" {
+		if accessToken == "" {
+			// Raised panic contexts will be logged to CloudWatch
+			panic(errors.New("You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token " +
+				"if you don't set SIGNALFX_INGEST_URL to point to your Gateway."))
+		}
+		ingestUrl = "https://ingest.signalfx.com/v1/trace"
 	}
-	const ingestUrl = "https://ingest.signalfx.com/v1/trace"
 
 	// This creates a configuration struct for Jaeger based on environment variables.
 	// See https://github.com/jaegertracing/jaeger-client-go/blob/master/README.md#environment-variables
@@ -125,7 +129,11 @@ func createTracer() (opentracing.Tracer, io.Closer) {
 
 	// Create a Jaeger HTTP Thrift transport, pointing it to our trace endpoint
 	// which accepts thrift encoded spans.
-	transport := transport.NewHTTPTransport(ingestUrl, transport.HTTPBasicAuth("auth", accessToken))
+	var options []transport.HTTPOption
+	if accessToken != "" {
+		options = append(options, transport.HTTPBasicAuth("auth", accessToken))
+	}
+	httpTransport := transport.NewHTTPTransport(ingestUrl, options...)
 
 	// Here we override the service name for the tracer for this example.  This
 	// would otherwise be set from the env var JAEGER_SERVICE_NAME.
@@ -140,7 +148,7 @@ func createTracer() (opentracing.Tracer, io.Closer) {
 	}
 
 	// This creates the Jaeger tracer from the configuration, using our Thrift HTTP transport.
-	tracer, closer, err := cfg.NewTracer(jaegercfg.Reporter(jaeger.NewRemoteReporter(transport)))
+	tracer, closer, err := cfg.NewTracer(jaegercfg.Reporter(jaeger.NewRemoteReporter(httpTransport)))
 	if err != nil {
 		panic(errors.New(fmt.Sprintf("Could not initialize jaeger tracer: %v", err.Error())))
 	}

@@ -82,8 +82,12 @@ function handleRequest(event, context) {
 
 function createTracer() {
   const accessToken = process.env.SIGNALFX_ACCESS_TOKEN;
-  if (!accessToken) {
-    throw new Error('You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token.');
+  let ingestUrl = process.env.SIGNALFX_INGEST_URL;
+  if (!ingestUrl) {
+    if (!accessToken) {
+      throw new Error('You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token.');
+    }
+    ingestUrl = 'https://ingest.signalfx.com/v1/trace'
   }
 
   const config = {
@@ -101,12 +105,15 @@ function createTracer() {
       param: 1,
     },
     reporter: {
-      collectorEndpoint: 'https://ingest.signalfx.com/v1/trace',
-      // SignalFx supports Basic authentication with username "auth" and access token as password
-      username: 'auth',
-      password: accessToken,
+      collectorEndpoint: ingestUrl,
     },
   };
+
+  if (accessToken) {
+      // SignalFx supports Basic authentication with username "auth" and access token as password
+      config.reporter.username = 'auth'
+      config.reporter.password = accessToken
+  }
 
   const options = { logger: console };
   const tracer = initTracer(config, options);
