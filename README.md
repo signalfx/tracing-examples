@@ -100,9 +100,7 @@ language/platform.
 
 ### Service Meshes
 
-- [Istio](./istio): use the [SignalFx mixer
-  adapter](https://istio.io/docs/reference/config/policy-and-telemetry/adapters/signalfx/)
-  to automatically send metrics and trace spans for inter-container traffic.
+- [Istio](./istio): We have an out of process adapter available for Istio
 - [Envoy](./envoy): the Envoy proxy can be configured to report trace spans to
   SignalFx.
 
