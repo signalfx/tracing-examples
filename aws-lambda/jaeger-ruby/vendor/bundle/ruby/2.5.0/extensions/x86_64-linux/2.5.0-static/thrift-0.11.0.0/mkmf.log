@@ -1,0 +1,35 @@
+have_func: checking for strlcpy() in string.h... -------------------- yes
+
+"gcc -o conftest -I/var/lang/include/ruby-2.5.0/x86_64-linux -I/var/lang/include/ruby-2.5.0/ruby/backward -I/var/lang/include/ruby-2.5.0 -I. -I/var/lang/include    -fsigned-char -g -O2 -Wall -Werror  conftest.c  -L. -L/var/lang/lib -Wl,-rpath,/var/lang/lib -L. -L/var/lang/lib  -fstack-protector -rdynamic -Wl,-export-dynamic     -Wl,-rpath,/var/lang/lib -L/var/lang/lib -lruby-static  -lpthread -lgmp -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+"gcc -o conftest -I/var/lang/include/ruby-2.5.0/x86_64-linux -I/var/lang/include/ruby-2.5.0/ruby/backward -I/var/lang/include/ruby-2.5.0 -I. -I/var/lang/include    -fsigned-char -g -O2 -Wall -Werror  conftest.c  -L. -L/var/lang/lib -Wl,-rpath,/var/lang/lib -L. -L/var/lang/lib  -fstack-protector -rdynamic -Wl,-export-dynamic     -Wl,-rpath,/var/lang/lib -L/var/lang/lib -lruby-static  -lpthread -lgmp -ldl -lcrypt -lm   -lc"
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <string.h>
+ 4: 
+ 5: /*top*/
+ 6: extern int t(void);
+ 7: int main(int argc, char **argv)
+ 8: {
+ 9:   if (argc > 1000000) {
+10:     printf("%p", &t);
+11:   }
+12: 
+13:   return 0;
+14: }
+15: int t(void) { void ((*volatile p)()); p = (void ((*)()))strlcpy; return !p; }
+/* end */
+
+--------------------
+

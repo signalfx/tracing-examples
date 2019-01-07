@@ -1,0 +1,50 @@
+require: rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'thrift/**/*'
+
+Style/Documentation:
+  Enabled: no
+
+Style/IfUnlessModifier:
+  Enabled: no
+
+RSpec/NestedGroups:
+  Max: 4
+
+RSpec/ExampleLength:
+  Enabled: no
+
+RSpec/MultipleExpectations:
+  Enabled: no
+
+RSpec/MessageSpies:
+  Enabled: no
+
+Metrics/BlockLength:
+  Enabled: no
+
+Metrics/MethodLength:
+  Enabled: no
+
+Metrics/AbcSize:
+  Enabled: no
+
+Metrics/ClassLength:
+  Enabled: no
+
+Metrics/ParameterLists:
+  Enabled: no
+
+Lint/UnusedMethodArgument:
+  Enabled: no
+
+Style/FrozenStringLiteralComment:
+  Enabled: yes
+  EnforcedStyle: always
+  Include:
+    - 'lib/**/*'
+
+Metrics/LineLength:
+  Max: 120
