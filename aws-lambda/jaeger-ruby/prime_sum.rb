@@ -8,21 +8,15 @@
 # and returns the sum of all prime numbers below 'limit'.
 
 require 'opentracing'
-require 'jaeger/client'
+require 'signalfx/lambda'
 
+# this is the original lambda handler
 def handle_request(event:, context:)
-  # keep the tracer reporter so we can flush out all spans before finishing
-  reporter = create_tracer
-
-  # check for a propagated span context if headers are included in this event
-  # at the moment, the API gateway proxy does not use a case-insensitive container for headers
-  headers = event['headers'] ? to_lowercase(event['headers']) : {}
-  span_context = OpenTracing.global_tracer.extract(OpenTracing::FORMAT_TEXT_MAP, headers)
-
   sum = 0
 
-  # tracing scope can be created and managed automatically
-  OpenTracing.global_tracer.start_active_span("handle_request", child_of: span_context) do |scope|
+  # when using the wrapper, the tracer is available through OpenTracing.global_tracer
+  # to do more granular instrumentation
+  OpenTracing.global_tracer.start_active_span("handle_request") do |scope|
 
     # read the body field from the event and tag the span with it
     body = event['body']
@@ -33,13 +27,14 @@ def handle_request(event:, context:)
     sum = prime_sum(limit)
   end
 
-  # flush out the spans to avoid losing any after the function exits
-  reporter.flush
-
   # when using the default API Gateway proxy, the function must return a JSON document with statusCode and body.
   # The requirements may differ if the gateway is configured differently
   { statusCode: 200, body: JSON.generate(sum) }
 end
+
+# register the handler with the wrapper
+SignalFx::Lambda::Tracing.register_handler(&method(:handle_request))
+
 
 # sum up the list of primes and tag the span with the total
 def prime_sum(n)
@@ -81,41 +76,3 @@ def sieve(n)
   primes
 end
 
-# this function reads environment variables for configuration and returns a trace reporter
-def create_tracer
-  # these three environment variables should be set in the console before
-  # invoking the function
-  access_token = ENV['SIGNALFX_ACCESS_TOKEN']
-  ingest_url = ENV['SIGNALFX_INGEST_URL']
-  service_name = ENV['SIGNALFX_SERVICE_NAME']
-
-  # configure the http sender to set the access token header and send spans to
-  # SignalFx ingest.
-  headers = { }
-  headers['X-SF-Token'] = access_token if !access_token.empty?
-  encoder = Jaeger::Client::Encoders::ThriftEncoder.new(service_name: service_name)
-  httpsender = Jaeger::Client::HttpSender.new(url: ingest_url, headers: headers, encoder: encoder, logger: Logger.new(STDOUT))
-  reporter = Jaeger::Client::Reporters::RemoteReporter.new(sender: httpsender, flush_interval: 1)
-
-  # Use Zipkin B3 format for span propagation to other services 
-  injectors = {
-    OpenTracing::FORMAT_TEXT_MAP => [Jaeger::Client::Injectors::B3RackCodec]
-  }
-  extractors = {
-    OpenTracing::FORMAT_TEXT_MAP => [Jaeger::Client::Extractors::B3RackCodec]
-  }
-
-  OpenTracing.global_tracer = Jaeger::Client.build(
-    service_name: service_name,
-    reporter: reporter,
-    injectors: injectors,
-    extractors: extractors)
-
-  # we need to keep a handle to the reporter so spans can be flushed before exiting
-  return reporter
-end
-
-# this is just a helper method to quickly convert all hash keys to lowercase
-def lowercase_hash(hash)
-  hash.inject({}) { |memo, (key, value)| memo[key.downcase] = value; memo }
-end
