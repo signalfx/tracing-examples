@@ -1,6 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'bundler/setup'
-require 'opentracing'
-require 'irb'
-IRB.start
