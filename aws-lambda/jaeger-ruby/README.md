@@ -31,7 +31,7 @@ To build the deployment package:
 
 This zip file can then be uploaded to the AWS Console.
 
-The handler should be registered as `prime_sum.handle_request`. Environment
+The handler should be registered as `prime_sum.SignalFx::Lambda::Tracing.wrapped_handler`. Environment
 variables `SIGNALFX_ACCESS_TOKEN`, `SIGNALFX_INGEST_URL`, and
 `SIGNALFX_SERVICE_NAME` must also be set in the console.
 
@@ -39,7 +39,7 @@ A test payload can be used to run the application:
 
 ```json
 {
-    "body": "some message body to be tagged"
+    "body": "some message body to be tagged",
     "queryStringParameters": {
         "limit": "100"
     }
