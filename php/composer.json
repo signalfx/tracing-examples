@@ -1,0 +1,16 @@
+{
+    "name": "signalfx/php-trace-example",
+    "description": "An example of how to use the SignalFx PHP tracer",
+    "type": "project",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Ben Keith",
+            "email": "bkeith@signalfx.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3",
+        "symfony/dom-crawler": "^4.2"
+    }
+}
