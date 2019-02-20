@@ -30,7 +30,7 @@ export JAEGER_SERVICE_NAME=MY_SERVICE_NAME
 To obtain the latest Java agent, download it to your host's filesystem:
 
 ```
-curl -sSL -o /opt/signalfx-tracing.jar https://search.maven.org/remote_content?g=com.signalfx.public&a=signalfx-java-agent&v=LATEST&c=unbundled
+curl -sSL -o /opt/signalfx-tracing.jar 'https://search.maven.org/remote_content?g=com.signalfx.public&a=signalfx-java-agent&v=LATEST&c=unbundled'
 ```
 
 Make sure it is not writable by unsecured users since modifications to the
