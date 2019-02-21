@@ -21,6 +21,7 @@ $ # Change this to whatever your app is called
 $ export JAEGER_SERVICE_NAME=my-app
 $ # This will be different if using the Smart Agent/Gateway deployment model
 $ export JAEGER_ENDPOINT=https://ingest.signalfx.com/v1/trace
+$ export JAEGER_USER=auth
 $ export JAEGER_PASSWORD=<MY_ORG_TOKEN>
 
 $ ./jaeger-go
