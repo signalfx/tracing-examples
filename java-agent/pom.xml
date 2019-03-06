@@ -33,6 +33,12 @@
       <version>0.31.0</version>
       <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.signalfx.public</groupId>
+      <artifactId>signalfx-trace-api</artifactId>
+      <version>0.24.0-sfx0</version>
+      <scope>provided</scope>
+    </dependency>
 
   </dependencies>
 
