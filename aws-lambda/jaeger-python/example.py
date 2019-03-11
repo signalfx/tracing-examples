@@ -86,10 +86,6 @@ class RoulettePlayer(object):
             span.set_tag(tags.HTTP_STATUS_CODE, status_code)
             response = dict(statusCode=status_code, body=json.dumps(response_body))
 
-        # Known issue with Jaeger's Python client
-        # https://github.com/jaegertracing/jaeger-client-python/issues/50
-        self.wait_for_flushed_spans()
-
         return response
 
     def get_choice(self, event, span):
@@ -137,15 +133,6 @@ class RoulettePlayer(object):
             position = self.get_random_position()
         span.set_tag('position', position)
         return position
-
-    def wait_for_flushed_spans(self):
-        # Because the Jaeger client's span reporting is asynchronous via tornado, it's not possible to reliably
-        # ensure all spans have been flushed without adding a wait before using an implementation-specific
-        # best attempt.
-        time.sleep(.1)
-        while self.tracer.reporter.queue.qsize() or self.tracer.reporter._sender.span_count:
-            time.sleep(.01)
-        self.tracer.close()
 
 
 # Our registered Lambda handler entrypoint (example.request_handler) with the
