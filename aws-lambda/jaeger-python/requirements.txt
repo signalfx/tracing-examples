@@ -1,1 +1,1 @@
-git+git://github.com/signalfx/jaeger-client-python@http_sender
+signalfx_lambda>=0.1.0
