@@ -109,3 +109,18 @@ language/platform.
 - [AWS Lambda](./aws-lambda): Examples for instrumenting spans for AWS Lambda written in Java, Python, Node, Go
 
 
+## Auto-Instrumentation
+
+For customers who have not instrumented their applications, or have done so in an OpenTracing-compatible
+fashion, we offer several SignalFx Tracing libraries.  Their detailed documentation is available in their
+respective source locations:
+
+- [Java](https://github.com/signalfx/signalfx-java-tracing)
+- [Node.js](https://github.com/signalfx/signalfx-nodejs-tracing)
+- [Python](https://github.com/signalfx/signalfx-python-tracing)
+- [Ruby](https://github.com/signalfx/signalfx-ruby-tracing)
+
+Please note these offerings are currently in Beta status.
+
+- [SignalFx Tracing Examples](./signalfx-tracing)
+
