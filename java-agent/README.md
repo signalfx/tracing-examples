@@ -7,24 +7,14 @@ Instrumentation](https://docs.oracle.com/javase/8/docs/api/java/lang/instrument/
 interface and enables tracing of many popular libraries and frameworks without
 modification of the target application's source code.
 
-Our Java agent uses the Jaeger tracer, which is configured by environment
-variables [as described in their
-docs](https://github.com/jaegertracing/jaeger-client-java/tree/master/jaeger-core#configuration-via-environment).
-Here are a set of variables that you should set in the environment of the Java
-application:
-
+Here are some environment variables you might need to set to configure the Java
+agent:
 ```
-# Change this to http://localhost:9080/v1/trace if running the Smart Agent on
-# the same host
-export JAEGER_ENDPOINT=https://ingest.signalfx.com/v1/trace
+$ # This is the default endpoint url
+$ export SIGNALFX_ENDPOINT_URL=http://localhost:9080/v1/trace
 
-export JAEGER_USER=auth
-
-# Replace this with your org's access token
-export JAEGER_PASSWORD=MY_ACCESS_TOKEN
-
-# Replace this with your application's common name
-export JAEGER_SERVICE_NAME=MY_SERVICE_NAME
+$ # Replace this with your application's common name
+$ export SIGNALFX_SERVICE_NAME=unnamed-java-app
 ```
 
 To obtain the latest Java agent, download it to your host's filesystem:
