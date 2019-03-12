@@ -1,6 +1,6 @@
 # OpenTracing and Jaeger in AWS Lambda Python Runtime
 
-This is an example of a simple, traced Lambda function using the Jaeger Python tracer with SignalFx.
+This is an example of a simple, traced Lambda function using the SignalFx Lambda Wrapper and Jaeger Python tracer with SignalFx.
 See [example.py](./example.py) for the example code.
 
 ## Building and creating a Deployment Package
@@ -24,8 +24,10 @@ $ zip -r my_traced_python_lambda.zip *
 
 The resulting `my_traced_python_lambda.zip` can be uploaded to S3 or in your browser via the AWS Console
 during function creation. Register your handler as `example.request_handler` and don't forget to set the
-`SIGNALFX_INGEST_URL` environment variable to point to your Gateway.  You should be able test the application
-with the following test event:
+`SIGNALFX_ENDPOINT_URL` environment variable to point to your Gateway. Set
+`SIGNALFX_SERVICE_NAME` to `signalfx-lambda-python-example` or something else
+descriptive. You should be able test the application with the following test
+event:
 
 ```
 {

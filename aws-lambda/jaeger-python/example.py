@@ -17,7 +17,9 @@ import os
 import time
 
 from jaeger_client import Config
+import opentracing
 from opentracing.ext import tags
+import signalfx_lambda
 
 
 # Roulette address/position maps, helpful for "00"
@@ -43,7 +45,7 @@ class RoulettePlayer(object):
         # idempotent Tracer registration and access per AWS Lambda best practices:
         # https://docs.aws.amazon.com/lambda/latest/dg/best-practices.html#function-code
         # https://docs.aws.amazon.com/lambda/latest/dg/running-lambda-code.html
-        self.tracer = self.create_tracer()  # Create a tracer for the lifetime of the request
+        self.tracer = opentracing.tracer  # get the OpenTracing global tracer that was set by the lambda wrapper
 
     def handle_request(self, event, context):
         # Create the root span, specifying a span.kind tag in the
@@ -84,40 +86,7 @@ class RoulettePlayer(object):
             span.set_tag(tags.HTTP_STATUS_CODE, status_code)
             response = dict(statusCode=status_code, body=json.dumps(response_body))
 
-        # Known issue with Jaeger's Python client
-        # https://github.com/jaegertracing/jaeger-client-python/issues/50
-        self.wait_for_flushed_spans()
-
         return response
-
-    def create_tracer(self):
-        access_token = os.getenv('SIGNALFX_ACCESS_TOKEN')
-        ingest_url = os.getenv('SIGNALFX_INGEST_URL')
-
-        if ingest_url is None:
-            if access_token is None:
-                raise Exception("You must set the SIGNALFX_ACCESS_TOKEN Lambda environment variable to be your token "
-                                "if you don't set SIGNALFX_INGEST_URL to point to your Gateway.")
-            ingest_url = 'https://ingest.signalfx.com/v1/trace'
-
-        # Establish a jaeger-client-python configuration to report spans to SignalFx
-        config = {'sampler': {'type': 'const',
-                              'param': 1},
-                  'jaeger_endpoint': ingest_url,
-                  'reporter_flush_interval': .01,
-                  'logging': False}  # Report helpful span submission statements and errors to log handler
-
-        if access_token is not None:
-            # Required static username for Access Token authentication via Basic Access
-            config.update(dict(jaeger_user='auth', jaeger_password=access_token))
-
-        config = Config(
-            config=config,
-            service_name='signalfx-lambda-python-example',
-            validate=True,  # Have jaeger_client fail quickly on invalid configuration
-        )
-
-        return config.new_tracer()
 
     def get_choice(self, event, span):
         """
@@ -165,17 +134,10 @@ class RoulettePlayer(object):
         span.set_tag('position', position)
         return position
 
-    def wait_for_flushed_spans(self):
-        # Because the Jaeger client's span reporting is asynchronous via tornado, it's not possible to reliably
-        # ensure all spans have been flushed without adding a wait before using an implementation-specific
-        # best attempt.
-        time.sleep(.1)
-        while self.tracer.reporter.queue.qsize() or self.tracer.reporter._sender.span_count:
-            time.sleep(.01)
-        self.tracer.close()
 
-
-# Our registered Lambda handler entrypoint (example.request_handler)
+# Our registered Lambda handler entrypoint (example.request_handler) with the
+# SignalFx Lambda wrapper
+@signalfx_lambda.is_traced
 def request_handler(event, context):
     player = RoulettePlayer()
     return player.handle_request(event, context)
