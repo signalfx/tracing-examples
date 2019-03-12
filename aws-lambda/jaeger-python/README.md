@@ -24,7 +24,7 @@ $ zip -r my_traced_python_lambda.zip *
 
 The resulting `my_traced_python_lambda.zip` can be uploaded to S3 or in your browser via the AWS Console
 during function creation. Register your handler as `example.request_handler` and don't forget to set the
-`SIGNALFX_TRACING_URL` environment variable to point to your Gateway. Set
+`SIGNALFX_ENDPOINT_URL` environment variable to point to your Gateway. Set
 `SIGNALFX_SERVICE_NAME` to `signalfx-lambda-python-example` or something else
 descriptive. You should be able test the application with the following test
 event:
