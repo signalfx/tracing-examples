@@ -1,8 +1,9 @@
 # SignalFx Tracing Library for JavaScript
 
-This repository contains an example application that utilizes auto-instrumentation 
-for a supported web framework and the Node.js http client.  This is made possible
-via the [SignalFx Tracing Library for JavaScript](https://github.com/signalfx/signalfx-nodejs-tracing).
+This repository contains example applications that utilize auto-instrumentation 
+for supported web frameworks and the Node.js http(s) clients.  This is
+made possible via the
+[SignalFx Tracing Library for JavaScript](https://github.com/signalfx/signalfx-nodejs-tracing).
 
 For more detailed information about the functionality of the provided tracer and
 instrumentation configuration options, please see the
@@ -11,4 +12,5 @@ instrumentation configuration options, please see the
 
 ## Libraries and Framework Examples
 
-### [Express](./express)
+- [Express](./express)
+- [MongoDB](./mongo)
