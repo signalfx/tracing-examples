@@ -9,3 +9,5 @@ environment of choice than general documentation can sometimes be.
 ## SignalFx Tracing Supported Languages and Platforms
 
 - [Node.js](./signalfx-nodejs-tracing)
+- [Python](./signalfx-python-tracing)
+
