@@ -44,7 +44,7 @@ In one terminal:
 
 From a different terminal, you may run the client commands.
 ```bash
-  $ # You can also use ` ./client.js help` directly
+  $ # You may also use ` ./client.js help` directly
   $ npm run client help
   Usage: deedScheduler <command> [options]
 
@@ -73,7 +73,7 @@ to some basic REST api endpoints implemented via [Koa](https://koajs.com).
 
 Example usage:
 ```bash
-  $ # You can also use ` ./client.js add coding 'Create a TODO app' Sunday` directly
+  $ # You may also use ` ./client.js add coding 'Create a TODO app' Sunday` directly
   $ npm run client add coding 'Create a TODO app' Sunday
 
   ++++++++++++++++++++++++++++++++++

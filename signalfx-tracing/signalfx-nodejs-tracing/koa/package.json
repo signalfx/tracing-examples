@@ -1,0 +1,26 @@
+{
+  "name": "wordExplorer",
+  "version": "1.0.0",
+  "description": "A SignalFx Koa instrumentation example",
+  "main": "server.js",
+  "scripts": {
+    "start": "SIGNALFX_TRACING_DEBUG=true SIGNALFX_SERVICE_NAME=wordExplorerServer node ./server.js",
+    "client": "SIGNALFX_TRACING_DEBUG=true SIGNALFX_SERVICE_NAME=wordExplorerClient node ./client.js",
+    "mongo": "docker run -d --name mongo_server -p 27017:27017 -v ~/data:/data/db mongo",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "SignalFx, Inc.",
+  "license": "ISC",
+  "dependencies": {
+    "koa": "^2.7.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-logger": "^3.2.0",
+    "koa-router": "^7.4.0",
+    "mongoose": "^5.4.22",
+    "node-wordnet": "^0.1.12",
+    "signalfx-tracing": "latest",
+    "wndb-with-exceptions": "^3.0.2",
+    "yargs": "^13.2.2"
+  }
+}

@@ -53,7 +53,7 @@ yargs
               .catch(console.error);
         })
 
-    .command('update <deed> <day> <status>', 'Update status of deed (completed - 1, uncompleted - 0).',
+    .command('update <deed> <day> <status>', 'Update status of deed (uncompleted - 0, completed - 1).',
         {}, (argv) => {
           client.updateDeed(argv.deed, argv.day, argv.status)
               .then(printResponse)
