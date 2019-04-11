@@ -1,0 +1,12 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: gateway-ext-svc
+  namespace: ecommerce-example
+spec:
+  hosts:
+  - gateway.default.svc.cluster.local
+  ports:
+  - number: 8080
+    name: http
+    protocol: HTTP

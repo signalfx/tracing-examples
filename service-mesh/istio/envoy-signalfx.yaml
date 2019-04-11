@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: istio-signalfx-bootstrap-config
+  namespace: ecommerce-example
+data:
+  custom_bootstrap.json: |
+    {
+      "tracing": {
+        "http": {
+          "name": "envoy.zipkin",
+          "config": {
+            "collector_cluster": "zipkin",
+            "collector_endpoint": "/v1/trace",
+            "trace_id_128bit": "false"
+          }
+        }
+      }
+    }
