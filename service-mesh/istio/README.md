@@ -87,3 +87,9 @@ For the purposes of this example, the Envoy sidecars of the catalog app have
 been given service names `catalog-v1` and `catalog-v2` to differentiate them
 from the underlying service. The Envoy traces will show the routing happening
 between the two hosts in the catalog virtual service.
+
+Deleting the `catalog` virtual service will set it back to the default
+round-robin traffic routing.
+
+    $ kubectl delete -n ecommerce-example catalog
+
