@@ -1,7 +1,7 @@
 # E-Commerce with Istio
 
-This demo assumes that the necessary CRDs are already installed Istio, has been
-set up on a suitable cluster and that `kubectl` has been set up to point to that
+This demo assumes that the necessary CRDs are already installed, Istio has been
+set up on a suitable cluster, and `kubectl` has been set up to point to that
 cluster.
 
 For an easy set of policies to start with, use the `istio-demo.yaml` provided
@@ -11,7 +11,7 @@ Build the images used for this example by following the instructions at [../app-
 
 ## Setup
 
-In the mesh configmap, enable tracing and set the the zipkin address to point to the ingest
+In the mesh ConfigMap, enable tracing and set the the zipkin address to point to the ingest
 endpoint desired.
 
 ```
@@ -50,11 +50,15 @@ $ kubectl create configmap --namespace ecommerce-example signalfx-ingest --from-
 
 If sending traces through an Agent on the host, put `POD_HOST_IP` as the host
 instead, when creating the config. The app will replace this with the host IP from
-the K8s downward API.
+the Kubernetes Downward API.
 
     $ kubectl create configmap --namespace ecommerce-example signalfx-ingest --from-literal signalfx-ingest-url=http://POD_HOST_IP:9080
 
-Apply a bootstrap configmap to override some of the default tracing options in
+For Envoy sidecar traces to be sent to the Agent as well, edit the deployment
+file `ecommerce-demo.yaml` and uncomment the `agentEndpoint` label in each pod
+spec.
+
+Apply a bootstrap ConfigMap to override some of the default tracing options in
 Istio's Envoy config:
 
     $ kubectl apply -f envoy-signalfx.yaml
@@ -65,11 +69,12 @@ Apply the destination rules for the apps:
 
 A modified sidecar injection config is provided to set the Envoy service cluster name
 to the app name. This reduces clutter on the service map by only displaying the
-Envoy services we want to stand out.
+Envoy services we want to stand out. The config also contains some logic for
+disabling tracing and selecting the Envoy trace endpoint.
 
     $ kubectl apply -f istio-demo-injector-config.yaml
 
-Optionally, install the SignalFx Istio Mixer adapter from [here](https://github.com/signalfx/signalfx-istio-adapter).
+Install the [SignalFx Istio Mixer adapter](https://github.com/signalfx/signalfx-istio-adapter).
 
 ## Run the example
 
@@ -93,3 +98,7 @@ round-robin traffic routing.
 
     $ kubectl delete -n ecommerce-example catalog
 
+Envoy traces for each service can be selectively disabled by uncommenting the
+`trace` label in each pod spec. Be sure to also remove the annotation for the
+custom Envoy bootstrap if doing so. To demonstrate this, the `api` service
+deployment has its Envoy tracing disabled.

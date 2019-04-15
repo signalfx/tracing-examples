@@ -2,7 +2,6 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: istio-signalfx-bootstrap-config
-  namespace: ecommerce-example
 data:
   custom_bootstrap.json: |
     {

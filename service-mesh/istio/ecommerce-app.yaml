@@ -28,9 +28,11 @@ spec:
   replicas: 1
   template:
     metadata:
-      annotations:
-        sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      # annotations:
+      #   sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
       labels:
+        trace: disabled
+        # agentEndpoint: "true"
         app: api
         version: v1
     spec:
@@ -88,6 +90,8 @@ spec:
       annotations:
         sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
       labels:
+        # trace: disabled
+        # agentEndpoint: "true"
         app: cart
         version: v1
     spec:
@@ -143,6 +147,8 @@ spec:
       annotations:
         sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
       labels:
+        # trace: disabled
+        # agentEndpoint: "true"
         app: checkout
         version: v1
     spec:
@@ -200,6 +206,8 @@ spec:
       annotations:
         sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
       labels:
+        # trace: disabled
+        # agentEndpoint: "true"
         app: payment
         version: v1
     spec:
@@ -255,6 +263,8 @@ spec:
       annotations:
         sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
       labels:
+        # trace: disabled
+        # agentEndpoint: "true"
         app: refreshdb
         version: v1
     spec:
@@ -310,6 +320,8 @@ spec:
       annotations:
         sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
       labels:
+        # trace: disabled
+        # agentEndpoint: "true"
         service: catalog
         app: catalog-v1
         version: v1
@@ -352,6 +364,8 @@ spec:
       annotations:
         sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
       labels:
+        # trace: disabled
+        # agentEndpoint: "true"
         service: catalog
         app: catalog-v2
         version: v2

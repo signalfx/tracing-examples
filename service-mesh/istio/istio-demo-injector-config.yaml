@@ -81,8 +81,14 @@ data:
         - [[ formatDuration .ProxyConfig.ParentShutdownDuration ]]
         - --discoveryAddress
         - [[ annotation .ObjectMeta `sidecar.istio.io/discoveryAddress` .ProxyConfig.DiscoveryAddress ]]
+        [[ if ne (index .ObjectMeta.Labels "trace") "disabled" -]]
         - --zipkinAddress
+        [[ if ne (index .ObjectMeta.Labels "agentEndpoint") "true" -]]
         - [[ .ProxyConfig.GetTracing.GetZipkin.GetAddress ]]
+        [[ else -]]
+        - $(POD_HOST_IP):9080
+        [[ end -]]
+        [[ end -]]
         - --connectTimeout
         - [[ formatDuration .ProxyConfig.ConnectTimeout ]]
         - --proxyAdminPort
@@ -100,6 +106,10 @@ data:
         - "[[ annotation .ObjectMeta `readiness.status.sidecar.istio.io/applicationPorts` (applicationPorts .Spec.Containers) ]]"
       [[- end ]]
         env:
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
         - name: POD_NAME
           valueFrom:
             fieldRef:
