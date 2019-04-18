@@ -43,6 +43,8 @@ spec:
         ports:
         - containerPort: 5000
         env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "api"
         - name: CART_SERVICE
           value: "cart:5001"
         - name: CATALOG_SERVICE
@@ -102,6 +104,8 @@ spec:
         ports:
         - containerPort: 5001
         env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "cart"
         - name: CHECKOUT_SERVICE
           value: checkout:5002
         - name: SIGNALFX_ENDPOINT_URL
@@ -159,6 +163,8 @@ spec:
         ports:
         - containerPort: 5002
         env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "checkout"
         - name: CATALOG_SERVICE
           value: catalog:5004
         - name: PAYMENT_SERVICE
@@ -218,8 +224,8 @@ spec:
         ports:
         - containerPort: 5003
         env:
-        - name: SERVICE_NAME
-          value: payment
+        - name: SIGNALFX_SERVICE_NAME
+          value: "payment"
         - name: SIGNALFX_ENDPOINT_URL
           valueFrom:
             configMapKeyRef:
@@ -275,8 +281,8 @@ spec:
         ports:
         - containerPort: 5008
         env:
-        - name: SERVICE_NAME
-          value: refresh
+        - name: SIGNALFX_SERVICE_NAME
+          value: "refresh"
         - name: SIGNALFX_ENDPOINT_URL
           valueFrom:
             configMapKeyRef:
@@ -333,8 +339,8 @@ spec:
         ports:
         - containerPort: 5004
         env:
-        - name: SERVICE_NAME
-          value: catalog
+        - name: SIGNALFX_SERVICE_NAME
+          value: "catalog"
         - name: REFRESHDB_SERVICE
           value: refreshdb:5008
         - name: CATALOG_SERVICE
@@ -377,8 +383,8 @@ spec:
         ports:
         - containerPort: 5004
         env:
-        - name: SERVICE_NAME
-          value: catalog
+        - name: SIGNALFX_SERVICE_NAME
+          value: "catalog"
         - name: REFRESHDB_SERVICE
           value: refreshdb:5008
         - name: CATALOG_SERVICE
