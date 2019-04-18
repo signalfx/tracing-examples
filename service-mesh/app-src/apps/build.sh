@@ -2,8 +2,6 @@
 
 if [ -z $1 ]; then
     docker_repo=$DOCKER_REPO
-else
-    docker_repo=$1
 fi
 
 apps=(api cart catalog checkout payment refresh)
