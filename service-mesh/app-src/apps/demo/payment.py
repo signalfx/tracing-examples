@@ -11,7 +11,7 @@ from . import utils
 import uuid
 
 
-tracer = utils.get_tracer(os.getenv('SERVICE_NAME', 'payment'))
+tracer = utils.get_tracer()
 auto_instrument(tracer)
 app = Flask(__name__)
 

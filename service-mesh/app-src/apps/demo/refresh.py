@@ -13,7 +13,7 @@ from . import utils
 import uuid
 
 
-tracer = utils.get_tracer(os.getenv('SERVICE_NAME', 'refreshDB'))
+tracer = utils.get_tracer()
 requests_config.propagate = True
 auto_instrument(tracer)
 app = Flask(__name__)

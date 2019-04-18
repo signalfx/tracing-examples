@@ -6,10 +6,6 @@ import os
 from signalfx_tracing.utils import create_tracer
 
 
-def _get_token():
-    return os.getenv('SIGNALFX_ACCESS_TOKEN', "")
-
-
 def get_ingest():
     endpoint = os.getenv('SIGNALFX_ENDPOINT_URL', 'https://ingest.signalfx.com')
     host_ip = os.getenv('POD_HOST_IP')
@@ -22,15 +18,10 @@ def get_ingest():
     return endpoint
 
 
-def get_tracer(service):
+def get_tracer():
     endpoint = get_ingest()
     print(endpoint)
-    return create_tracer(_get_token(),
-        config={'sampler': {'type': 'const', 'param': 1},
-                'logging': True,
-                'propagation': 'b3',
-                'jaeger_endpoint': endpoint + '/v1/trace'},
-        service_name=service)
+    return create_tracer(config={'jaeger_endpoint': endpoint + '/v1/trace'})
 
 
 def validate_and_set_tags(data, *args):

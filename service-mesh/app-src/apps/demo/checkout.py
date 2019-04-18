@@ -10,7 +10,7 @@ from signalfx_tracing.libraries import requests_config
 from . import utils
 
 
-tracer = utils.get_tracer(os.getenv('SERVICE_NAME', 'checkout'))
+tracer = utils.get_tracer()
 requests_config.propagate = True
 auto_instrument(tracer)
 app = Flask(__name__)
