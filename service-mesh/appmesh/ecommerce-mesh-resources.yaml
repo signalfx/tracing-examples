@@ -1,0 +1,383 @@
+---
+Parameters:
+  EnvironmentName:
+    Type: String
+
+  ServicesDomain:
+    Type: String
+
+  AppMeshName:
+    Type: String
+
+  GatewayURL:
+    Type: String
+    Default: ""
+
+  GatewayPort:
+    Type: Number
+    Default: 80
+
+Resources:
+
+#####################
+### Virtual Nodes ###
+#####################
+
+  ApiVirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: api-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5000
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Sub "api.${ServicesDomain}"
+        Backends:
+          - VirtualService:
+              VirtualServiceName: !Sub "cart.${ServicesDomain}"
+          - VirtualService:
+              VirtualServiceName: !Sub "catalog.${ServicesDomain}"
+          - VirtualService:
+              VirtualServiceName: !Ref GatewayURL
+
+  CartVirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: cart-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5001
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Sub "cart.${ServicesDomain}"
+        Backends:
+          - VirtualService:
+              VirtualServiceName: !Sub "checkout.${ServicesDomain}"
+          - VirtualService:
+              VirtualServiceName: !Ref GatewayURL
+
+  CheckoutVirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: checkout-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5002
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Sub "checkout.${ServicesDomain}"
+        Backends:
+          - VirtualService:
+              VirtualServiceName: !Sub "catalog.${ServicesDomain}"
+          - VirtualService:
+              VirtualServiceName: !Sub "payment.${ServicesDomain}"
+          - VirtualService:
+              VirtualServiceName: !Ref GatewayURL
+
+  CatalogVirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: catalog-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5004
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Sub "catalog.${ServicesDomain}"
+        Backends:
+          - VirtualService:
+              VirtualServiceName: !Ref GatewayURL
+
+  CatalogV2VirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: catalog-v2-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5004
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Sub "catalog-v2.${ServicesDomain}"
+        Backends:
+          - VirtualService:
+              VirtualServiceName: !Ref GatewayURL
+
+  PaymentVirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: payment-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5003
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Sub "payment.${ServicesDomain}"
+        Backends:
+          - VirtualService:
+              VirtualServiceName: !Ref GatewayURL
+
+  GatewayVirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: gateway-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: !Ref GatewayPort
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Ref GatewayURL
+
+#######################
+### Virtual Routers ###
+#######################
+
+  ApiVirtualRouter:
+    Type: AWS::AppMesh::VirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: api-vr
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5000
+              Protocol: http
+
+  CartVirtualRouter:
+    Type: AWS::AppMesh::VirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: cart-vr
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5001
+              Protocol: http
+
+  CheckoutVirtualRouter:
+    Type: AWS::AppMesh::VirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: checkout-vr
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5002
+              Protocol: http
+
+  CatalogVirtualRouter:
+    Type: AWS::AppMesh::VirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: catalog-vr
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5004
+              Protocol: http
+
+  PaymentVirtualRouter:
+    Type: AWS::AppMesh::VirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: payment-vr
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5003
+              Protocol: http
+
+##############
+### Routes ###
+##############
+
+  ApiRoute:
+    Type: AWS::AppMesh::Route
+    DependsOn:
+      - ApiVirtualRouter
+      - ApiVirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: api-vr
+      RouteName: api-route
+      Spec:
+        HttpRoute:
+          Action:
+            WeightedTargets:
+              - VirtualNode: api-vn
+                Weight: 1
+          Match:
+            Prefix: "/"
+
+  CartRoute:
+    Type: AWS::AppMesh::Route
+    DependsOn:
+      - CartVirtualRouter
+      - CartVirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: cart-vr
+      RouteName: cart-route
+      Spec:
+        HttpRoute:
+          Action:
+            WeightedTargets:
+              - VirtualNode: cart-vn
+                Weight: 1
+          Match:
+            Prefix: "/"
+
+  CheckoutRoute:
+    Type: AWS::AppMesh::Route
+    DependsOn:
+      - CheckoutVirtualRouter
+      - CheckoutVirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: checkout-vr
+      RouteName: checkout-route
+      Spec:
+        HttpRoute:
+          Action:
+            WeightedTargets:
+              - VirtualNode: checkout-vn
+                Weight: 1
+          Match:
+            Prefix: "/"
+
+  CatalogRoute:
+    Type: AWS::AppMesh::Route
+    DependsOn:
+      - CatalogVirtualRouter
+      - CatalogVirtualNode
+      - CatalogV2VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: catalog-vr
+      RouteName: catalog-route
+      Spec:
+        HttpRoute:
+          Action:
+            WeightedTargets:
+              - VirtualNode: catalog-vn
+                Weight: 100
+              # - VirtualNode: catalog-v2-vn
+              #   Weight: 10
+          Match:
+            Prefix: "/"
+
+  PaymentRoute:
+    Type: AWS::AppMesh::Route
+    DependsOn:
+      - PaymentVirtualRouter
+      - PaymentVirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: payment-vr
+      RouteName: payment-route
+      Spec:
+        HttpRoute:
+          Action:
+            WeightedTargets:
+              - VirtualNode: payment-vn
+                Weight: 1
+          Match:
+            Prefix: "/"
+
+#######################
+### Virtual Service ###
+#######################
+
+  ApiVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - ApiVirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualServiceName: !Sub "api.${ServicesDomain}"
+      Spec:
+        Provider:
+          VirtualRouter:
+            VirtualRouterName: api-vr
+
+  CartVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - CartVirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualServiceName: !Sub "cart.${ServicesDomain}"
+      Spec:
+        Provider:
+          VirtualRouter:
+            VirtualRouterName: cart-vr
+
+  CheckoutVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - CheckoutVirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualServiceName: !Sub "checkout.${ServicesDomain}"
+      Spec:
+        Provider:
+          VirtualRouter:
+            VirtualRouterName: checkout-vr
+
+  CatalogVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - CatalogVirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualServiceName: !Sub "catalog.${ServicesDomain}"
+      Spec:
+        Provider:
+          VirtualRouter:
+            VirtualRouterName: catalog-vr
+
+  PaymentVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - PaymentVirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualServiceName: !Sub "payment.${ServicesDomain}"
+      Spec:
+        Provider:
+          VirtualRouter:
+            VirtualRouterName: payment-vr
+
+  GatewayVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - GatewayVirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualServiceName: !Ref GatewayURL
+      Spec:
+        Provider:
+          VirtualNode:
+            VirtualNodeName: gateway-vn
+

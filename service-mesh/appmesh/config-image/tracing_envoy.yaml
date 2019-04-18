@@ -1,0 +1,17 @@
+static_resources:
+  clusters:
+  - name: zipkin
+    connect_timeout: 2s
+    type: LOGICAL_DNS
+    lb_policy: ROUND_ROBIN
+    hosts:
+    - socket_address:
+        address: SIGNALFX_ENDPOINT_URL
+        port_value: SIGNALFX_ENDPOINT_PORT
+
+tracing:
+  http:
+    name: envoy.zipkin
+    config:
+      collector_cluster: zipkin
+      collector_endpoint: "/v1/trace"
