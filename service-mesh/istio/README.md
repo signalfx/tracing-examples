@@ -1,5 +1,10 @@
 # E-Commerce with Istio
 
+Istio is a service mesh that helps with managing distributed microservices. It
+can be easily deployed by add a sidecar to your services, and provides separate
+control plane and data plane components. Setup instructions for a variety of
+deployment models are available [here](https://istio.io/docs/setup/).
+
 This demo assumes that the necessary CRDs are already installed, Istio has been
 set up on a suitable cluster, and `kubectl` has been set up to point to that
 cluster.
@@ -8,6 +13,9 @@ For an easy set of policies to start with, use the `istio-demo.yaml` provided
 with the Istio release.
 
 Build the images used for this example by following the instructions at [../app-src](../app-src)
+
+For more information about the Istio concepts used in this example, please read
+the [Istio documentation](https://istio.io/docs/concepts/).
 
 ## Setup
 
