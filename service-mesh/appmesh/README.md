@@ -1,5 +1,9 @@
 # E-Commerce on AWS App Mesh
 
+App Mesh is a new service mesh offering from AWS. They provide a managed control
+plane so that users are only required to deploy a simple data plane with Envoy.
+A brief introduction to the core ideas can be read in their [documentation](https://docs.aws.amazon.com/app-mesh/latest/userguide/what-is-app-mesh.html).
+
 The deployment scaffolding of this example has been adopted, in large part, from
 the [AWS App Mesh Examples](https://github.com/aws/aws-app-mesh-examples).
 
