@@ -1,9 +1,10 @@
 #!/bin/bash
 
-if [ -z $1 ]; then
-    docker_repo=$DOCKER_REPO
+if [ -z $DOCKER_REPO ]; then
+    echo "Please set the environment variable DOCKER_REPO."
+    exit 1
 fi
 
 docker build -t ecommerce-requestgen:latest .
-docker tag ecommerce-requestgen:latest ${docker_repo}:requestgen
-docker push ${docker_repo}:requestgen
+docker tag ecommerce-requestgen:latest ${DOCKER_REPO}:requestgen
+docker push ${DOCKER_REPO}:requestgen

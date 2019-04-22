@@ -1,7 +1,8 @@
 #!/bin/bash
 
-if [ -z $1 ]; then
-    docker_repo=$DOCKER_REPO
+if [ -z $DOCKER_REPO ]; then
+    echo "Please set the environment variable DOCKER_REPO."
+    exit 1
 fi
 
 apps=(api cart catalog checkout payment refresh)
@@ -11,7 +12,7 @@ do
    :
    docker build -t "ecommerce-${app}" --build-arg APP=${app} .
 
-   docker tag ecommerce-${app}:latest ${docker_repo}:${app}
-   docker push ${docker_repo}:${app}
+   docker tag ecommerce-${app}:latest ${DOCKER_REPO}:${app}
+   docker push ${DOCKER_REPO}:${app}
 done
 
