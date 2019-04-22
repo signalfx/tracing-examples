@@ -16,14 +16,6 @@ auto_instrument(tracer)
 app = Flask(__name__)
 
 
-@app.after_request
-def inject_trace_id(response):
-    scope = tracer.scope_manager.active
-    traceId = '{0:x}'.format(scope.span.context.trace_id)
-    response.headers['X-SF-TraceId'] = traceId
-    return response
-
-
 @app.route("/checkout", methods=["POST"])
 def checkout():
     data = request.get_json()
