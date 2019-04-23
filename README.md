@@ -107,6 +107,8 @@ language/platform.
     with Istio tracing using the SignalFx adapter and Envoy tracing.
 - [Envoy](./envoy): the Envoy proxy can be configured to report trace spans to
   SignalFx.
+- [AWS App Mesh](./service-mesh/appmesh): An example E-Commerce application with
+  deployment and configuration files for App Mesh on ECS.
 
 ### AWS Lambda Functions
 

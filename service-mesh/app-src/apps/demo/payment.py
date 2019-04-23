@@ -29,19 +29,6 @@ def process():
         processor = 'PayPal'
         s.span.set_tag('processor', processor)
         s.span.set_tag('transactionId', transactionId)
-        s.span.set_tag('error', 'true')
-
-        # Fake API request to a payment service
-        payment_api_tags={
-                'span.kind': 'CLIENT',
-                'http.method': 'POST',
-                'http.url': 'https://api.paypal.com/payment',
-                'http.status_code': 504,
-                'error': 'true',
-                'message': 'Request timeout'
-                }
-        with tracer.start_active_span('http.post https://api.paypal.com/payment', tags=payment_api_tags, finish_on_close=True) as child_scope:
-            time.sleep(int(os.getenv('DELAY', 0)))
 
     return jsonify({
         'transactionId': transactionId,

@@ -8,7 +8,7 @@ from signalfx_tracing.utils import create_tracer
 
 def get_ingest():
     endpoint = os.getenv('SIGNALFX_ENDPOINT_URL', 'https://ingest.signalfx.com')
-    host_ip = os.getenv('POD_HOST_IP')
+    host_ip = os.getenv('POD_HOST_IP', '0.0.0.0')
 
     endpoint = endpoint.replace('POD_HOST_IP', host_ip)
 
