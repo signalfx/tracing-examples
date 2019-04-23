@@ -99,6 +99,10 @@ Resources:
             Hostname: !Sub "catalog.${ServicesDomain}"
         Backends:
           - VirtualService:
+              VirtualServiceName: !Sub "catalog.${ServicesDomain}"
+          - VirtualService:
+              VirtualServiceName: !Sub "refreshdb.${ServicesDomain}"
+          - VirtualService:
               VirtualServiceName: !Ref GatewayURL
 
   CatalogV2VirtualNode:
@@ -116,6 +120,10 @@ Resources:
             Hostname: !Sub "catalog-v2.${ServicesDomain}"
         Backends:
           - VirtualService:
+              VirtualServiceName: !Sub "catalog.${ServicesDomain}"
+          - VirtualService:
+              VirtualServiceName: !Sub "refreshdb.${ServicesDomain}"
+          - VirtualService:
               VirtualServiceName: !Ref GatewayURL
 
   PaymentVirtualNode:
@@ -131,6 +139,23 @@ Resources:
         ServiceDiscovery:
           DNS:
             Hostname: !Sub "payment.${ServicesDomain}"
+        Backends:
+          - VirtualService:
+              VirtualServiceName: !Ref GatewayURL
+
+  RefreshDBVirtualNode:
+    Type: AWS::AppMesh::VirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualNodeName: refreshdb-vn
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5008
+              Protocol: http
+        ServiceDiscovery:
+          DNS:
+            Hostname: !Sub "refreshdb.${ServicesDomain}"
         Backends:
           - VirtualService:
               VirtualServiceName: !Ref GatewayURL
@@ -208,6 +233,17 @@ Resources:
               Port: 5003
               Protocol: http
 
+  RefreshDBVirtualRouter:
+    Type: AWS::AppMesh::VirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: refreshdb-vr
+      Spec:
+        Listeners:
+          - PortMapping:
+              Port: 5008
+              Protocol: http
+
 ##############
 ### Routes ###
 ##############
@@ -281,9 +317,9 @@ Resources:
           Action:
             WeightedTargets:
               - VirtualNode: catalog-vn
-                Weight: 100
-              # - VirtualNode: catalog-v2-vn
-              #   Weight: 10
+                Weight: 10
+              - VirtualNode: catalog-v2-vn
+                Weight: 10
           Match:
             Prefix: "/"
 
@@ -301,6 +337,24 @@ Resources:
           Action:
             WeightedTargets:
               - VirtualNode: payment-vn
+                Weight: 1
+          Match:
+            Prefix: "/"
+
+  RefreshDBRoute:
+    Type: AWS::AppMesh::Route
+    DependsOn:
+      - RefreshDBVirtualRouter
+      - RefreshDBVirtualNode
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualRouterName: refreshdb-vr
+      RouteName: refreshdb-route
+      Spec:
+        HttpRoute:
+          Action:
+            WeightedTargets:
+              - VirtualNode: refreshdb-vn
                 Weight: 1
           Match:
             Prefix: "/"
@@ -368,6 +422,18 @@ Resources:
         Provider:
           VirtualRouter:
             VirtualRouterName: payment-vr
+
+  RefreshDBVirtualService:
+    Type: AWS::AppMesh::VirtualService
+    DependsOn:
+      - RefreshDBVirtualRouter
+    Properties:
+      MeshName: !Ref AppMeshName
+      VirtualServiceName: !Sub "refreshdb.${ServicesDomain}"
+      Spec:
+        Provider:
+          VirtualRouter:
+            VirtualRouterName: refreshdb-vr
 
   GatewayVirtualService:
     Type: AWS::AppMesh::VirtualService

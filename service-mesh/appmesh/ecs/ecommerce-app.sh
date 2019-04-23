@@ -21,4 +21,5 @@ aws --profile "${AWS_PROFILE}" --region "${AWS_DEFAULT_REGION}" \
     CheckoutTaskDefinition="${checkout_task_def_arn}" \
     CatalogTaskDefinition="${catalog_task_def_arn}" \
     CatalogV2TaskDefinition="${catalog_v2_task_def_arn}" \
-    PaymentTaskDefinition="${payment_task_def_arn}"
+    PaymentTaskDefinition="${payment_task_def_arn}" \
+    RefreshDBTaskDefinition="${refreshdb_task_def_arn}"

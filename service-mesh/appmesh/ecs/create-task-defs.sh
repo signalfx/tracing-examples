@@ -214,3 +214,34 @@ task_def=$(aws --profile "${AWS_PROFILE}" --region "${AWS_DEFAULT_REGION}" \
 payment_task_def_arn=($(echo $task_def \
     | jq -r '.taskDefinition | .taskDefinitionArn'))
 
+# RefreshDB Task Definition
+envoy_container_json=$(jq -n \
+    --arg ENVOY_SERVICE_NAME "refreshdb" \
+    --arg ENVOY_IMAGE $ENVOY_IMAGE \
+    --arg VIRTUAL_NODE "mesh/$MESH_NAME/virtualNode/refreshdb-vn" \
+    --arg APPMESH_XDS_ENDPOINT "${APPMESH_XDS_ENDPOINT}" \
+    --arg ENVOY_LOG_LEVEL $envoy_log_level \
+    --arg ECS_SERVICE_LOG_GROUP $ecs_service_log_group \
+    --arg AWS_REGION $AWS_DEFAULT_REGION \
+    --arg AWS_LOG_STREAM_PREFIX_ENVOY "refreshdb-envoy" \
+    -f "${DIR}/envoy-container.json")
+task_def_json=$(jq -n \
+    --arg CONFIG_IMAGE "${DOCKER_REPO}:config" \
+    --arg NAME "$ENVIRONMENT_NAME-RefreshDB" \
+    --arg APP_IMAGE $DOCKER_REPO:refresh \
+    --arg APP_PORT 5008 \
+    --arg CONFIG_VOLUME "${DOCKER_REPO}:config" \
+    --arg SIGNALFX_ENDPOINT_URL "${SIGNALFX_ENDPOINT_URL}" \
+    --arg AWS_REGION $AWS_DEFAULT_REGION \
+    --arg ECS_SERVICE_LOG_GROUP $ecs_service_log_group \
+    --arg AWS_LOG_STREAM_PREFIX_APP "refreshdb-app" \
+    --arg TASK_ROLE_ARN $task_role_arn \
+    --arg EXECUTION_ROLE_ARN $execution_role_arn \
+    --argjson ENVOY_CONTAINER_JSON "${envoy_container_json}" \
+    -f "${DIR}/refreshdb-task.json")
+task_def=$(aws --profile "${AWS_PROFILE}" --region "${AWS_DEFAULT_REGION}" \
+    ecs register-task-definition \
+    --cli-input-json "$task_def_json")
+refreshdb_task_def_arn=($(echo $task_def \
+    | jq -r '.taskDefinition | .taskDefinitionArn'))
+
