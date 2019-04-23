@@ -1,0 +1,426 @@
+##################################################################################################
+# Api service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  namespace: ecommerce-example
+  labels:
+    app: api
+    service: api
+spec:
+  ports:
+  - port: 5000
+    name: http
+  selector:
+    app: api
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: api
+  namespace: ecommerce-example
+  labels:
+    app: api
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      # annotations:
+      #   sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      labels:
+        trace: disabled
+        # agentEndpoint: "true"
+        app: api
+        version: v1
+    spec:
+      containers:
+      - name: api
+        image: DOCKER_REPO:api
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+        env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "api"
+        - name: CART_SERVICE
+          value: "cart:5001"
+        - name: CATALOG_SERVICE
+          value: "catalog:5004"
+        - name: SIGNALFX_ENDPOINT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: signalfx-ingest
+              key: signalfx-ingest-url
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+---
+##################################################################################################
+# Cart service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart
+  namespace: ecommerce-example
+  labels:
+    app: cart
+    service: cart
+spec:
+  ports:
+  - port: 5001
+    name: http
+  selector:
+    app: cart
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cart
+  namespace: ecommerce-example
+  labels:
+    app: cart
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      labels:
+        # trace: disabled
+        # agentEndpoint: "true"
+        app: cart
+        version: v1
+    spec:
+      containers:
+      - name: cart
+        image: DOCKER_REPO:cart
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5001
+        env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "cart"
+        - name: CHECKOUT_SERVICE
+          value: checkout:5002
+        - name: SIGNALFX_ENDPOINT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: signalfx-ingest
+              key: signalfx-ingest-url
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+---
+##################################################################################################
+# Checkout service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout
+  namespace: ecommerce-example
+  labels:
+    app: checkout
+    service: checkout
+spec:
+  ports:
+  - port: 5002
+    name: http
+  selector:
+    app: checkout
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: checkout
+  namespace: ecommerce-example
+  labels:
+    app: checkout
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      labels:
+        # trace: disabled
+        # agentEndpoint: "true"
+        app: checkout
+        version: v1
+    spec:
+      containers:
+      - name: checkout
+        image: DOCKER_REPO:checkout
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5002
+        env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "checkout"
+        - name: CATALOG_SERVICE
+          value: catalog:5004
+        - name: PAYMENT_SERVICE
+          value: payment:5003
+        - name: SIGNALFX_ENDPOINT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: signalfx-ingest
+              key: signalfx-ingest-url
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+---
+##################################################################################################
+# Payment service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment
+  namespace: ecommerce-example
+  labels:
+    app: payment
+    service: payment
+spec:
+  ports:
+  - port: 5003
+    name: http
+  selector:
+    app: payment
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: payment
+  namespace: ecommerce-example
+  labels:
+    app: payment
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      labels:
+        # trace: disabled
+        # agentEndpoint: "true"
+        app: payment
+        version: v1
+    spec:
+      containers:
+      - name: payment
+        image: DOCKER_REPO:payment
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5003
+        env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "payment"
+        - name: SIGNALFX_ENDPOINT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: signalfx-ingest
+              key: signalfx-ingest-url
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+---
+##################################################################################################
+# Refreshdb service
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: refreshdb
+  namespace: ecommerce-example
+  labels:
+    app: refreshdb
+    service: refreshdb
+spec:
+  ports:
+  - port: 5008
+    name: http
+  selector:
+    app: refreshdb
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: refreshdb
+  namespace: ecommerce-example
+  labels:
+    app: refreshdb
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      labels:
+        # trace: disabled
+        # agentEndpoint: "true"
+        app: refreshdb
+        version: v1
+    spec:
+      containers:
+      - name: refreshdb
+        image: DOCKER_REPO:refresh
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5008
+        env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "refresh"
+        - name: SIGNALFX_ENDPOINT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: signalfx-ingest
+              key: signalfx-ingest-url
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+---
+##################################################################################################
+# Catalog services
+##################################################################################################
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  namespace: ecommerce-example
+  labels:
+    app: catalog
+    service: catalog
+spec:
+  ports:
+  - port: 5004
+    name: http
+  selector:
+    service: catalog
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalog-v1
+  namespace: ecommerce-example
+  labels:
+    app: catalog
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      labels:
+        # trace: disabled
+        # agentEndpoint: "true"
+        service: catalog
+        app: catalog-v1
+        version: v1
+    spec:
+      containers:
+      - name: catalog
+        image: DOCKER_REPO:catalog
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5004
+        env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "catalog"
+        - name: REFRESHDB_SERVICE
+          value: refreshdb:5008
+        - name: CATALOG_SERVICE
+          value: catalog:5004
+        - name: SIGNALFX_ENDPOINT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: signalfx-ingest
+              key: signalfx-ingest-url
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: catalog-v2
+  namespace: ecommerce-example
+  labels:
+    app: catalog
+    version: v2
+spec:
+  replicas: 1
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/bootstrapOverride: "istio-signalfx-bootstrap-config"
+      labels:
+        # trace: disabled
+        # agentEndpoint: "true"
+        service: catalog
+        app: catalog-v2
+        version: v2
+    spec:
+      containers:
+      - name: catalog
+        image: DOCKER_REPO:catalog
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5004
+        env:
+        - name: SIGNALFX_SERVICE_NAME
+          value: "catalog"
+        - name: REFRESHDB_SERVICE
+          value: refreshdb:5008
+        - name: CATALOG_SERVICE
+          value: catalog:5004
+        - name: SIGNALFX_ENDPOINT_URL
+          valueFrom:
+            configMapKeyRef:
+              name: signalfx-ingest
+              key: signalfx-ingest-url
+        - name: POD_HOST_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP
+---
+### Requestgen
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  namespace: default
+  name: requestgen
+  labels:
+    app: requestgen
+    version: v1
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: requestgen
+        version: v1
+    spec:
+      containers:
+      - name: requestgen
+        image: DOCKER_REPO:requestgen
+        imagePullPolicy: Always
+        env:
+        - name: API_SERVICE
+          value: "api.ecommerce-example.svc.cluster.local:5000"
+---

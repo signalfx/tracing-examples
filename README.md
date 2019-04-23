@@ -100,7 +100,11 @@ language/platform.
 
 ### Service Meshes
 
-- [Istio](./istio): We have an out of process adapter available for Istio
+- Istio
+  - [Istio Mixer Adapter](./istio): We have an out of process adapter available for Istio.
+    This is an example configuration for that adapter.
+  - [Istio E-Commerce Application](./service-mesh/istio): An example application
+    with Istio tracing using the SignalFx adapter and Envoy tracing.
 - [Envoy](./envoy): the Envoy proxy can be configured to report trace spans to
   SignalFx.
 
