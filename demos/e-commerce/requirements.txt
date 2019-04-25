@@ -1,3 +1,0 @@
-git+ssh://git@github.com/signalfx/signalfx-python-tracing
-Flask
-requests
