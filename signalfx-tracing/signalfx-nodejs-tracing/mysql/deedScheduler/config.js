@@ -8,7 +8,6 @@ if (Number(driver) === 1) {
   mysqlLib = 'MySQL2';
 };
 
-
 module.exports = {
   mysqlLib,
   driver,

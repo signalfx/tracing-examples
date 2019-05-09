@@ -5,7 +5,6 @@
 // DeedScheduler client module.
 const tracer = require('./deedScheduler/tracer');
 
-
 // Note that importing other modules should occur after
 // init() to ensure their supported
 // dependencies have been auto-instrumented.
@@ -17,10 +16,8 @@ function format(response) {
   console.log('++++++++++++++++++++++++++++++++++');
   console.log('DeedScheduler Response: \n');
   console.log(response);
-  console.log('++++++++++++++++++++++++++++++++++');
-  console.log();
+  console.log('++++++++++++++++++++++++++++++++++\n');
 }
-
 
 function printResponse(response) {
    response.message ? format(response.message) : format(response);
@@ -37,7 +34,7 @@ yargs
               .catch(console.error);
         })
 
-    .command('delete [deed] [day]', 'Delete word.', {}, (argv) => {
+    .command('delete [deed] [day]', 'Delete deed.', {}, (argv) => {
       client.deleteDeed(argv.deed, argv.day)
           .then(printResponse)
           .catch(console.error);
@@ -56,7 +53,7 @@ yargs
               .catch(console.error);
         })
 
-    .command('update <deed> <day> <status>', 'Update word.',
+    .command('update <deed> <day> <status>', 'Update status of deed (completed - 1, uncompleted - 0).',
         {}, (argv) => {
           client.updateDeed(argv.deed, argv.day, argv.status)
               .then(printResponse)

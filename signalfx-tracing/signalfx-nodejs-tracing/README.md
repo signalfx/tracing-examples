@@ -14,4 +14,4 @@ instrumentation configuration options, please see the
 
 - [Express](./express)
 - [MongoDB](./mongo)
-- [MySQL](./mysql)
+- [MySQL(2)](./mysql)

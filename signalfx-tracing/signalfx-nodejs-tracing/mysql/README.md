@@ -1,4 +1,4 @@
-# MySQL Auto-Instrumentation Example
+# MySQL(2) Auto-Instrumentation Example
 
 This is an example of automatically producing distributed traces using the
 [SignalFx Tracing Library for JavaScript](https://github.com/signalfx/signalfx-nodejs-tracing).
@@ -53,7 +53,7 @@ From a different terminal, you may run the client commands.
     deedScheduler delete [deed] [day]                   Delete deed.
     deedScheduler list [day]                            Show deeds list.
     deedScheduler view [deed] [day] [status]            Retrieve task from scheduler.
-    deedScheduler update [deed] [day] [status]          Update status of deed (completed- 1, uncompleted - 0).
+    deedScheduler update [deed] [day] [status]          Update status of deed (uncompleted - 0, completed - 1).
 
 
 ```
@@ -66,21 +66,21 @@ environment before launching the server and client.
 
 ## Using
 
-The DeedScheduler allows you to add, retrieve, update and delete entries as part of a your to do list. Each
+The DeedScheduler allows you to add, retrieve, update and delete entries as part of a your 'to do' list. Each
 client request will automatically create an initiating parent span for distributed propagation
 to some basic REST api endpoints implemented via [Koa](https://koajs.com).
 
 
 Example usage:
 ```bash
-  $ # You can also use ` ./client.js add 'coding' 'Create a TODO app' Sunday` directly
-  $ npm run client add 'coding' 'Create a TODO app' Sunday
+  $ # You can also use ` ./client.js add coding 'Create a TODO app' Sunday` directly
+  $ npm run client add coding 'Create a TODO app' Sunday
 
   ++++++++++++++++++++++++++++++++++
   DeedScheduler Response:
 
   You just added coding on Sunday to your deedScheduler!
-  Number of rows affected: Rows affected: 1
+  Number of rows affected: 1
   ++++++++++++++++++++++++++++++++++
 
 

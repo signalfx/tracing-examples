@@ -1,8 +1,5 @@
-// Here we import the tracer before the request library
-// to ensure that its http dependency is instrumented
-const tracer = require('./tracer');
-
-
+// http module auto-instrumentation will occur once the tracer is initialized,
+// which occurs in the sourcing client script.
 const http = require('http');
 const {serverUrl} = require('./config');
 const deedSchedulerUrl = `${serverUrl}/deedScheduler`;
@@ -19,7 +16,6 @@ function resolveData(res, resolve) {
   });
 }
 
-
 function addItem(deed, note, day) {
   return new Promise((resolve, reject) => {
     const req = http.request(`${deedSchedulerUrl}/add`,
@@ -34,7 +30,6 @@ function addItem(deed, note, day) {
   });
 }
 
-
 function deleteDeed(deed, day) {
   return new Promise((resolve, reject) => {
     const thisDay = day ? day : '__ALL__';
@@ -47,7 +42,6 @@ function deleteDeed(deed, day) {
   });
 }
 
-
 function listDeeds(day) {
   return new Promise((resolve, reject) => {
     const thisDay = day ? day : '__ALL__';
@@ -59,7 +53,6 @@ function listDeeds(day) {
     req.end();
   });
 }
-
 
 function updateDeed(deed, day, status) {
   return new Promise((resolve, reject) => {
@@ -74,7 +67,6 @@ function updateDeed(deed, day, status) {
     req.end();
   });
 }
-
 
 function viewDeed(deed, day, status) {
   return new Promise((resolve, reject) => {
@@ -93,7 +85,6 @@ function viewDeed(deed, day, status) {
     req.end();
   });
 }
-
 
 module.exports = {addItem, deleteDeed, listDeeds,
   updateDeed, viewDeed};
