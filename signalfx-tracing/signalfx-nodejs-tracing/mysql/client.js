@@ -30,7 +30,7 @@ yargs
     .usage('Usage: $0 <command> [options]')
     .scriptName('deedScheduler')
 
-    .command('add [deed] [note] [day]', 'Add a task to deedScheduler.',
+    .command('add <deed> <note> <day>', 'Add a task to deedScheduler.',
         {}, (argv) => {
           client.addItem(argv.deed, argv.note, argv.day)
               .then(printResponse)
@@ -49,14 +49,14 @@ yargs
           .catch(console.error);
     })
 
-    .command('view [deed] [day] [status]', 'Retrieve task from scheduler.',
+    .command('view <deed> [day] [status]', 'Retrieve task from scheduler.',
         {}, (argv) => {
           client.viewDeed(argv.deed, argv.day, argv.status)
               .then(printResponse)
               .catch(console.error);
         })
 
-    .command('update [deed] [day] [status]', 'Update word.',
+    .command('update <deed> <day> <status>', 'Update word.',
         {}, (argv) => {
           client.updateDeed(argv.deed, argv.day, argv.status)
               .then(printResponse)
