@@ -20,40 +20,40 @@ To run this example locally and send traces to your available Smart Agent or Gat
 
 In one terminal:
 ```bash
-  $ # start up the MySQL server
-  $ npm run mysql
-  $ # install app requirements
-  $ npm install
-  $ # You may specify the version of MySQL you want to run
-  $ # through environment variables as follows (Default: MySQL2):
-  $ # Ex: export DEEDSCHEDULER_MYSQL_CLIENT=1 (for MySQL)
-  $ #     export DEEDSCHEDULER_MYSQL_CLIENT=2 (for MySQL2)
-  $ # Run the server from one shell session:
-  $ npm start
+$ # start up the MySQL server
+$ npm run mysql
+$ # install app requirements
+$ npm install
+$ # You may specify the version of MySQL you want to run
+$ # through environment variables as follows (Default: MySQL2):
+$ # Ex: export DEEDSCHEDULER_MYSQL_CLIENT=1 (for MySQL)
+$ #     export DEEDSCHEDULER_MYSQL_CLIENT=2 (for MySQL2)
+$ # Run the server from one shell session:
+$ npm start
 
-  ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-        Welcome to DeedScheduler.
-        The server is listening on http://localhost:3001.
-        Database version: MySQL2
+      Welcome to DeedScheduler.
+      The server is listening on http://localhost:3001.
+      Database version: MySQL2
 
-  +++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ```
 *Note:* Allow a few seconds between `npm run mysql` and `npm start`, to ensure the MySQL server is ready for use.
 
 From a different terminal, you may run the client commands.
 ```bash
-  $ # You may also use ` ./client.js help` directly
-  $ npm run client help
-  Usage: deedScheduler <command> [options]
+$ # You may also use ` ./client.js help` directly
+$ npm run client help
+Usage: deedScheduler <command> [options]
 
-  Commands:
-    deedScheduler add [deed] [note] [day]               Add a task to deedScheduler.
-    deedScheduler delete [deed] [day]                   Delete deed.
-    deedScheduler list [day]                            Show deeds list.
-    deedScheduler view [deed] [day] [status]            Retrieve task from scheduler.
-    deedScheduler update [deed] [day] [status]          Update status of deed (uncompleted - 0, completed - 1).
+Commands:
+  deedScheduler add [deed] [note] [day]               Add a task to deedScheduler.
+  deedScheduler delete [deed] [day]                   Delete deed.
+  deedScheduler list [day]                            Show deeds list.
+  deedScheduler view [deed] [day] [status]            Retrieve task from scheduler.
+  deedScheduler update [deed] [day] [status]          Update status of deed (uncompleted - 0, completed - 1).
 
 
 ```
@@ -73,29 +73,29 @@ to some basic REST api endpoints implemented via [Koa](https://koajs.com).
 
 Example usage:
 ```bash
-  $ # You may also use ` ./client.js add coding 'Create a TODO app' Sunday` directly
-  $ npm run client add coding 'Create a TODO app' Sunday
+$ # You may also use ` ./client.js add coding 'Create a TODO app' Sunday` directly
+$ npm run client add coding 'Create a TODO app' Sunday
 
-  ++++++++++++++++++++++++++++++++++
-  DeedScheduler Response:
+++++++++++++++++++++++++++++++++++
+DeedScheduler Response:
 
-  You just added coding on Sunday to your deedScheduler!
-  Number of rows affected: 1
-  ++++++++++++++++++++++++++++++++++
+You just added coding on Sunday to your deedScheduler!
+Number of rows affected: 1
+++++++++++++++++++++++++++++++++++
 
 
-  $ npm run client list Sunday
+$ npm run client list Sunday
 
-  ++++++++++++++++++++++++++++++++++
-  DeedScheduler Response:
+++++++++++++++++++++++++++++++++++
+DeedScheduler Response:
 
-  [ { id: 3,
-      deed: 'coding',
-      note: 'Create a TODO app',
-      day: 'Sunday',
-      date: '2019-04-22T20:29:25.000Z',
-      completed: 0 } ]
-  ++++++++++++++++++++++++++++++++++
+[ { id: 3,
+    deed: 'coding',
+    note: 'Create a TODO app',
+    day: 'Sunday',
+    date: '2019-04-22T20:29:25.000Z',
+    completed: 0 } ]
+++++++++++++++++++++++++++++++++++
 
 
 ```

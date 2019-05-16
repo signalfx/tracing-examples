@@ -13,6 +13,8 @@ instrumentation configuration options, please see the
 ## Libraries and Framework Examples
 
 - [Express](./express)
+- [Hapi](./hapi_pg)
 - [Koa](./koa)
 - [MongoDB](./mongo)
 - [MySQL(2)](./mysql)
+- [Postgres](./hapi_pg)

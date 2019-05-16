@@ -1,12 +1,9 @@
 #!/usr/bin/env node
-// Initialize the tracer and initiate auto-instrumentation of
-// all supported libraries and frameworks.  In this client example,
-// we instrumented the http module used by the
-// DeedScheduler client module.
+
 const tracer = require('./deedScheduler/tracer');
 
 // Note that importing other modules should occur after
-// init() to ensure their supported
+// importing the tracer to ensure their supported
 // dependencies have been auto-instrumented.
 const yargs = require('yargs');
 const client = require('./deedScheduler/client');
