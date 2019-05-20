@@ -3,7 +3,6 @@
 // of the 'signalfx-tracing' module.
 const tracer = require('./deedScheduler/tracer');
 
-
 // Note Koa module import must come after the init() that occurs
 // in deedScheduler/tracer module import, as well as any modules that load it.
 const Koa = require('koa');
@@ -11,9 +10,7 @@ const logger = require('koa-logger');
 const scheduler = require('./deedScheduler');
 const router = require('koa-router')();
 
-
 const server = new Koa();
-
 
 router
     .use('/deedScheduler', scheduler.router.routes());

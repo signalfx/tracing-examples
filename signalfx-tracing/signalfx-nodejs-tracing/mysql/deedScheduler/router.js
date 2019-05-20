@@ -1,19 +1,13 @@
-// Here we import the tracer before all the other libraries
-// to ensure that the various dependencies are instrumented
-
 const tracer = require('./tracer');
-
 const BodyParser = require('koa-bodyparser');
 const Router = require('koa-router');
 const scheduler = require('./scheduler');
-
 
 const router = new Router();
 
 
 async function addItem(ctx) {
   const span = tracer.scope().active();
-
   const deed = ctx.request.body.deed;
   const note = ctx.request.body.note;
   const day = ctx.request.body.day;
@@ -31,24 +25,22 @@ Number of rows added: ${response}`,
       });
 }
 
-
 async function deleteDeed(ctx) {
+  const span = tracer.scope().active();
   const day = ctx.query.day;
   const deed = ctx.params.deed;
 
-  const span = tracer.scope().active();
   if (day === '__ALL__') {
     span.setTag(deed, 'all');
   } else {
     span.setTag(deed, day);
   }
 
-
   await scheduler.deleteDeed(deed, day)
       .then((response) => {
         if (response > 0) {
           if (day === '__ALL__') {
-            ctx.body = {message: `${deed} is no longer in your deedScheduler!
+            ctx.body = {message: `'${deed}' is no longer in your deedScheduler!
 Number of rows affected: ${response}`};
           } else {
             ctx.body = {message:
@@ -74,10 +66,8 @@ Number of rows affected: ${response}`};
       });
 }
 
-
 async function listDeeds(ctx) {
   const span = tracer.scope().active();
-
   const day = ctx.query.day;
 
   span.setTag('deedsList', true);
@@ -94,10 +84,8 @@ async function listDeeds(ctx) {
       });
 }
 
-
 async function updateDeed(ctx) {
   const span = tracer.scope().active();
-
   const deed = ctx.params.deed;
   const day = ctx.query.day;
   const status = ctx.request.body.status;
@@ -120,10 +108,8 @@ Number of rows changed: ${response.affectedRows}`};
       });
 }
 
-
 async function viewDeed(ctx) {
   const span = tracer.scope().active();
-
   const deed = ctx.params.deed;
   const day = ctx.query.day;
   const status = ctx.query.status;
@@ -141,7 +127,6 @@ async function viewDeed(ctx) {
         ctx.body = {message: `ERROR: ${error}`};
       });
 }
-
 
 router
     .use(BodyParser())
