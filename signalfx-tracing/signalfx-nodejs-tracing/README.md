@@ -13,5 +13,6 @@ instrumentation configuration options, please see the
 ## Libraries and Framework Examples
 
 - [Express](./express)
+- [Koa](./koa)
 - [MongoDB](./mongo)
 - [MySQL(2)](./mysql)
