@@ -53,8 +53,10 @@ class RoulettePlayer(object):
         span_tags = {tags.SPAN_KIND: tags.SPAN_KIND_RPC_SERVER}
         with self.tracer.start_span('handle_request', tags=span_tags) as span:
             # Use OpenTracing tags to denote request-level information
-            span.set_tag(tags.HTTP_METHOD, event['httpMethod'])
-            span.set_tag(tags.HTTP_URL, event['path'])
+            if 'httpMethod' in event:
+                span.set_tag(tags.HTTP_METHOD, event['httpMethod'])
+            if 'path' in event:
+                span.set_tag(tags.HTTP_URL, event['path'])
 
             # Retrieve any execution context information and tag for future
             # debugging or analytics: https://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
