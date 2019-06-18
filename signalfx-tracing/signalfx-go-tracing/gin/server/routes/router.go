@@ -5,6 +5,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	gintrace "github.com/signalfx/signalfx-go-tracing/contrib/gin-gonic/gin"
+	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/database"
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/handlers"
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/models"
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/utils"
@@ -21,6 +22,10 @@ func GetRouter(serviceName string) *gin.Engine {
 
 func setMiddlewares(router *gin.Engine, serviceName string) *gin.Engine {
 	router.Use(gintrace.Middleware(serviceName))
+	router.Use(func(c *gin.Context) {
+		c.Next()
+		database.GetManager().Close(c)
+	})
 
 	return router
 }

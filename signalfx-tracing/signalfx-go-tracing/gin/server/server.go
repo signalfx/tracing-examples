@@ -12,7 +12,7 @@ const (
 	// ServiceName contains name of this service. This will show up on traces
 	ServiceName = "signalfx-battleship"
 	// TracingEndpoint contains a url to send traces
-	TracingEndpoint = "http://localhost:9411/api/v2/spans"
+	TracingEndpoint = "http://localhost:9080/v1/trace"
 	// Port that the app runs
 	Port = 3030
 	// MongoDriver is mongodb driver type. Selections are "mgo" | "mongo"

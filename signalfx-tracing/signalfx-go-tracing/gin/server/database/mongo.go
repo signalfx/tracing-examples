@@ -21,9 +21,10 @@ type mongoManager struct {
 
 var _ Manager = (*mongoManager)(nil)
 
+var mongoClient *mongo.Client
+
 // GetBoardByID returns a board for a given boardID
 func (m *mongoManager) GetBoardByID(c context.Context, id string) (models.Board, error) {
-	// ctx := c.Request.Context()
 	collection := m.getCollection(c)
 
 	board := models.Board{}
@@ -53,16 +54,28 @@ func (m *mongoManager) UpdateBoard(c context.Context, board models.Board) error 
 
 // getCollection returns board collection
 func (m *mongoManager) getCollection(c context.Context) *mongo.Collection {
-	opts := options.Client()
-	opts.SetMonitor(mongotrace.NewMonitor(mongotrace.WithServiceName("signalfx-battleship")))
+	if mongoClient == nil {
+		opts := options.Client()
+		opts.SetMonitor(mongotrace.NewMonitor(mongotrace.WithServiceName("signalfx-battleship")))
 
-	client, err := mongo.Connect(c, opts.ApplyURI(fmt.Sprintf("mongodb://%s:%d", m.Host, m.Port)))
-	if err != nil {
-		fmt.Printf("Can't connect to mongo, go error %v\n", err)
-		panic(err.Error())
+		var err error
+		mongoClient, err = mongo.Connect(c, opts.ApplyURI(fmt.Sprintf("mongodb://%s:%d", m.Host, m.Port)))
+		if err != nil {
+			fmt.Printf("Can't connect to mongo, go error %v\n", err)
+			panic(err.Error())
+		}
 	}
-	db := client.Database(m.Name)
+
+	db := mongoClient.Database(m.Name)
 	collection := db.Collection(models.CollectionBoard)
 
 	return collection
+}
+
+// Close closes open DB session
+func (m *mongoManager) Close(c context.Context) {
+	if mongoClient != nil {
+		mongoClient.Disconnect(c)
+		mongoClient = nil
+	}
 }

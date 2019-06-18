@@ -11,6 +11,7 @@ type Manager interface {
 	GetBoardByID(c context.Context, id string) (models.Board, error)
 	InsertBoard(c context.Context, board models.Board) error
 	UpdateBoard(c context.Context, board models.Board) error
+	Close(c context.Context)
 }
 
 // Config is a type to store database connection config
