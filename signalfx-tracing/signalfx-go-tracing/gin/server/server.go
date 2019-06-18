@@ -26,7 +26,7 @@ const (
 )
 
 func init() {
-	tracing.Start(tracing.WithEndpointURL(TracingEndpoint))
+	tracing.Start(tracing.WithEndpointURL(TracingEndpoint), tracing.WithServiceName(ServiceName))
 	database.InitManager(&database.Config{
 		Driver:      MongoDriver,
 		Host:        MongoHost,
