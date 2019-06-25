@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/signalfx/signalfx-go-tracing/tracing"
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/database"
@@ -26,7 +27,14 @@ const (
 )
 
 func init() {
-	tracing.Start(tracing.WithEndpointURL(TracingEndpoint), tracing.WithServiceName(ServiceName))
+	opts := []tracing.StartOption{
+		tracing.WithServiceName(ServiceName),
+	}
+	if _, exists := os.LookupEnv("SIGNALFX_ENDPOINT_URL"); !exists {
+		opts = append(opts, tracing.WithEndpointURL(TracingEndpoint))
+	}
+
+	tracing.Start(opts...)
 	database.InitManager(&database.Config{
 		Driver:      MongoDriver,
 		Host:        MongoHost,

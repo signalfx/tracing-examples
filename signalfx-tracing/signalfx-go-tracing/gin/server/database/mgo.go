@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/globalsign/mgo/bson"
+	"github.com/opentracing/opentracing-go"
 	mgotrace "github.com/signalfx/signalfx-go-tracing/contrib/globalsign/mgo"
 
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/models"
@@ -20,6 +21,7 @@ type mgoManager struct {
 var _ Manager = (*mgoManager)(nil)
 
 var mgoSession *mgotrace.Session
+var parentSpan opentracing.Span
 
 // GetBoardByID returns a board for a given boardID
 func (m *mgoManager) GetBoardByID(c context.Context, id string) (models.Board, error) {
@@ -50,8 +52,12 @@ func (m *mgoManager) UpdateBoard(c context.Context, board models.Board) error {
 // getCollection returns board collection
 func (m *mgoManager) getCollection(c context.Context) *mgotrace.Collection {
 	if mgoSession == nil {
+		var ctx context.Context
+		parentSpan, ctx = opentracing.StartSpanFromContext(c, "mongo.session")
+
 		var err error
-		mgoSession, err = mgotrace.Dial(fmt.Sprintf("mongodb://%s:%d/%s", m.Host, m.Port, m.Name), mgotrace.WithServiceName(m.ServiceName), mgotrace.WithContext(c))
+		mgoSession, err = mgotrace.Dial(fmt.Sprintf("mongodb://%s:%d/%s", m.Host, m.Port, m.Name), mgotrace.WithServiceName(m.ServiceName), mgotrace.WithContext(ctx))
+
 		if err != nil {
 			fmt.Printf("Can't connect to mongo, go error %v\n", err)
 			panic(err.Error())
@@ -69,5 +75,6 @@ func (m *mgoManager) Close(c context.Context) {
 	if mgoSession != nil {
 		mgoSession.Close()
 		mgoSession = nil
+		parentSpan.Finish()
 	}
 }
