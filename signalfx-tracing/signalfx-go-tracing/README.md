@@ -9,3 +9,4 @@ please see the [SignalFx Tracing Library for Go](https://github.com/signalfx/sig
 
 ## Libraries and Framework Examples
 - [Gin](./gin)
+- [echo](./echo)
