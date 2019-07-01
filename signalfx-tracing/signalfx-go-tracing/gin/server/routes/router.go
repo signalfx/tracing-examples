@@ -37,7 +37,7 @@ func setGameRoutes(router *gin.Engine) *gin.Engine {
 		gameRoute.POST("/", func(c *gin.Context) {
 			boardInput := models.BoardInput{}
 			err := c.Bind(&boardInput)
-			board, err := handlers.CreateBoard(c.Request.Context(), boardInput)
+			board, err := handlers.CreateBoard(c, boardInput)
 
 			if err != nil {
 				c.AbortWithError(http.StatusBadRequest, err)
@@ -51,7 +51,7 @@ func setGameRoutes(router *gin.Engine) *gin.Engine {
 
 		// Get a board with a given ID
 		gameRoute.GET("/:_id", func(c *gin.Context) {
-			board, err := handlers.GetBoardByID(c.Request.Context(), c.Param("_id"))
+			board, err := handlers.GetBoardByID(c, c.Param("_id"))
 
 			if err != nil {
 				c.AbortWithError(http.StatusBadRequest, err)
@@ -68,7 +68,7 @@ func setGameRoutes(router *gin.Engine) *gin.Engine {
 		gameRoute.POST("/:_id/move", func(c *gin.Context) {
 			move := models.Move{}
 			err := c.Bind(&move)
-			board, err := handlers.MakeMove(c.Request.Context(), c.Param("_id"), move)
+			board, err := handlers.MakeMove(c, c.Param("_id"), move)
 
 			if err != nil {
 				c.AbortWithError(http.StatusBadRequest, err)

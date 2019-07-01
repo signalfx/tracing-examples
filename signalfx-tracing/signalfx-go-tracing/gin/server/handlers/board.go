@@ -1,8 +1,7 @@
 package handlers
 
 import (
-	"context"
-
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/database"
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/models"
@@ -10,7 +9,7 @@ import (
 )
 
 // CreateBoard creates a new board
-func CreateBoard(c context.Context, input models.BoardInput) (models.Board, error) {
+func CreateBoard(c *gin.Context, input models.BoardInput) (models.Board, error) {
 	board := models.Board{
 		ID:        uuid.New().String()[:8],
 		Width:     input.Width,
@@ -28,7 +27,7 @@ func CreateBoard(c context.Context, input models.BoardInput) (models.Board, erro
 }
 
 // GetBoardByID gets a board with a requested ID
-func GetBoardByID(c context.Context, boardID string) (models.Board, error) {
+func GetBoardByID(c *gin.Context, boardID string) (models.Board, error) {
 	board, err := database.GetManager().GetBoardByID(c, boardID)
 	if err != nil {
 		return models.Board{}, err
@@ -38,7 +37,7 @@ func GetBoardByID(c context.Context, boardID string) (models.Board, error) {
 }
 
 // MakeMove makes a move to a board with a requested ID
-func MakeMove(c context.Context, boardID string, move models.Move) (models.Board, error) {
+func MakeMove(c *gin.Context, boardID string, move models.Move) (models.Board, error) {
 	board, err := database.GetManager().GetBoardByID(c, boardID)
 	if err != nil {
 		return models.Board{}, err

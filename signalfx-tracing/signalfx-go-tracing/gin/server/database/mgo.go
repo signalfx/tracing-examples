@@ -1,9 +1,9 @@
 package database
 
 import (
-	"context"
 	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/globalsign/mgo/bson"
 	"github.com/opentracing/opentracing-go"
 	mgotrace "github.com/signalfx/signalfx-go-tracing/contrib/globalsign/mgo"
@@ -21,10 +21,9 @@ type mgoManager struct {
 var _ Manager = (*mgoManager)(nil)
 
 var mgoSession *mgotrace.Session
-var parentSpan opentracing.Span
 
 // GetBoardByID returns a board for a given boardID
-func (m *mgoManager) GetBoardByID(c context.Context, id string) (models.Board, error) {
+func (m *mgoManager) GetBoardByID(c *gin.Context, id string) (models.Board, error) {
 	collection := m.getCollection(c)
 
 	board := models.Board{}
@@ -36,24 +35,24 @@ func (m *mgoManager) GetBoardByID(c context.Context, id string) (models.Board, e
 }
 
 // InsertBoard inserts a given board
-func (m *mgoManager) InsertBoard(c context.Context, board models.Board) error {
+func (m *mgoManager) InsertBoard(c *gin.Context, board models.Board) error {
 	collection := m.getCollection(c)
 
 	return collection.Insert(board)
 }
 
 // UpdateBoard saves a given updated board
-func (m *mgoManager) UpdateBoard(c context.Context, board models.Board) error {
+func (m *mgoManager) UpdateBoard(c *gin.Context, board models.Board) error {
 	collection := m.getCollection(c)
 
 	return collection.Update(bson.M{"board_id": board.ID}, board)
 }
 
 // getCollection returns board collection
-func (m *mgoManager) getCollection(c context.Context) *mgotrace.Collection {
+func (m *mgoManager) getCollection(c *gin.Context) *mgotrace.Collection {
 	if mgoSession == nil {
-		var ctx context.Context
-		parentSpan, ctx = opentracing.StartSpanFromContext(c, "mongo.session")
+		parentSpan, ctx := opentracing.StartSpanFromContext(c.Request.Context(), "mongo.session")
+		c.Set("parentSpan", parentSpan)
 
 		var err error
 		mgoSession, err = mgotrace.Dial(fmt.Sprintf("mongodb://%s:%d/%s", m.Host, m.Port, m.Name), mgotrace.WithServiceName(m.ServiceName), mgotrace.WithContext(ctx))
@@ -71,10 +70,14 @@ func (m *mgoManager) getCollection(c context.Context) *mgotrace.Collection {
 }
 
 // Close closes open DB session
-func (m *mgoManager) Close(c context.Context) {
+func (m *mgoManager) Close(c *gin.Context) {
 	if mgoSession != nil {
 		mgoSession.Close()
 		mgoSession = nil
-		parentSpan.Finish()
+		if value, exists := c.Get("parentSpan"); exists {
+			if parentSpan, ok := value.(opentracing.Span); ok {
+				parentSpan.Finish()
+			}
+		}
 	}
 }

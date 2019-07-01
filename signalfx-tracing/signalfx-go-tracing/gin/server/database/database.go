@@ -1,17 +1,16 @@
 package database
 
 import (
-	"context"
-
+	"github.com/gin-gonic/gin"
 	"github.com/signalfx/tracing-examples/signalfx-tracing/signalfx-go-tracing/gin/server/models"
 )
 
 // Manager provides interface to communicate with database chosen by the user
 type Manager interface {
-	GetBoardByID(c context.Context, id string) (models.Board, error)
-	InsertBoard(c context.Context, board models.Board) error
-	UpdateBoard(c context.Context, board models.Board) error
-	Close(c context.Context)
+	GetBoardByID(c *gin.Context, id string) (models.Board, error)
+	InsertBoard(c *gin.Context, board models.Board) error
+	UpdateBoard(c *gin.Context, board models.Board) error
+	Close(c *gin.Context)
 }
 
 // Config is a type to store database connection config
@@ -25,7 +24,7 @@ type Config struct {
 
 var manager Manager
 
-// InitManager creates an instace of given manager type
+// InitManager creates an instace of gifven manager type
 func InitManager(conf *Config) {
 	if conf.Driver == "mgo" {
 		manager = &mgoManager{
