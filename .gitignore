@@ -1,3 +1,7 @@
 .idea
 target/
 *.py[co]
+.vscode/
+node_modules/
+vendor/
+.snowman
