@@ -18,19 +18,19 @@ do the following from this directory:
 
 In one terminal:
 ```bash
-  $ # start up the MongoDB server
-  $ npm run mongo
-  $ npm install
-  $ # Run the server from one shell session:
-  $ npm start
-  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+$ # start up the MongoDB server
+$ npm run mongo
+$ npm install
+$ # Run the server from one shell session:
+$ npm start
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-       Welcome to WordExplorer.
-       The server is listening on http://localhost:3000.
+      Welcome to WordExplorer.
+      The server is listening on http://localhost:3000.
 
-  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  Database connection established
+Database connection established
 
 ```
 
@@ -38,17 +38,17 @@ Note: Allow a few seconds between `npm run mongo` and `npm start`, to ensure tha
 
 From a different terminal, you may run the client commands.
 ```bash
-  $ # You may also use ` ./client.js help` directly
-  $ npm run client help
-  Usage: wordExplorer <command> [options]
+$ # You may also use ` ./client.js help` directly
+$ npm run client help
+Usage: wordExplorer <command> [options]
 
-  Commands:
-    wordExplorer add [word] [usage]         Add word to vocabulary list.
-    wordExplorer delete [word]              Delete word.
-    wordExplorer explore [word]             Explore a word.
-    wordExplorer list                       Show vocabulary list.
-    wordExplorer retrieve [word]            Retrieve word from your vocabulary list.
-    wordExplorer update [word] [usage]      Update word.
+Commands:
+  wordExplorer add [word] [usage]         Add word to vocabulary list.
+  wordExplorer delete [word]              Delete word.
+  wordExplorer explore [word]             Explore a word.
+  wordExplorer list                       Show vocabulary list.
+  wordExplorer retrieve [word]            Retrieve word from your vocabulary list.
+  wordExplorer update [word] [usage]      Update word.
 
 
 
@@ -68,8 +68,8 @@ to some basic REST api endpoints implemented via [Koa](https://koajs.com).
 
 
 ```bash
-  $ # You may also use ` ./client.js explore create` directly
-  $ npm run client explore create
+$ # You may also use ` ./client.js explore create` directly
+$ npm run client explore create
 
 ++++++++++++++++++++++++++++++++++
 WordExplorer Response:
