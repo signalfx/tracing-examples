@@ -119,6 +119,7 @@ For customers who have not instrumented their applications, or have done so in
 an OpenTracing-compatible fashion, we offer several SignalFx Tracing libraries.
 Their detailed documentation is available in their respective source locations:
 
+- [Go](https://github.com/signalfx/signalfx-go-tracing)
 - [Java](https://github.com/signalfx/signalfx-java-tracing)
 - [Node.js](https://github.com/signalfx/signalfx-nodejs-tracing)
 - [Python](https://github.com/signalfx/signalfx-python-tracing)
