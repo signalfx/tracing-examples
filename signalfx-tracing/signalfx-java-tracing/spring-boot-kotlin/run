@@ -1,0 +1,4 @@
+docker-compose -f postgres/docker-compose.yml up -d
+
+export SIGNALFX_SERVICE_NAME=java-wishlist-app
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:/opt/signalfx-tracing.jar"

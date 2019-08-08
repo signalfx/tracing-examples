@@ -1,0 +1,147 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
+}
+
+.page {
+  display: flex;
+  justify-content: center;
+}
+
+.content {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  padding: 5px;
+  width: 100%;
+  text-align: center;
+}
+
+.error {
+  background-color: #F5A079;
+  padding: 10px;
+}
+
+.wishers {
+  width: 100%;
+}
+
+.wisher-access {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wisher-access-title {
+  padding: 3px 0;
+}
+
+.wisher-access-form-input {
+  padding: 2px;
+}
+
+.wisher-access-form-buttons {
+  padding: 4px;
+  float: right;
+}
+
+.wisher-name {
+  text-align: center;
+  padding: 8px;
+}
+
+.wisher-delete {
+  float: right;
+  padding-right: 15%
+}
+
+.item-title {
+  padding: 5px 15px;
+}
+
+.item-creation-form {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 5px;
+  padding-right: 5%;
+}
+
+.item-creation-form label {
+  text-align: right;
+  grid-column: 1 / 2;
+}
+
+.item-creation-form input, button {
+  grid-column: 2 / 3;
+}
+
+.items-header {
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.item {
+}
+
+.item-info {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
+.items-header-field {
+  padding: 2px;
+}
+
+.items-header-field:nth-child(even) {
+  border-left: 2px solid #dfdfdf;
+  border-right: 2px solid #dfdfdf;
+}
+
+.items-info-field {
+  text-align: center;
+  padding: 2px;
+  border-top: 1px solid #dfdfdf;
+}
+
+.items-info-field:nth-child(even) {
+  border-left: 2px solid #dfdfdf;
+  border-right: 2px solid #dfdfdf;
+}
+
+.items-info-delete{
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  font-size: 10px;
+  font-weight: bold;
+
+  color: #FFFFFF;
+  background-color: #86BFE8;
+
+  border: none;
+  border-radius: 2px;
+
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #868EE8;
+}
+
+button:active {
+  background-color: #E8AF86;
+}
