@@ -8,6 +8,8 @@ environment of choice than general documentation can sometimes be.
 
 ## SignalFx Tracing Supported Languages and Platforms
 
+- [Go](./signalfx-go-tracing)
+- [Java](./signalfx-java-tracing)
 - [Node.js](./signalfx-nodejs-tracing)
 - [Python](./signalfx-python-tracing)
 
