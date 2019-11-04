@@ -122,6 +122,7 @@ Their detailed documentation is available in their respective source locations:
 - [Go](https://github.com/signalfx/signalfx-go-tracing)
 - [Java](https://github.com/signalfx/signalfx-java-tracing)
 - [Node.js](https://github.com/signalfx/signalfx-nodejs-tracing)
+- [PHP](https://github.com/signalfx/signalfx-php-tracing)
 - [Python](https://github.com/signalfx/signalfx-python-tracing)
 - [Ruby](https://github.com/signalfx/signalfx-ruby-tracing)
 

@@ -11,5 +11,6 @@ environment of choice than general documentation can sometimes be.
 - [Go](./signalfx-go-tracing)
 - [Java](./signalfx-java-tracing)
 - [Node.js](./signalfx-nodejs-tracing)
+- [PHP](./signalfx-php-tracing)
 - [Python](./signalfx-python-tracing)
 
