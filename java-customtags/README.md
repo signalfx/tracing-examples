@@ -1,9 +1,9 @@
 # Java Custom Tag Example
 
-This example assumes an already configured SignalFx SmartGateway and SmartAgent. They can be running on the same machine as the example below however it is recommended to have at least 6GB RAM for this test.
-
 This is an example of how to set custom tags for a span in Java.
 Tags for the span name along with a customer key:value tag are easily set.
+
+This example assumes an already configured SignalFx SmartGateway and SmartAgent. They can be running on the same machine as the example below however it is recommended to have at least 6GB RAM for this test.
 
 ## Building
 
