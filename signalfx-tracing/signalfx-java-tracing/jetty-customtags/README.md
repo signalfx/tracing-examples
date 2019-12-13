@@ -1,4 +1,4 @@
-# Java Custom Tag Example
+# Java Custom Tag Example Using Jetty
 
 This example assumes an already configured SignalFx SmartGateway and SmartAgent. They can be running on the same machine as the example below however it is recommended to have at least 6GB RAM for this test.
 
