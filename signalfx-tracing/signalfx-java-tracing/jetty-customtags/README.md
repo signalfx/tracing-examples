@@ -1,13 +1,13 @@
 # Java Custom Tag Example Using Jetty
 
-This example assumes an already configured SignalFx SmartGateway and SmartAgent. They can be running on the same machine as the example below however it is recommended to have at least 6GB RAM for this test.
+This example assumes an already configured SignalFx SmartGateway and SmartAgent. They can be running on the same machine as the example below. Please consult documentation for VM sizing for running the Gateway: https://docs.signalfx.com/en/latest/apm/apm-deployment/smart-gateway.html
 
-This is an example of how to set custom tags for a span in Java.
+EchoDemo.java is an example of how to set custom tags for a span in Java.
 Tags for the span name along with a customer key:value tag are easily set.
 
 ## Building
 
-The example EchoServer.java example has comments indicating proper place for settings.
+The example EchoServer.java example has comments indicating proper place for setting a custom operation name and span tag.
 
 EchoServer.java will run a Jetty Embeded HTTP Server. 
 

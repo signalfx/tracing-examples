@@ -34,13 +34,13 @@ public class EchoDemo extends AbstractHandler {
     @Override
     public void handle(String target, Request baseRequest, HttpServletRequest request,
         HttpServletResponse response) throws IOException, ServletException {
-	try (Scope scope = GlobalTracer.get().buildSpan("MyOperation").startActive(true)) {
-   	    scope.span().setTag("MyTag", "CustomTag");
-       	    response.setContentType("text/plain;charset=utf-8");
-       	    response.setStatus(HttpServletResponse.SC_OK);
-       	    baseRequest.setHandled(true);
-       	    response.getWriter().println("Hello world");
-	    scope.close();
+        try (Scope scope = GlobalTracer.get().buildSpan("MyOperation").startActive(true)) {
+            scope.span().setTag("MyTag", "CustomTag");
+            response.setContentType("text/plain;charset=utf-8");
+            response.setStatus(HttpServletResponse.SC_OK);
+            baseRequest.setHandled(true);
+            response.getWriter().println("Hello world");
+            scope.close();
         }
     }
     public static void main(String[] args) throws Exception {
