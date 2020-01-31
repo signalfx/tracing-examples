@@ -1,4 +1,4 @@
-# Sprint Boot Auto-Instrumentation Example
+# Spring Boot Auto-Instrumentation Example
 
 This is an example of automatically producing traces using the
 [SignalFx Java Agent](https://github.com/signalfx/signalfx-java-tracing).
