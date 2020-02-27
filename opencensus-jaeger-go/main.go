@@ -37,7 +37,9 @@ func main() {
 
 	initExporter(serviceName, ingestUrl, accessToken)
 
-	startServer()
+	if err := startServer().ListenAndServe(); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func initExporter(serviceName, ingestUrl, accessToken string) {
