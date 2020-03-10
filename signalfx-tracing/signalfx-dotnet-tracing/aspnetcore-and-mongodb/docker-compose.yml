@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+  aspnetcore:
+    build: src/AspNetCoreExample 
+    ports:
+     - "5000:5000"
+    environment:
+      SIGNALFX_SERVICE_NAME: 'asp.net-core'
+      SIGNALFX_ENDPOINT_URL: 'http://smart-gateway:9080/v1/trace'
+    depends_on:
+      - client
+      - mongo
+      - smart-gateway
+    user: 'root'
+  client:
+    build: src/ClientExample
+    environment:
+      SIGNALFX_SERVICE_NAME: 'example-client'
+      SIGNALFX_ENDPOINT_URL: 'http://smart-gateway:9080/v1/trace'
+    depends_on:
+      - smart-gateway
+    user: 'root'
+    entrypoint: 'bash'
+    command: '-c "sleep 10; while true; do dotnet ClientExample.dll; done"'
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+  smart-gateway:
+    image: smart-gateway
+    restart: unless-stopped
+    ports:
+      - "9080:9080"
