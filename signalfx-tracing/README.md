@@ -8,6 +8,7 @@ environment of choice than general documentation can sometimes be.
 
 ## SignalFx Tracing Supported Languages and Platforms
 
+- [.NET Core on Linux](./signalfx-dotnet-tracing)
 - [Go](./signalfx-go-tracing)
 - [Java](./signalfx-java-tracing)
 - [Node.js](./signalfx-nodejs-tracing)
