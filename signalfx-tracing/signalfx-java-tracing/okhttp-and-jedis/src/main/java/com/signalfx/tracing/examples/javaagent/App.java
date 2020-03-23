@@ -39,7 +39,11 @@ public class App {
     private final ExecutorService executor;
 
     App() {
-        this.redisClient = new Jedis("localhost");
+        String redisHost = System.getenv("REDIS_HOSTNAME");
+        if (redisHost == null) {
+            redisHost = "localhost";
+        }
+        this.redisClient = new Jedis(redisHost);
         this.httpClient = new OkHttpClient.Builder().build();
         executor = Executors.newSingleThreadExecutor();
     }
