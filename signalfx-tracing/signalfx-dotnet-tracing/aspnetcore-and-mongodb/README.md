@@ -1,7 +1,7 @@
 # ASP.NET Core and MongoDb Auto-Instrumentation Example
 
 This is an example of automatically producing distributed traces using the
-[SignalFx Tracing Library for .NET Core on Linux](https://github.com/signalfx/signalfx-dotnet-tracing).
+[SignalFx Tracing Library for .NET](https://github.com/signalfx/signalfx-dotnet-tracing).
 Please examine the instrumented [HttpClient](./src/ExampleClient/Program.cs) and [ASP.NET Core application](./src/AspNetCoreExample/Services/ItemService.cs)
 for custom instrumentation patterns using the OpenTracing API. This example is of a simple
 inventory system that is auto-instrumented via [configuration of the CLR Profiler and tracing library](./src/AspNetCoreExample/Dockerfile).
