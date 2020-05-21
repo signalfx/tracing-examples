@@ -72,7 +72,7 @@ public class App {
         // see two independent traces for the HTTP get and the Redis set.
         // The Java agent sets the GlobalTracer instance before the application's main method is called.
         Span span = GlobalTracer.get().buildSpan("fetch-and-set").start();
-        try (Scope sc = GlobalTracer.get().scopeManager().activate(span, false)) {
+        try (Scope sc = GlobalTracer.get().scopeManager().activate(span)) {
             String respBody;
             try {
                 Response response = httpClient.newCall(request).execute();
@@ -113,13 +113,15 @@ public class App {
     @Trace(operationName = "setInRedis")
     public void setInRedisWithThread(String url, String value) {
         // This accesses the span created by the @Trace annotation and adds a tag to it.
-        GlobalTracer.get().scopeManager().active().span().setTag("my-tag", "my-value");
+        Span activeSpan = GlobalTracer.get().scopeManager().activeSpan();
+        activeSpan.setTag("my-tag", "my-value");
+
         // Set a flag on the current scope to allow automatic propagation across thread boundaries.  If you did not
         // set this and wanted to continue with the current trace in a new thread, you would need to pass the Span
         // instance across to the thread in a closure and then reactive it manually with
         // `GlobalTracer.get().scopeManager().activate(span, finishOnClose)` in the thread method/function.
         // The current scope contains the span created by the @Trace annotation on this method.
-        ((TraceScope) GlobalTracer.get().scopeManager().active()).setAsyncPropagation(true);
+        ((TraceScope) GlobalTracer.get().scopeManager().activate(activeSpan)).setAsyncPropagation(true);
 
         executor.submit(() -> redisClient.set(url, value));
     }
