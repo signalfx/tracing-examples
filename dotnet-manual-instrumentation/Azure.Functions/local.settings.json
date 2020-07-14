@@ -1,0 +1,10 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+    "SIGNALFX_ENDPOINT_URL": "http://localhost:9411/api/v2/spans",
+    "SIGNALFX_SERVICE_NAME": "Azure.Functions",
+    "SIGNALFX_TRACE_DEBUG": "1"
+  }
+}

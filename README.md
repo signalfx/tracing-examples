@@ -60,6 +60,12 @@ This repository contains a set of simple example applications that demonstrate
 using SignalFx with various open source tracers.  They are broken down by
 language/platform.
 
+### .NET
+
+ - [SignalFx.Tracing](./dotnet-manual-instrumentation): An example using the
+[SignalFx.Tracing.OpenTracing NuGet Package](https://www.nuget.org/packages/SignalFx.Tracing.OpenTracing/) to
+instrument .NET library, an application, and an Azure Function.
+
 ### Java
 
 - [Jaeger Java](./jaeger-java): our recommended tracer for Java.
