@@ -1,7 +1,7 @@
 # SignalFx Tracing OpenTracing for .NET
 
 This folder contains a .NET solution [SignalFx.Tracing.Samples.sln](./SignalFx.Tracing.Samples.sln)
-that contains 3 projects:
+with the following example projects:
 
 - [Azure.Functions](./Azure.Functions/Azure.Functions.csproj)
 - [OpenTracing.Manually.Instrumented.Library](./OpenTracing.Manually.Instrumented.Library/OpenTracing.Manually.Instrumented.Library.csproj)
@@ -16,7 +16,7 @@ to manually instrument .NET applications and libraries.
 
 - The manual instrumentation code should use only OpenTracing constructs. The benefit of this
 approach is that if later, the application is deployed with [auto-instrumentation](../signalfx-tracing/signalfx-dotnet-tracing/README.md)
-traces will keep the manually added spans and will be enriched with more spans added by
+enabled traces will keep the manually added spans and will be enriched with more spans added by
 the auto-instrumentation.
 - Use the [OpenTracing semantic conventions](https://github.com/opentracing/specification/blob/master/semantic_conventions.md)
 especially use the `error` tag with value `true` in case of exceptions and errors.
@@ -38,8 +38,9 @@ Example:
             Console.ReadLine();
             Console.WriteLine("Shutting down...");
         }
-    }```
+    }
+```
 
-## Useful Links
+## Other Links
 
 [OpenTracing Examples](https://github.com/opentracing/opentracing-csharp/tree/master/examples/OpenTracing.Examples)

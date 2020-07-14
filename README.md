@@ -62,9 +62,9 @@ language/platform.
 
 ### .NET
 
- - [SignalFx.Tracing](./dotnet-manual-instrumentation): An example using the
+ - [SignalFx.Tracing](./dotnet-manual-instrumentation/README.md): An example using the
 [SignalFx.Tracing.OpenTracing NuGet Package](https://www.nuget.org/packages/SignalFx.Tracing.OpenTracing/) to
-instrument .NET library, an application, and an Azure Function.
+instrument .NET libraries and applications.
 
 ### Java
 
