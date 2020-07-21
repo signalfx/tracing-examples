@@ -18,9 +18,10 @@ namespace Azure.Functions
     {
         // All configurations for the SignalFxTracer are being captured from environment
         // variables defined in local.settings.json. This static is just used to trigger
-        // its initialization, from this point all OpenTracing.Util.GlobalTracer.Instance
-        // will be using the SignalFxTracer.
-        private static readonly OpenTracing.ITracer Tracer = OpenTracingTracerFactory.WrapTracer(
+        // its initialization. It is recommended that the instance is used in order to
+        // avoid its initialization to be optimized away (which will result in the
+        // OpenTracing.Util.GlobalTracer.Instance being a no-op ITracer).
+        private static readonly OpenTracing.ITracer SignalFxTracer = OpenTracingTracerFactory.WrapTracer(
             SignalFx.Tracing.Tracer.Instance
         );
 
@@ -29,7 +30,7 @@ namespace Azure.Functions
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var tracer = Tracer;
+            OpenTracing.ITracer tracer = SignalFxTracer;
             using var scope = tracer.BuildSpan("HttpTrigger").StartActive();
             
             string name = req.Query["name"];
