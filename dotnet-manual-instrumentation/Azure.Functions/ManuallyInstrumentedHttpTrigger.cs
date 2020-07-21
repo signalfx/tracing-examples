@@ -10,34 +10,27 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OpenTracing.Manually.Instrumented.Library;
-using OpenTracing.Util;
-using SignalFx.Tracing;
+using SignalFx.Tracing.OpenTracing;
 
 namespace Azure.Functions
 {
     public static class ManuallyInstrumentedHttpTrigger
     {
-        private static readonly string SamplerServerUrl = $"http://localhost:19999{SampleServer.RequestPath}/";
-        
         // All configurations for the SignalFxTracer are being captured from environment
         // variables defined in local.settings.json. This static is just used to trigger
-        // its initialization, from this point all OpenTracing.Util.GlobalTracer.Instance
-        // will be using the SignalFxTracer.
-        private static readonly Tracer SignalFxTracer = Tracer.Instance;
-        
-        static ManuallyInstrumentedHttpTrigger()
-        {
-            // Simulate the starting of a server to server background requests. 
-            var server = new SampleServer();
-            server.Start(SamplerServerUrl);
-        }
-        
+        // its initialization. It is recommended that the instance is used in order to
+        // avoid its initialization to be optimized away (which will result in the
+        // OpenTracing.Util.GlobalTracer.Instance being a no-op ITracer).
+        private static readonly OpenTracing.ITracer SignalFxTracer = OpenTracingTracerFactory.WrapTracer(
+            SignalFx.Tracing.Tracer.Instance
+        );
+
         [FunctionName("ManuallyInstrumentedHttpTrigger")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
-            var tracer = GlobalTracer.Instance;
+            OpenTracing.ITracer tracer = SignalFxTracer;
             using var scope = tracer.BuildSpan("HttpTrigger").StartActive();
             
             string name = req.Query["name"];
@@ -57,8 +50,15 @@ namespace Azure.Functions
             ObjectResult result = null;
             try
             {
-                var client = new SampleClientLibrary(SamplerServerUrl);
-                responseMessage = await client.RequestAsync(responseMessage, CancellationToken.None);
+                if (name == "crash")
+                {
+                    // The SampleServer is not running, this will fail and will create a span if the
+                    // error information.
+                    var samplerServerUrl = $"http://localhost:19999{SampleServer.RequestPath}/";
+                    var client = new SampleClientLibrary(samplerServerUrl);
+                    responseMessage = await client.RequestAsync(responseMessage, CancellationToken.None);
+                }
+
                 result = new OkObjectResult(responseMessage);
             }
             catch (Exception e)
