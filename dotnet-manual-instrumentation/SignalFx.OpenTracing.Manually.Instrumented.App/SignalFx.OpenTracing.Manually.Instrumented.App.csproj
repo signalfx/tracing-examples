@@ -10,7 +10,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="SignalFx.Tracing.OpenTracing" Version="0.1.4" />
+      <PackageReference Include="SignalFx.Tracing.OpenTracing" Version="0.1.6" />
     </ItemGroup>
 
 </Project>
