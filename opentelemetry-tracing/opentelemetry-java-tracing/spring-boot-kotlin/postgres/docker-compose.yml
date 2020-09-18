@@ -1,0 +1,13 @@
+version: '2'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=test_db
+    volumes:
+      - "./initdb.d:/docker-entrypoint-initdb.d"
+    ports:
+      - "5432:5432"

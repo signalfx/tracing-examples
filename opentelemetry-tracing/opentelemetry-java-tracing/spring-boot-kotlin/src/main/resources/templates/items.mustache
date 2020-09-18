@@ -1,0 +1,51 @@
+<div class="items">
+    <div class="item-creation">
+        <div class="item-title">
+            <h4>Add an item for {{firstName}} {{lastName}}</h4>
+        </div>
+        <form action="/items" method="post">
+            <div class="item-creation-form">
+                <label>Name:</label>
+                <input type="text" name="name"/>
+                <label>Description:</label>
+                <input type="text" name="description"/>
+                <label>url:</label>
+                <input type="text" name="url" value="http://"/>
+                <label>Reason:</label>
+                <input type="text" name="reason"/>
+                <input type="hidden" name="wisher" value="{{wisherId}}"/>
+                <button type="submit" class="btn btn-primary">Add Item</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="item-results">
+        <div class="item-title"><h4>Items:</h4></div>
+        <div class="items-header">
+            <div class="items-header-field">Name</div>
+            <div class="items-header-field">Description</div>
+            <div class="items-header-field">Reason</div>
+            <div class="items-header-field">Url</div>
+            <div class="items-header-field">Added</div>
+        </div>
+        <div class="items-list">
+            {{#items}}
+                <div class="item">
+                    <div class="item-info">
+                        <div class="items-info-field">{{name}}</div>
+                        <div class="items-info-field">{{description}}</div>
+                        <div class="items-info-field">{{reason}}</div>
+                        <div class="items-info-field"><a target="_blank" href="{{url}}">link</a></div>
+                        <div class="items-info-field">{{addedAt}}</div>
+                    <form action="/items/delete/{{itemId}}" method="post">
+                        <div class="items-info-delete">
+                            <div><button type="submit" class="btn btn-primary">Delete</button></div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            {{/items}}
+        </div>
+    </div>
+</div>
+
