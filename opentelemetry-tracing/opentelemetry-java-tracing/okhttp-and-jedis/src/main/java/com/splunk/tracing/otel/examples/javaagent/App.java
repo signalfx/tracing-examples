@@ -3,6 +3,7 @@ package com.splunk.tracing.otel.examples.javaagent;
 import io.opentelemetry.OpenTelemetry;
 import io.opentelemetry.context.Scope;
 import io.opentelemetry.trace.Span;
+import io.opentelemetry.trace.Tracer;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,14 +57,17 @@ public class App {
                 .url(url)
                 .build();
 
+
+        Tracer tracer = OpenTelemetry.getTracer("sample");
+
         // This span acts as a root span that envelops the sets of spans generated
         // by both the HTTP call (using the OKHttp auto-instrumentation) and the
         // Redis set action (using the redis-jedis auto-instrumentation).  If you
-        // did not have this root span that is manaully created, you would instead
+        // did not have this root span that is manually created, you would instead
         // see two independent traces for the HTTP get and the Redis set.
-        // The Java agent sets the GlobalTracer instance before the application's main method is called.
-        Span span = OpenTelemetry.getTracer("sample").spanBuilder("fetch-and-set").startSpan();
-        try (Scope sc = OpenTelemetry.getTracer("sample").withSpan(span)){
+        // The Java agent sets the Tracer instance before the application's main method is called.
+        Span span = tracer.spanBuilder("fetch-and-set").startSpan();
+        try (Scope sc = tracer.withSpan(span)){
             String respBody;
             try {
                 Response response = httpClient.newCall(request).execute();
@@ -88,7 +92,7 @@ public class App {
             redisClient.close();
             // Give the tracer time to flush the spans in the sender thread.  In
             // long-running apps this is generally unnecessary but unfortunately there is no
-            // OpenTracing interface method for closing/stopping a tracer.
+            // OpenTelemetry API method for closing/stopping a tracer.
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             return;
