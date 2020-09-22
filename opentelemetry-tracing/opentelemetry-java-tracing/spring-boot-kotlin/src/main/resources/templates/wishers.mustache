@@ -1,0 +1,42 @@
+<div class="wishers">
+    <div class="wisher-access">
+        <div class="wisher-access-title">
+            <h3>Find or create a person</h3>
+        </div>
+        <div class="wisher-access-form">
+            <form action="/wishers" method="get">
+                <div class="wisher-access-form-input">
+                    <label>First Name: <input type="text" name="firstName"/></label>
+                </div>
+                <div class="wisher-access-form-input">
+                    <label>Last Name: <input type="text" name="lastName"/></label>
+                </div>
+                <div class="wisher-access-form-buttons">
+                    <button type="submit" class="btn btn-primary">Find (all if blank)</button>
+                    <button type="submit" class="btn btn-primary" formmethod="post">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="wisher-results">
+        {{#error}}
+            <div class="error">
+                <p>An error has occurred:</p>
+                {{error}}
+            </div>
+        {{/error}}
+        {{#wishers}}
+            <div class="wisher">
+                <div class="wisher-name">
+                    <h4>{{firstName}} {{lastName}}</h4>
+                    <div class="wisher-delete">
+                        <form action="/wishers/delete/{{wisherId}}" method="post">
+                            <button type="submit" class="btn btn-primary">Delete {{lastName}}</button>
+                        </form>
+                    </div>
+                </div>
+                {{>items}}
+            </div>
+        {{/wishers}}
+    </div>
+</div>
