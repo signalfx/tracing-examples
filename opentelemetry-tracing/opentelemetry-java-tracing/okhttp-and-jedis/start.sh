@@ -1,8 +1,6 @@
 #!/bin/zsh
 
-export OTEL_EXPORTER=zipkin
-export OTEL_ZIPKIN_ENDPOINT=http://localhost:9080/v1/trace
-export OTEL_ZIPKIN_SERVICE_NAME=my-java-app
+export OTEL_ZIPKIN_SERVICE_NAME=my-sample-app
 
 docker run -d --name redis-tracing-test -p 6379:6379 redis
 mvn package

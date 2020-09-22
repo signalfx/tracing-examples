@@ -65,7 +65,6 @@ public class App {
         // Redis set action (using the redis-jedis auto-instrumentation).  If you
         // did not have this root span that is manually created, you would instead
         // see two independent traces for the HTTP get and the Redis set.
-        // The Java agent sets the Tracer instance before the application's main method is called.
         Span span = tracer.spanBuilder("fetch-and-set").startSpan();
         try (Scope sc = tracer.withSpan(span)){
             String respBody;

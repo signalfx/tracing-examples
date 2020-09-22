@@ -9,13 +9,13 @@ modification of the target application's source code.
 Here are some environment variables you might need to set to configure the Java
 agent:
 ```
-$ # Exporter configuration - default is OTEL exporter
-$ # Eg. set ZIPKIN exporter - compatible with SignalFX SmartAgent
-$ export OTEL_EXPORTER=zipkin
+$ # Exporter configuration - default is Zipkin exporter with endpoint URL http://localhost:9080/v1/trace"
+$ # Eg. set OTLP exporter - compatible with SignalFX SmartAgent
+$ export OTEL_EXPORTER=otlp
 
 $ # Exporter endpoint URL - each exporter has own, specific property name and the default value  
-$ # Eg. set ZIPKIN exporter URL - default is http://localhost:9411/api/v2/spans
-$ export OTEL_ZIPKIN_ENDPOINT=http://localhost:9080/v1/trace
+$ # Eg. set OTLP exporter URL - default is localhost:55680
+$ export OTEL_OTLP_ENDPOINT=localhost:9411
 
 $ # Exporter service name - each exporter has own, specific property name
 $ # Eg. set ZIPKIN service name
