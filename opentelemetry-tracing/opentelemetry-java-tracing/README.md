@@ -10,4 +10,5 @@ please see the [Splunk distribution of OpenTelemetry Java instrumentation projec
 ## Libraries and Framework Examples
 - [OkHttp and Jedis](./okhttp-and-jedis)
 - [Spring Boot (in Kotlin)](./spring-boot-kotlin)
+- [CloudFoundry Java buildpack](./cloudfoundry-buildpack)
 

@@ -1,0 +1,8 @@
+---
+applications:
+- name: "otel-cf-demo"
+  buildpacks:
+  - "splunk_otel_java_buildpack"
+  - "https://github.com/cloudfoundry/java-buildpack"
+  env:
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
