@@ -8,3 +8,4 @@ please see the [SignalFx Tracing Library for .NET project](https://github.com/si
 
 ## Libraries and Framework Examples
 - [ASP.NET Core and MongoDb](./aspnetcore-and-mongodb)
+- [CloudFoundry .Net buildpack](./cloudfoundry-buildpack)

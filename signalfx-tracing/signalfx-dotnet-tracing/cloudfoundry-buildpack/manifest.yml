@@ -1,0 +1,7 @@
+applications:
+- name: "dotnet-cf-demo"
+  buildpacks:
+  - "signalfx_dotnet_tracing_buildpack"
+  - "dotnet_core_buildpack"
+  env:
+    SIGNALFX_TRACE_LOG_PATH: "/home/vcap/sfx-dotnet-agent.log"
