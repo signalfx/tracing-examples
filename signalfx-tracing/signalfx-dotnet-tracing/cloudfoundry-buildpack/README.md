@@ -7,11 +7,14 @@ It's auto-instrumented by the SignalFx Tracing Library for .NET Buildpack.
 
 ## Building the example app
 
+To deploy this example on CloudFoundry you need to have [cfcli](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html) installed.
+If you want to compile and run it locally .NET Core needs to be installed on your machine.
+
 To run this example locally and send traces to your available Smart Agent or OpenTelemetry Collector,
 please clone this repository and from this directory do the following:
 
 ```sh
-$ cake
+$ dotnet publish
 ```
 
 To verify that it works you can just run it and check if the endpoint responds:
