@@ -19,6 +19,7 @@ To verify that it works you can just start the jar and check if the endpoint res
 ```sh
 $ # in first console window
 $ java -jar target/cloudfoundry-buildpack-demo-0.0.1-SNAPSHOT.jar
+
 $ # in second console window
 $ curl http://localhost:8080/get/example
 ```
@@ -31,8 +32,8 @@ In case you run `cf create-buildpack` manually please make sure the buildpack na
 Now you can deploy this example to your CloudFoundry org:
 
 ```sh
-# Configure the tracing library
-$ cf set-env my-app OTEL_ZIPKIN_SERVICE_NAME <application name>
+# Configure the Java agent if needed
+$ cf set-env my-app OTEL_ZIPKIN_ENDPOINT <custom endpoint>
 
 # Deploy the app using manifest.yml
 $ cf push -p target/cloudfoundry-buildpack-demo-0.0.1-SNAPSHOT.jar
