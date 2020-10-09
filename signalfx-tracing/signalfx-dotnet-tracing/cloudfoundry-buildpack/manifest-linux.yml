@@ -1,0 +1,8 @@
+applications:
+- name: "dotnet-cf-demo"
+  stack: cflinuxfs3
+  buildpacks:
+  - "signalfx_dotnet_tracing_buildpack"
+  - "dotnet_core_buildpack"
+  env:
+    SIGNALFX_SERVICE_NAME: "dotnet-cf-demo"

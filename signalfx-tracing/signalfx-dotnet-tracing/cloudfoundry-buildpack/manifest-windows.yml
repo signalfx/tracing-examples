@@ -1,0 +1,9 @@
+applications:
+- name: "dotnet-cf-demo"
+  stack: windows
+  command: cmd /c .\CloudFoundryBuildpackExample.exe
+  buildpacks:
+  - "signalfx_dotnet_tracing_buildpack"
+  - "binary_buildpack"
+  env:
+    SIGNALFX_SERVICE_NAME: "dotnet-cf-demo"
