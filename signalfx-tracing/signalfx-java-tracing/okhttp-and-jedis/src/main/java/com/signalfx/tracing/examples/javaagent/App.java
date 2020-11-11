@@ -1,7 +1,7 @@
 package com.signalfx.tracing.examples.javaagent;
 
 import com.signalfx.tracing.api.Trace;
-import com.signalfx.tracing.context.TraceScope;
+import io.opentelemetry.opentracingshim.OpenTracingShim;
 import io.opentracing.Scope;
 import io.opentracing.Span;
 import io.opentracing.tag.Tags;
@@ -53,6 +53,8 @@ public class App {
             System.out.println("Please specify a URL to fetch");
             System.exit(1);
         }
+
+        GlobalTracer.registerIfAbsent(OpenTracingShim.createTracerShim());
 
         String url = argv[0];
 
@@ -115,13 +117,6 @@ public class App {
         // This accesses the span created by the @Trace annotation and adds a tag to it.
         Span activeSpan = GlobalTracer.get().scopeManager().activeSpan();
         activeSpan.setTag("my-tag", "my-value");
-
-        // Set a flag on the current scope to allow automatic propagation across thread boundaries.  If you did not
-        // set this and wanted to continue with the current trace in a new thread, you would need to pass the Span
-        // instance across to the thread in a closure and then reactive it manually with
-        // `GlobalTracer.get().scopeManager().activate(span, finishOnClose)` in the thread method/function.
-        // The current scope contains the span created by the @Trace annotation on this method.
-        ((TraceScope) GlobalTracer.get().scopeManager().activate(activeSpan)).setAsyncPropagation(true);
 
         executor.submit(() -> redisClient.set(url, value));
     }
