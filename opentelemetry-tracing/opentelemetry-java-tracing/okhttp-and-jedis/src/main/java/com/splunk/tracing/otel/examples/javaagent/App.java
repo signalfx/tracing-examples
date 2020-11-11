@@ -1,9 +1,9 @@
 package com.splunk.tracing.otel.examples.javaagent;
 
-import io.opentelemetry.OpenTelemetry;
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
-import io.opentelemetry.trace.Span;
-import io.opentelemetry.trace.Tracer;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +58,7 @@ public class App {
                 .build();
 
 
-        Tracer tracer = OpenTelemetry.getTracer("sample");
+        Tracer tracer = OpenTelemetry.getGlobalTracer("sample");
 
         // This span acts as a root span that envelops the sets of spans generated
         // by both the HTTP call (using the OKHttp auto-instrumentation) and the
@@ -66,7 +66,7 @@ public class App {
         // did not have this root span that is manually created, you would instead
         // see two independent traces for the HTTP get and the Redis set.
         Span span = tracer.spanBuilder("fetch-and-set").startSpan();
-        try (Scope sc = tracer.withSpan(span)){
+        try (Scope sc = span.makeCurrent()) {
             String respBody;
             try {
                 Response response = httpClient.newCall(request).execute();
