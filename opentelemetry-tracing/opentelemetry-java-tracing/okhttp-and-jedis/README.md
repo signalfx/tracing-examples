@@ -25,7 +25,7 @@ $ export OTEL_ZIPKIN_SERVICE_NAME=my-java-app
 To obtain the latest Java agent, download it to your host's filesystem:
 
 ```
-curl -sSL -o /opt/opentelemetry-javaagent-all.jar 'https://github.com/signalfx/signalfx-otel-java/releases/latest/download/signalfx-otel-javaagent-all.jar'
+curl -sSL -o /opt/opentelemetry-javaagent-all.jar 'https://github.com/signalfx/splunk-otel-java/releases/latest/download/splunk-otel-javaagent-all.jar'
 ```
 
 Make sure it is not writable by unsecured users since modifications to the
