@@ -11,7 +11,7 @@ FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 COPY --from=build /build/publish /app
 WORKDIR /app
 
-ADD https://github.com/signalfx/signalfx-dotnet-tracing/releases/latest/download/signalfx-dotnet-tracing.deb  /tmp/sdt.deb
+ADD https://github.com/signalfx/signalfx-dotnet-tracing/releases/download/v0.1.2/signalfx-dotnet-tracing_0.1.2_amd64.deb /tmp/sdt.deb
 RUN dpkg -i /tmp/sdt.deb
 
 RUN mkdir /var/log/signalfx
