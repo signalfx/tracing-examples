@@ -1,8 +1,15 @@
 #!/bin/zsh
 
-export OTEL_ZIPKIN_SERVICE_NAME=my-sample-app
+export OTEL_RESOURCE_ATTRIBUTES=service.name=my-sample-app
+export OTEL_TRACES_EXPORTER=otlp
 
-docker run -d --name redis-tracing-test -p 6379:6379 redis
+echo Starting a redis container
+docker run -d -p 6379:6379 redis
+
+# wait for redis to be up and running
+echo Waiting for redis to be ready
+sleep 3
+
 mvn package
-java  -javaagent:/opt/opentelemetry-javaagent-all.jar \
+java  -javaagent:opentelemetry-javaagent-all.jar \
       -jar target/java-agent-example-1.0-SNAPSHOT-shaded.jar https://google.com
