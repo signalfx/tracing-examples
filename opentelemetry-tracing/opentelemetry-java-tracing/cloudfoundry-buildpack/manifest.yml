@@ -6,4 +6,4 @@ applications:
   - "https://github.com/cloudfoundry/java-buildpack"
   env:
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
-    OTEL_ZIPKIN_SERVICE_NAME: "otel-cf-demo"
+    OTEL_RESOURCE_ATTRIBUTES: "service.name=otel-cf-demo"

@@ -32,7 +32,7 @@ In case you run `cf create-buildpack` manually please make sure the buildpack na
 Now you can deploy this example to your CloudFoundry org:
 
 ```sh
-# Configure the Java agent if needed
+# Configure the Java agent if needed. For example:
 $ cf set-env my-app OTEL_ZIPKIN_ENDPOINT <custom endpoint>
 
 # Deploy the app using manifest.yml
