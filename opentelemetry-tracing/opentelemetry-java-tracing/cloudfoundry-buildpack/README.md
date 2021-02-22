@@ -26,7 +26,7 @@ $ curl http://localhost:8080/get/example
 
 ## Deploying to CloudFoundry
 
-Please install the Splunk distribution of OpenTelemetry Instrumentation Buildpack using [these instructions](https://github.com/signalfx/splunk-otel-java/tree/master/deployments/cloudfoundry/buildpack/README.md).
+Please install the Splunk distribution of OpenTelemetry Instrumentation Buildpack using [these instructions](https://github.com/signalfx/splunk-otel-java/blob/main/deployments/cloudfoundry/buildpack/README.md).
 In case you run `cf create-buildpack` manually please make sure the buildpack name remains unchanged - or please change the `manifest.yml` file.
 
 Now you can deploy this example to your CloudFoundry org:
