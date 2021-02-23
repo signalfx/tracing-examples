@@ -21,17 +21,16 @@ $ ./start.sh
 Here are some environment variables you might need to set to configure the Java
 agent:
 ```
-$ # Exporter configuration - default is Zipkin exporter with endpoint URL http://localhost:9080/v1/trace"
-$ # Eg. set OTLP exporter - compatible with SignalFX SmartAgent
-$ export OTEL_EXPORTER=otlp
+$ # Exporter configuration - default is the Jaeger Thrift exporter with endpoint URL "http://localhost:9080/v1/trace"
+$ # Eg. to set up the application to use the OTLP exporter - compatible with SignalFX SmartAgent
+$ export OTEL_TRACES_EXPORTER=otlp
 
 $ # Exporter endpoint URL - each exporter has own, specific property name and the default value  
-$ # Eg. set OTLP exporter URL - default is localhost:55680
-$ export OTEL_OTLP_ENDPOINT=localhost:9411
+$ # Eg. to set up the OTLP exporter URL - default is http://localhost:4317
+$ export OTEL_OTLP_ENDPOINT=http://localhost:12345
 
-$ # Exporter service name - each exporter has own, specific property name
-$ # Eg. set ZIPKIN service name
-$ export OTEL_ZIPKIN_SERVICE_NAME=my-java-app
+$ # Service name - Use resource attributes to set this.
+$ export OTEL_RESOURCE_ATTRIBUTES=service.name=my-java-app
 ```
 
 ## Accessing the Wishlist
