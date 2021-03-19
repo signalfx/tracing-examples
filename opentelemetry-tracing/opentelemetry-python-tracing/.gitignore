@@ -1,0 +1,17 @@
+*.cache/
+*.dist-info/
+*.egg-info/
+*.py[co]
+*.pytest_cache
+*.sqlite3
+.coverage
+.python-version
+.nox
+.tox
+.vscode
+venv/
+env/
+build/
+dist/
+htmlcov/
+*.idea/
