@@ -11,5 +11,5 @@ echo Waiting for redis to be ready
 sleep 3
 
 mvn package
-java  -javaagent:opentelemetry-javaagent-all.jar \
+java  -javaagent:splunk-otel-javaagent-all.jar \
       -jar target/java-agent-example-1.0-SNAPSHOT-shaded.jar https://google.com
