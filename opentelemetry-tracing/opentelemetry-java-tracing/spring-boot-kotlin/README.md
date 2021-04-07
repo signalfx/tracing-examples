@@ -14,7 +14,7 @@ please clone this repository and from this directory do the following:
 $ # docker-compose is required for postgres instance
 $ pip install docker-compose
 $ # download the newest version of the agent
-$ sudo curl -sSL -o /opt/opentelemetry-javaagent-all.jar 'https://github.com/signalfx/signalfx-otel-java/releases/latest/download/signalfx-otel-javaagent-all.jar'
+$ curl -sSL -o splunk-otel-javaagent-all.jar 'https://github.com/signalfx/signalfx-otel-java/releases/latest/download/splunk-otel-javaagent-all.jar'
 $ ./start.sh
 ```
 

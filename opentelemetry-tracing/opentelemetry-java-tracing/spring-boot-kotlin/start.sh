@@ -7,4 +7,4 @@ export OTEL_RESOURCE_ATTRIBUTES=service.name=wishlist-app
 
 docker-compose -f postgres/docker-compose.yml up -d
 
-mvn spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:opentelemetry-javaagent-all.jar"
+mvn spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:splunk-otel-javaagent-all.jar"
