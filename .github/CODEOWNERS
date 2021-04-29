@@ -1,0 +1,9 @@
+# Java examples
+/jaeger-java-spring-boot-web/                      @signalfx/gdi-instrumentation-java
+/jaeger-java/                                      @signalfx/gdi-instrumentation-java
+/opencensus-jaeger-java-spring-boot/               @signalfx/gdi-instrumentation-java
+/opentelemetry-tracing/opentelemetry-java-tracing/ @signalfx/gdi-instrumentation-java
+/opentracing-kafka-java/                           @signalfx/gdi-instrumentation-java
+/signalfx-tracing/signalfx-java-tracing/           @signalfx/gdi-instrumentation-java
+/zipkin-brave-java-spring-boot-web/                @signalfx/gdi-instrumentation-java
+/zipkin-brave-java/                                @signalfx/gdi-instrumentation-java
