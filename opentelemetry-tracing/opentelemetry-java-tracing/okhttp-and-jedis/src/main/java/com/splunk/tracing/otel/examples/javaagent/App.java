@@ -68,16 +68,12 @@ public class App {
         //this will get the current span from the Context, which was created by the auto-instrumentation agent based
         // on the annotation on the method.
         Span span = Span.current();
-        try {
-            String respBody;
-            try {
-                Response response = httpClient.newCall(request).execute();
-                respBody = response.body().string();
-            } catch (IOException e) {
-                System.out.println("Error: " + e);
-                return;
-            }
+        try (Response response = httpClient.newCall(request).execute()) {
+            String respBody = response.body().string();
             executor.submit(() -> redisClient.set(url, respBody));
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+            return;
         } catch (Throwable e) {
             span.recordException(e);
             span.setStatus(StatusCode.ERROR, e.getMessage());
@@ -88,12 +84,13 @@ public class App {
             executor.shutdown();
             executor.awaitTermination(3000, TimeUnit.MILLISECONDS);
             redisClient.close();
+            httpClient.connectionPool().evictAll();
             // Give the tracer time to flush the spans in the sender thread.  In
             // long-running apps this is generally unnecessary but unfortunately there is no
             // OpenTelemetry API method for closing/stopping a tracer.
             Thread.sleep(2000);
         } catch (InterruptedException e) {
-            return;
+            //Do nothing
         }
     }
 }
