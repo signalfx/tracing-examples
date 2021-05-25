@@ -2,7 +2,7 @@
 
 This is an example of automatically producing traces using the
 [Splunk distribution of OpenTelemetry Java instrumentation project](https://github.com/signalfx/splunk-otel-java).  
-This example is of a simple wishlist web app that is automatically instrumented by
+This is a simple wishlist web app that is automatically instrumented by
 the instrumentation agent which is attached to the JVM via command-line option.
 
 ## Example application
