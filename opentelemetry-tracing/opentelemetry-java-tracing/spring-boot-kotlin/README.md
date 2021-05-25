@@ -2,39 +2,33 @@
 
 This is an example of automatically producing traces using the
 [Splunk distribution of OpenTelemetry Java instrumentation project](https://github.com/signalfx/splunk-otel-java).  
-This example is of a simple wishlist web app that is auto-instrumented by providing
-the agent jar via the required JVM command-line option.
+This is a simple wishlist web app that is automatically instrumented by
+the instrumentation agent which is attached to the JVM via command-line option.
 
-## Building the example app
+## Example application
 
-To run this example locally and send traces to your available Smart Agent or Gateway,
-please clone this repository and from this directory do the following:
+The example application is a simple wishlist that allows adding desired items for individual users.
+When you interact with the application via a web browser OpenTelemetry instrumentation will produce telemetry
+and send it to locally running [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/getting-started/).
 
-```bash
-$ # docker-compose is required for postgres instance
-$ pip install docker-compose
-$ # download the newest version of the agent
-$ curl -sSL -o splunk-otel-javaagent-all.jar 'https://github.com/signalfx/signalfx-otel-java/releases/latest/download/splunk-otel-javaagent-all.jar'
-$ ./start.sh
+## Getting started
+
+To run the example just execute
+```shell
+./start.sh
 ```
 
-Here are some environment variables you might need to set to configure the Java
-agent:
-```
-$ # Exporter configuration - default is the Jaeger Thrift exporter with endpoint URL "http://localhost:9080/v1/trace"
-$ # Eg. to set up the application to use the OTLP exporter - compatible with SignalFX SmartAgent
-$ export OTEL_TRACES_EXPORTER=otlp
+This will build and run the demo application together with Collector. 
+Point your web browser to [http://localhost:8080](http://localhost:8080) and interact with the application.
+You can see the produced telemetry in the standard output of the Collector docker container:
 
-$ # Exporter endpoint URL - each exporter has own, specific property name and the default value  
-$ # Eg. to set up the OTLP exporter URL - default is http://localhost:4317
-$ export OTEL_OTLP_ENDPOINT=http://localhost:12345
-
-$ # Service name - Use resource attributes to set this.
-$ export OTEL_RESOURCE_ATTRIBUTES=service.name=my-java-app
+```shell
+docker logs -f collector
 ```
 
-## Accessing the Wishlist
+You can stop the application by pressing CTRL-C.
 
-The example application is a simple wishlist that allows adding desired items for
-individual users.  By default, you can access the site via http://localhost:8080/ in your
-web browser.
+## More information
+Please read comments in [start.sh](./start.sh) script to understand all the steps involved in this example.
+In order to see how telemetry is produced and how the application can communicate with
+instrumentation agent, please read [application source code](./src/main/kotlin).
