@@ -1,10 +1,19 @@
 #!/bin/zsh
 
-export OTEL_RESOURCE_ATTRIBUTES=service.name=wishlist-app
+# Start OpenTelemetry Collector
+docker run --rm -d -p 4317:4317 --name collector otel/opentelemetry-collector
 
-## use below to point to a default Jaeger installation on localhost:
-#export OTEL_EXPORTER_JAEGER_ENDPOINT=http://localhost:14268/api/traces
+# Download instrumentation agent if does not exist yet
+curl -sSL -C - -o splunk-otel-javaagent-all.jar 'https://github.com/signalfx/splunk-otel-java/releases/latest/download/splunk-otel-javaagent-all.jar'
 
-docker-compose -f postgres/docker-compose.yml up -d
+# Provide recommended configuration for the instrumentation agent
+export OTEL_RESOURCE_ATTRIBUTES="service.name=wishlist-app"
 
-mvn spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:splunk-otel-javaagent-all.jar"
+# Run database for the application
+docker run --name postgres -p 5432:5432 --rm -d -e POSTGRES_PASSWORD=password postgres:latest
+
+# Stop and remove all containers on exit
+trap "docker stop postgres collector" SIGINT
+
+# Run demo application adding instrumentation agent to the JVM startup
+./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-javaagent:splunk-otel-javaagent-all.jar"
