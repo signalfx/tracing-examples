@@ -26,13 +26,16 @@
       <groupId>io.opentracing</groupId>
       <artifactId>opentracing-util</artifactId>
       <version>0.32.0</version>
-      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>com.signalfx.public</groupId>
       <artifactId>signalfx-trace-api</artifactId>
       <version>0.36.0-sfx9</version>
-      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.opentelemetry</groupId>
+      <artifactId>opentelemetry-opentracing-shim</artifactId>
+      <version>0.10.0</version>
     </dependency>
 
     <dependency>
