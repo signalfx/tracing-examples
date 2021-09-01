@@ -205,3 +205,14 @@ the app.
           loginSpan.end();
         }
   ```
+
+5. Build and restart the app. Try out the "LOGIN" button. Can you find workflow Event metrics in the UI?
+
+#### 2. Bonus content: Try out other manual instrumentation options
+
+Here are some other ideas to try, if you have the time:
+
+1. Set some global attributes when building the `Config` that you created in Part 2.
+2. Create your own workflows.
+3. Create a custom Event or an Exception.
+4. Use the OpenTelemetry APIs directly to create your own custom spans.
