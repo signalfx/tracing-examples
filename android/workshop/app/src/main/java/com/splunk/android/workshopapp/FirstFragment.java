@@ -36,7 +36,6 @@ import org.apache.http.conn.ssl.AllowAllHostnameVerifier;
 import java.io.IOException;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
-import java.util.concurrent.ExecutorService;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
@@ -45,7 +44,6 @@ import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -56,7 +54,7 @@ public class FirstFragment extends Fragment {
     private final MutableLiveData<String> httpResponse = new MutableLiveData<>();
 
     private FragmentFirstBinding binding;
-    private OkHttpClient okHttpClient;
+    private Call.Factory okHttpClient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,15 +77,14 @@ public class FirstFragment extends Fragment {
             throw new IllegalStateException("Crashing due to a bug!");
         });
 
-        binding.httpMe.setOnClickListener(v -> {
+        binding.loginButton.setOnClickListener(v -> {
             //not really a login, but it does make an http call
             makeCall("https://ssidhu.o11ystore.com/");
-            //maybe this call gave us a real customer id, so let's put it into the global attributes
         });
-        binding.httpMeBad.setOnClickListener(v -> {
+        binding.httpErrorButton.setOnClickListener(v -> {
             makeCall("https://asdlfkjasd.asdfkjasdf.ifi");
         });
-        binding.httpMeNotFound.setOnClickListener(v -> {
+        binding.httpNotFoundButton.setOnClickListener(v -> {
             makeCall("https://ssidhu.o11ystore.com/foobarbaz");
         });
     }
@@ -127,9 +124,7 @@ public class FirstFragment extends Fragment {
         super.onResume();
     }
 
-    private OkHttpClient buildOkHttpClient() {
-        //grab the default executor service that okhttp uses, and wrap it with one that will propagate the otel context.
-        ExecutorService delegateExecutorService = new Dispatcher().executorService();
+    private Call.Factory buildOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         try {
             // NOTE: This is really bad and dangerous. Don't ever do this in the real world.
@@ -137,10 +132,8 @@ public class FirstFragment extends Fragment {
             SSLContext sslContext = SSLContext.getInstance(SSL);
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
             SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
-            return builder
-                    .sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
-                    .hostnameVerifier(new AllowAllHostnameVerifier())
-                    .build();
+            builder.sslSocketFactory(sslSocketFactory, (X509TrustManager) trustAllCerts[0])
+                   .hostnameVerifier(new AllowAllHostnameVerifier());
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             e.printStackTrace();
         }
