@@ -13,7 +13,9 @@ This workshop assumes that you have done the following:
     - "Create an Android Project"  https://developer.android.com/training/basics/firstapp/creating-project
     - "Run Your App"  https://developer.android.com/training/basics/firstapp/running-app
 * Have access to a Splunk RUM enabled organization in the Splunk Observability product.
-* Have a valid accessToken with the `RUM` authorization scope attached.
+* Have a
+  valid [Splunk access token](https://docs.splunk.com/Observability/rum/rum.html#step-1-generate-your-rum-token-in-the-observability-cloud)
+  with the `RUM` authorization scope attached.
 
 This workshop assumes you are on some kind of unix-like system, such as Mac OSX with a standard shell, like `bash`
 or `zsh`.
@@ -62,6 +64,9 @@ as you navigate around the app.
    something like "`build.gradle (Module: Workshop_App.app)`"
 2. Add support
    for "[core library desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring)"
+   Desugaring is important because both the Splunk Android RUM library and the underlying OpenTelemetry libraries use
+   Java 8 language features extensively. Without desugaring support enabled, many Java 8 classes and features will not
+   be available to the app at runtime and it will crash.
     1. Update the `compileOptions` section to look like this, adding the line to enable core library desugaring.
        ```
        compileOptions {
