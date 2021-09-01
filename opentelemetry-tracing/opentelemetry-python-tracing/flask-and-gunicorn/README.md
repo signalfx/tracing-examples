@@ -21,13 +21,14 @@ pip install -r requirements.txt
 ## 4. Install instrumentation packages
 
 ```
-splk-py-trace-bootstrap
+splunk-py-trace-bootstrap
 ```
 
 ## 5. Run the Django app with Gunicorn
 
 ```
-gunicorn -b 127.0.0.1:8000 -c gunicorn.config.py --threads 2 --workers 4 app.wsgi
+export OTEL_SERVICE_NAME=my-flask-service
+gunicorn -b 127.0.0.1:8000 -c gunicorn.config.py --threads 2 --workers 4 app:app
 ```
 
 Open http://localhost:8000/hello/ to access the app.

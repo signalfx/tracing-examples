@@ -15,19 +15,20 @@ source venv/bin/activate
 ## 3. Install Falcon and Splunk OpenTelemetry
 
 ```
-pip install falcon splunk-opentelemetry
+pip install -r requirements.txt
 ```
 
 ## 4. Install instrumentation packages
 
 ```
-splk-py-trace-bootstrap
+splunk-py-trace-bootstrap
 ```
 
 ## 5. Instrument and run the falcon app
 
 ```
-splk-py-trace python main.py
+export OTEL_SERVICE_NAME=my-falcon-service
+splunk-py-trace python main.py
 ```
 
 Open http://localhost:8000/hello to access the app.
