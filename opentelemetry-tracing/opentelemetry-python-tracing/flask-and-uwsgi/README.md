@@ -21,12 +21,13 @@ pip install -r requirements.txt
 ## 4. Install instrumentation packages
 
 ```
-splk-py-trace-bootstrap
+splunk-py-trace-bootstrap
 ```
 
 ## 5. Run the Django app with Gunicorn
 
 ```
+export OTEL_SERVICE_NAME=my-flask-app
 uwsgi --http 127.0.0.1:8000 --wsgi-file app.py --callable app --master --processes 4 --enable-threads
 ```
 

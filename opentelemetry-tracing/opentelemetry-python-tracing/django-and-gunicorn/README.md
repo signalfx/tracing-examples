@@ -21,13 +21,14 @@ pip install -r requirements.txt
 ## 4. Install instrumentation packages
 
 ```
-splk-py-trace-bootstrap
+splunk-py-trace-bootstrap
 ```
 
 ## 5. Run the Django app with Gunicorn
 
 ```
 export DJANGO_SETTINGS_MODULE=djtest.settings
+export OTEL_SERVICE_NAME=my-django-service
 gunicorn -b 127.0.0.1:8000 -c gunicorn.config.py --threads 2 --workers 4 djtest.wsgi
 ```
 
@@ -35,6 +36,3 @@ Open http://localhost:8000/hello to access the app.
 
 
 Refer to `gunicorn.config.py` to see how tracing is setup.
-
-
-
