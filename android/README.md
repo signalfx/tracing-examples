@@ -44,15 +44,15 @@ $ cd tracing-examples/android/workshop
    choosing. Do so now, and verify the app runs.
 4. Bonus step: click around the application, explore the various features (and bugs!).
 
-In the next part of the workshop, we'll work on adding the Splunk RUM Android instrumentation to the project and get
+In the next part of the workshop, you'll work on adding the Splunk RUM Android instrumentation to the project and get
 telemetry flowing into the Splunk RUM product.
 
 ## Part 2: Add RUM instrumentation
 
-In part 2, we'll add the dependency on the Splunk Android RUM library, making sure that core library desugaring had been
-enabled. We'll write a simple configuration for the library, and run the application. If all goes as planned, telemetry
-data will appear in the RUM product, and we'll be able to see recording of app startup and activity/fragment tracking
-as you navigate around the app.
+In part 2, you'll add the dependency on the Splunk Android RUM library, making sure that core library desugaring had
+been enabled. You'll write a simple configuration for the library, and run the application. If all goes as planned,
+telemetry data will appear in the RUM product, and you'll be able to see recording of app startup and activity/fragment
+tracking as you navigate around the app.
 
 | Objective  | To add RUM instrumentation to the app and see data in the Splunk RUM product. |
 | ---        | ---
@@ -124,7 +124,7 @@ as you navigate around the app.
 
 ## Part 3: Add http client instrumentation
 
-The Splunk Android library includes instrumentation for okhttp clients. In this part of the workshop, we'll use it when
+The Splunk Android library includes instrumentation for okhttp clients. In this part of the workshop, you'll use it when
 configuring the okhttp client that is used in the sample app.
 
 | Objective  | To add OpenTelemetry okhttp client instrumentation to the app and see client request metrics in the Splunk RUM product. |
@@ -152,8 +152,8 @@ configuring the okhttp client that is used in the sample app.
 ## Part 4: Add some manual instrumentation
 
 The SplunkRum class in the Android RUM library contains a bunch of options for doing manual instrumentation and for
-customizing the telemetry that is sent to Splunk RUM. In this part of the workshop, we'll try a couple of them, and
-leave the rest for you to explore on your own.
+customizing the telemetry that is sent to Splunk RUM. In this part of the workshop, you'll try a couple of them, and you
+can explore the rest on your own.
 
 | Objective  | To add some manually instrumented spans and events to the app. |
 | ---        | ---            |
