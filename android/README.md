@@ -87,7 +87,7 @@ tracking as you navigate around the app.
     1. In the `dependencies` block, add this dependency (note: if there is
        a [more recent version published](https://github.com/signalfx/splunk-otel-android/releases), please use it):
        ```
-       implementation ("com.splunk:splunk-otel-android:0.6.0")
+       implementation ("com.splunk:splunk-otel-android:0.7.0")
        ```   
     2. Click the "Sync Now" prompt at the top of Android Studio, build the app and run it to make sure everything is
        still working as before.
@@ -137,9 +137,7 @@ configuring the okhttp client that is used in the sample app.
 2. Find the `buildOkHttpClient()` method.
 3. Change the last line of the method to read:
    ```
-    return builder
-            .addInterceptor(SplunkRum.getInstance().createOkHttpRumInterceptor())
-            .build();
+   return SplunkRum.getInstance().createRumOkHttpCallFactory(builder.build());
    ```
    Remember to add an import for the `com.splunk.rum.SplunkRum` class when prompted by Android Studio.
 4. Build and restart the app. Now try generating some http traffic by using the 3 buttons on the first screen of the app
@@ -219,5 +217,10 @@ Here are some other ideas to try, if you have the time:
 
 1. Set some global attributes when building the `Config` that you created in Part 2.
 2. Create your own workflows.
-3. Create a custom Event or an Exception.
-4. Use the OpenTelemetry APIs directly to create your own custom spans.
+3. Write some customization of the `Config.Builder` that will change or remove span attributes.
+4. Create a custom Event or an Exception.
+5. Use the [OpenTelemetry APIs](https://opentelemetry.io/docs/java/manual_instrumentation/#create-a-basic-span) directly
+   to create your own custom spans.
+6. Did you notice that the "Login" workflow span ended before the http call was complete? Can you update the code to
+   make it so the workflow isn't complete until the http call is complete?
+
