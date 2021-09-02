@@ -51,7 +51,7 @@ telemetry flowing into the Splunk RUM product.
 
 In part 2, we'll add the dependency on the Splunk Android RUM library, making sure that core library desugaring had been
 enabled. We'll write a simple configuration for the library, and run the application. If all goes as planned, telemetry
-data will appear in the RUM product, and we'll be able to see recording of app startup and activity/fragment tracking.
+data will appear in the RUM product, and we'll be able to see recording of app startup and activity/fragment tracking
 as you navigate around the app.
 
 | Objective  | To add RUM instrumentation to the app and see data in the Splunk RUM product. |
