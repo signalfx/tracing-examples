@@ -95,7 +95,7 @@ as you navigate around the app.
    set up instrumentation: your RUM access token, your Splunk realm, and the name of your app.
     1. Open up the `com.splunk.android.workshopapp.SampleApplication` class in Android Studio
         1. You can do by opening up the app/java/com/splunk/android/workshopapp folder in the project view.
-        2. Bonus: Use the Android Studio keyboard shortcut "Navigate to Class" to do open this java file.
+        2. Bonus: Use the Android Studio keyboard shortcut "Navigate to Class" to open this java file.
     2. Insert the following at the beginning of the `onCreate()` method. Use your actual rumAccessToken and realm:
        ```
          Config config = Config.builder()
