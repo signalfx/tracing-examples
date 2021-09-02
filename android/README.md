@@ -23,7 +23,7 @@ or `zsh`.
 ## Part 1: First steps
 
 In this part of the workshop, you will get the code downloaded to your computer, and running locally, either using your
-own Android device or using the Android simulator on your local computer.
+own Android device or using the Android emulator on your local computer.
 
 | Objective  | To get the Android workshop app loaded into Android Studio and running locally |
 | ---        | ---
