@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Splunk RUM Workshop App</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="crash">Crash</string>
+    <string name="email_question">It looks like you\'re trying to send an email. Can I help with that?</string>
+    <string name="cancel">NO!</string>
+    <string name="clippy">clippy</string>
+    <string name="login">Login</string>
+    <string name="http_error">Http Error</string>
+    <string name="http_not_found">HTTP Not Found</string>
+
+    <string name="start_spam">Spam start!</string>
+    <string name="stop_spam">Spam stop</string>
+    <string name="spam_status">Created %d spams</string>
+    <string name="freeze">Freeze!</string>
+    <string name="mainthread_work">MainThread work</string>
+    <string name="custom_tab">Chrome</string>
+</resources>
