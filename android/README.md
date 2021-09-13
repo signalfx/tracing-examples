@@ -8,9 +8,11 @@ instrumentation to it.
 This workshop assumes that you have done the following:
 
 * Have `git` installed and can use it to clone open source repositories (such as this one).
-* Installed [Android Studio](https://developer.android.com/studio/)
+* Installed [Android Studio](https://developer.android.com/studio/). Be sure you have the latest released version. Check
+  your install for updates if you already have it installed.
 * Gone through the first 2 lessons for Android developers:
-    - "Create an Android Project"  https://developer.android.com/training/basics/firstapp/creating-project
+    - "Create an Android Project"
+      https://developer.android.com/training/basics/firstapp/creating-project
     - "Run Your App"  https://developer.android.com/training/basics/firstapp/running-app
 * Have access to a Splunk RUM enabled organization in the Splunk Observability product.
 * Have a
@@ -61,7 +63,10 @@ tracking as you navigate around the app.
 
 1. In Android Studio, open up the `build.gradle` file for the app module (not the root `build.gradle`). If you're using
    the default "Android" view style for the project, this will be under the "`Gradle Scripts`" folder, and labeled
-   something like "`build.gradle (Module: Workshop_App.app)`"
+   something like "`build.gradle (Module: Workshop_App.app)`". This file can be found in
+   the `tracing-examples/android/workshop/app` directory, for reference. Don't try to mess around with
+   the `build.gradle` file in the `tracing-examples/android/workshop`
+   directory. ![Proper build.gradle](images/build.gradle.png)
 2. Add support
    for "[core library desugaring](https://developer.android.com/studio/write/java8-support#library-desugaring)"
    Desugaring is important because both the Splunk Android RUM library and the underlying OpenTelemetry libraries use
@@ -81,37 +86,42 @@ tracking as you navigate around the app.
        ```
        coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
        ```
-    3. Click the "Sync Now" prompt at the top of Android Studio, build the app and run it to make sure everything is
-       still working as before.
+    3. This is what your changes should look like:![build setup](images/build_setup.png)
+    4. Click the "Sync Now" prompt at the top of Android Studio, build the app and run it to make sure everything is
+       still working as before. ![sync now](images/sync_now.png)
 3. Add the dependency on the [splunk-otel-android](https://github.com/signalfx/splunk-otel-android) library
     1. In the `dependencies` block, add this dependency (note: if there is
        a [more recent version published](https://github.com/signalfx/splunk-otel-android/releases), please use it):
        ```
-       implementation ("com.splunk:splunk-otel-android:0.7.0")
-       ```   
-    2. Click the "Sync Now" prompt at the top of Android Studio, build the app and run it to make sure everything is
-       still working as before.
+       implementation ("com.splunk:splunk-otel-android:0.8.0")
+       ```
+    2. Your dependency block should now look like this:
+       ![with soa](images/splunk-otel-android.png)
+    3. Click the "Sync Now" prompt at the top of Android Studio, build the app and run it to make sure everything is
+       still working as before. ![sync now](images/sync_now.png)
 4. Next, we're going to create some configuration for the instrumentation. In general, you need to provide 3 things to
    set up instrumentation: your RUM access token, your Splunk realm, and the name of your app.
     1. Open up the `com.splunk.android.workshopapp.SampleApplication` class in Android Studio
         1. You can do by opening up the app/java/com/splunk/android/workshopapp folder in the project view.
         2. Bonus: Use the Android Studio keyboard shortcut "Navigate to Class" to open this java file.
     2. Insert the following at the beginning of the `onCreate()` method. Use your actual rumAccessToken and realm:
-       ```
-         Config config = Config.builder()
-                 .applicationName("workshop app")
-                 .rumAccessToken("<token>")
-                 .realm("<realm>")
-                 .deploymentEnvironment("workshop")
-                 .debugEnabled(true)
-                 .build();
-         SplunkRum.initialize(config, this);
-       ``` 
-       When prompted by Android studio, add the imports for `com.splunk.rum.Config` and `com.splunk.rum.SplunkRum`
+        ```
+          Config config = Config.builder()
+                  .applicationName("workshop app")
+                  .rumAccessToken("<token>")
+                  .realm("<realm>")
+                  .deploymentEnvironment("workshop")
+                  .debugEnabled(true)
+                  .build();
+          SplunkRum.initialize(config, this);
+        ``` 
+       When prompted by Android studio, add the imports for `com.splunk.rum.Config`
+       and `com.splunk.rum.SplunkRum`
        classes to the file. Note: we're enabling debug mode here to help us debug any issues we might see during the
        workshop. In actual application, we would probably do that conditionally based on some app configuration.
     3. Feel free to change the `applicationName` and `deploymentEnvironment` options as you desire. These will be
        visible in the RUM UI, so you can customize this to make it easier for you to find your specific instance.
+    4. Here is an example of what your Application class should now look like: ![app config](images/app_config.png)
 5. Build and run the application. Click around the app a bit to generate some data.
 6. Navigate to the Splunk RUM page in the Splunk Observability product.
     1. You should be able to select your app name, and the environment that you set in the config to filter to the
@@ -140,9 +150,10 @@ configuring the okhttp client that is used in the sample app.
    return SplunkRum.getInstance().createRumOkHttpCallFactory(builder.build());
    ```
    Remember to add an import for the `com.splunk.rum.SplunkRum` class when prompted by Android Studio.
-4. Build and restart the app. Now try generating some http traffic by using the 3 buttons on the first screen of the app
+4. Here's what the `buildOkHttpClient()` method should look like now: ![okhttpclient](images/okhttpclient.png)
+5. Build and restart the app. Now try generating some http traffic by using the 3 buttons on the first screen of the app
    labeled "LOGIN", "HTTP NOT FOUND", and "HTTP ERROR".
-5. Navigate to the Splunk RUM page in the Splunk Observability product.
+6. Navigate to the Splunk RUM page in the Splunk Observability product.
     1. Filter for your app and environment.
     2. Try clicking on the http metrics and finding example sessions for the results. (These metrics are "Endpoint
        Errors" and "Endpoint Latency")
@@ -187,7 +198,11 @@ the app.
             }
         });
    ```
-   When prompted by Android Studio, add imports for the OpenTelemetry `Span` and `Scope` classes.
+   When prompted by Android Studio, add imports for the OpenTelemetry `Span` and `Scope` classes:
+   ```
+      io.opentelemetry.api.trace.Span;
+      io.opentelemetry.context.Scope;
+   ```
 4. Add a custom "global attribute" after the `makeCall` line (but before the `finally` block):
    ```
    SplunkRum.getInstance().setGlobalAttribute(stringKey("user_id"), "123456");
@@ -224,8 +239,9 @@ Here are some other ideas to try, if you have the time:
 2. Create your own workflows.
 3. Write some customization of the `Config.Builder` that will change or remove span attributes.
 4. Create a custom Event or an Exception.
-5. Use the [OpenTelemetry APIs](https://opentelemetry.io/docs/java/manual_instrumentation/#create-a-basic-span) directly
-   to create your own custom spans.
+5. Use the
+   [OpenTelemetry APIs](https://opentelemetry.io/docs/java/manual_instrumentation/#create-a-basic-span)
+   directly to create your own custom spans.
 6. Did you notice that the "Login" workflow span ended before the http call was complete? Can you update the code to
    make it so the workflow isn't complete until the http call is complete?
 
