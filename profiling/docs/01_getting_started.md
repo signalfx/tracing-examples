@@ -66,6 +66,7 @@ actual token value copied above:
 ```
 $ docker run -d --rm --name collector \
     -v $(pwd)/etc/collector.yaml:/etc/otel/config.yaml \
+    -p 4317:4317 \
     -e SFX_TOKEN=<SFX_TOKEN> \
     -e SFX_REALM=us0 \
     otel/opentelemetry-collector-contrib:0.36.0 
@@ -106,4 +107,4 @@ $ java -javaagent:splunk-otel-javaagent-all.jar \
     -jar build/libs/profiling-workshop-all.jar
 ```
 
-To verify that the service is working, visit http://localhost:9090
+To verify that the service is working, visit http://localhost:9090.
