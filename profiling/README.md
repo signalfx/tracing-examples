@@ -17,7 +17,7 @@ instrumentation, including the always-on profiler.
 This workshop is broken down into the following sections. Please work through each
 section completely before proceeding to the next section.
 
-* [Part 1: Getting started]() - Learn how to build and run the 
+* [Part 1: Getting started](docs/01_getting_started.md) - Learn how to build and run the 
 sample application and how to ingest telemetry through the collector.
 * [Part 2: Enabling profiling]() - Learn how to turn on the always-on profiler, confirm
 that it is working, and view the data in the Splunk Observability Cloud.
