@@ -53,12 +53,12 @@ Before you start the collector, you will need an access token.
 You can find an access token by logging into the Splunk Playground, 
 expanding the hamburger menu, and choosing "Organization Settings" -> "Access Tokens".
 
-![access tokens](../images/access_tokens.png)
+<img src="../images/access_tokens.png" alt="access tokens" width="400px"/>
 
 Expand one of the tokens and click on the blue "Show Token". Then click "Copy" to have it copied
 to the clipboard.
 
-![access tokens](../images/access_tokens2.png)
+<img src="../images/access_tokens2.png" alt="access tokens" width="400px"/>
 
 Now we can run the collector. Run the following, substituting `<SFX_TOKEN>` for your 
 actual token value copied above:
