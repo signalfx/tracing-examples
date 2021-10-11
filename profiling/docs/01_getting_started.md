@@ -95,10 +95,15 @@ $ curl -L -o splunk-otel-javaagent-all.jar https://github.com/signalfx/splunk-ot
 ### Run the application
 
 Now it's time to run the application. In order to identify your application instance from 
-other workshop participants, we need to choose a few items:
-* environment name
-* service name
+other workshop participants, we need to select a service name. Recommend choosing 
+`profiling-workshop-<xxx>` where `<xxx>` are your initials or username. Use this
+service name in the command below:
 
 ```
-$ java -javaagent:splunk-otel-javaagent-all.jar build/libs/profiling-workshop-all.jar
+$ java -javaagent:splunk-otel-javaagent-all.jar \
+    -Dotel.resource.attributes=environment.name=workshop \
+    -Dotel.service.name=<profiling-workshop-xxx> \
+    -jar build/libs/profiling-workshop-all.jar
 ```
+
+To verify that the service is working, visit http://localhost:9090
