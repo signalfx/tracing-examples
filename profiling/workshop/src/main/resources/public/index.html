@@ -22,27 +22,30 @@
             <span id='door0' class='door' onclick="doorClicked(0)">🚪</span>
             <span id="money0" class="visually-hidden">💰</span>
             <span id="zonk0" class="visually-hidden">🐐</span>
+            <span id="door0-throb" class="visually-hidden"><img src="throbber.gif" class="throbber"/></span>
         </div>
         <div class="col text-center door-cell">
             <span id='door1' class='door' onclick="doorClicked(1)">🚪</span>
             <span id="money1" class="visually-hidden">💰</span>
             <span id="zonk1" class="visually-hidden">🐐</span>
+            <span id="door1-throb" class="visually-hidden"><img src="throbber.gif" class="throbber"/></span>
         </div>
         <div class="col text-center door-cell">
             <span id='door2' class='door' onclick="doorClicked(2)">🚪</span>
             <span id="money2" class="visually-hidden">💰</span>
             <span id="zonk2" class="visually-hidden">🐐</span>
+            <span id="door2-throb" class="visually-hidden"><img src="throbber.gif" class="throbber"/></span>
         </div>
     </div>
     <div class="row" id="selected-row">
         <div class="col text-center">
-            <span id="choose0" class="visually-hidden checkmark">✅</span>
+            <span id="choose0" class="visually-hidden checkmark">⬆️</span>
         </div>
         <div class="col text-center">
-            <span id="choose1" class="checkmark visually-hidden">✅</span>
+            <span id="choose1" class="checkmark visually-hidden">⬆️</span>
         </div>
         <div class="col text-center">
-            <span id="choose2" class="visually-hidden checkmark">✅</span>
+            <span id="choose2" class="visually-hidden checkmark">⬆️</span>
         </div>
     </div>
     <div class="row" id="start-button">
@@ -53,6 +56,10 @@
                 Good luck!<br/>
             </div>
             <button id='lets-play' type="button" class="btn btn-dark btn-lg" onclick="startGame()">Let's Play</button>
+        </div>
+    </div>
+    <div class="row" id="game-throbber">
+        <div class="col text-center">
             <div id="throbber1" class="visually-hidden">
                 <img src="throbber.gif" class="throbber"/>
                 <h2>fetching new game...</h2>

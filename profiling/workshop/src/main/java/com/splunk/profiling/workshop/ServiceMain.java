@@ -1,5 +1,6 @@
 package com.splunk.profiling.workshop;
 
+import static com.splunk.profiling.workshop.Util.sleep;
 import static java.lang.Integer.parseInt;
 import static spark.Spark.get;
 import static spark.Spark.port;
@@ -16,6 +17,7 @@ public class ServiceMain {
 
         get("/new-game", (req, res) -> doorGame.startNew());
         post("/game/:uid/pick/:picked", (req, res) -> {
+            sleep(1000);
             String uid = req.params(":uid");
             String picked = req.params(":picked");
             doorGame.pick(uid, parseInt(picked));
@@ -26,6 +28,7 @@ public class ServiceMain {
             return doorGame.reveal(uid);
         });
         get("/game/:uid/picked/:picked/outcome", (req,res) -> {
+            sleep(500);
             String uid = req.params(":uid");
             String picked = req.params(":picked");
             return doorGame.getOutcome(uid, parseInt(picked));

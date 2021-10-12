@@ -8,7 +8,7 @@ let chosenDoor = null;
 function startGame(){
     console.log('Starting new game');
     show('throbber1');
-    hide('lets-play');
+    hide('start-button');
     document.getElementById('game-heading').innerText = 'THE DOOR GAME';
     return fetch(`/new-game`)
         .then(res => res.text())
@@ -19,6 +19,7 @@ function startGame(){
             show('door-row');
             show('choose-a-door');
             hide('start-button');
+            hide('throbber1');
         });
 }
 
@@ -26,12 +27,15 @@ async function doorClicked(num) {
     console.log(`Door ${num} picked.`);
     chosenDoor = num;
     disableDoors();
+    doorThrob(num);
 
     const url = `/game/${gameId}/pick/${num}`;
     await fetch(url, { method: 'POST'})
         .then(res => res.text())
         .then(res => {
             console.log(`Response: ${res}`);
+            show(`door${num}`);
+            hide(`door${num}-throb`);
         });
     hide('choose-a-door');
     showChoice(num);
@@ -43,6 +47,11 @@ async function doorClicked(num) {
             revealedDoor = res;
             showZonk(res);
         });
+}
+
+function doorThrob(num){
+    hide(`door${num}`);
+    show(`door${num}-throb`);
 }
 
 function disableDoors(){
@@ -64,7 +73,7 @@ function showChoice(doorNum){
 }
 
 function showZonk(){
-    document.getElementById('change-prompt').innerHTML = `You picked door #${chosenDoor+1}.<br/>There is a ZONK behind door #${revealedDoor+1}.`;
+    document.getElementById('change-prompt').innerHTML = `You picked door #${chosenDoor+1}.<br/>There was a ZONK behind door #${revealedDoor+1}.<br/>Final decision:`;
     show('change-prompt');
     hide(`door${revealedDoor}`);
     show('change-button');
@@ -78,11 +87,15 @@ function showZonk(){
 
 async function choiceKeep(){
     const otherDoor = 3 - (chosenDoor + revealedDoor);
+    doorThrob(otherDoor);
+    doorThrob(chosenDoor);
     finishGame(chosenDoor, otherDoor);
 }
 
 async function choiceChange() {
     const changeTo = 3 - (chosenDoor + revealedDoor);
+    doorThrob(changeTo);
+    doorThrob(chosenDoor);
     finishGame(changeTo, chosenDoor);
 }
 
@@ -93,6 +106,8 @@ async function finishGame(finalChoice, otherDoor){
     hide(`door${otherDoor}`);
     hide(`choose${otherDoor}`);
     show(`choose${finalChoice}`);
+    hide(`door${otherDoor}-throb`);
+    hide(`door${finalChoice}-throb`);
     hide('change-prompt');
     hide('stay-button');
     hide('change-button');
@@ -129,6 +144,7 @@ function playAgain(){
         show(`door${n}`);
     });
     enableDoors();
+    show('throbber1');
     startGame();
 }
 
