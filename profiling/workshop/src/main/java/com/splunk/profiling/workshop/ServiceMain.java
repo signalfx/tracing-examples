@@ -1,15 +1,32 @@
 package com.splunk.profiling.workshop;
 
+import static java.lang.Integer.parseInt;
 import static spark.Spark.get;
 import static spark.Spark.port;
+import static spark.Spark.post;
 import static spark.Spark.staticFiles;
 
 public class ServiceMain {
+
+    private final static DoorGame doorGame = new DoorGame();
 
     public static void main(String[] args) {
         port(9090);
         staticFiles.location("/public"); // Static files
 
-        get("/hello", (req, res) -> "Hello World");
+        get("/new-game", (req, res) -> doorGame.startNew());
+        post("/game/:uid/pick/:picked", (req, res) -> {
+            String uid = req.params(":uid");
+            String picked = req.params(":picked");
+            doorGame.pick(uid, parseInt(picked));
+            return "OK";
+        });
+        get("/game/:uid/reveal", (req, res) -> {
+            String uid = req.params(":uid");
+            return doorGame.reveal(uid);
+        });
+        get("/game/:uid/picked/:picked/outcome", (req,res) -> {
+            return "BUILD ME";
+        });
     }
 }

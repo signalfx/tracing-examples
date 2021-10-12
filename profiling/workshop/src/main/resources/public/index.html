@@ -19,13 +19,30 @@
     </div>
     <div class="row visually-hidden" id="door-row">
         <div class="col text-center door-cell">
-            <a href="" onclick="doorClicked(1)">🚪</a>
+            <span id='door0' class='door' onclick="doorClicked(0)">🚪</span>
+            <span id="money0" class="visually-hidden">💰</span>
+            <span id="zonk0" class="visually-hidden">🐐</span>
         </div>
         <div class="col text-center door-cell">
-            <a href="" onclick="doorClicked(2)">🚪</a>
+            <span id='door1' class='door' onclick="doorClicked(1)">🚪</span>
+            <span id="money1" class="visually-hidden">💰</span>
+            <span id="zonk1" class="visually-hidden">🐐</span>
         </div>
         <div class="col text-center door-cell">
-            <a href="" onclick="doorClicked(3)">🚪</a>
+            <span id='door2' class='door' onclick="doorClicked(2)">🚪</span>
+            <span id="money2" class="visually-hidden">💰</span>
+            <span id="zonk2" class="visually-hidden">🐐</span>
+        </div>
+    </div>
+    <div class="row" id="selected-row">
+        <div class="col text-center">
+            <span id="choose0" class="visually-hidden checkmark">✅</span>
+        </div>
+        <div class="col text-center">
+            <span id="choose1" class="checkmark visually-hidden">✅</span>
+        </div>
+        <div class="col text-center">
+            <span id="choose2" class="visually-hidden checkmark">✅</span>
         </div>
     </div>
     <div class="row" id="start-button">
@@ -41,8 +58,9 @@
     <div class="row">
         <div class="col text-center">
             <h1 id='choose-a-door' class="visually-hidden">CHOOSE A DOOR</h1>
-            <button type="button" class="btn btn-dark btn-lg visually-hidden" id="stay-button" onclick="choiceKeep()">Keep</button>
-            <button type="button" class="btn btn-dark btn-lg visually-hidden" id="change-button" onclick="choiceChange()">Change</button>
+            <h1 id='change-prompt' class="visually-hidden"></h1>
+            <button type="button" class="btn btn-success btn-lg visually-hidden" id="stay-button" onclick="choiceKeep()">Stay with Choice</button>
+            <button type="button" class="btn btn-success btn-lg visually-hidden" id="change-button" onclick="choiceChange()">Change to Door</button>
         </div>
     </div>
 </div>
