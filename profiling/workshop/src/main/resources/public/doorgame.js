@@ -68,18 +68,66 @@ function showZonk(){
     show('change-button');
     document.getElementById('stay-button').innerText = `Stay with door #${chosenDoor+1}`;
     // this is a clever way of finding the remaining door..._too_ clever
-    let remaining = 3 - (chosenDoor + revealedDoor);
+    const remaining = 3 - (chosenDoor + revealedDoor);
     document.getElementById('change-button').innerText = `Switch to door #${remaining+1}`;
     show('stay-button');
     show(`zonk${revealedDoor}`);
 }
 
-function choiceKeep(){
-
+async function choiceKeep(){
+    const otherDoor = 3 - (chosenDoor + revealedDoor);
+    finishGame(chosenDoor, otherDoor);
 }
 
-function choiceChange() {
-    let changeTo = 3 - (chosenDoor + revealedDoor);
+async function choiceChange() {
+    const changeTo = 3 - (chosenDoor + revealedDoor);
+    finishGame(changeTo, chosenDoor);
+}
+
+async function finishGame(finalChoice, otherDoor){
+    const outcome = await getOutcome(finalChoice);
+    console.log(outcome);
+    hide(`door${finalChoice}`);
+    hide(`door${otherDoor}`);
+    hide(`choose${otherDoor}`);
+    show(`choose${finalChoice}`);
+    hide('change-prompt');
+    hide('stay-button');
+    hide('change-button');
+    if(outcome === 'WIN'){
+        show(`money${finalChoice}`);
+        show(`zonk${otherDoor}`);
+        document.getElementById('win-lose').innerText = "YOU WIN!";
+    }
+    else {
+        show(`zonk${finalChoice}`);
+        show(`money${otherDoor}`);
+        document.getElementById('win-lose').innerText = "YOU LOSE!";
+    }
+    show('win-lose');
+    show('play-again');
+}
+
+async function getOutcome(doorNum) {
+    const url = `/game/${gameId}/picked/${doorNum}/outcome`;
+    return fetch(url)
+        .then(res => res.text());
+}
+
+function playAgain(){
+    gameId = null;
+    revealedDoor = null;
+    chosenDoor = null;
+    hide('win-lose');
+    hide('play-again');
+    [0,1,2].forEach(n => {
+        hide(`zonk${n}`);
+        hide(`choose${n}`);
+        hide(`money${n}`);
+        show(`door${n}`);
+    });
+    enableDoors();
+    startGame();
 }
 
 function show(sel){

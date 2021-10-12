@@ -26,4 +26,9 @@ public class DoorGame {
         GameInfo gameInfo = games.get(uid);
         gameInfo.pick(picked);
     }
+
+    public String getOutcome(String uid, int picked){
+        GameInfo gameInfo = games.get(uid);
+        return gameInfo.isWinner(picked) ? "WIN" : "LOSE";
+    }
 }

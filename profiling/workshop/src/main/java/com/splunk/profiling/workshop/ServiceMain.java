@@ -26,7 +26,9 @@ public class ServiceMain {
             return doorGame.reveal(uid);
         });
         get("/game/:uid/picked/:picked/outcome", (req,res) -> {
-            return "BUILD ME";
+            String uid = req.params(":uid");
+            String picked = req.params(":picked");
+            return doorGame.getOutcome(uid, parseInt(picked));
         });
     }
 }
