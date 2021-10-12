@@ -100,12 +100,13 @@ async function choiceChange() {
 }
 
 async function finishGame(finalChoice, otherDoor){
+
+    hide(`choose${otherDoor}`);
+    show(`choose${finalChoice}`);
     const outcome = await getOutcome(finalChoice);
     console.log(outcome);
     hide(`door${finalChoice}`);
     hide(`door${otherDoor}`);
-    hide(`choose${otherDoor}`);
-    show(`choose${finalChoice}`);
     hide(`door${otherDoor}-throb`);
     hide(`door${finalChoice}-throb`);
     hide('change-prompt');
