@@ -102,9 +102,33 @@ service name in the command below:
 
 ```
 $ java -javaagent:splunk-otel-javaagent-all.jar \
-    -Dotel.resource.attributes=environment.name=workshop \
+    -Dotel.resource.attributes=deployment.environment=workshop \
     -Dotel.service.name=<profiling-workshop-xxx> \
     -jar build/libs/profiling-workshop-all.jar
 ```
 
-To verify that the service is working, visit http://localhost:9090.
+To verify that the service is working, visit http://localhost:9090. You should be
+met with The Door Game intro screen. Play through a couple of times to get the 
+feel for the application flow. Good luck!
+
+### Confirm spans are being ingested
+
+We can first check in on the collector to verify that it is receiving trace data.
+Let's look in the logs:
+
+```
+$ docker logs collector
+```
+
+Near the bottom of the logs you should hopefully see output that looks like this:
+
+```
+2021-10-12T23:19:20.004Z	INFO	loggingexporter/logging_exporter.go:41	TracesExporter	{"#spans": 2}
+```
+
+
+
+# Conclusion of Part 1
+
+Go ahead and play a few games. Have you noticed any slowness in certain areas of the
+gameplay? (Hint: try using door 3 as your final choice).
