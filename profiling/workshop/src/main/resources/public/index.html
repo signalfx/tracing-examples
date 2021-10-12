@@ -52,7 +52,11 @@
                 After choosing a door, you will be shown one of the ZONKs and given a choice to stay or change. <br/>
                 Good luck!<br/>
             </div>
-            <button type="button" class="btn btn-dark btn-lg" onclick="startGame()">Let's Play</button>
+            <button id='lets-play' type="button" class="btn btn-dark btn-lg" onclick="startGame()">Let's Play</button>
+            <div id="throbber1" class="visually-hidden">
+                <img src="throbber.gif" class="throbber"/>
+                <h2>fetching new game...</h2>
+            </div>
         </div>
     </div>
     <div class="row">

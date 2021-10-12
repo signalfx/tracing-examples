@@ -5,6 +5,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import static java.lang.Thread.sleep;
+
 public class DoorGame {
 
     private final Map<String,GameInfo> games = new HashMap<>();
@@ -14,6 +16,7 @@ public class DoorGame {
         Random random = new Random();
         int winningDoor = random.nextInt(3);
         games.put(uuid, new GameInfo(uuid, winningDoor));
+        Util.sleep(1000);
         return uuid;
     }
 

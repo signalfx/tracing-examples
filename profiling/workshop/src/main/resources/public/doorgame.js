@@ -7,6 +7,8 @@ let chosenDoor = null;
 
 function startGame(){
     console.log('Starting new game');
+    show('throbber1');
+    hide('lets-play');
     document.getElementById('game-heading').innerText = 'THE DOOR GAME';
     return fetch(`/new-game`)
         .then(res => res.text())
