@@ -1,4 +1,4 @@
-# Profiling Workshop
+# AlwaysOn Profiling Workshop
 
 ## Part 1: Getting Started
 
@@ -135,13 +135,13 @@ We haven't turned the profiler on yet, so we shouldn't see any logs being export
 It's time to see the service in APM. [Visit this link](https://app.signalfx.com/#/apm?endTime=Now&environments=workshop&filter=&job=full&startTime=-15m)
 and scroll to the bottom to see the list of services.
 
-<img src="../images/apm-choose-app.png" alt="access tokens" width="500px"/>
+<img src="../images/apm-choose-app.png" alt="apm choose app" width="500px"/>
 
 Find your service in the list and click the name to visit the Troubleshooting view, then click
 "Traces" on the right-hand side of the screen. This will take you to the list of traces for 
 your service:
 
-<img src="../images/apm-trace-list.png" alt="access tokens" width="500px"/>
+<img src="../images/apm-trace-list.png" alt="apm trace list" width="500px"/>
 
 Feel free to look at some of the traces and get a brief sense of the web/REST operations
 performed by the service.
@@ -158,3 +158,8 @@ gameplay? (Hint: try using door 3 as your final choice).
 * We learned how to build and start the sample application.
 * We learned how to wire up the latest Splunk java instrumentation to our sample application.
 * We learned how to find our service in APM in the Splunk Observability Cloud and how to view trace details.
+
+## Next steps
+
+[Click here to go on to part 2](02_enable_profiler.md), where we 
+will enable the profiler and look at its output.

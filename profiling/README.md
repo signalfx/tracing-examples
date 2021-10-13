@@ -1,8 +1,8 @@
-# Profiling Workshop
+# AlwaysOn Profiling Workshop
 
 This workshop will guide you through running a service with the 
 [Splunk Distribution of OpenTelemetry Java](https://github.com/signalfx/splunk-otel-java)
-instrumentation, including the always-on profiler.
+instrumentation, including the AlwaysOn profiler.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ section completely before proceeding to the next section.
 
 * [Part 1: Getting started](docs/01_getting_started.md) - Learn how to build and run the 
 sample application and how to ingest telemetry through the collector.
-* [Part 2: Enabling profiling]() - Learn how to turn on the always-on profiler, confirm
+* [Part 2: Enabling profiling](docs/02_enable_profiler.md) - Learn how to turn on the always-on profiler, confirm
 that it is working, and view the data in the Splunk Observability Cloud.
 * [Part 3: Find and fix a bottleneck]() - Learn how to use the flame graph and profiling tools to 
 locate and fix a bottleneck in the sample application.
