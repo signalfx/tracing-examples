@@ -21,5 +21,5 @@ section completely before proceeding to the next section.
 sample application and how to ingest telemetry through the collector.
 * [Part 2: Enabling profiling](docs/02_enable_profiler.md) - Learn how to turn on the always-on profiler, confirm
 that it is working, and view the data in the Splunk Observability Cloud.
-* [Part 3: Find and fix a bottleneck]() - Learn how to use the flame graph and profiling tools to 
+* [Part 3: Find and fix a bottleneck](docs/03_find_and_fix_slowness.md) - Learn how to use the flame graph and profiling tools to 
 locate and fix a bottleneck in the sample application.

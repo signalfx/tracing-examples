@@ -79,7 +79,7 @@ Take some time to explore this view by doing some of the following:
 * toggle between flamegraph and table views
 * click a table item and notice the change in flamegraph
 * navigate the flamegraph by clicking on a stack frame to zoom in, and a parent frame to zoom out
-* add a search term like `jetty` to highlight some web server frames
+* add a search term like `splunk` or `jetty` to highlight some matching stack frames
 
 We should note that the sample app is greatly underutilized and most of the time
 is spent waiting for user input and service requests. As a result, the flame graph
@@ -121,7 +121,7 @@ We've come a long way already!
 
 ## Next steps
 
-[Click here to go on to part 3](03_find_and_fix_bug.md), where we
+[Click here to go on to part 3](03_find_and_fix_slowness.md), where we
 will use the profiler tools to identify the specific area of code that 
 was causing our slow-down, and we will work to improve it...
 
