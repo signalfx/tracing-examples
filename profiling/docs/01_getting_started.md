@@ -55,7 +55,7 @@ expanding the hamburger menu, and choosing "Organization Settings" -> "Access To
 
 <img src="../images/access_tokens.png" alt="access tokens" width="400px"/>
 
-Expand one of the tokens and click on the blue "Show Token". Then click "Copy" to have it copied
+Expand the "Workshop" token and click on the blue "Show Token". Then click "Copy" to have it copied
 to the clipboard.
 
 <img src="../images/access_tokens2.png" alt="access tokens" width="400px"/>
@@ -126,9 +126,35 @@ Near the bottom of the logs you should hopefully see output that looks like this
 2021-10-12T23:19:20.004Z	INFO	loggingexporter/logging_exporter.go:41	TracesExporter	{"#spans": 2}
 ```
 
+You should see one or more lines like the above and no errors. If you have errors, 
+check that you have started the collector with the correct token and realm
+(as shown above). 
 
+We haven't turned the profiler on yet, so we shouldn't see any logs being exported yet.
+
+It's time to see the service in APM. [Visit this link](https://app.signalfx.com/#/apm?endTime=Now&environments=workshop&filter=&job=full&startTime=-15m)
+and scroll to the bottom to see the list of services.
+
+<img src="../images/apm-choose-app.png" alt="access tokens" width="500px"/>
+
+Find your service in the list and click the name to visit the Troubleshooting view, then click
+"Traces" on the right-hand side of the screen. This will take you to the list of traces for 
+your service:
+
+<img src="../images/apm-trace-list.png" alt="access tokens" width="500px"/>
+
+Feel free to look at some of the traces and get a brief sense of the web/REST operations
+performed by the service.
 
 # Conclusion of Part 1
 
 Go ahead and play a few games. Have you noticed any slowness in certain areas of the
 gameplay? (Hint: try using door 3 as your final choice).
+
+## What did we accomplish?
+
+* We performed the initial workshop setup.
+* We learned how to run the collector locally and how verify its proper operation by inspecting the logs.
+* We learned how to build and start the sample application.
+* We learned how to wire up the latest Splunk java instrumentation to our sample application.
+* We learned how to find our service in APM in the Splunk Observability Cloud and how to view trace details.
