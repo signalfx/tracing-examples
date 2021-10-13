@@ -1,7 +1,7 @@
 import UIKit
 import SDWebImage
-import SplunkRum
-import SplunkRumCrashReporting
+import SplunkOtel
+import SplunkOtelCrashReporting
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
