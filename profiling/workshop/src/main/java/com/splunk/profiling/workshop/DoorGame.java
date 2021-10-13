@@ -3,7 +3,6 @@ package com.splunk.profiling.workshop;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.extension.annotations.WithSpan;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
@@ -12,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DoorGame {
 
     private final DoorChecker gameOfficial = new DoorChecker();
-    private final Map<String,GameInfo> games = new ConcurrentHashMap<>();
+    private final Map<String, GameInfo> games = new ConcurrentHashMap<>();
 
     @WithSpan(kind = SpanKind.INTERNAL)
     public String startNew() {
@@ -20,7 +19,7 @@ public class DoorGame {
         Random random = new Random();
         int winningDoor = random.nextInt(3);
         games.put(uuid, new GameInfo(uuid, winningDoor));
-        Util.sleep(1000);
+        Util.sleep(1500);
         return uuid;
     }
 
@@ -37,7 +36,7 @@ public class DoorGame {
     }
 
     @WithSpan(kind = SpanKind.INTERNAL)
-    public String getOutcome(String uid, int picked){
+    public String getOutcome(String uid, int picked) {
         GameInfo gameInfo = games.get(uid);
         return gameOfficial.isWinner(gameInfo, picked) ? "WIN" : "LOSE";
     }

@@ -12,6 +12,7 @@ public class ServiceMain {
     private final static DoorGame doorGame = new DoorGame();
 
     public static void main(String[] args) {
+        BackgroundWorker.start();
         port(9090);
         staticFiles.location("/public"); // Static files
 
