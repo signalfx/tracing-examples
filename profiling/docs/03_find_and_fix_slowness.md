@@ -18,7 +18,7 @@ to 5 or more sampled call stacks. Let's proceed by clicking on the span to expan
 
 When a span does not have call stack data, we would normally just see the span details.
 (you can drill into the parent stack to see this in action). When we expand the child stack, however,
-we default into the "AlwaysOn Profiler" stack trace details.
+we get the "AlwaysOn Profiler" stack trace details as our default view.
 
 This view shows the name of the Thread from which the call stack was sampled.
 In our case, the thread was busy sleeping and the top of the call stack will 
@@ -93,7 +93,7 @@ The `extra` value is used as extra/additional sleep time, and it is computed by 
 * door 2 => 70^2 => 4900ms
 
 We've found the root cause of our slow bug! This also explains why the first two doors
-weren't ever slow. 
+weren't ever very slow. 
 
 We have a quick chat with our product manager and team lead, and we agree that the `precheck()`
 method must stay but that the extra padding isn't required. Let's remove the `extra` variable
@@ -129,9 +129,13 @@ We've reached the end of the workshop! Congratulations.
 
 * We learned how to view a series of call stacks captured during a Span.
 * We learned how the call stack can tell us a story and point us to suspect lines of code.
-* We identified the slow code and fixed it to make it faster
+* We identified the slow code and fixed it to make it faster.
 
-## Further steps
+## Exploring more
 
 Some extra things you may wish to try:
-* See if you can use the profiling tool to make the starting a new game faster
+
+* See if you can use the profiling tool to make starting a new game faster.
+* What is causing the deep spire in the flamegraph? Can you find the code that causes that?
+* Write a bot or script to repeatedly play many simultaneous games? 
+  * How does the continuous activity impact the shape of the flame graph?
