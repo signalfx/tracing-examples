@@ -71,4 +71,58 @@ card that looks similar to this:
 Click the card title to go to the AlwaysOn Profiling view. It will look something 
 like this:
 
-<img src="../images/flamegraph_and_table.png" alt="always on profiling"/>
+<img src="../images/flamegraph_and_table.png" alt="flamegraph and table"/>
+
+By default, we show both the table and [flamegraph](https://www.brendangregg.com/flamegraphs.html). 
+Take some time to explore this view by doing some of the following:
+
+* toggle between flamegraph and table views
+* click a table item and notice the change in flamegraph
+* navigate the flamegraph by clicking on a stack frame to zoom in, and a parent frame to zoom out
+* add a search term like `jetty` to highlight some web server frames
+
+We should note that the sample app is greatly underutilized and most of the time
+is spent waiting for user input and service requests. As a result, the flame graph
+should be somewhat less interesting than a high-volume, real-world production service.
+
+### Traces with Call Stacks
+
+Now that we've seen the profiling view, let's go back to the trace list view. We want to find a 
+trace that was long enough so that we increase the chance of having sampled call stacks.
+If you haven't already, you should play The Door Game enough to stick with door 3 
+(either by choosing it initially and staying, or choosing another door and switching when given the chance).
+You'll notice that it's slow, and it should show up at around 5s in the trace list view:
+
+<img src="../images/slow_trace.png" alt="slow trace"/>
+
+Identify the slow trace in the trace list view and click it to view the
+individual trace. In the single trace view, you should see that the innermost span
+`DoorGame.getOutcome` is responsible for the entire slow duration of the span.
+There should be about 5 call stacks sampled during the execution of that span.
+
+<img src="../images/span_with_stacks.png" alt="slow trace"/>
+
+If you're up for the challenge, expand the span and explore the java stack frames on your own
+before we tackle it in the next section.
+
+# Conclusion of Part 2
+
+We've come a long way already!
+
+## What did we accomplish?
+
+* We learned how to enable the profiler in the Splunk java instrumentation agent.
+* We learned how to verify in the agent output that the profiler is enabled.
+* We learned how to inspect the collector output to determine that log messages are flowing.
+* We have explored several profiling related workflows in APM:
+  * How to navigate to AlwaysOn Profiling from the troubleshooting view
+  * How to explore the flamegraph and method call duration table through navigation and filtering
+  * How to identify when a span has sampled call stacks associated with it
+
+## Next steps
+
+[Click here to go on to part 3](03_find_and_fix_bug.md), where we
+will use the profiler tools to identify the specific area of code that 
+was causing our slow-down, and we will work to improve it...
+
+

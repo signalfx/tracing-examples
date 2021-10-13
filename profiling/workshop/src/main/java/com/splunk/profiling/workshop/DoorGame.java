@@ -7,13 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-
-import static java.lang.Thread.sleep;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DoorGame {
 
     private final DoorChecker gameOfficial = new DoorChecker();
-    private final Map<String,GameInfo> games = new HashMap<>();
+    private final Map<String,GameInfo> games = new ConcurrentHashMap<>();
 
     @WithSpan(kind = SpanKind.INTERNAL)
     public String startNew() {
