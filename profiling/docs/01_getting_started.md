@@ -60,8 +60,11 @@ to the clipboard.
 
 <img src="../images/access_tokens2.png" alt="access tokens" width="400px"/>
 
-Now we can run the collector. Run the following, substituting `<SFX_TOKEN>` for your 
-actual token value copied above:
+Now we can run the collector. For the purposes of this workshop, we assume that 
+you are working in the "Splunk Playground", which is `us0`. If you are in another 
+realm, change `us0` below to your specific realm.
+
+Run the following, substituting `<SFX_TOKEN>` for youractual token value copied above:
 
 ```
 $ docker run -d --rm --name collector \
