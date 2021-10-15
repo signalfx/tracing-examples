@@ -64,14 +64,14 @@ Now we can run the collector. For the purposes of this workshop, we assume that
 you are working in the "Splunk Playground", which is `us0`. If you are in another 
 realm, change `us0` below to your specific realm.
 
-Run the following, substituting `<SFX_TOKEN>` for youractual token value copied above:
+Run the following, substituting `<SPLUNK_TOKEN>` for youractual token value copied above:
 
 ```
 $ docker run -d --rm --name collector \
     -v $(pwd)/etc/collector.yaml:/etc/otel/config.yaml \
     -p 4317:4317 \
-    -e SFX_TOKEN=<SFX_TOKEN> \
-    -e SFX_REALM=us0 \
+    -e SPLUNK_TOKEN=<SPLUNK_TOKEN> \
+    -e SPLUNK_REALM=us0 \
     otel/opentelemetry-collector-contrib:0.36.0 
 ```
 

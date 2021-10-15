@@ -5,12 +5,12 @@ receivers:
 
 exporters:
   otlphttp:
-    traces_endpoint: "https://ingest.${SFX_REALM}.signalfx.com/v2/trace/otlp"
+    traces_endpoint: "https://ingest.${SPLUNK_REALM}.signalfx.com/v2/trace/otlp"
     headers:
-      X-SF-TOKEN: "${SFX_TOKEN}"
+      X-SF-TOKEN: "${SPLUNK_TOKEN}"
   splunk_hec:
-    token: "${SFX_TOKEN}"
-    endpoint: "https://ingest.${SFX_REALM}.signalfx.com/v1/log"
+    token: "${SPLUNK_TOKEN}"
+    endpoint: "https://ingest.${SPLUNK_REALM}.signalfx.com/v1/log"
   logging/debug:
     loglevel: debug
   logging/info:
