@@ -106,7 +106,7 @@ service name in the command below:
 ```
 $ java -javaagent:splunk-otel-javaagent-all.jar \
     -Dotel.resource.attributes=deployment.environment=workshop \
-    -Dotel.service.name=<profiling-workshop-xxx> \
+    -Dotel.service.name=profiling-workshop-<xxx> \
     -jar build/libs/profiling-workshop-all.jar
 ```
 
