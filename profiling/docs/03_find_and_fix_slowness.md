@@ -17,7 +17,7 @@ to 5 or more sampled call stacks. Let's proceed by clicking on the span to expan
 <img src="../images/view_stack_on_span.png" alt="view stack on span"/>
 
 When a span does not have call stack data, we would normally just see the span details.
-(you can drill into the parent stack to see this in action). When we expand the child stack, however,
+(you can drill into the parent stack to see this in action). When we expand the child span, however,
 we get the "AlwaysOn Profiler" stack trace details as our default view.
 
 This view shows the name of the Thread from which the call stack was sampled.
