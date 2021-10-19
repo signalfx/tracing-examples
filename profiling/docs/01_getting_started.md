@@ -51,7 +51,7 @@ If you want to see the details, take a peek in `etc/collector.yaml`.
 
 Before you start the collector, you will need an access token.
 You can find an access token by logging into the Splunk Playground, 
-expanding the hamburger menu, and choosing "Organization Settings" -> "Access Tokens".
+expanding the hamburger menu, and choosing "Organization Settings" -> "[Access Tokens](https://app.signalfx.com/#/organization/current?selectedKeyValue=sf_section:accesstokens)".
 
 <img src="../images/access_tokens.png" alt="access tokens" width="400px"/>
 
