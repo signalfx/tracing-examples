@@ -68,7 +68,7 @@ Run the following, substituting `<SPLUNK_TOKEN>` for youractual token value copi
 
 ```
 $ docker run -d --rm --name collector \
-    -v $(pwd)/etc/collector.yaml:/etc/otel/config.yaml \
+    -v "$(pwd)/etc/collector.yaml":/etc/otel/config.yaml \
     -p 4317:4317 \
     -e SPLUNK_TOKEN=<SPLUNK_TOKEN> \
     -e SPLUNK_REALM=us0 \
@@ -112,7 +112,9 @@ $ java -javaagent:splunk-otel-javaagent-all.jar \
 
 To verify that the service is working, visit http://localhost:9090. You should be
 met with The Door Game intro screen. Play through a couple of times to get the 
-feel for the application flow. Good luck!
+feel for the application flow... and then play many times to ensure there are enough spans to create usable Profiling data...
+
+Good luck!
 
 ### Confirm spans are being ingested
 
