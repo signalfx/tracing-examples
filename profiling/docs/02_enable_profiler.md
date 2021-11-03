@@ -18,14 +18,14 @@ in detail, but for now we just need one single setting:
 
 While it is also possible to use an environment variable, we will simply pass this
 as a java system property by adding `-D`. Modify the run command from before, but add
-the config setting to enable the profiler. Don't forget to substitute `<profiling-workshop-xxx>`
+the config setting to enable the profiler. Don't forget to substitute `profiling-workshop-<xxx>`
 with the service name you decided on in the previous section:
 
 ```
 $ java -javaagent:splunk-otel-javaagent-all.jar \
     -Dsplunk.profiler.enabled=true \
     -Dotel.resource.attributes=deployment.environment=workshop \
-    -Dotel.service.name=<profiling-workshop-xxx> \
+    -Dotel.service.name=profiling-workshop-<xxx> \
     -jar build/libs/profiling-workshop-all.jar
 ```
 
