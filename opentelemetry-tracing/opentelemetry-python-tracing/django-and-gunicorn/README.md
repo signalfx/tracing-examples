@@ -29,7 +29,7 @@ splunk-py-trace-bootstrap
 ```
 export DJANGO_SETTINGS_MODULE=djtest.settings
 export OTEL_SERVICE_NAME=my-django-service
-gunicorn -b 127.0.0.1:8000 -c gunicorn.config.py --threads 2 --workers 4 djtest.wsgi
+splunk-py-trace gunicorn -b 127.0.0.1:8000 --threads 2 --workers 4 djtest.wsgi
 ```
 
 Open http://localhost:8000/hello to access the app.
