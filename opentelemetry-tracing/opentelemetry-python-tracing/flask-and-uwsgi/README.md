@@ -24,7 +24,7 @@ pip install -r requirements.txt
 splunk-py-trace-bootstrap
 ```
 
-## 5. Run the Django app with Gunicorn
+## 5. Run the Flask app with uWSGI
 
 ```
 export OTEL_SERVICE_NAME=my-flask-app
