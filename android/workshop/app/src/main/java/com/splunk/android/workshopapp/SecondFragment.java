@@ -77,7 +77,7 @@ public class SecondFragment extends Fragment {
                         .navigate(R.id.action_SecondFragment_to_webViewFragment));
 
         binding.buttonToCustomTab.setOnClickListener(v -> {
-            String url = "https://ssidhu.o11ystore.com/";
+            String url = "https://pmrum.o11ystore.com/";
             new CustomTabsIntent.Builder()
                     .setColorScheme(CustomTabsIntent.COLOR_SCHEME_DARK)
                     .setStartAnimations(getContext(), android.R.anim.slide_in_left, android.R.anim.slide_out_right)
