@@ -79,13 +79,13 @@ public class FirstFragment extends Fragment {
 
         binding.loginButton.setOnClickListener(v -> {
             //not really a login, but it does make an http call
-            makeCall("https://ssidhu.o11ystore.com/");
+            makeCall("https://pmrum.o11ystore.com/");
         });
         binding.httpErrorButton.setOnClickListener(v -> {
             makeCall("https://asdlfkjasd.asdfkjasdf.ifi");
         });
         binding.httpNotFoundButton.setOnClickListener(v -> {
-            makeCall("https://ssidhu.o11ystore.com/foobarbaz");
+            makeCall("https://pmrum.o11ystore.com/foobarbaz");
         });
     }
 
