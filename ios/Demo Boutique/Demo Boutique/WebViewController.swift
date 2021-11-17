@@ -10,6 +10,6 @@ class WebViewController: UIViewController {
         super.viewDidLoad()
         SplunkRum.integrateWithBrowserRum(self.webView)
 
-        self.webView.load(URLRequest(url: URL(string: "http://ssidhu.o11ystore.com/")!))
+        self.webView.load(URLRequest(url: URL(string: "http://pmrum.o11ystore.com/")!))
     }
 }
