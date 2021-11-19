@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Example lambdas instrumented using different handlers and wrappers
+
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+
+Resources:
+
+  SplunkLayerPythonLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SplunkLayerPythonLambdaFunction
+      CodeUri: .
+      Handler: lambda_function.lambda_handler
+      Runtime: python3.8
+      Timeout: 60
+      MemorySize: 256
+      Layers:
+        - REPLACE_WITH_LAYER_ARN
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
+          SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
+          SPLUNK_REALM: us0
+          OTEL_LOG_LEVEL: DEBUG
+          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf

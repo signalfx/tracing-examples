@@ -12,21 +12,20 @@ For more detailed information about the layer and Splunk OpenTelemetry Lambda di
 All examples are accompanied with a SAM template, allowing quick and easy deployment to your AWS account. 
 Additionally, the default configuration sends the data to Splunk Observability Cloud (`us0` realm).
  
-Following placeholders needs to be set in each `template.yaml`:
-- `REPLACE_WITH_SPLUNK_ACCESS_TOKEN` - your organization's access token
-- `REPLACE_WITH_LAYER_ARN` - ARN of the newest Splunk OpenTelemetry Lambda Layer for your AWS Region, found under this 
-URL: https://github.com/signalfx/lambda-layer-versions/blob/master/splunk-apm/splunk-apm.md 
+The following placeholders needs to be set in each `template.yaml`:
+- `REPLACE_WITH_SPLUNK_ACCESS_TOKEN` - Your organization's access token in Splunk Observability Cloud
+- `REPLACE_WITH_LAYER_ARN` - The Amazon Resource Name (ARN) of the newest Splunk OpenTelemetry Lambda Layer for your AWS Region, available in [lambda-layer-versions](https://github.com/signalfx/lambda-layer-versions/blob/master/splunk-apm/splunk-apm.md) 
 
-After filling in these details simply run following command:
+After filling in these details, run following command:
 ```
-$ sam build && sam deploy --resolve-s3git
+sam build && sam deploy --guided
 ```
 
 ## Java
-All examples can be found in [Java](./java).
+All examples are in the [Java directory](./java).
 
 Note: all example lambdas are string-based, so if testing from AWS console send simple string payload. 
-API Gateway example needs to get an instance of `APIGatewayProxyRequestEvent`. Therefore, minimal AWS console 
+The API Gateway example requires to get an instance of `APIGatewayProxyRequestEvent`. Therefore, the minimal AWS console 
 payload should be as follows:
 ```
 {
@@ -34,4 +33,8 @@ payload should be as follows:
 }
 ```
 
+## Python
+All examples are in the [Python directory](./python).
 
+## Node.js
+All examples are in the [Node.js directory](./nodejs).
