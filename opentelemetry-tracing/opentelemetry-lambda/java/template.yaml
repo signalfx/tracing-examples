@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Example lambdas instrumented using different handlers and wrappers
+
+Globals:
+  Api:
+    EndpointConfiguration: REGIONAL
+
+Resources:
+
+  # API gateway wrapper (with HTTP propagation)
+  SplunkLayerApiGatewayRequestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SplunkLayerApiGatewayRequestFunction
+      Handler: com.splunk.support.lambda.examples.ApiGatewayRequestFunction::handleRequest
+      Runtime: java11
+      CodeUri: .
+      MemorySize: 512
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 60
+      Layers:
+        - REPLACE_WITH_LAYER_ARN
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-proxy-handler
+          SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
+          SPLUNK_REALM: us0
+          OTEL_LOG_LEVEL: DEBUG
+          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
+      Events:
+        HelloAll:
+          Type: Api
+          Properties:
+            Path: /hello
+            Method: post
+
+  # Event based wrapper (no HTTP propagation)
+  SplunkLayerRequestFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SplunkLayerRequestFunction
+      Handler: com.splunk.support.lambda.examples.RequestFunction::handleRequest
+      Runtime: java11
+      CodeUri: .
+      MemorySize: 512
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 60
+      Layers:
+        - REPLACE_WITH_LAYER_ARN
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-handler
+          SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
+          SPLUNK_REALM: us0
+          OTEL_LOG_LEVEL: DEBUG
+          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
+
+  # Event based streaming wrapper (no HTTP propagation)
+  SplunkLayerRequestStreamFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SplunkLayerRequestStreamFunction
+      Handler: com.splunk.support.lambda.examples.RequestStreamFunction::handleRequest
+      Runtime: java11
+      CodeUri: .
+      MemorySize: 512
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 60
+      Layers:
+        - REPLACE_WITH_LAYER_ARN
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-stream-handler
+          SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
+          SPLUNK_REALM: us0
+          OTEL_LOG_LEVEL: DEBUG
+          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
