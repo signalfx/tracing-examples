@@ -16,6 +16,13 @@ in detail, but for now we just need one single setting:
 
 `splunk.profiler.enabled=true`
 
+For the purposes of this demo, we will also reduce the sampling interval to 1000ms (1 second):
+
+`splunk.profiler.period.threaddump=1000`
+
+A typical production application is expected to have dozens (or thousands!) of instances running,
+but our demo simply runs on our laptop, so we reduce the sampling rate.
+
 While it is also possible to use an environment variable, we will simply pass this
 as a java system property by adding `-D`. Modify the run command from before, but add
 the config setting to enable the profiler. Don't forget to substitute `profiling-workshop-<xxx>`
@@ -24,6 +31,7 @@ with the service name you decided on in the previous section:
 ```
 $ java -javaagent:splunk-otel-javaagent-all.jar \
     -Dsplunk.profiler.enabled=true \
+    -Dsplunk.profiler.period.threaddump=1000 \
     -Dotel.resource.attributes=deployment.environment=workshop \
     -Dotel.service.name=profiling-workshop-<xxx> \
     -jar build/libs/profiling-workshop-all.jar
