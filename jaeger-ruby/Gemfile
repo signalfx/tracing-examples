@@ -1,4 +1,0 @@
-source 'https://rubygems.org'
-
-gem 'sinatra'
-gem 'jaeger-client', '~> 0.6.1'
