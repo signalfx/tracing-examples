@@ -26,3 +26,36 @@ Resources:
           SPLUNK_REALM: us0
           OTEL_LOG_LEVEL: DEBUG
           OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
+
+  SplunkLayerPythonFastApiLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SplunkLayerPythonFastApiLambdaFunction
+      CodeUri: .
+      Handler: fastapi_lambda.handler
+      Runtime: python3.8
+      Timeout: 60
+      MemorySize: 256
+      Layers:
+        - REPLACE_WITH_LAYER_ARN
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
+          SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
+          SPLUNK_REALM: us0
+          OTEL_LOG_LEVEL: DEBUG
+          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
+      Events:
+        ApiEvent:
+          Properties:
+            RestApiId:
+              Ref: FastapiExampleGateway
+            Path: /{proxy+}
+            Method: ANY
+          Type: Api
+
+  FastapiExampleGateway:
+    Type: AWS::Serverless::Api
+    Properties:
+      StageName: prod
+      OpenApiVersion: '3.0.0'
