@@ -57,8 +57,8 @@ high value transactions and critical paths - instrument enough of these.
 ## Examples
 
 This repository contains a set of simple example applications that demonstrate
-using SignalFx with various open source tracers.  They are broken down by
-language/platform.
+using OpenTelemetry or SignalFx with various open source tracers.
+They are broken down by language/platform.
 
 ### .NET
 
@@ -68,39 +68,15 @@ instrument .NET libraries and applications.
 
 ### Java
 
-- [Jaeger Java](./jaeger-java): our recommended tracer for Java.
-- [Zipkin Brave](./zipkin-brave-java): Zipkin's instrumentation library for
-  Java.
-- [Java Kafka tracing](./opentracing-kafka-java): an example of tracing Kafka
-  using Zipkin Brave with OpenTracing bindings.
-- Spring Boot Examples:
-  - [Jaeger Spring Boot](./jaeger-java-spring-boot-web): An example of instrumenting a Spring Boot application with Jaeger
-  - [Zipkin Brave Spring Boot](./zipkin-brave-java-spring-boot-web): An example of instrumenting a Spring Boot application with Zipkin
-  - [OpenCensus Spring Boot](./opencensus-jaeger-java-spring-boot): An example using the OpenCensus project's Jaeger exporter for java.
+- [OpenTelemetry Java](./opentelemetry-tracing/opentelemetry-java-tracing): our recommended tracer for Java.
 
 ### Python
 
-- [Jaeger Python](./jaeger-python): our recommended tracer for Python.
-- [OpenCensus Python](./opencensus-jaeger-python): OpenCensus's instrumentation
-  library with a Jaeger reporter in Python.
+- [OpenTelemetry Python](./opentelemetry-tracing/opentelemetry-python-tracing): our recommended tracer for Python.
 
 ### Go
 
-- [Jaeger Go](./jaeger-go): our recommended tracer for Golang.
-- [OpenCensus Go](./opencensus-jaeger-go): OpenCensus's instrumentation library
-  with a Jaeger reporter in Golang.
-
-### Node.js
-
-- [Jaeger Node.js](./jaeger-nodejs)
-- [Zipkin JS Tracer](./zipkin-js): Zipkin's instrumentation library for
-  Javascript (currently supports a broader range of instrumentations than the
-  Jaeger Node tracer and supports running in a browser).
-
-### Ruby
-
-- [Jaeger Ruby](./jaeger-ruby): a Jaeger trace exporter for Ruby
-
+- [SignalFx Go](./signalfx-tracing/signalfx-go-tracing): SignalFx tracer for Golang.
 
 ### Service Meshes
 
@@ -114,11 +90,6 @@ instrument .NET libraries and applications.
 - [AWS App Mesh](./service-mesh/appmesh): An example E-Commerce application with
   deployment and configuration files for App Mesh on ECS.
 
-### AWS Lambda Functions
-
-- [AWS Lambda](./aws-lambda): Examples for instrumenting spans for AWS Lambda written in Java, Python, Node, Go
-
-
 ## Auto-Instrumentation
 
 For customers who have not instrumented their applications, or have done so in
@@ -127,11 +98,7 @@ Their detailed documentation is available in their respective source locations:
 
 - [.NET](https://github.com/signalfx/signalfx-dotnet-tracing)
 - [Go](https://github.com/signalfx/signalfx-go-tracing)
-- [Java](https://github.com/signalfx/signalfx-java-tracing)
-- [Node.js](https://github.com/signalfx/signalfx-nodejs-tracing)
 - [PHP](https://github.com/signalfx/signalfx-php-tracing)
-- [Python](https://github.com/signalfx/signalfx-python-tracing)
-- [Ruby](https://github.com/signalfx/signalfx-ruby-tracing)
 
 Examples of those auto-instrumentation techniques are available in this
 repository:

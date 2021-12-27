@@ -1,5 +1,0 @@
-git+git://github.com/signalfx/jaeger-client-python@ot_20_http_sender
-opentracing==2.0.0
-requests
-futures
-six

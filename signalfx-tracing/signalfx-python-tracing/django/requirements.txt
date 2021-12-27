@@ -1,6 +1,0 @@
-django
-djangorestframework
-coreapi
-pyyaml
-requests
-signalfx-tracing>=0.0.8
