@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lint>
+    <issue id="UnusedResources">
+        <ignore path="src/main/res/drawable-nodpi/air_plant.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/barista_kit.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/camera_lens.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/camp_mug.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/city_bike.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/film_camera.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/hero_banner_image.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/no_image_place_holder.png" />
+        <ignore path="src/main/res/drawable-nodpi/record_player.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/terrarium.jpg" />
+        <ignore path="src/main/res/drawable-nodpi/typewriter.jpg" />
+    </issue>
+</lint>

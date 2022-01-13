@@ -1,0 +1,89 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <dimen name="save_button_height_50dp" tools:keep="@dimen/save_button_height_50dp">76dp</dimen>
+    <dimen name="size_minus_50dp">-85dp</dimen>
+    <dimen name="size_minus_8dp">-5dp</dimen>
+    <dimen name="size_minus_12dp" tools:keep="@dimen/size_minus_12dp">-16dp</dimen>
+    <dimen name="size_0.5dp">0.5dp</dimen>
+    <dimen name="size_1dp" tools:keep="@dimen/size_1dp">1dp</dimen>
+    <dimen name="size_2dp" tools:keep="@dimen/size_2dp">2dp</dimen>
+    <dimen name="size_3dp">3dp</dimen>
+    <dimen name="size_4dp" tools:keep="@dimen/size_4dp">6dp</dimen>
+    <dimen name="size_5dp">7dp</dimen>
+    <dimen name="size_6dp" tools:keep="@dimen/size_6dp">8dp</dimen>
+    <dimen name="size_7dp">9dp</dimen>
+    <dimen name="size_8dp" tools:keep="@dimen/size_8dp">10dp</dimen>
+    <dimen name="size_9dp" tools:keep="@dimen/size_9dp">11dp</dimen>
+    <dimen name="size_10dp">12dp</dimen>
+    <dimen name="size_11dp" tools:keep="@dimen/size_11dp">13dp</dimen>
+    <dimen name="size_12dp" tools:keep="@dimen/size_12dp">15dp</dimen>
+    <dimen name="size_13dp" tools:keep="@dimen/size_13dp">16dp</dimen>
+    <dimen name="size_14dp" tools:keep="@dimen/size_14dp">17dp</dimen>
+    <dimen name="size_15dp">18dp</dimen>
+    <dimen name="size_16dp">19dp</dimen>
+    <dimen name="size_17dp" tools:keep="@dimen/size_17dp">20dp</dimen>
+    <dimen name="size_18dp" tools:keep="@dimen/size_18dp">22dp</dimen>
+    <dimen name="size_19dp" tools:keep="@dimen/size_19dp">23dp</dimen>
+    <dimen name="size_20dp">24dp</dimen>
+    <dimen name="size_21dp" tools:keep="@dimen/size_21dp">26dp</dimen>
+    <dimen name="size_22dp">27dp</dimen>
+    <dimen name="size_23dp" tools:keep="@dimen/size_23dp">28dp</dimen>
+    <dimen name="size_24dp" tools:keep="@dimen/size_24dp">29dp</dimen>
+    <dimen name="size_25dp">30dp</dimen>
+    <dimen name="size_26dp" tools:keep="@dimen/size_26dp">32dp</dimen>
+    <dimen name="size_27dp" tools:keep="@dimen/size_27dp">33dp</dimen>
+    <dimen name="size_28dp" tools:keep="@dimen/size_28dp">37dp</dimen>
+    <dimen name="size_29dp" tools:keep="@dimen/size_29dp">38dp</dimen>
+    <dimen name="size_30dp">40dp</dimen>
+    <dimen name="size_31dp" tools:keep="@dimen/size_31dp">41dp</dimen>
+    <dimen name="size_32dp" tools:keep="@dimen/size_32dp">42dp</dimen>
+    <dimen name="size_36dp" tools:keep="@dimen/size_36dp">46dp</dimen>
+    <dimen name="size_38dp" tools:keep="@dimen/size_38dp">54dp</dimen>
+    <dimen name="size_40dp">56dp</dimen>
+    <dimen name="size_42dp">58dp</dimen>
+    <dimen name="size_46dp" tools:keep="@dimen/size_46dp">62dp</dimen>
+    <dimen name="size_50dp">70dp</dimen>
+    <dimen name="size_54dp">82dp</dimen>
+    <dimen name="size_60dp" tools:keep="@dimen/size_60dp">96dp</dimen>
+    <dimen name="size_66dp">100dp</dimen>
+    <dimen name="size_70dp">108dp</dimen>
+    <dimen name="size_76dp" tools:keep="@dimen/size_76dp">116dp</dimen>
+    <dimen name="size_90dp" tools:keep="@dimen/size_90dp">135dp</dimen>
+    <dimen name="size_100dp" tools:keep="@dimen/size_100dp">160dp</dimen>
+    <dimen name="size_112dp" tools:keep="@dimen/size_112dp">174dp</dimen>
+    <dimen name="size_120dp">182dp</dimen>
+    <dimen name="size_130dp" tools:keep="@dimen/size_130dp">200dp</dimen>
+    <dimen name="size_140dp" tools:keep="@dimen/size_140dp">210dp</dimen>
+    <dimen name="size_158dp">240dp</dimen>
+    <dimen name="size_168dp">260dp</dimen>
+    <dimen name="size_172dp">290dp</dimen>
+    <dimen name="size_180dp" tools:keep="@dimen/size_180dp">375dp</dimen>
+    <dimen name="size_194dp">390dp</dimen>
+    <dimen name="size_208dp" tools:keep="@dimen/size_208dp">420dp</dimen>
+    <dimen name="size_230dp" tools:keep="@dimen/size_230dp">450dp</dimen>
+    <dimen name="size_410dp" tools:keep="@dimen/size_410dp">700dp</dimen>
+
+    <dimen name="text_size_1sp" tools:keep="@dimen/text_size_1sp">1sp</dimen>
+    <dimen name="text_size_2sp" tools:keep="@dimen/text_size_2sp">3sp</dimen>
+    <dimen name="text_size_3sp" tools:keep="@dimen/text_size_3sp">4sp</dimen>
+    <dimen name="text_size_4sp" tools:keep="@dimen/text_size_4sp">5sp</dimen>
+    <dimen name="text_size_5sp" tools:keep="@dimen/text_size_5sp">6sp</dimen>
+    <dimen name="text_size_6sp" tools:keep="@dimen/text_size_6sp">7sp</dimen>
+    <dimen name="text_size_7sp" tools:keep="@dimen/text_size_7sp">8sp</dimen>
+    <dimen name="text_size_8sp" tools:keep="@dimen/text_size_8sp">9sp</dimen>
+    <dimen name="text_size_9sp" tools:keep="@dimen/text_size_9sp">10sp</dimen>
+    <dimen name="text_size_10sp" tools:keep="@dimen/text_size_10sp">11sp</dimen>
+    <dimen name="text_size_11sp" tools:keep="@dimen/text_size_11sp">12sp</dimen>
+    <dimen name="text_size_12sp">13sp</dimen>
+    <dimen name="text_size_13sp" tools:keep="@dimen/text_size_13sp">14sp</dimen>
+    <dimen name="text_size_14sp">15sp</dimen>
+    <dimen name="text_size_15sp" tools:keep="@dimen/text_size_15sp">16sp</dimen>
+    <dimen name="text_size_16sp">17sp</dimen>
+    <dimen name="text_size_17sp" tools:keep="@dimen/text_size_17sp">18sp</dimen>
+    <dimen name="text_size_18sp" tools:keep="@dimen/text_size_18sp">19sp</dimen>
+    <dimen name="text_size_19sp" tools:keep="@dimen/text_size_19sp">20sp</dimen>
+    <dimen name="text_size_20sp" tools:keep="@dimen/text_size_20sp">21sp</dimen>
+    <dimen name="text_size_22sp" tools:keep="@dimen/text_size_22sp">24sp</dimen>
+    <dimen name="text_size_27sp" tools:keep="@dimen/text_size_27sp">29sp</dimen>
+    <dimen name="text_size_34sp" tools:keep="@dimen/text_size_34sp">36sp</dimen>
+
+</resources>

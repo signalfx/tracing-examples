@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="product"
+            type="com.splunk.rum.demoApp.model.entity.response.NewProduct" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/size_10dp"
+        android:paddingBottom="@dimen/size_10dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/product_image"
+            android:layout_width="@dimen/size_158dp"
+            android:layout_height="@dimen/size_158dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/product_image"
+            android:layout_alignBottom="@+id/product_image"
+            android:layout_toEndOf="@+id/product_image"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/size_15dp"
+            android:paddingEnd="@dimen/size_15dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/product_name"
+                style="@style/mediumFontTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:letterSpacing="0.3"
+                android:minLines="2"
+                android:text="@{product.name}"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lbl_sku"
+                    style="@style/mediumFontTextViewStyle"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/lbl_sku"
+                    android:textColor="@color/grey" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/sku_tv"
+                    style="@style/mediumFontTextViewStyle"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/size_10dp"
+                    android:letterSpacing="0.1"
+                    android:text="@{@string/sku_value(product.id)}"
+                    android:textColor="@color/grey" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/size_15dp">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/lbl_quantity"
+                    style="@style/mediumFontTextViewStyle"
+                    android:layout_gravity="center_vertical"
+                    android:letterSpacing="0.1"
+                    android:text="@string/lbl_quantity_"
+                    android:textColor="@color/black" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/quantity_tv"
+                    style="@style/mediumFontTextViewStyle"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/size_10dp"
+                    android:letterSpacing="0.1"
+                    android:text="@{String.valueOf(product.quantity)}"
+                    android:textColor="@color/black" />
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/product_price"
+                style="@style/mediumFontTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:letterSpacing="0.1"
+                android:paddingBottom="@dimen/size_10dp"
+                android:text="@{@string/lbl_price(product.priceUsd.price)}"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
+

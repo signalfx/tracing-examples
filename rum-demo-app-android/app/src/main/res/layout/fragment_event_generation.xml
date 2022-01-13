@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.splunk.rum.demoApp.view.event.viewModel.EventViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWindowBackground"
+        tools:context=".view.event.fragment.EventGenerationFragment">
+
+        <LinearLayout
+            android:id="@+id/parentLayout"
+            style="@style/parentViewMediumPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnCrashApp"
+                style="@style/primaryButtonStyle"
+                android:text="@string/btn_crash_app" />
+
+            <Button
+                android:id="@+id/btnANR"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_anr_app" />
+
+            <Button
+                android:id="@+id/btnGenerateException"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_generate_exception" />
+
+            <Button
+                android:id="@+id/btnFreezeApp"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_freeze_app" />
+
+            <Button
+                android:id="@+id/btnSlowApiResponse"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_slow_api_response" />
+
+            <Button
+                android:id="@+id/btnHttpNotFound"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_http_not_found" />
+
+            <Button
+                android:id="@+id/btnHttpError"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_http_error" />
+
+            <Button
+                android:id="@+id/btnShopWebView"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_shop_web_view" />
+
+            <Button
+                android:id="@+id/btnLocalWebView"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:text="@string/btn_local_web_view" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/progress_wheel"
+            layout="@layout/dialog_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+    </FrameLayout>
+</layout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.splunk.rum.demoApp.view.product.fragment.ProductListFragment"
+        android:label="fragment_product_list"
+        tools:layout="@layout/fragment_product_list">
+        <action
+            android:id="@+id/action_navigation_home_to_productDetailsFragment"
+            app:destination="@id/navigation_product_detail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_cart"
+        android:name="com.splunk.rum.demoApp.view.cart.fragment.ShoppingCartFragment"
+        android:label="fragment_shopping_cart"
+        tools:layout="@layout/fragment_shopping_cart">
+        <action
+            android:id="@+id/action_navigation_cart_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/mobile_navigation"
+            app:popUpToInclusive="true"
+
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_events"
+        android:name="com.splunk.rum.demoApp.view.event.fragment.EventGenerationFragment"
+        android:label="fragment_event_generation"
+        tools:layout="@layout/fragment_event_generation">
+        <action
+            android:id="@+id/action_navigation_events_to_navigation_shop_web_view"
+            app:destination="@id/navigation_shop_web_view"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_navigation_events_to_local_web_view"
+            app:destination="@id/navigation_local_web_view"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_product_detail"
+        android:name="com.splunk.rum.demoApp.view.product.fragment.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" >
+        <action
+            android:id="@+id/action_navigation_product_detail_self"
+            app:destination="@id/navigation_product_detail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/navigation_shop_web_view"
+        android:name="com.splunk.rum.demoApp.view.event.fragment.ShopWebViewFragment"
+        android:label="ShopWebViewFragment" />
+    <fragment
+        android:id="@+id/navigation_local_web_view"
+        android:name="com.splunk.rum.demoApp.view.event.fragment.LocalWebViewFragment"
+        android:label="LocalWebViewFragment" />
+</navigation>

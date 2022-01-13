@@ -1,0 +1,189 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">RUM Mobile Demo App</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="error_email">Please enter valid email!</string>
+    <string name="error_network" translatable="false">There was a Problem connecting to the Server, please checked your network connection, and then try again.</string>
+    <string name="error_unknown_utils">An unknown error occurred</string>
+    <string name="ok">Okay</string>
+    <string name="exit_msg" translatable="false">Are you sure you want to exit ?</string>
+
+
+    <!--   URL CONFIGURATION     -->
+    <string name="title_url_configuration">URL Configuration</string>
+    <string name="hint_url">Configuration URL</string>
+    <string name="btn_submit">Submit</string>
+    <string name="error_url">Please enter valid url</string>
+    <string name="https">https://</string>
+    <!--   END URL CONFIGURATION     -->
+
+    <!--   PRODUCT LIST     -->
+    <string name="lbl_price" formatted="false" translatable="false">USD %.2f</string>
+    <!--   END PRODUCT LIST     -->
+
+    <!--   PRODUCT DETAILS     -->
+    <string name="lbl_product_description">Product Description:</string>
+    <string name="lbl_quantity">Quantity</string>
+    <string-array name="quantity">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+    <string name="btn_add_to_cart">Add to cart</string>
+    <string name="api_product_detail_end_point" formatted="false" translatable="false">product/%s</string>
+    <!--   END PRODUCT DETAILS     -->
+
+    <!--   CART     -->
+    <string name="btn_empty_cart">Empty Cart</string>
+    <string name="lbl_shipping_cost">Shipping Cost</string>
+    <string name="lbl_total_cost">Total Cost</string>
+    <string name="lbl_sku">SKU:</string>
+    <string name="lbl_quantity_">Quantity:</string>
+    <string name="sku_value" formatted="false" translatable="false">#%s</string>
+    <string name="item_in_cart" formatted="true" translatable="false" tools:ignore="PluralsCandidate">%d item in your cart</string>
+    <string name="items_in_cart" formatted="true" translatable="false" tools:ignore="PluralsCandidate">%d items in your cart</string>
+    <string name="lbl_cart_empty">Your shopping cart is empty!</string>
+    <string name="lbl_cart_desc">Items you add to your shopping cart will appear here.</string>
+    <string name="btn_browse_products">Browse Products</string>
+    <string name="alert_empty_cart_msg">Are you sure you want to empty your cart?</string>
+
+    <!-- TODO  HARD CODED: -->
+    <string name="shipping_cost">USD 5.88</string>
+    <!--   END CART     -->
+
+    <!--   BOTTOM NAVIGATION     -->
+
+    <string name="title_product_list">Product List</string>
+    <string name="title_shopping_cart">Shopping Cart</string>
+    <string name="title_event_generation">Event Generation</string>
+
+    <!--   END BOTTOM NAVIGATION     -->
+
+    <!--   EVENT GENERATION     -->
+    <string name="btn_crash_app">Crash App</string>
+    <string name="btn_anr_app">Generate ANR</string>
+    <string name="btn_generate_exception">Generate Exception</string>
+    <string name="btn_freeze_app">Freeze App</string>
+    <string name="btn_slow_api_response">Slow Api Response</string>
+    <string name="btn_http_not_found">HTTP Not Found(4**)</string>
+    <string name="btn_http_error">HTTP Error(5**)</string>
+    <string name="btn_shop_web_view">Shop Web View</string>
+    <string name="btn_local_web_view">Local Web View</string>
+
+    <!--   END EVENT GENERATION     -->
+
+    <!-- CHECK OUT -->
+    <string name="lbl_check_out">Check out</string>
+    <string name="hint_email_address">Email Address</string>
+    <string name="hint_street_address">Street Address</string>
+    <string name="hint_zip_code">Zip Code</string>
+    <string name="hint_country">Country</string>
+    <string name="hint_state">State</string>
+    <string name="hint_city">City</string>
+    <string name="hint_credit_card_number">0000&#8211;0000&#8211;0000&#8211;0000</string>
+    <string name="hint_month">Month</string>
+    <string name="hint_year">Year</string>
+    <string name="hint_cvv">Cvv</string>
+    <string name="btn_place_order">Place Order</string>
+
+    <string name="error_black_validation">Please fill in this field.</string>
+    <string name="error_format_format">Please match the format requested.</string>
+    <string name="btn_check_out">Checkout</string>
+
+    <string name="month_jan">January</string>
+    <string name="month_feb">February</string>
+    <string name="month_mar">March</string>
+    <string name="month_april">April</string>
+    <string name="month_may">May</string>
+    <string name="month_june">June</string>
+    <string name="month_july">July</string>
+    <string name="month_aug">August</string>
+    <string name="month_sep">September</string>
+    <string name="month_oct">October</string>
+    <string name="month_nov">November</string>
+    <string name="month_dec">December</string>
+    <!-- END CHECK OUT -->
+
+    <!-- ORDER DETAIL SCREEN -->
+    <string name="order_success">Your order is complete!</string>
+    <string name="hint_order_confirmation_id">Order Confirmation ID</string>
+    <string name="hint_shipping_tracking_id">Shipping Tracking ID</string>
+    <string name="hint_shipping_cost">Shipping Cost</string>
+    <string name="hint_total_paid">Total Paid</string>\
+    <string name="btn_keep_browsing">Keep Browsing</string>
+
+    <!-- TODO  HARD CODED: -->
+    <string name="oc_v">023806f4&#8211;71f8&#8211;11ec&#8211;8810&#8211;56613b6a37d6</string>
+    <string name="st_v">QM&#8211;44543&#8211;220366212</string>
+    <string name="shipping_cost_v">USD 0.00</string>
+    <string name="total_paid_v">USD 0.00</string>
+
+    <!-- END ORDER DETAIL SCREEN -->
+
+
+    <string name="menu_item_config_change">Change Config URL</string>
+
+
+    <!--            HTTP EXCEPTION     -->
+    <string name="error_bad_request_400">The request could not be understood by the server due to malformed syntax.</string>
+    <string name="error_unauthorized_401">The request requires user authentication. The response MUST include a WWW-Authenticate header field.</string>
+    <string name="error_forbidden_403">The server understood the request, but is refusing to fulfill it.</string>
+    <string name="error_not_found_404">The server has not found anything matching the Request-URI.</string>
+    <string name="error_method_not_allowed_405">The method specified in the Request-Line is not allowed for the resource identified by the Request-URI.</string>
+    <string name="error_request_timeout_408">Your request timed out. Please retry the request.</string>
+    <string name="error_request_entity_too_large_413">The server is refusing to process a request because the request entity is larger than the server is willing or able to process.</string>
+    <string name="error_request_uri_too_long_414">The server is refusing to service the request because the Request-URI is longer than the server is willing to interpret.</string>
+    <string name="error_internal_server_error_500">The server encountered an unexpected condition which prevented it from fulfilling the request.</string>
+    <string name="error_unknown">An unknown error occurred</string>
+
+    <!--            END HTTP EXCEPTION     -->
+
+
+    <!--  Location Permission -->
+    <string name="no_location_detected">
+        No location detected. Make sure location is enabled on the device.
+    </string>
+
+    <string name="permission_rationale">Location permission is needed for core functionality</string>
+    <string name="permission_denied_explanation">Permission was denied, but is needed for core
+        functionality.</string>
+    <string name="settings">Settings</string>
+
+    <!-- END Location Permission -->
+
+
+    <!-- RUM EVENTS -->
+    <string name="rum_event_product_selected">Product Selected</string>
+    <string name="rum_event_product_selected_success">Product selected successfully"</string>
+
+    <string name="rum_event_product_add_into_cart">Product added into the cart</string>
+    <string name="rum_event_product_add_into_cart_success">Product successfully added into the cart</string>
+
+
+    <string name="rum_event_start_404">Workflow with 404</string>
+    <string name="rum_event_api_return_404">API return 404</string>
+    <string name="rum_event_start_500">Workflow with 500</string>
+    <string name="rum_event_api_return_500">failure to communicate with server</string>
+
+    <string name="rum_event_start_slow_response">Workflow with slow api response</string>
+    <string name="rum_event_api_return_slow_response">Success slow api response</string>
+    <string name="rum_event_api_fail_slow_slow_response">failure to communicate with server</string>
+
+
+    <string name="rum_event_start_product_check_out">Product checkout</string>
+    <string name="rum_event_check_out_success">Product checkout done successfully.</string>
+
+    <string name="rum_event_app_freezer">app freezer</string>
+    <string name="rum_event_sleep_mode">still in sleep mode</string>
+
+    <string name="rum_event_start_order_detail">Order Detail</string>
+    <string name="rum_event_status_order_fetch_success">Order detail fetch successfully</string>
+
+
+    <!-- END RUM EVENTS -->
+
+</resources>

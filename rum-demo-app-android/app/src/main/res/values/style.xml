@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="parentViewSmallPadding">
+        <item name="android:padding">@dimen/size_10dp</item>
+    </style>
+
+    <style name="parentViewMediumPadding">
+        <item name="android:padding">@dimen/size_16dp</item>
+    </style>
+
+    <style name="parentViewLargePadding">
+        <item name="android:padding">@dimen/size_22dp</item>
+    </style>
+
+    <style name="extraLargeFont">
+        <item name="android:textSize">@dimen/size_20dp</item>
+    </style>
+
+    <style name="largeFont" tools:keep="@style/largeFont">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+    </style>
+
+    <style name="largeMediumFont">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="mediumFont">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+
+    <style name="smallFont" tools:keep="@style/smallFont">
+        <item name="android:textSize">@dimen/text_size_10sp</item>
+    </style>
+
+    <style name="verySmallFontStyle" tools:keep="@style/verySmallFontStyle">
+        <item name="android:textSize">@dimen/text_size_8sp</item>
+    </style>
+
+    <style name="extraLargeTextViewStyle" parent="extraLargeFont">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="largeTextViewStyle" parent="largeFont" tools:keep="@style/largeTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="largeMediumFontTextViewStyle" parent="largeMediumFont">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="mediumFontTextViewStyle" parent="mediumFont">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="smallFontTextViewStyle" parent="smallFont" tools:keep="@style/smallFontTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="verySmallFontTextViewStyle" parent="verySmallFontStyle" tools:keep="@style/verySmallFontTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="primaryButtonStyle" parent="@style/Widget.MaterialComponents.Button">
+        <item name="android:minHeight">@dimen/size_42dp</item>
+        <item name="android:background">@drawable/rounded_button</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/text_size_12sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:letterSpacing">0.5</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+
+    <style name="textInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="textInputEditTextStyle" parent="mediumFont">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+
+    <style name="customAlertDialogParentThemeStyle" parent="android:Theme.Holo.Dialog">
+        <item name="android:alertDialogStyle">@style/customAlertDialogStyle</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="customAlertDialogStyle">
+        <item name="android:bottomBright">@color/transparent</item>
+        <item name="android:bottomDark">@color/transparent</item>
+        <item name="android:bottomMedium">@color/transparent</item>
+        <item name="android:centerBright">@color/transparent</item>
+        <item name="android:centerDark">@color/transparent</item>
+        <item name="android:centerMedium">@color/transparent</item>
+        <item name="android:fullBright">@color/transparent</item>
+        <item name="android:fullDark">@color/transparent</item>
+        <item name="android:topBright">@color/transparent</item>
+        <item name="android:topDark">@color/transparent</item>
+    </style>
+</resources>

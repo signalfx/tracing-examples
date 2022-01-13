@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="checkoutViewModel"
+            type="com.splunk.rum.demoApp.view.checkout.viewModel.CheckoutViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWindowBackground">
+
+        <include
+            android:id="@+id/toolbarView"
+            layout="@layout/toolbar_main" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarView"
+            android:padding="@dimen/size_10dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_check_out"
+                style="@style/largeMediumFontTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/size_10dp"
+                android:paddingEnd="@dimen/size_10dp"
+                android:text="@string/lbl_check_out"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_check_out"
+                android:paddingTop="@dimen/size_5dp">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/size_10dp"
+                    app:cardElevation="@dimen/size_5dp"
+                    app:cardPreventCornerOverlap="true"
+                    app:cardUseCompatPadding="true">
+
+
+                    <RelativeLayout
+                        style="@style/parentViewMediumPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/emailTextField"
+                            style="@style/textInputLayoutStyle"
+                            android:hint="@string/hint_email_address"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@mipmap/ic_user"
+                            app:startIconTint="@color/grey">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtEmail"
+                                style="@style/textInputEditTextStyle"
+                                android:drawablePadding="@dimen/size_minus_8dp"
+                                android:imeOptions="actionNext"
+                                android:inputType="textEmailAddress"
+                                android:text="@={checkoutViewModel.checkoutRequest.email}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/addressTextField"
+                            style="@style/textInputLayoutStyle"
+                            android:layout_below="@id/emailTextField"
+                            android:hint="@string/hint_street_address"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@mipmap/ic_location"
+                            app:startIconTint="@color/grey">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtAddress"
+                                style="@style/textInputEditTextStyle"
+                                android:drawablePadding="@dimen/size_minus_8dp"
+                                android:imeOptions="actionNext"
+                                android:inputType="textPostalAddress"
+                                android:text="@={checkoutViewModel.checkoutRequest.address}"
+                                />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/zipTextField"
+                            style="@style/textInputLayoutStyle"
+                            android:layout_below="@id/addressTextField"
+                            android:hint="@string/hint_zip_code"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@mipmap/ic_location"
+                            app:startIconTint="@color/grey">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtZip"
+                                style="@style/textInputEditTextStyle"
+                                android:digits="0123456789"
+                                android:drawablePadding="@dimen/size_minus_8dp"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:maxLength="5"
+                                android:text="@={checkoutViewModel.checkoutRequest.zipCode}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/countryTextField"
+                            style="@style/textInputLayoutStyle"
+                            android:layout_below="@id/zipTextField"
+                            android:hint="@string/hint_country"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@mipmap/ic_location"
+                            app:startIconTint="@color/grey">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtCountry"
+                                style="@style/textInputEditTextStyle"
+                                android:drawablePadding="@dimen/size_minus_8dp"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:text="@={checkoutViewModel.checkoutRequest.country}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/stateTextField"
+                            style="@style/textInputLayoutStyle"
+                            android:layout_below="@id/countryTextField"
+                            android:hint="@string/hint_state"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@mipmap/ic_state"
+                            app:startIconTint="@color/grey">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtState"
+                                style="@style/textInputEditTextStyle"
+                                android:drawablePadding="@dimen/size_minus_8dp"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:text="@={checkoutViewModel.checkoutRequest.state}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/cityTextField"
+                            style="@style/textInputLayoutStyle"
+                            android:layout_below="@id/stateTextField"
+                            android:hint="@string/hint_city"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@mipmap/ic_city"
+                            app:startIconTint="@color/grey">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtCity"
+                                style="@style/textInputEditTextStyle"
+                                android:drawablePadding="@dimen/size_minus_8dp"
+                                android:imeOptions="actionNext"
+                                android:inputType="text"
+                                android:text="@={checkoutViewModel.checkoutRequest.city}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/creditCardTextField"
+                            style="@style/textInputLayoutStyle"
+                            android:layout_below="@id/cityTextField"
+                            android:hint="@string/hint_credit_card_number"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@mipmap/ic_card"
+                            app:startIconTint="@color/grey">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/edtCreditCard"
+                                style="@style/textInputEditTextStyle"
+                                android:digits="0123456789"
+                                android:drawablePadding="@dimen/size_minus_8dp"
+                                android:imeOptions="actionNext"
+                                android:inputType="number"
+                                android:maxLength="19"
+                                android:text="@={checkoutViewModel.checkoutRequest.creditCardNumber}" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:id="@+id/monthYearLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/creditCardTextField"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/monthTextField"
+                                style="@style/textInputLayoutStyle"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:hint="@string/hint_month"
+                                app:errorEnabled="true"
+                                app:startIconDrawable="@mipmap/ic_year"
+                                app:startIconTint="@color/grey">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edtMonth"
+                                    style="@style/textInputEditTextStyle"
+                                    android:cursorVisible="false"
+                                    android:drawablePadding="@dimen/size_minus_8dp"
+                                    android:focusable="false"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="text"
+                                    android:text="@={checkoutViewModel.checkoutRequest.monthName}" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/yearTextField"
+                                style="@style/textInputLayoutStyle"
+                                android:layout_width="0dp"
+                                android:layout_marginStart="@dimen/size_15dp"
+                                android:layout_weight="1"
+                                android:hint="@string/hint_year"
+                                app:errorEnabled="true"
+                                app:startIconDrawable="@mipmap/ic_year"
+                                app:startIconTint="@color/grey">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edtYear"
+                                    style="@style/textInputEditTextStyle"
+                                    android:cursorVisible="false"
+                                    android:drawablePadding="@dimen/size_minus_8dp"
+                                    android:focusable="false"
+                                    android:imeOptions="actionNext"
+                                    android:inputType="text"
+                                    android:text="@={checkoutViewModel.checkoutRequest.year}" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/cvvLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/monthYearLayout"
+                            android:orientation="horizontal"
+                            android:baselineAligned="false">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/cvvTextField"
+                                style="@style/textInputLayoutStyle"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:hint="@string/hint_cvv"
+                                app:errorEnabled="true"
+                                app:startIconDrawable="@mipmap/ic_cvv"
+                                app:startIconTint="@color/grey">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edtCvv"
+                                    style="@style/textInputEditTextStyle"
+                                    android:digits="0123456789"
+                                    android:drawablePadding="@dimen/size_minus_8dp"
+                                    android:imeOptions="actionDone"
+                                    android:inputType="numberPassword"
+                                    android:maxLength="3"
+                                    android:text="@={checkoutViewModel.checkoutRequest.cvv}" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:id="@+id/fakeTextField"
+                                style="@style/textInputLayoutStyle"
+                                android:layout_width="0dp"
+                                android:layout_marginStart="@dimen/size_15dp"
+                                android:layout_weight="1"
+                                android:digits="0123456789"
+                                android:hint="@string/hint_year"
+                                android:visibility="invisible"
+                                app:errorEnabled="true">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/edtFake"
+                                    style="@style/textInputEditTextStyle"
+                                    android:drawablePadding="@dimen/size_minus_8dp"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btnPlaceOrder"
+                            style="@style/primaryButtonStyle"
+                            android:layout_below="@+id/cvvLayout"
+                            android:layout_marginTop="@dimen/size_20dp"
+                            android:text="@string/btn_place_order" />
+                    </RelativeLayout>
+
+
+                </androidx.cardview.widget.CardView>
+
+            </ScrollView>
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

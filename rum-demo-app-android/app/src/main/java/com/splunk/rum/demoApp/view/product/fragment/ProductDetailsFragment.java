@@ -1,0 +1,222 @@
+package com.splunk.rum.demoApp.view.product.fragment;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavOptions;
+import androidx.navigation.fragment.NavHostFragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+
+import com.bumptech.glide.Glide;
+import com.google.android.material.badge.BadgeDrawable;
+import com.splunk.rum.SplunkRum;
+import com.splunk.rum.demoApp.R;
+import com.splunk.rum.demoApp.databinding.FragmentProductDetailsBinding;
+import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.util.AppConstant;
+import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.ResourceProvider;
+import com.splunk.rum.demoApp.util.StringHelper;
+import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
+import com.splunk.rum.demoApp.view.base.fragment.BaseFragment;
+import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
+import com.splunk.rum.demoApp.view.home.MainActivity;
+import com.splunk.rum.demoApp.view.product.adapter.ProductListAdapter;
+import com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel;
+
+import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import okhttp3.ResponseBody;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * create an instance of this fragment.
+ */
+public class ProductDetailsFragment extends BaseFragment {
+
+    FragmentProductDetailsBinding binding;
+    private NewProduct productDetails;
+    private ArrayList<NewProduct> productList = new ArrayList<>();
+    private ArrayList<NewProduct> otherProductList = new ArrayList<>();
+    private Context mContext;
+    private Span workflow;
+
+    public ProductDetailsFragment() {
+        // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO need to confirm if custom event needs to be sent for the below use case
+        workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_selected));
+        if (getArguments() != null) {
+            otherProductList = new ArrayList<>();
+            productDetails = Parcels.unwrap(getArguments().getParcelable(AppConstant.IntentKey.PRODUCT_DETAILS));
+            productList = Parcels.unwrap(getArguments().getParcelable(AppConstant.IntentKey.PRODUCT_ARRAY));
+
+            Collections.shuffle(productList);
+            for (NewProduct product : productList) {
+                if (!product.getId().equalsIgnoreCase(productDetails.getId()) && otherProductList.size() < 4) {
+                    otherProductList.add(product);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).setupToolbar(true);
+        }
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mContext = null;
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        binding = FragmentProductDetailsBinding.inflate(inflater, container, false);
+        binding.setProduct(productDetails);
+
+        // Configure ViewModel
+        ProductViewModel productViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(ProductViewModel.class);
+        productViewModel.createView(this);
+        binding.setViewModel(productViewModel);
+        binding.executePendingBindings();
+
+        productViewModel.getProductDetail(productDetails.getId());
+
+        //get login data
+        if (getActivity() != null) {
+            productViewModel.getBaseResponse()
+                    .observe(getActivity(),
+                            responseBody());
+        }
+
+
+        binding.btnAddToCart.setOnClickListener(view -> {
+            AppUtils.storeProductInCart(productDetails);
+
+            if (getActivity() instanceof MainActivity
+                    && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
+                BadgeDrawable badge = ((MainActivity) getActivity()).getBottomNavigationView().getOrCreateBadge(R.id.navigation_cart);
+                badge.setVisible(true);
+                int totalQty = 0;
+                for (NewProduct product : AppUtils.getProductsFromPref().getProducts()) {
+                    totalQty += product.getQuantity();
+                }
+                badge.setNumber(totalQty);
+            }
+            // TODO need to confirm if custom event needs to be sent for the below use case
+            Span addToCartWorkflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_add_into_cart));
+
+            NavOptions navOptions = new NavOptions.Builder()
+                    .setLaunchSingleTop(false)
+                    .setEnterAnim(R.anim.slide_in_right)
+                    .setExitAnim(R.anim.slide_out_left)
+                    .setPopEnterAnim(R.anim.slide_in_right)
+                    .setPopExitAnim(R.anim.slide_out_left)
+                    //.setPopUpTo(NavHostFragment.findNavController(ProductDetailsFragment.this).getGraph().getStartDestination(), false)
+                    .build();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_DETAIL, true);
+            NavHostFragment.findNavController(ProductDetailsFragment.this).navigate(R.id.navigation_cart, bundle, navOptions);
+
+            if (getActivity() instanceof MainActivity
+                    && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
+                ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_cart).setChecked(true);
+            }
+
+            addToCartWorkflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_add_into_cart_success));
+            addToCartWorkflow.end();
+        });
+
+        return binding.getRoot();
+    }
+
+    /**
+     * @return Handle API Response
+     */
+    private androidx.lifecycle.Observer<ResponseBody> responseBody() {
+        return response -> {
+            setProductImage();
+            setUpRecyclerView();
+            setUpQuantitySpinner();
+            workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_selected_success));
+            workflow.end();
+        };
+    }
+
+    private void setProductImage() {
+        Glide.with(mContext).load(getImage(productDetails.getPicture()))
+                .placeholder(R.drawable.no_image_place_holder).centerCrop().into(binding.productImg);
+    }
+
+    private int getImage(String imageName) {
+        return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
+    }
+
+    private void setUpQuantitySpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
+                R.array.quantity, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        binding.quantitySpinner.setAdapter(adapter);
+        binding.spinnerArrow.setOnClickListener(view -> binding.quantitySpinner.performClick());
+        productDetails.setQuantity(1);
+        binding.quantitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                Object selectedItem = adapterView.getItemAtPosition(i);
+                if (selectedItem != null && !StringHelper.isEmpty(selectedItem.toString())) {
+                    productDetails.setQuantity(Integer.parseInt(selectedItem.toString()));
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void setUpRecyclerView() {
+        int spanCount = 2;
+        if (AppUtils.is10InchTablet(getActivity())) {
+            spanCount = 3;
+        }
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
+        binding.recyclerView.setLayoutManager(gridLayoutManager);
+        ProductListAdapter productListAdapter = new ProductListAdapter(getContext(), otherProductList, this);
+        binding.recyclerView.setAdapter(productListAdapter);
+    }
+
+    public List<NewProduct> getProductList() {
+        return productList;
+    }
+}

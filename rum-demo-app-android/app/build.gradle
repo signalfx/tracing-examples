@@ -1,0 +1,103 @@
+plugins {
+    id 'com.android.application'
+}
+def localProperties = new Properties()
+localProperties.load(new FileInputStream(rootProject.file("local.properties")))
+
+android {
+    compileSdk 31
+
+    defaultConfig {
+        applicationId "com.splunk.rum.demoApp"
+        minSdk 21
+        targetSdk 31
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        all {
+            resValue("string", "rum_realm", localProperties['rum.realm'] ?: "")
+            resValue("string", "rum_access_token", localProperties['rum.access.token'] ?: "")
+            buildConfigField("String", "BASE_URL", "\"https://identitytoolkit.googleapis.com/\"")
+            buildConfigField("String", "WEB_URL", "\"http://pmrum.o11ystore.com/\"")
+            buildConfigField("String", "MOCK_404_URL", "\"https://mock.codes/404\"")
+            buildConfigField("String", "MOCK_500_URL", "\"https://mock.codes/500\"")
+            buildConfigField("String", "SLOW_API_RESPONSE_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=50s\"")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+    }
+}
+
+dependencies {
+
+    // Splunk RUM Dependency
+    implementation 'com.splunk:splunk-otel-android:0.12.0'
+
+    //App Compat And Design Dependency
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation "androidx.cardview:cardview:1.0.0"
+    implementation 'androidx.appcompat:appcompat:1.4.0'
+    implementation 'com.google.android.material:material:1.4.0'
+
+    // Glide Image Loading Library
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+
+    //Web View
+    implementation 'androidx.webkit:webkit:1.4.0'
+
+    //Retrofit Networking Dependency
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.9.0'
+
+    //Retrofit Http Logging Dependency
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+    implementation 'com.google.code.gson:gson:2.8.8'
+
+    // RxJava
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.9'
+
+    // Dagger 2 Dependency Injection
+    implementation 'com.google.dagger:dagger:2.38.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+
+
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.38.1'
+
+    // Android Architecture Component ViewModel,LiveData
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.4.0'
+
+    // Navigation Fragment & Navigation View
+    implementation 'androidx.navigation:navigation-fragment:2.3.5'
+    implementation 'androidx.navigation:navigation-ui:2.3.5'
+
+    // Location Permission
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+
+    // Parcel Library
+    implementation 'org.parceler:parceler-api:1.1.12'
+    annotationProcessor 'org.parceler:parceler:1.1.12'
+}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/main_activity_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.60"
+            android:background="@color/primary"
+            android:gravity="center">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:layout_width="@dimen/size_168dp"
+                android:layout_height="@dimen/size_168dp"
+                app:srcCompat="@drawable/hipster_logo" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/parentViewMediumPadding"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/size_minus_50dp"
+            android:layout_weight="1"
+            android:background="@drawable/rounded_bg"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/extraLargeTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size_5dp"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:text="@string/title_url_configuration"
+                android:textColor="@color/primary"
+                android:textStyle="bold" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/urlTextField"
+                style="@style/textInputLayoutStyle"
+                android:layout_marginTop="@dimen/size_15dp"
+                android:hint="@string/hint_url"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtUrl"
+                    style="@style/textInputEditTextStyle"
+                    android:drawableStart="@mipmap/ic_web"
+                    android:drawablePadding="@dimen/size_5dp"
+                    android:inputType="textUri"
+                    android:maxLength="100"
+                    android:maxLines="1"
+                    android:text="@string/https" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCallApi"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_15dp"
+                android:clickable="false"
+                android:enabled="false"
+                android:text="@string/btn_submit" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</layout>
+
+

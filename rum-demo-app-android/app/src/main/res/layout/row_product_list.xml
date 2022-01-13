@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="product"
+            type="com.splunk.rum.demoApp.model.entity.response.NewProduct" />
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/parentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/size_7dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/product_image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_168dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/product_image"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/product_name"
+                style="@style/mediumFontTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:gravity="center"
+                android:letterSpacing="0.3"
+                android:minLines="2"
+                android:paddingLeft="@dimen/size_7dp"
+                android:paddingRight="@dimen/size_7dp"
+                android:text="@{product.name}"
+                android:textAllCaps="true"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/product_price"
+                style="@style/mediumFontTextViewStyle"
+                android:layout_width="match_parent"
+                android:layout_marginTop="@dimen/size_10dp"
+                android:fontFamily="@font/roboto_medium"
+                android:gravity="center"
+                android:letterSpacing="0.1"
+                android:paddingBottom="@dimen/size_10dp"
+                android:text="@{@string/lbl_price(product.priceUsd.price)}"
+                android:textColor="@color/light_black" />
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
+

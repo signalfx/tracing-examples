@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="checkoutViewModel"
+            type="com.splunk.rum.demoApp.view.checkout.viewModel.CheckoutViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWindowBackground">
+
+        <include
+            android:id="@+id/toolbarView"
+            layout="@layout/toolbar_main" />
+
+        <RelativeLayout
+            style="@style/parentViewSmallPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbarView">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="@dimen/size_10dp"
+                app:cardElevation="@dimen/size_5dp"
+                app:cardPreventCornerOverlap="true"
+                app:cardUseCompatPadding="true">
+
+
+                <RelativeLayout
+                    style="@style/parentViewMediumPadding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/logo_img"
+                        android:layout_width="@dimen/size_158dp"
+                        android:layout_height="@dimen/size_158dp"
+                        android:layout_centerHorizontal="true"
+                        app:srcCompat="@drawable/hipster_logo_blue" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/title_order_success"
+                        style="@style/extraLargeTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/logo_img"
+                        android:gravity="center"
+                        android:letterSpacing="0.1"
+                        android:text="@string/order_success"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/title_order_confirm_id"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/title_order_success"
+                        android:layout_marginTop="@dimen/size_25dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:letterSpacing="0.1"
+                        android:text="@string/hint_order_confirmation_id"
+                        android:textColor="@color/gray_shade" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_order_confirm_id_value"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/title_order_confirm_id"
+                        android:layout_marginTop="@dimen/size_3dp"
+                        android:letterSpacing="0.1"
+                        android:text="@string/oc_v"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/order_confirmation_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_0.5dp"
+                        android:layout_below="@+id/tv_order_confirm_id_value"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:background="@color/grey" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/title_shipping_tracking_id"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/order_confirmation_view"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:letterSpacing="0.1"
+                        android:text="@string/hint_shipping_tracking_id"
+                        android:textColor="@color/gray_shade" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shipping_tracking_id_value"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/title_shipping_tracking_id"
+                        android:layout_marginTop="@dimen/size_3dp"
+                        android:letterSpacing="0.1"
+                        android:text="@string/st_v"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/shipping_tracking_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_0.5dp"
+                        android:layout_below="@+id/tv_shipping_tracking_id_value"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:background="@color/bright_grey" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/title_shipping_cost"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/shipping_tracking_view"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:letterSpacing="0.1"
+                        android:text="@string/hint_shipping_cost"
+                        android:textColor="@color/gray_shade" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_shipping_cost_value"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/title_shipping_cost"
+                        android:layout_marginTop="@dimen/size_3dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:letterSpacing="0.1"
+                        android:text="@string/shipping_cost_v"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/shipping_cost_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_0.5dp"
+                        android:layout_below="@+id/tv_shipping_cost_value"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:background="@color/bright_grey" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/title_total_paid"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/shipping_cost_view"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:fontFamily="@font/roboto_medium"
+                        android:letterSpacing="0.1"
+                        android:text="@string/hint_total_paid"
+                        android:textColor="@color/gray_shade" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_total_paid"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/title_total_paid"
+                        android:layout_marginTop="@dimen/size_3dp"
+                        android:letterSpacing="0.1"
+                        android:text="@string/total_paid_v"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:id="@+id/total_cost_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/size_0.5dp"
+                        android:layout_below="@+id/tv_total_paid"
+                        android:layout_marginTop="@dimen/size_5dp"
+                        android:background="@color/bright_grey" />
+
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnKeepBrowsing"
+                        style="@style/primaryButtonStyle"
+                        android:layout_below="@+id/total_cost_view"
+                        android:layout_marginTop="@dimen/size_30dp"
+                        android:text="@string/btn_keep_browsing" />
+
+                </RelativeLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>
