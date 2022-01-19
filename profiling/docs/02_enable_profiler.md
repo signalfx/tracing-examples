@@ -18,7 +18,7 @@ in detail, but for now we just need one single setting:
 
 For the purposes of this demo, we will also reduce the sampling interval to 1000ms (1 second):
 
-`splunk.profiler.period.threaddump=1000`
+`splunk.profiler.call.stack.interval=1000`
 
 A typical production application is expected to have dozens (or thousands!) of instances running,
 but our demo simply runs on our laptop, so we reduce the sampling rate.
@@ -31,7 +31,7 @@ with the service name you decided on in the previous section:
 ```
 $ java -javaagent:splunk-otel-javaagent-all.jar \
     -Dsplunk.profiler.enabled=true \
-    -Dsplunk.profiler.period.threaddump=1000 \
+    -Dsplunk.profiler.call.stack.interval=1000 \
     -Dotel.resource.attributes=deployment.environment=workshop \
     -Dotel.service.name=profiling-workshop-<xxx> \
     -jar build/libs/profiling-workshop-all.jar
