@@ -15,6 +15,10 @@
         <variable
             name="viewModel"
             type="com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel" />
+
+        <variable
+            name="eventViewModel"
+            type="com.splunk.rum.demoApp.view.event.viewModel.EventViewModel" />
     </data>
 
     <FrameLayout
@@ -26,7 +30,7 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="@{viewModel.isLoading==false ? View.VISIBLE : View.GONE}">
+        android:visibility="@{viewModel.isLoading==false || eventViewModel.isLoading==false ? View.VISIBLE : View.GONE}">
 
         <RelativeLayout
             style="@style/parentViewMediumPadding"
@@ -177,7 +181,7 @@
             android:layout_height="wrap_content"
 
             android:layout_gravity="center_horizontal|center_vertical"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{viewModel.isLoading || eventViewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
     </FrameLayout>
 </layout>

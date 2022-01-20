@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.location.LocationManagerCompat;
@@ -26,6 +27,9 @@ public final class AppUtils {
 
     private static final String APP_UTILS = "AppUtils.java";
 
+    /**
+     * @param product The product class for store product data into the cart
+     */
     public static void storeProductInCart(NewProduct product) {
         ProductListResponse productListResponse = getProductsFromPref();
         if (productListResponse != null) {
@@ -61,12 +65,21 @@ public final class AppUtils {
         }
     }
 
+    /**
+     * @param throwable Super class of all exception class
+     */
     public static void handleRumException(Throwable throwable) {
         if (SplunkRum.getInstance() != null) {
             SplunkRum.getInstance().addRumException(throwable);
         }
     }
 
+
+    /**
+     * @param context View context
+     * @param statusCode HTTP status code
+     * @return
+     */
     public static String getHttpErrorMessage(Context context, int statusCode) {
         String errorMessage;
         switch (statusCode) {
@@ -105,6 +118,11 @@ public final class AppUtils {
 
     }
 
+
+    /**
+     * @param context View context.
+     * @param retrofitException Using this parameter handle which kind of retrofit exception occur.
+     */
     public static void handleApiError(Context context, RetrofitException retrofitException) {
         try {
             if (context == null) return;
@@ -156,8 +174,10 @@ public final class AppUtils {
         }
     }
 
+
     /**
-     * Return the current state of the permissions needed.
+     * @param context View context
+     * @return Location permission is granted or not
      */
     public static boolean checkLocationPermissions(Context context) {
         int permissionState = ActivityCompat.checkSelfPermission(context,
@@ -165,6 +185,9 @@ public final class AppUtils {
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
+    /**
+     * @param activity current activity
+     */
     public static void startLocationPermissionRequest(Activity activity) {
         ActivityCompat.requestPermissions(activity,
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -172,6 +195,10 @@ public final class AppUtils {
         );
     }
 
+    /**
+     * @param context View context
+     * @return is location is enable or not
+     */
     public static boolean isLocationEnabled(Context context) {
         if (context != null) {
             LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
@@ -180,14 +207,70 @@ public final class AppUtils {
         return false;
     }
 
+
+    /**
+     * @param activity To get current activity screen width
+     * @return width of screen
+     */
     public static float getScreenWidth(Activity activity) {
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
         return Math.min(metrics.widthPixels, metrics.heightPixels) / metrics.density;
     }
 
+    /**
+     * @param activity To get current activity screen width >= 720
+     * @return is10InchTablet or not
+     */
     @SuppressWarnings("unused")
     public static boolean is10InchTablet(Activity activity) {
         return getScreenWidth(activity) >= 720;
+    }
+
+    /**
+     * @param mContext View context
+     * @param imageName image name which is same as in drawable without extension (air_plant)
+     * @return int identifier
+     */
+    public static int getImage(Context mContext, String imageName) {
+        if (mContext != null){
+            return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
+        }
+        return 0;
+    }
+
+    /**
+     * @param context View context
+     * @param message Toast message
+     */
+    public static void showError(final Context context,final String message) {
+        getToast(context,message).show();
+    }
+
+    /**
+     * @param context View context
+     * @param message Toast message
+     */
+    public static void showShortMessage(Context context,String message) {
+        getToast(context,message,Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * @param context View context
+     * @param message Toast message
+     * @return Long duration toast
+     */
+    private static Toast getToast(Context context,String message) {
+        return getToast(context,message, Toast.LENGTH_LONG);
+    }
+
+    /**
+     * @param context View context
+     * @param message Toast message
+     * @param length How long to display the message. Either LENGTH_SHORT or LENGTH_LONG
+     * @return apply lenth toast
+     */
+    private static Toast getToast( Context context,String message, int length) {
+        return Toast.makeText(context, message, length);
     }
 }

@@ -76,7 +76,6 @@
                         android:layout_below="@+id/title_order_confirm_id"
                         android:layout_marginTop="@dimen/size_3dp"
                         android:letterSpacing="0.1"
-                        android:text="@string/oc_v"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 
@@ -106,7 +105,6 @@
                         android:layout_below="@+id/title_shipping_tracking_id"
                         android:layout_marginTop="@dimen/size_3dp"
                         android:letterSpacing="0.1"
-                        android:text="@string/st_v"
                         android:textColor="@color/black"
                         android:textStyle="bold" />
 

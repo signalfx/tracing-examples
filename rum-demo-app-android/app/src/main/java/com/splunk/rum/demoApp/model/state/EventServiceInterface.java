@@ -19,4 +19,7 @@ public interface EventServiceInterface {
 
     @POST
     Observable<BaseResponse> slowApiResponse(@Url String url);
+
+    @GET
+    Observable<BaseResponse> splashApiResponse(@Url String url);
 }

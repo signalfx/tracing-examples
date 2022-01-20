@@ -25,6 +25,9 @@ public class ProgressDialogHelper {
         this.context = context;
     }
 
+    /**
+     * @param message The message which is show in progress dialog.
+     */
     public void showProgressDialog(String message) {
         try {
             if (context == null) return;
@@ -62,6 +65,11 @@ public class ProgressDialogHelper {
         }
     }
 
+    /**
+     * @param context View context
+     * @param message The message which is show in progress dialog.
+     * @return Progress dialog.
+     */
     private Dialog getProgressDialog(Context context, String message) {
         ProgressDialog progressDialog = new ProgressDialog(context, R.style.customAlertDialogParentThemeStyle);
         progressDialog.setCancelable(false);
@@ -71,6 +79,7 @@ public class ProgressDialogHelper {
         return progressDialog;
     }
 
+    // using this method show progress bar
     public void showCircularProgressDialog() {
         try {
             if (context == null) return;
@@ -94,7 +103,7 @@ public class ProgressDialogHelper {
         }
 
     }
-
+    // Using this method hide progress bar
     public void hideCircularProgressDialog() {
         try {
             if (roundedProgressDialog == null || !roundedProgressDialog.isShowing()) return;
@@ -111,6 +120,10 @@ public class ProgressDialogHelper {
     }
 
 
+    /**
+     * @param context View context
+     * @return Progress dialog with defined layout in xml file.
+     */
     private Dialog setDialog(Context context) {
         try {
             if(context == null) return null;
@@ -133,6 +146,11 @@ public class ProgressDialogHelper {
         return null;
     }
 
+    /**
+     * @param context View context
+     * @param color int color
+     * @return int color
+     */
     private int getThemeColors(final Context context, int color) {
         final TypedValue value = new TypedValue();
         context.getTheme().resolveAttribute(color, value, true);

@@ -17,6 +17,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.ActivityCheckOutBinding;
+import com.splunk.rum.demoApp.util.AppConstant;
+import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.ValidationUtil;
@@ -31,6 +33,7 @@ import java.util.Objects;
 
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.StatusCode;
+import okhttp3.ResponseBody;
 
 
 public class CheckOutActivity extends BaseActivity implements View.OnClickListener {
@@ -64,10 +67,13 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
         checkoutViewModel.createView(this);
         binding.setLifecycleOwner(this);
 
-        // RUM Event
-        // TODO need to confirm if custom event needs to be sent for the below use case
-        Span checkoutWorkFlow = SplunkRum.getInstance().startWorkflow(
-                mContext.getString(R.string.rum_event_start_product_check_out));
+        Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_checkout_viewed));
+        workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_checkout_viewed_msg));
+        workflow.end();
+
+        checkoutViewModel.getBaseResponse()
+                .observe(this,
+                        handleResponse());
 
         binding.btnPlaceOrder.setOnClickListener(view -> {
             boolean isFormValid = false;
@@ -134,15 +140,39 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
                     isFormValid = true;
                 }
             }
-            checkoutWorkFlow.setStatus(StatusCode.OK, getString(R.string.rum_event_check_out_success));
-            checkoutWorkFlow.end();
 
             if (isFormValid) {
-                moveActivity(this, OrderDetailActivity.class, true, true);
+                Span payment = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_pay));
+                payment.setStatus(StatusCode.OK, getString(R.string.rum_event_pay_msg));
+                payment.end();
+
+                if (checkoutViewModel.getCheckoutRequest().getCreditCardNumber().equalsIgnoreCase(AppConstant.FAKE_CC_NUMBER)) {
+                    Span paymentFail = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_payment_fail));
+                    paymentFail.setStatus(StatusCode.OK, getString(R.string.rum_event_payment_fail_msg));
+                    paymentFail.end();
+                    AppUtils.showError(mContext, getString(R.string.rum_event_payment_fail_msg));
+                    return;
+                }
+                checkoutViewModel.doCheckOut();
             }
         });
 
 
+    }
+
+    /**
+     * @return Handle checkout API Response
+     */
+    private androidx.lifecycle.Observer<ResponseBody> handleResponse() {
+        return response -> {
+            try {
+                if (response != null && StringHelper.isNotEmpty(response.toString())) {
+                    moveActivity(this, OrderDetailActivity.class, true, true);
+                }
+            } catch (Exception e) {
+                AppUtils.handleRumException(e);
+            }
+        };
     }
 
     /*

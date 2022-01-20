@@ -5,6 +5,9 @@
       "name": "Vintage Typewriter",
       "description": "This typewriter looks good in your living room.",
       "picture": "typewriter",
+      "errorType": "",
+      "errorAction": "",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "units": 67,
@@ -20,6 +23,9 @@
       "name": "Vintage Camera Lens",
       "description": "You won't have a camera to use it and it probably doesn't work anyway.",
       "picture": "camera_lens",
+      "errorType": "5xx",
+      "errorAction": "view",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "units": 12,
@@ -36,6 +42,9 @@
       "name": "Home Barista Kit",
       "description": "Always wanted to brew coffee with Chemex and Aeropress at home?",
       "picture": "barista_kit",
+      "errorType": "Exception",
+      "errorAction": "Add Product",
+      "availableQty": 1,
       "priceUsd": {
         "currencyCode": "USD",
         "price": 123.99,
@@ -50,6 +59,9 @@
       "name": "Terrarium",
       "description": "This terrarium will looks great in your white painted living room.",
       "picture": "terrarium",
+      "errorType": "crash",
+      "errorAction": "cart",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "units": 36,
@@ -65,6 +77,9 @@
       "name": "Film Camera",
       "description": "This camera looks like it's a film camera, but it's actually digital.",
       "picture": "film_camera",
+      "errorType": "",
+      "errorAction": "",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "price": 2245.99,
@@ -80,6 +95,9 @@
       "name": "Vintage Record Player",
       "description": "It still works.",
       "picture": "record_player",
+      "errorType": "4xx",
+      "errorAction": "view",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "units": 65,
@@ -96,6 +114,9 @@
       "name": "Metal Camping Mug",
       "description": "You probably don't go camping that often but this is better than plastic cups.",
       "picture": "camp_mug",
+      "errorType": "Freeze",
+      "errorAction": "view",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "units": 24,
@@ -111,6 +132,9 @@
       "name": "City Bike",
       "description": "This single gear bike probably cannot climb the hills of San Francisco.",
       "picture": "city_bike",
+      "errorType": "",
+      "errorAction": "",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "units": 789,
@@ -126,6 +150,9 @@
       "name": "Air Plant",
       "description": "Have you ever wondered whether air plants need water? Buy one and figure out.",
       "picture": "air_plant",
+      "errorType": "ANR",
+      "errorAction": "view",
+      "availableQty": 10,
       "priceUsd": {
         "currencyCode": "USD",
         "units": 12,

@@ -10,6 +10,9 @@ public class NewProduct {
     String name;
     String description;
     String picture;
+    String errorType;
+    String errorAction;
+    String availableQty;
     PriceUsd priceUsd;
     ArrayList<String> categories;
     int quantity;
@@ -71,5 +74,29 @@ public class NewProduct {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public String getErrorType() {
+        return errorType;
+    }
+
+    public void setErrorType(String errorType) {
+        this.errorType = errorType;
+    }
+
+    public String getErrorAction() {
+        return errorAction;
+    }
+
+    public void setErrorAction(String errorAction) {
+        this.errorAction = errorAction;
+    }
+
+    public String getAvailableQty() {
+        return availableQty;
+    }
+
+    public void setAvailableQty(String availableQty) {
+        this.availableQty = availableQty;
     }
 }

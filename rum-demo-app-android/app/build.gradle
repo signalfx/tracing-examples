@@ -21,11 +21,13 @@ android {
         all {
             resValue("string", "rum_realm", localProperties['rum.realm'] ?: "")
             resValue("string", "rum_access_token", localProperties['rum.access.token'] ?: "")
-            buildConfigField("String", "BASE_URL", "\"https://identitytoolkit.googleapis.com/\"")
+            resValue("string", "rum_environment", localProperties['rum.environment'] ?: "development")
+            buildConfigField("String", "BASE_URL", "\"http://pmrum.o11ystore.com/\"")
             buildConfigField("String", "WEB_URL", "\"http://pmrum.o11ystore.com/\"")
             buildConfigField("String", "MOCK_404_URL", "\"https://mock.codes/404\"")
             buildConfigField("String", "MOCK_500_URL", "\"https://mock.codes/500\"")
-            buildConfigField("String", "SLOW_API_RESPONSE_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=50s\"")
+            buildConfigField("String", "SLOW_API_RESPONSE_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=5s\"")
+            buildConfigField("String", "SPLASH_DUMMY_API_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=1s\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -100,4 +102,8 @@ dependencies {
     // Parcel Library
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
+
+    // HTML Parser Library
+    implementation 'org.jsoup:jsoup:1.14.3'
+
 }

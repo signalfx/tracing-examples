@@ -2,6 +2,20 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.splunk.rum.demoApp.view.event.viewModel.EventViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         style="@style/parentViewMediumPadding"
         android:layout_width="match_parent"
@@ -17,5 +31,16 @@
 
 
     </LinearLayout>
+
+        <include
+            android:id="@+id/progress_wheel"
+            layout="@layout/dialog_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/size_25dp"
+            android:layout_gravity="center_horizontal|bottom"
+            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+
+    </FrameLayout>
 </layout>
 

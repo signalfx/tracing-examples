@@ -19,6 +19,7 @@ import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.RowProductCartListBinding;
 import com.splunk.rum.demoApp.model.entity.response.NewProduct;
 import com.splunk.rum.demoApp.util.AppConstant;
+import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.StringHelper;
 
 import org.parceler.Parcels;
@@ -65,14 +66,10 @@ public class CartProductListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     private void loadProductImage(ImageView imageView, String imageName) {
-        if (!StringHelper.isEmpty(imageName)) {
-            Glide.with(mContext).load(getImage(imageName))
+        if (!StringHelper.isEmpty(imageName) && AppUtils.getImage(mContext,imageName) != 0) {
+            Glide.with(mContext).load(AppUtils.getImage(mContext,imageName))
                     .placeholder(R.drawable.no_image_place_holder).centerCrop().into(imageView);
         }
-    }
-
-    private int getImage(String imageName) {
-        return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
     }
 
     @Override

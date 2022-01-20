@@ -7,11 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.gms.common.util.CollectionUtils;
 import com.google.android.material.badge.BadgeDrawable;
+import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
@@ -20,14 +22,22 @@ import com.splunk.rum.demoApp.model.entity.response.NewProduct;
 import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
-import com.splunk.rum.demoApp.view.home.MainActivity;
 import com.splunk.rum.demoApp.view.base.fragment.BaseFragment;
+import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
 import com.splunk.rum.demoApp.view.cart.adapter.CartProductListAdapter;
 import com.splunk.rum.demoApp.view.checkout.activity.CheckOutActivity;
+import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
+import com.splunk.rum.demoApp.view.home.MainActivity;
+import com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
+import okhttp3.ResponseBody;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +48,7 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
     private boolean isFromProductDetail;
     private CartProductListAdapter productListAdapter;
     private int totalItem;
+    private EventViewModel viewModel;
 
     public ShoppingCartFragment() {
         // Required empty public constructor
@@ -55,6 +66,10 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
         } else if (getActivity() instanceof BaseActivity && !isFromProductDetail) {
             ((BaseActivity) getActivity()).setupToolbar();
         }
+
+        // Configure ViewModel
+        viewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(EventViewModel.class);
+        viewModel.createView(this);
     }
 
     @Override
@@ -65,8 +80,24 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
                 ((MainActivity) getActivity()).getBottomNavigationView() != null) {
             ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_cart).setChecked(true);
         }
-        calculateTotalCost();
-        setUpRecyclerView();
+
+        // Configure ViewModel
+        ProductViewModel productViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(ProductViewModel.class);
+        productViewModel.createView(this);
+        binding.setViewModel(productViewModel);
+        binding.setEventViewModel(viewModel);
+        binding.executePendingBindings();
+
+
+        // handle api call response data
+        if (getActivity() != null) {
+            productViewModel.getBaseResponse()
+                    .observe(getActivity(),
+                            handleCartItemsResponse());
+        }
+
+
+        productViewModel.getCartItems();
 
         binding.btnCheckout.setOnClickListener(view -> {
             if (getActivity() instanceof BaseActivity) {
@@ -86,10 +117,33 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
         return binding.getRoot();
     }
 
+    /**
+     * @return Handle get cart items response
+     */
+    private androidx.lifecycle.Observer<ResponseBody> handleCartItemsResponse() {
+        return response -> {
+            try {
+                calculateTotalCost();
+                setUpRecyclerView();
+            } catch (Exception e) {
+                AppUtils.handleRumException(e);
+            }
+        };
+    }
+
+
     @Override
     public void onResume() {
         super.onResume();
         setUpNoDataFound();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().setValue(Boolean.TRUE);
+        }
     }
 
     private void calculateTotalCost() {
@@ -122,6 +176,10 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
             binding.totalItemsInCart.setText(text);
         }
 
+        Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_cart_viewed));
+        workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_cart_viewed_msg));
+        workflow.end();
+
     }
 
 
@@ -138,6 +196,9 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
     @Override
     public void onPositiveButtonClicked(int dialogIdentifier) {
         if (dialogIdentifier == AppConstant.DialogIdentifier.EMPTY_CART) {
+
+            viewModel.slowApiResponse();
+
             AppUtils.getProductsFromPref().getProducts().clear();
             RumDemoApp.preferenceRemoveKey(AppConstant.SharedPrefKey.CART_PRODUCTS);
             productListAdapter.clear();

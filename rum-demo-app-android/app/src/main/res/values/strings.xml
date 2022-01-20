@@ -117,8 +117,6 @@
     <string name="btn_keep_browsing">Keep Browsing</string>
 
     <!-- TODO  HARD CODED: -->
-    <string name="oc_v">023806f4&#8211;71f8&#8211;11ec&#8211;8810&#8211;56613b6a37d6</string>
-    <string name="st_v">QM&#8211;44543&#8211;220366212</string>
     <string name="shipping_cost_v">USD 0.00</string>
     <string name="total_paid_v">USD 0.00</string>
 
@@ -157,31 +155,47 @@
 
 
     <!-- RUM EVENTS -->
-    <string name="rum_event_product_selected">Product Selected</string>
-    <string name="rum_event_product_selected_success">Product selected successfully"</string>
+    <string name="rum_event_logged_in_work_flow">Logged in and ready</string>
+    <string name="rum_event_logged_in_msg">Logged in successfully and app is ready for use</string>
 
-    <string name="rum_event_product_add_into_cart">Product added into the cart</string>
-    <string name="rum_event_product_add_into_cart_success">Product successfully added into the cart</string>
-
-
-    <string name="rum_event_start_404">Workflow with 404</string>
-    <string name="rum_event_api_return_404">API return 404</string>
-    <string name="rum_event_start_500">Workflow with 500</string>
-    <string name="rum_event_api_return_500">failure to communicate with server</string>
-
-    <string name="rum_event_start_slow_response">Workflow with slow api response</string>
-    <string name="rum_event_api_return_slow_response">Success slow api response</string>
+    <string name="rum_event_slow_response">Slow API</string>
+    <string name="rum_event_api_return_slow_response">Slow API response track successfully.</string>
     <string name="rum_event_api_fail_slow_slow_response">failure to communicate with server</string>
 
+    <string name="rum_event_product_list_loaded">Product List Loaded</string>
+    <string name="rum_event_product_list_loaded_msg">Product list loaded successfully.</string>
 
-    <string name="rum_event_start_product_check_out">Product checkout</string>
-    <string name="rum_event_check_out_success">Product checkout done successfully.</string>
+    <string name="rum_event_product_viewed">Product Viewed</string>
+    <string name="rum_event_product_viewed_msg">Product viewed successfully.</string>
+
+    <string name="rum_event_cart_viewed">Cart</string>
+    <string name="rum_event_cart_viewed_msg">Cart screen viewed successfully.</string>
+
+    <string name="rum_event_checkout_viewed">Checkout</string>
+    <string name="rum_event_checkout_viewed_msg">Checkout screen viewed successfully.</string>
+
+    <string name="rum_event_pay">Payment</string>
+    <string name="rum_event_pay_msg">The user fills out all fields with valid data and proceeds to pay.</string>
+
+    <string name="rum_event_payment">Payment Successful</string>
+    <string name="rum_event_payment_msg">Payment successfully done.</string>
+
+    <string name="rum_event_app_crash">This app crashed because it failed to parse the json response that was sent by the server.</string>
+    <string name="rum_event_app_msg">Maximum available stock size is 1 and the quantity added by the user is > 1 , an exception will be generated and the user will not be able to add it to the cart.</string>
+
+    <string name="rum_event_payment_fail">Payment Failed</string>
+    <string name="rum_event_payment_fail_msg">The provided credit card number is invalid, resulting in payment failure.</string>
+
+
+
+    <string name="rum_event_app_start_dummy_api_work_flow">app start dummy api call</string>
+    <string name="rum_event_app_start_dummy_api_success">Success app start dummy api call</string>
+    <string name="rum_event_app_start_dummy_api_fail">Fail to get app start dummy api call</string>
 
     <string name="rum_event_app_freezer">app freezer</string>
     <string name="rum_event_sleep_mode">still in sleep mode</string>
-
-    <string name="rum_event_start_order_detail">Order Detail</string>
-    <string name="rum_event_status_order_fetch_success">Order detail fetch successfully</string>
+    <string name="rum_event_crash_manually">A user wants to crash the app in order to test it</string>
+    <string name="rum_event_exception_manually">A user wants to generate the exception in order to test it</string>
 
 
     <!-- END RUM EVENTS -->

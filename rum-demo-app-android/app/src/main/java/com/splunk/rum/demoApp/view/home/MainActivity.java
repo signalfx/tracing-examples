@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
@@ -21,13 +22,17 @@ import com.splunk.rum.demoApp.model.entity.response.NewProduct;
 import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
+import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
+import com.splunk.rum.demoApp.view.home.viewModel.MainViewModel;
 import com.splunk.rum.demoApp.view.product.fragment.ProductListFragment;
 
 public class MainActivity extends BaseActivity implements DialogButtonClickListener {
     private Context mContext;
     private ActivityMainBinding binding;
     private BottomNavigationView bottomNavigationView;
+    private MainViewModel mainViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +41,10 @@ public class MainActivity extends BaseActivity implements DialogButtonClickListe
 
         // Initialize data binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+
+        // Configure ViewModel
+        mainViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(MainViewModel.class);
+        mainViewModel.createView(this);
 
         // Setup Toolbar
         setupToolbar();
@@ -124,5 +133,9 @@ public class MainActivity extends BaseActivity implements DialogButtonClickListe
     public Fragment getVisibleFragment() {
         Fragment navHostFragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
         return navHostFragment == null ? null : navHostFragment.getChildFragmentManager().getFragments().get(0);
+    }
+
+    public MainViewModel getMainViewModel() {
+        return mainViewModel;
     }
 }

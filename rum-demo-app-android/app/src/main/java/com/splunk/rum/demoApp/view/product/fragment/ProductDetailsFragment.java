@@ -28,6 +28,7 @@ import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
 import com.splunk.rum.demoApp.view.base.fragment.BaseFragment;
 import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
+import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
 import com.splunk.rum.demoApp.view.home.MainActivity;
 import com.splunk.rum.demoApp.view.product.adapter.ProductListAdapter;
 import com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel;
@@ -53,7 +54,8 @@ public class ProductDetailsFragment extends BaseFragment {
     private ArrayList<NewProduct> productList = new ArrayList<>();
     private ArrayList<NewProduct> otherProductList = new ArrayList<>();
     private Context mContext;
-    private Span workflow;
+    private ProductViewModel productViewModel;
+    private EventViewModel eventViewModel;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -62,8 +64,6 @@ public class ProductDetailsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // TODO need to confirm if custom event needs to be sent for the below use case
-        workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_selected));
         if (getArguments() != null) {
             otherProductList = new ArrayList<>();
             productDetails = Parcels.unwrap(getArguments().getParcelable(AppConstant.IntentKey.PRODUCT_DETAILS));
@@ -76,6 +76,13 @@ public class ProductDetailsFragment extends BaseFragment {
                 }
             }
         }
+
+        productViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(ProductViewModel.class);
+        productViewModel.createView(this);
+
+        // Configure ViewModel
+        eventViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(EventViewModel.class);
+        eventViewModel.createView(this);
     }
 
     @Override
@@ -85,6 +92,7 @@ public class ProductDetailsFragment extends BaseFragment {
             ((BaseActivity) getActivity()).setupToolbar(true);
         }
     }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -105,57 +113,45 @@ public class ProductDetailsFragment extends BaseFragment {
         binding.setProduct(productDetails);
 
         // Configure ViewModel
-        ProductViewModel productViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(ProductViewModel.class);
-        productViewModel.createView(this);
+
         binding.setViewModel(productViewModel);
+        binding.setEventViewModel(eventViewModel);
         binding.executePendingBindings();
 
         productViewModel.getProductDetail(productDetails.getId());
 
-        //get login data
-        if (getActivity() != null) {
-            productViewModel.getBaseResponse()
-                    .observe(getActivity(),
-                            responseBody());
-        }
+        //get product detail data
+        productViewModel.getBaseResponse()
+                .observe(getViewLifecycleOwner(),
+                        responseBody());
+
+        // handle api call response data
+        productViewModel.getAddProductToCartResponse()
+                .observe(getViewLifecycleOwner(),
+                        handleAddProductToCartResponse());
+
+
 
 
         binding.btnAddToCart.setOnClickListener(view -> {
-            AppUtils.storeProductInCart(productDetails);
-
-            if (getActivity() instanceof MainActivity
-                    && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
-                BadgeDrawable badge = ((MainActivity) getActivity()).getBottomNavigationView().getOrCreateBadge(R.id.navigation_cart);
-                badge.setVisible(true);
-                int totalQty = 0;
-                for (NewProduct product : AppUtils.getProductsFromPref().getProducts()) {
-                    totalQty += product.getQuantity();
+            if (productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_EXCEPTION)
+                    && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_ADD_PRODUCT)) {
+                if (productDetails.getQuantity() > Integer.parseInt(productDetails.getAvailableQty())) {
+                    try {
+                        throw new RuntimeException(getString(R.string.rum_event_app_msg));
+                    } catch (Exception e) {
+                        AppUtils.showError(mContext, getString(R.string.rum_event_app_msg));
+                        AppUtils.handleRumException(e);
+                    }
+                } else {
+                    productViewModel.addToCart(String.valueOf(productDetails.getQuantity()), productDetails.getId());
                 }
-                badge.setNumber(totalQty);
-            }
-            // TODO need to confirm if custom event needs to be sent for the below use case
-            Span addToCartWorkflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_add_into_cart));
-
-            NavOptions navOptions = new NavOptions.Builder()
-                    .setLaunchSingleTop(false)
-                    .setEnterAnim(R.anim.slide_in_right)
-                    .setExitAnim(R.anim.slide_out_left)
-                    .setPopEnterAnim(R.anim.slide_in_right)
-                    .setPopExitAnim(R.anim.slide_out_left)
-                    //.setPopUpTo(NavHostFragment.findNavController(ProductDetailsFragment.this).getGraph().getStartDestination(), false)
-                    .build();
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_DETAIL, true);
-            NavHostFragment.findNavController(ProductDetailsFragment.this).navigate(R.id.navigation_cart, bundle, navOptions);
-
-            if (getActivity() instanceof MainActivity
-                    && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
-                ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_cart).setChecked(true);
+            } else {
+                productViewModel.addToCart(String.valueOf(productDetails.getQuantity()), productDetails.getId());
             }
 
-            addToCartWorkflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_add_into_cart_success));
-            addToCartWorkflow.end();
         });
+
 
         return binding.getRoot();
     }
@@ -168,14 +164,90 @@ public class ProductDetailsFragment extends BaseFragment {
             setProductImage();
             setUpRecyclerView();
             setUpQuantitySpinner();
-            workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_selected_success));
-            workflow.end();
+
+            if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
+                    && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_ANR)) {
+                try {
+                    for (int j = 0; j < 20; j++) {
+                        Thread.sleep(1000);
+                    }
+                } catch (InterruptedException e) {
+                    AppUtils.handleRumException(e);
+                    e.printStackTrace();
+                }
+            } else if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
+                    && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_FREEZE)) {
+                try {
+                    for (int j = 0; j < 4; j++) {
+                        Thread.sleep(1000);
+                    }
+                } catch (InterruptedException e) {
+                    AppUtils.handleRumException(e);
+                    e.printStackTrace();
+                }
+            } else if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
+                    && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_4XX)) {
+                eventViewModel.generateHttpNotFound();
+            } else if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
+                    && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_5XX)) {
+                eventViewModel.generateHttpError();
+            }
+
+        };
+    }
+
+    /**
+     * @return Handle Product add to cart response API Response
+     */
+    private androidx.lifecycle.Observer<ResponseBody> handleAddProductToCartResponse() {
+        return response -> {
+            if(getActivity() instanceof MainActivity){
+                Boolean isFromCart = ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().getValue();
+                if(!isFromCart){
+                    if (productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_CRASH)
+                            && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_CART)) {
+                        throw new RuntimeException(getString(R.string.rum_event_app_crash));
+                    }
+                    AppUtils.storeProductInCart(productDetails);
+                    if (getActivity() instanceof MainActivity
+                            && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
+                        BadgeDrawable badge = ((MainActivity) getActivity()).getBottomNavigationView().getOrCreateBadge(R.id.navigation_cart);
+                        badge.setVisible(true);
+                        int totalQty = 0;
+                        for (NewProduct product : AppUtils.getProductsFromPref().getProducts()) {
+                            totalQty += product.getQuantity();
+                        }
+                        badge.setNumber(totalQty);
+                    }
+                    NavOptions navOptions = new NavOptions.Builder()
+                            .setLaunchSingleTop(false)
+                            .setEnterAnim(R.anim.slide_in_right)
+                            .setExitAnim(R.anim.slide_out_left)
+                            .setPopEnterAnim(R.anim.slide_in_right)
+                            .setPopExitAnim(R.anim.slide_out_left)
+                            //.setPopUpTo(NavHostFragment.findNavController(ProductDetailsFragment.this).getGraph().getStartDestination(), false)
+                            .build();
+                    Bundle bundle = new Bundle();
+                    bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_DETAIL, true);
+                    NavHostFragment.findNavController(ProductDetailsFragment.this).navigate(R.id.navigation_cart, bundle, navOptions);
+
+                    if (getActivity() instanceof MainActivity
+                            && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
+                        ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_cart).setChecked(true);
+                    }
+                }else{
+                    ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().setValue(Boolean.FALSE);
+                }
+            }
         };
     }
 
     private void setProductImage() {
-        Glide.with(mContext).load(getImage(productDetails.getPicture()))
-                .placeholder(R.drawable.no_image_place_holder).centerCrop().into(binding.productImg);
+        if (AppUtils.getImage(mContext, productDetails.getPicture()) != 0) {
+            Glide.with(mContext).load(AppUtils.getImage(mContext, productDetails.getPicture()))
+                    .placeholder(R.drawable.no_image_place_holder).centerCrop().into(binding.productImg);
+        }
+
     }
 
     private int getImage(String imageName) {
@@ -214,6 +286,10 @@ public class ProductDetailsFragment extends BaseFragment {
         binding.recyclerView.setLayoutManager(gridLayoutManager);
         ProductListAdapter productListAdapter = new ProductListAdapter(getContext(), otherProductList, this);
         binding.recyclerView.setAdapter(productListAdapter);
+
+        Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_viewed));
+        workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_viewed_msg));
+        workflow.end();
     }
 
     public List<NewProduct> getProductList() {

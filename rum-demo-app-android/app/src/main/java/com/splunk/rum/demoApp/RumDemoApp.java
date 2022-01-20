@@ -59,6 +59,7 @@ public class RumDemoApp extends Application {
                 .realm(getResources().getString(R.string.rum_realm))
                 .rumAccessToken(getResources().getString(R.string.rum_access_token))
                 .applicationName(getString(R.string.app_name))
+                .deploymentEnvironment(getResources().getString(R.string.rum_environment))
                 .debugEnabled(true)
                 .globalAttributes(
                         Attributes.builder()
@@ -69,6 +70,7 @@ public class RumDemoApp extends Application {
         splunkRum = SplunkRum.getInstance();
     }
 
+    // Get splunk rum instance
     public static SplunkRum getSplunkRum() {
         if (splunkRum != null) {
             return splunkRum;
@@ -86,10 +88,11 @@ public class RumDemoApp extends Application {
     }
 
 
+    // Get Network component
     public NetworkComponent getNetworkComponent() {
         return networkComponent;
     }
-
+    // Get Service component
     public static ServiceComponent getServiceComponent() {
         return serviceComponent;
     }

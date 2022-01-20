@@ -1,6 +1,9 @@
 package com.splunk.rum.demoApp.view.urlConfig.activity;
 
+import static com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY;
+
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -22,13 +25,14 @@ import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.CancellationTokenSource;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.databinding.ActivityUrlConfigurationBinding;
 import com.splunk.rum.demoApp.util.AppConstant;
-import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.ValidationUtil;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
@@ -52,6 +56,10 @@ public class URLConfigurationActivity extends BaseActivity {
      */
     protected Location mLastLocation;
 
+    // Allows class to cancel the location request if it exits the activity.
+    // Typically, you use one cancellation source per lifecycle.
+    private final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+
     @Override
     public void onStart() {
         super.onStart();
@@ -59,7 +67,7 @@ public class URLConfigurationActivity extends BaseActivity {
         if (!checkPermissions()) {
             requestPermissions();
         } else {
-            getLastLocation();
+            requestCurrentLocation();
         }
     }
 
@@ -156,13 +164,43 @@ public class URLConfigurationActivity extends BaseActivity {
                     if (task.isSuccessful() && task.getResult() != null) {
                         mLastLocation = task.getResult();
                         if (mLastLocation != null) {
-                            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("Latitude"), mLastLocation.getLatitude());
-                            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("Longitude"), mLastLocation.getLongitude());
+                            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_lat"), mLastLocation.getLatitude());
+                            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_long"), mLastLocation.getLongitude());
                         }
                     } else {
                         showSnackBar(getString(R.string.no_location_detected));
                     }
                 });
+    }
+
+    /**
+     * Gets current location.
+     * Note: The code checks for permission before calling this method, that is, it's never called
+     * from a method with a missing permission. Also, I include a second check with my extension
+     * function in case devs just copy/paste this code.
+     */
+    @SuppressLint("MissingPermission")
+    private void requestCurrentLocation() {
+        if (checkPermissions()) {
+            Task<Location> currentLocationTask = mFusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, cancellationTokenSource.getToken());
+            currentLocationTask.addOnCompleteListener(task -> {
+                if (task.isSuccessful() && task.getResult() != null) {
+                    Location location = task.getResult();
+                    if (location != null) {
+                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_lat"), location.getLatitude());
+                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_long"), location.getLongitude());
+                    } else {
+                        showSnackBar(getString(R.string.no_location_detected));
+                        getLastLocation();
+                    }
+                } else {
+                    showSnackBar(getString(R.string.no_location_detected));
+                    getLastLocation();
+                }
+            });
+        }else{
+            requestPermissions();
+        }
     }
 
 
@@ -223,13 +261,13 @@ public class URLConfigurationActivity extends BaseActivity {
      */
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_COARSE_LOCATION);
+                Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
     private void startLocationPermissionRequest() {
         ActivityCompat.requestPermissions(URLConfigurationActivity.this,
-                new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
                 AppConstant.REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
@@ -248,7 +286,8 @@ public class URLConfigurationActivity extends BaseActivity {
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
-                getLastLocation();
+                requestCurrentLocation();
+
             } else {
                 // Permission denied.
 
@@ -274,6 +313,14 @@ public class URLConfigurationActivity extends BaseActivity {
                             startActivity(intent);
                         });
             }
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (cancellationTokenSource != null) {
+            cancellationTokenSource.cancel();
         }
     }
 }

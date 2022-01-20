@@ -77,8 +77,7 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnCrashApp:
-                Integer.parseInt("");
-                break;
+                throw new RuntimeException(getString(R.string.rum_event_crash_manually));
             case R.id.btnANR:
                 int i = 0;
                 //noinspection InfiniteLoopStatement
@@ -87,15 +86,12 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
                 }
             case R.id.btnGenerateException:
                 try {
-                    int a = 10;
-                    int b = 0;
-                    long c = a / b;
+                    throw new RuntimeException(getString(R.string.rum_event_exception_manually));
                 } catch (Exception e) {
                     AppUtils.handleRumException(e);
                 }
                 break;
             case R.id.btnFreezeApp:
-                // TODO need to confirm if custom event needs to be sent for the below use case
                 Span appFreezer = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_app_freezer));
                 try {
                     for (int j = 0; j < 20; j++) {

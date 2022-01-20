@@ -34,6 +34,10 @@ public class NetworkModule {
         this.splunkRum = splunkRum;
     }
 
+    /**
+     * @param application Provide application as parameter
+     * @return SharedPreferences instance
+     */
     @Provides
     @Singleton
     SharedPreferences provideSharedPreference(Application application) {
@@ -41,6 +45,9 @@ public class NetworkModule {
     }
 
 
+    /**
+     * @return Gson instance
+     */
     @Provides  // Dagger will only look for methods annotated with @Provides
     @Singleton
     Gson provideGson() {
@@ -48,6 +55,12 @@ public class NetworkModule {
         return gsonBuilder.serializeNulls().create();
     }
 
+    /**
+     * Wrap the provided {@link OkHttpClient} with OpenTelemetry and RUM instrumentation. Since
+     * {@link Call.Factory} is the primary useful interface implemented by the OkHttpClient, this
+     * should be a drop-in replacement for any usages of OkHttpClient.
+     * @return A {@link okhttp3.Call.Factory} implementation.
+     */
     @Provides
     @Singleton
     Call.Factory provideOkHttpClient() {
@@ -76,12 +89,21 @@ public class NetworkModule {
         //return builder.build();
     }
 
+    /**
+     * @param gson Gson instance
+     * @return Create an instance using gson for conversion and return GsonConverterFactory
+     */
     @Provides
     @Singleton
     GsonConverterFactory providesGsonConverterFactory(Gson gson) {
         return GsonConverterFactory.create(gson);
     }
 
+    /**
+     * @param gsonConverterFactory GsonConverterFactory use to convert json to model class automatically
+     * @param callFactory CallFactory is a call is a request that has been prepared for execution
+     * @return Retrofit instance with the configured values.
+     */
     @Provides
     @Singleton
     Retrofit provideRetrofit(GsonConverterFactory gsonConverterFactory, Call.Factory callFactory) {

@@ -19,6 +19,7 @@ import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.RowProductListBinding;
 import com.splunk.rum.demoApp.model.entity.response.NewProduct;
 import com.splunk.rum.demoApp.util.AppConstant;
+import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.view.product.fragment.ProductDetailsFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductListFragment;
@@ -62,22 +63,22 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             if (fragment instanceof ProductDetailsFragment) {
                 Parcelable parcelableProductArray = Parcels.wrap(((ProductDetailsFragment) this.fragment).getProductList());
                 bundle.putParcelable(AppConstant.IntentKey.PRODUCT_ARRAY,parcelableProductArray);
+                bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_ITEM,true);
                 NavHostFragment.findNavController(fragment).navigate(R.id.action_navigation_product_detail_self, bundle);
             } else {
                 Parcelable parcelableProductArray = Parcels.wrap(((ProductListFragment) this.fragment).getProductList());
                 bundle.putParcelable(AppConstant.IntentKey.PRODUCT_ARRAY,parcelableProductArray);
+                bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_ITEM,true);
                 NavHostFragment.findNavController(fragment).navigate(R.id.action_navigation_home_to_productDetailsFragment, bundle);
             }
         });
     }
 
     private void loadProductImage(ImageView imageView, String imageName) {
-        if (!StringHelper.isEmpty(imageName)) {
-            Glide.with(mContext).load(getImage(imageName)).placeholder(R.drawable.no_image_place_holder).centerCrop().into(imageView);
+        if (!StringHelper.isEmpty(imageName) && AppUtils.getImage(mContext,imageName) != 0) {
+            Glide.with(mContext).load(AppUtils.getImage(mContext,imageName))
+                    .placeholder(R.drawable.no_image_place_holder).centerCrop().into(imageView);
         }
-    }
-    private int getImage(String imageName) {
-        return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
     }
 
     @Override

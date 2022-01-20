@@ -10,6 +10,10 @@ public class ResourceProvider {
         this.mResources = resource;
     }
 
+    /**
+     * @param stringResId The id for the string resource
+     * @return string from the string.xml file using stringResId
+     */
     public String getString(@StringRes Integer stringResId){
         return mResources.getString(stringResId);
     }

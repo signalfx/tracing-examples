@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.gson.Gson;
+import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.FragmentProductListBinding;
 import com.splunk.rum.demoApp.model.entity.response.NewProduct;
@@ -32,6 +33,8 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.util.ArrayList;
 
+import io.opentelemetry.api.trace.Span;
+import io.opentelemetry.api.trace.StatusCode;
 import okhttp3.ResponseBody;
 
 /**
@@ -40,7 +43,7 @@ import okhttp3.ResponseBody;
  */
 public class ProductListFragment extends BaseFragment {
     FragmentProductListBinding binding;
-    ArrayList<NewProduct> productList;
+    private ArrayList<NewProduct> productDataList;
     ProductViewModel productViewModel;
 
     public ProductListFragment() {
@@ -50,8 +53,8 @@ public class ProductListFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        productList = new ArrayList<>();
-        productList.addAll(generateProductList());
+        productDataList = new ArrayList<>();
+        productDataList.addAll(generateProductList());
     }
 
     @Override
@@ -59,6 +62,7 @@ public class ProductListFragment extends BaseFragment {
         super.onResume();
         if (getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).setupToolbar();
+            ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().setValue(Boolean.FALSE);
         }
     }
 
@@ -92,7 +96,7 @@ public class ProductListFragment extends BaseFragment {
 
 
     /**
-     * @return Handle Login API Response
+     * @return Handle product list API Response
      */
     private androidx.lifecycle.Observer<ResponseBody> handleResponse() {
         return response -> {
@@ -111,8 +115,12 @@ public class ProductListFragment extends BaseFragment {
         }
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), spanCount);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
-        ProductListAdapter productListAdapter = new ProductListAdapter(getContext(), productList, this);
+        ProductListAdapter productListAdapter = new ProductListAdapter(getContext(), productDataList, this);
         binding.recyclerView.setAdapter(productListAdapter);
+
+        Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_list_loaded));
+        workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_list_loaded_msg));
+        workflow.end();
     }
 
     /**
@@ -136,6 +144,6 @@ public class ProductListFragment extends BaseFragment {
     }
 
     public ArrayList<NewProduct> getProductList() {
-        return productList;
+        return new ArrayList<>(productDataList);
     }
 }

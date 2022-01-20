@@ -45,6 +45,9 @@ public class MonthUtil {
             };
 
 
+    /**
+     * @return Short month name list
+     */
     public static ArrayList<String> getShortMonthNameList() {
         ArrayList<String> monthList = new ArrayList<>();
         for (String[] strings : monthArray) {

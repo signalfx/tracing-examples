@@ -3,11 +3,31 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="eventViewModel"
+            type="com.splunk.rum.demoApp.view.event.viewModel.EventViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel" />
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWindowBackground">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWindowBackground"
-        tools:context=".view.cart.fragment.ShoppingCartFragment">
+        tools:context=".view.cart.fragment.ShoppingCartFragment"
+        android:visibility="@{viewModel.isLoading==false ||  eventViewModel.isLoading == false? View.VISIBLE : View.GONE}">
 
         <RelativeLayout
             android:id="@+id/contentLayout"
@@ -198,4 +218,15 @@
 
         </RelativeLayout>
     </RelativeLayout>
+
+        <include
+            android:id="@+id/progress_wheel"
+            layout="@layout/dialog_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:visibility="@{viewModel.isLoading || eventViewModel.isLoading? View.VISIBLE : View.GONE}" />
+
+    </FrameLayout>
 </layout>

@@ -39,8 +39,6 @@ public class EventViewModel extends BaseViewModel {
      */
     public void generateHttpNotFound() {
         setIsLoading(true);
-        // TODO need to confirm if custom event needs to be sent for the below use case
-        Span workflow = SplunkRum.getInstance().startWorkflow(resourceProvider.getString(R.string.rum_event_start_404));
         new RXRetroManager<BaseResponse>() {
             @Override
             protected void onSuccess(BaseResponse response) {
@@ -52,8 +50,6 @@ public class EventViewModel extends BaseViewModel {
             protected void onFailure(RetrofitException retrofitException, String errorCode) {
                 super.onFailure(retrofitException, errorCode);
                 setIsLoading(false);
-                workflow.setStatus(StatusCode.ERROR, resourceProvider.getString(R.string.rum_event_api_return_404));
-                workflow.end();
                 if (view != null) {
                     view.showApiError(retrofitException, errorCode);
                 }
@@ -67,8 +63,6 @@ public class EventViewModel extends BaseViewModel {
      */
     public void generateHttpError() {
         setIsLoading(true);
-        // TODO need to confirm if custom event needs to be sent for the below use case
-        Span workflow = SplunkRum.getInstance().startWorkflow(resourceProvider.getString(R.string.rum_event_start_500));
         new RXRetroManager<BaseResponse>() {
             @Override
             protected void onSuccess(BaseResponse response) {
@@ -79,9 +73,7 @@ public class EventViewModel extends BaseViewModel {
             protected void onFailure(RetrofitException retrofitException, String errorCode) {
                 super.onFailure(retrofitException, errorCode);
                 setIsLoading(false);
-                workflow.setStatus(StatusCode.ERROR, resourceProvider.getString(R.string.rum_event_api_return_500));
-                workflow.end();
-                if(view != null){
+                if (view != null) {
                     view.showApiError(retrofitException, errorCode);
                 }
 
@@ -95,8 +87,7 @@ public class EventViewModel extends BaseViewModel {
      */
     public void slowApiResponse() {
         setIsLoading(true);
-        // TODO need to confirm if custom event needs to be sent for the below use case
-        Span workflow = SplunkRum.getInstance().startWorkflow(resourceProvider.getString(R.string.rum_event_start_slow_response));
+        Span workflow = SplunkRum.getInstance().startWorkflow(resourceProvider.getString(R.string.rum_event_slow_response));
         new RXRetroManager<BaseResponse>() {
             @Override
             protected void onSuccess(BaseResponse response) {
@@ -111,12 +102,40 @@ public class EventViewModel extends BaseViewModel {
                 setIsLoading(false);
                 workflow.setStatus(StatusCode.ERROR, resourceProvider.getString(R.string.rum_event_api_fail_slow_slow_response));
                 workflow.end();
-                if(view != null){
+                if (view != null) {
                     view.showApiError(retrofitException, errorCode);
                 }
 
             }
         }.rxSingleCall(eventServiceInterface.slowApiResponse(BuildConfig.SLOW_API_RESPONSE_URL));
+    }
+
+    /**
+     * Initiate the API call and handle the response
+     */
+    public void splashDummyApiCall() {
+        setIsLoading(true);
+        Span workflow = SplunkRum.getInstance().startWorkflow(resourceProvider.getString(R.string.rum_event_app_start_dummy_api_work_flow));
+        new RXRetroManager<BaseResponse>() {
+            @Override
+            protected void onSuccess(BaseResponse response) {
+                setIsLoading(false);
+                workflow.setStatus(StatusCode.OK, resourceProvider.getString(R.string.rum_event_app_start_dummy_api_success));
+                workflow.end();
+            }
+
+            @Override
+            protected void onFailure(RetrofitException retrofitException, String errorCode) {
+                super.onFailure(retrofitException, errorCode);
+                setIsLoading(false);
+                workflow.setStatus(StatusCode.ERROR, resourceProvider.getString(R.string.rum_event_app_start_dummy_api_fail));
+                workflow.end();
+                if (view != null) {
+                    view.showApiError(retrofitException, errorCode);
+                }
+
+            }
+        }.rxSingleCall(eventServiceInterface.slowApiResponse(BuildConfig.SPLASH_DUMMY_API_URL));
     }
 
     public MutableLiveData<BaseResponse> getBaseResponse() {
