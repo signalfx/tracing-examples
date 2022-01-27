@@ -3,7 +3,6 @@ package com.splunk.rum.demoApp.view.product.viewModel;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
-import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.model.state.ProductServiceInterface;
@@ -11,6 +10,7 @@ import com.splunk.rum.demoApp.network.RXRetroManager;
 import com.splunk.rum.demoApp.network.RetrofitException;
 import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.util.StringHelper;
+import com.splunk.rum.demoApp.util.VariantConfig;
 import com.splunk.rum.demoApp.view.base.viewModel.BaseViewModel;
 
 import javax.inject.Inject;
@@ -56,7 +56,7 @@ public class ProductViewModel extends BaseViewModel {
                     setIsLoading(false);
                 }
             }
-        }.rxSingleCall(productServiceInterface.getProductList(BuildConfig.WEB_URL));
+        }.rxSingleCall(productServiceInterface.getProductList(VariantConfig.getServerBaseUrl()));
 
     }
 
@@ -82,7 +82,7 @@ public class ProductViewModel extends BaseViewModel {
                     setIsLoading(false);
                 }
             }
-        }.rxSingleCall(productServiceInterface.getProductDetail(BuildConfig.WEB_URL + String.format(resourceProvider.
+        }.rxSingleCall(productServiceInterface.getProductDetail(VariantConfig.getServerBaseUrl() + String.format(resourceProvider.
                 getString(R.string.api_product_detail_end_point), productId)));
 
     }
@@ -107,7 +107,7 @@ public class ProductViewModel extends BaseViewModel {
                     view.showApiError(retrofitException, errorCode);
                 }
             }
-        }.rxSingleCall(productServiceInterface.getCartItems());
+        }.rxSingleCall(productServiceInterface.getCartItems(VariantConfig.getServerBaseUrl() + resourceProvider.getString(R.string.api_cart_end_point)));
 
     }
 
@@ -136,7 +136,7 @@ public class ProductViewModel extends BaseViewModel {
                         view.showApiError(retrofitException, errorCode);
                     }
                 }
-            }.rxSingleCall(productServiceInterface.addToCart(quantityBody, productIdBody));
+            }.rxSingleCall(productServiceInterface.addToCart(VariantConfig.getServerBaseUrl() + resourceProvider.getString(R.string.api_cart_end_point), quantityBody, productIdBody));
         }
     }
 

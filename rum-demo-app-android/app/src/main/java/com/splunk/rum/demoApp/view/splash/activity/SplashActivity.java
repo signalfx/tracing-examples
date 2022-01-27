@@ -25,21 +25,14 @@ import io.opentelemetry.api.trace.StatusCode;
 
 @SuppressLint("CustomSplashScreen")
 public class SplashActivity extends BaseActivity {
-
     private Context mContext;
     private Span appStartWorkFlow;
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //Start the custom event app start
-        appStartWorkFlow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_logged_in_work_flow));
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        appStartWorkFlow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_logged_in_work_flow));
 
         // Initialize data binding
         ActivitySplashBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);

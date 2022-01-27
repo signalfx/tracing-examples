@@ -1,15 +1,20 @@
 package com.splunk.rum.demoApp.view.urlConfig.activity;
 
-import static com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY;
+import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+import static com.splunk.rum.demoApp.util.AppConstant.REQUEST_CHECK_SETTINGS;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,8 +28,18 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStates;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
@@ -35,6 +50,7 @@ import com.splunk.rum.demoApp.databinding.ActivityUrlConfigurationBinding;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.ValidationUtil;
+import com.splunk.rum.demoApp.util.VariantConfig;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
 import com.splunk.rum.demoApp.view.home.MainActivity;
 
@@ -54,20 +70,40 @@ public class URLConfigurationActivity extends BaseActivity {
     /**
      * Represents a geographical location.
      */
-    protected Location mLastLocation;
+    private Location mLastLocation;
+
+    /**
+     * Location callback to start location request and remove location request
+     */
+    private LocationCallback mLocationCallback;
+
+
 
     // Allows class to cancel the location request if it exits the activity.
     // Typically, you use one cancellation source per lifecycle.
     private final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
+    private LocationRequest mLocationRequest;
+
     @Override
     public void onStart() {
         super.onStart();
-
-        if (!checkPermissions()) {
-            requestPermissions();
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            if (!checkPermissions()) {
+                requestPermissions();
+            } else {
+                startLocationUpdates();
+            }
         } else {
-            requestCurrentLocation();
+            startLocationUpdates();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mFusedLocationClient != null){
+            mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
     }
 
@@ -75,21 +111,133 @@ public class URLConfigurationActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        mFusedLocationClient = getFusedLocationProviderClient(this);
 
         // Initialize data binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_url_configuration);
         binding.edtUrl.addTextChangedListener(new TextFieldValidation(binding.edtUrl));
-        binding.edtUrl.setText(BuildConfig.BASE_URL);
+        binding.edtUrl.setText(VariantConfig.getServerBaseUrl());
+
+
 
         binding.btnCallApi.setOnClickListener(view -> {
             if (validateURLAndSetError()) {
+
+                int length = binding.edtUrl.getText().toString().length();
+                char lastChar = binding.edtUrl.getText().toString().charAt(length - 1);
+                if (String.valueOf(lastChar).equalsIgnoreCase("/")) {
+                    VariantConfig.setServerBaseUrl(binding.edtUrl.getText().toString());
+                } else {
+                    String finalBaseUrl = binding.edtUrl.getText().toString() + "/";
+                    VariantConfig.setServerBaseUrl(finalBaseUrl);
+                }
                 // Navigate to the home screen
                 moveActivity(mContext, MainActivity.class, true, true);
             }
         });
 
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                onLocationChanged(locationResult.getLastLocation());
+            }
+        };
     }
+
+    // Trigger new location updates at interval
+    protected void startLocationUpdates() {
+        // Create the location request to start receiving updates
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        /* 10 secs */
+        long UPDATE_INTERVAL = 10000;
+        mLocationRequest.setInterval(UPDATE_INTERVAL);
+        /* 5 sec */
+        long FASTEST_INTERVAL = 5000;
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+        // Create LocationSettingsRequest object using location request
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        LocationSettingsRequest locationSettingsRequest = builder.build();
+
+
+        SettingsClient settingsClient = LocationServices.getSettingsClient(this);
+        Task<LocationSettingsResponse> result = settingsClient.checkLocationSettings(locationSettingsRequest);
+
+        result.addOnCompleteListener(task -> {
+            try {
+                LocationSettingsResponse response = task.getResult(ApiException.class);
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+                    if (!checkPermissions()) {
+                        requestPermissions();
+                    }else{
+                        requestCurrentLocation();
+                    }
+                }
+            } catch (ApiException exception) {
+                switch (exception.getStatusCode()) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        // Location settings are not satisfied. But could be fixed by showing the
+                        // user a dialog.
+                        try {
+                            // Cast to a resolvable exception.
+                            ResolvableApiException resolvable = (ResolvableApiException) exception;
+                            // Show the dialog by calling startResolutionForResult(),
+                            // and check the result in onActivityResult().
+                            resolvable.startResolutionForResult(
+                                    URLConfigurationActivity.this,
+                                    REQUEST_CHECK_SETTINGS);
+                        } catch (IntentSender.SendIntentException e) {
+                            // Ignore the error.
+                        } catch (ClassCastException e) {
+                            // Ignore, should be an impossible error.
+                        }
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        showSnackBar(getString(R.string.no_location_detected));
+                        // Location settings are not satisfied. However, we have no way to fix the
+                        // settings so we won't show the dialog.
+                        break;
+                }
+            }
+        });
+
+
+    }
+
+
+    /** onLocationChanged method call when location change
+     * @param location Location class as parameter
+     */
+    public void onLocationChanged(Location location) {
+        if(location != null){
+            showSnackBar(getString(R.string.location_detected));
+            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_lat"), location.getLatitude());
+            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_long"), location.getLongitude());
+            if(mFusedLocationClient != null){
+                mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+            }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            if (resultCode == Activity.RESULT_OK) {
+                // All required changes were successfully made
+                requestCurrentLocation();
+            }else if(resultCode == Activity.RESULT_CANCELED){
+                showSnackBar(getString(R.string.no_location_detected));
+                // The user was asked to change settings, but chose not to
+            }else{
+                showSnackBar(getString(R.string.no_location_detected));
+            }
+        }
+    }
+
 
     private boolean validateURLAndSetError() {
         if (!isValidateURL()) {
@@ -150,30 +298,6 @@ public class URLConfigurationActivity extends BaseActivity {
     }
 
     /**
-     * Provides a simple way of getting a device's location and is well suited for
-     * applications that do not require a fine-grained location and that do not need location
-     * updates. Gets the best and most recent location currently available, which may be null
-     * in rare cases when a location is not available.
-     * <p>
-     * Note: this method should be called after location permission has been granted.
-     */
-    @SuppressWarnings("MissingPermission")
-    private void getLastLocation() {
-        mFusedLocationClient.getLastLocation()
-                .addOnCompleteListener(this, task -> {
-                    if (task.isSuccessful() && task.getResult() != null) {
-                        mLastLocation = task.getResult();
-                        if (mLastLocation != null) {
-                            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_lat"), mLastLocation.getLatitude());
-                            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_long"), mLastLocation.getLongitude());
-                        }
-                    } else {
-                        showSnackBar(getString(R.string.no_location_detected));
-                    }
-                });
-    }
-
-    /**
      * Gets current location.
      * Note: The code checks for permission before calling this method, that is, it's never called
      * from a method with a missing permission. Also, I include a second check with my extension
@@ -182,23 +306,9 @@ public class URLConfigurationActivity extends BaseActivity {
     @SuppressLint("MissingPermission")
     private void requestCurrentLocation() {
         if (checkPermissions()) {
-            Task<Location> currentLocationTask = mFusedLocationClient.getCurrentLocation(PRIORITY_HIGH_ACCURACY, cancellationTokenSource.getToken());
-            currentLocationTask.addOnCompleteListener(task -> {
-                if (task.isSuccessful() && task.getResult() != null) {
-                    Location location = task.getResult();
-                    if (location != null) {
-                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_lat"), location.getLatitude());
-                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_long"), location.getLongitude());
-                    } else {
-                        showSnackBar(getString(R.string.no_location_detected));
-                        getLastLocation();
-                    }
-                } else {
-                    showSnackBar(getString(R.string.no_location_detected));
-                    getLastLocation();
-                }
-            });
-        }else{
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest,mLocationCallback,
+                    Looper.myLooper());
+        } else {
             requestPermissions();
         }
     }
@@ -260,9 +370,13 @@ public class URLConfigurationActivity extends BaseActivity {
      * Return the current state of the permissions needed.
      */
     private boolean checkPermissions() {
-        int permissionState = ActivityCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
+            int permissionState = ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION);
+            return permissionState == PackageManager.PERMISSION_GRANTED;
+        } else {
+            return true;
+        }
     }
 
     private void startLocationPermissionRequest() {
@@ -286,8 +400,7 @@ public class URLConfigurationActivity extends BaseActivity {
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission granted.
-                requestCurrentLocation();
-
+                startLocationUpdates();
             } else {
                 // Permission denied.
 

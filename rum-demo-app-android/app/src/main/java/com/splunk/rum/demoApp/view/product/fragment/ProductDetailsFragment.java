@@ -131,8 +131,6 @@ public class ProductDetailsFragment extends BaseFragment {
                         handleAddProductToCartResponse());
 
 
-
-
         binding.btnAddToCart.setOnClickListener(view -> {
             if (productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_EXCEPTION)
                     && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_ADD_PRODUCT)) {
@@ -151,7 +149,6 @@ public class ProductDetailsFragment extends BaseFragment {
             }
 
         });
-
 
         return binding.getRoot();
     }
@@ -201,9 +198,9 @@ public class ProductDetailsFragment extends BaseFragment {
      */
     private androidx.lifecycle.Observer<ResponseBody> handleAddProductToCartResponse() {
         return response -> {
-            if(getActivity() instanceof MainActivity){
+            if (getActivity() instanceof MainActivity) {
                 Boolean isFromCart = ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().getValue();
-                if(!isFromCart){
+                if (!isFromCart) {
                     if (productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_CRASH)
                             && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_CART)) {
                         throw new RuntimeException(getString(R.string.rum_event_app_crash));
@@ -235,7 +232,7 @@ public class ProductDetailsFragment extends BaseFragment {
                             && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
                         ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_cart).setChecked(true);
                     }
-                }else{
+                } else {
                     ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().setValue(Boolean.FALSE);
                 }
             }
@@ -288,6 +285,7 @@ public class ProductDetailsFragment extends BaseFragment {
         binding.recyclerView.setAdapter(productListAdapter);
 
         Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_viewed));
+        workflow.setAttribute(getString(R.string.rum_event_attribute_name), productDetails.getName());
         workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_viewed_msg));
         workflow.end();
     }

@@ -121,7 +121,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
-                        android:backgroundTint="@color/grey" />
+                        android:backgroundTint="@color/grey"
+                        />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/spinner_arrow"

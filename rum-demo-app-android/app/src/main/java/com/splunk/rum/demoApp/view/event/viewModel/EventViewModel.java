@@ -12,6 +12,7 @@ import com.splunk.rum.demoApp.model.state.EventServiceInterface;
 import com.splunk.rum.demoApp.network.RXRetroManager;
 import com.splunk.rum.demoApp.network.RetrofitException;
 import com.splunk.rum.demoApp.util.ResourceProvider;
+import com.splunk.rum.demoApp.util.VariantConfig;
 import com.splunk.rum.demoApp.view.base.viewModel.BaseViewModel;
 
 import javax.inject.Inject;
@@ -55,7 +56,7 @@ public class EventViewModel extends BaseViewModel {
                 }
 
             }
-        }.rxSingleCall(eventServiceInterface.generateHttpNotFound(BuildConfig.MOCK_404_URL));
+        }.rxSingleCall(eventServiceInterface.generateHttpNotFound(VariantConfig.getServerBaseUrl() +BuildConfig.HTTP_404_URL));
     }
 
     /**
@@ -87,21 +88,16 @@ public class EventViewModel extends BaseViewModel {
      */
     public void slowApiResponse() {
         setIsLoading(true);
-        Span workflow = SplunkRum.getInstance().startWorkflow(resourceProvider.getString(R.string.rum_event_slow_response));
         new RXRetroManager<BaseResponse>() {
             @Override
             protected void onSuccess(BaseResponse response) {
                 setIsLoading(false);
-                workflow.setStatus(StatusCode.OK, resourceProvider.getString(R.string.rum_event_api_return_slow_response));
-                workflow.end();
             }
 
             @Override
             protected void onFailure(RetrofitException retrofitException, String errorCode) {
                 super.onFailure(retrofitException, errorCode);
                 setIsLoading(false);
-                workflow.setStatus(StatusCode.ERROR, resourceProvider.getString(R.string.rum_event_api_fail_slow_slow_response));
-                workflow.end();
                 if (view != null) {
                     view.showApiError(retrofitException, errorCode);
                 }

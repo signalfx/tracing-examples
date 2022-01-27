@@ -109,7 +109,6 @@ public class NetworkModule {
     Retrofit provideRetrofit(GsonConverterFactory gsonConverterFactory, Call.Factory callFactory) {
         return new Retrofit.Builder()
                 .baseUrl(mBaseUrl)
-                //.client(okHttpClient)
                 .callFactory(callFactory)
                 .addConverterFactory(gsonConverterFactory)
                 .addCallAdapterFactory(RxErrorHandlingCallAdapterFactory.create())

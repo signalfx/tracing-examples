@@ -13,8 +13,16 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    signingConfigs {
+        release {
+            storeFile file("rum_demo.jks")
+            storePassword "android"
+            keyAlias "rum_demo"
+            keyPassword "android"
+        }
     }
 
     buildTypes {
@@ -22,9 +30,7 @@ android {
             resValue("string", "rum_realm", localProperties['rum.realm'] ?: "")
             resValue("string", "rum_access_token", localProperties['rum.access.token'] ?: "")
             resValue("string", "rum_environment", localProperties['rum.environment'] ?: "development")
-            buildConfigField("String", "BASE_URL", "\"http://pmrum.o11ystore.com/\"")
-            buildConfigField("String", "WEB_URL", "\"http://pmrum.o11ystore.com/\"")
-            buildConfigField("String", "MOCK_404_URL", "\"https://mock.codes/404\"")
+            buildConfigField("String", "HTTP_404_URL", "\"cart/checkouts\"")
             buildConfigField("String", "MOCK_500_URL", "\"https://mock.codes/500\"")
             buildConfigField("String", "SLOW_API_RESPONSE_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=5s\"")
             buildConfigField("String", "SPLASH_DUMMY_API_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=1s\"")
@@ -32,11 +38,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         release {
+            debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
     compileOptions {
+        // Flag to enable support for the new language APIs
+        //coreLibraryDesugaringEnabled true
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
@@ -51,6 +61,7 @@ android {
 }
 
 dependencies {
+    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     // Splunk RUM Dependency
     implementation 'com.splunk:splunk-otel-android:0.12.0'

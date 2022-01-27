@@ -6,7 +6,7 @@ public final class AppConstant {
     // Defind all comman constants
     public static final String ERROR_UNKNOWN = "ERR0001";
     public static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    public static final int REQUEST_LOCATION_CODE = 35;
+    public static final int REQUEST_CHECK_SETTINGS = 35;
     public static final int SPLASH_SCREEN_DURATION = 3000;
     public static final String PRODUCT_JSON_FILE_NAME = "product.json";
     public static final String FAKE_CC_NUMBER = "0000-0000-0000-0000";

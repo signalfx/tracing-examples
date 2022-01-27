@@ -16,8 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.webkit.WebViewClientCompat;
 
 import com.splunk.rum.SplunkRum;
-import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.databinding.FragmentShopWebViewBinding;
+import com.splunk.rum.demoApp.util.VariantConfig;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
 import com.splunk.rum.demoApp.view.base.fragment.BaseFragment;
 
@@ -59,7 +59,7 @@ public class ShopWebViewFragment extends BaseFragment {
         binding.webView.getSettings().setAllowFileAccess(true);
         binding.webView.getSettings().setJavaScriptEnabled(true);
         SplunkRum.getInstance().integrateWithBrowserRum(binding.webView);
-        binding.webView.loadUrl(BuildConfig.WEB_URL);
+        binding.webView.loadUrl(VariantConfig.getServerBaseUrl());
     }
 
     private static class chromeClient extends WebChromeClient {
@@ -82,7 +82,7 @@ public class ShopWebViewFragment extends BaseFragment {
     private static class webViewClient extends WebViewClientCompat {
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            if (error.getUrl().startsWith(BuildConfig.WEB_URL)) {
+            if (error.getUrl().startsWith(VariantConfig.getServerBaseUrl())) {
                 handler.proceed();
             } else {
                 super.onReceivedSslError(view, handler, error);

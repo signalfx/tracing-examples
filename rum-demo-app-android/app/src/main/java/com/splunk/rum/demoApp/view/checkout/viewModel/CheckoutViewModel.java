@@ -3,6 +3,7 @@ package com.splunk.rum.demoApp.view.checkout.viewModel;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
+import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.model.entity.request.CheckoutRequest;
 import com.splunk.rum.demoApp.model.state.CheckoutServiceInterface;
@@ -10,6 +11,7 @@ import com.splunk.rum.demoApp.network.RXRetroManager;
 import com.splunk.rum.demoApp.network.RetrofitException;
 import com.splunk.rum.demoApp.util.MonthUtil;
 import com.splunk.rum.demoApp.util.ResourceProvider;
+import com.splunk.rum.demoApp.util.VariantConfig;
 import com.splunk.rum.demoApp.view.base.viewModel.BaseViewModel;
 
 import java.util.Calendar;
@@ -28,9 +30,11 @@ public class CheckoutViewModel extends BaseViewModel {
     CheckoutServiceInterface checkoutServiceInterface;
     private MutableLiveData<ResponseBody> baseResponse;
     private final ObservableBoolean mIsLoading = new ObservableBoolean();
+    private final ResourceProvider resourceProvider;
 
     public CheckoutViewModel(ResourceProvider resourceProvider) {
         RumDemoApp.getServiceComponent().inject(this);
+        this.resourceProvider = resourceProvider;
         int initMonth = Calendar.getInstance().get(Calendar.MONTH);
         int year = Calendar.getInstance().get(Calendar.YEAR);
         String currentMonthSortName = MonthUtil.getShortMonthNameList().get(initMonth);
@@ -84,7 +88,7 @@ public class CheckoutViewModel extends BaseViewModel {
                     view.hideProgress();
                 }
             }
-        }.rxSingleCall(checkoutServiceInterface.checkOut(emailBody,addressBody,zipBody,cityBody,stateBody,countryBody,ccNumberBody,ccExMonth,ccExYear,ccCvv));
+        }.rxSingleCall(checkoutServiceInterface.checkOut(VariantConfig.getServerBaseUrl() + resourceProvider.getString(R.string.api_check_out_end_point),emailBody,addressBody,zipBody,cityBody,stateBody,countryBody,ccNumberBody,ccExMonth,ccExYear,ccCvv));
 
     }
 

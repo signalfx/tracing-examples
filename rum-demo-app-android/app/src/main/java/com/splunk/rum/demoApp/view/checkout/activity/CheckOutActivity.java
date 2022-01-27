@@ -148,7 +148,8 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
 
                 if (checkoutViewModel.getCheckoutRequest().getCreditCardNumber().equalsIgnoreCase(AppConstant.FAKE_CC_NUMBER)) {
                     Span paymentFail = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_payment_fail));
-                    paymentFail.setStatus(StatusCode.OK, getString(R.string.rum_event_payment_fail_msg));
+                    paymentFail.setAttribute("error",true);
+                    paymentFail.setStatus(StatusCode.ERROR, getString(R.string.rum_event_payment_fail_msg));
                     paymentFail.end();
                     AppUtils.showError(mContext, getString(R.string.rum_event_payment_fail_msg));
                     return;

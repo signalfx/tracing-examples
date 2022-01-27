@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 
 import com.splunk.rum.demoApp.callback.ViewListener;
 import com.splunk.rum.demoApp.network.RetrofitException;
+import com.splunk.rum.demoApp.util.AppUtils;
 
 public class BaseFragment extends Fragment implements ViewListener {
 
@@ -29,6 +30,8 @@ public class BaseFragment extends Fragment implements ViewListener {
 
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
-
+        if (getActivity() != null) {
+            AppUtils.handleApiError(getActivity(), retrofitException);
+        }
     }
 }

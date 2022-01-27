@@ -14,6 +14,7 @@ import com.splunk.rum.demoApp.injection.component.NetworkComponent;
 import com.splunk.rum.demoApp.injection.component.ServiceComponent;
 import com.splunk.rum.demoApp.injection.module.AppModule;
 import com.splunk.rum.demoApp.injection.module.NetworkModule;
+import com.splunk.rum.demoApp.util.VariantConfig;
 
 import io.opentelemetry.api.common.Attributes;
 
@@ -32,9 +33,20 @@ public class RumDemoApp extends Application {
         // Enable Vector Image
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
+        initDagger();
+
+        sharedPreferencesEditor = networkComponent.provideSharedPreference().edit();
+        sharedPreferences = networkComponent.provideSharedPreference();
+
+
+    }
+    /**
+     * Init dagger2 network and service component
+     */
+    public void initDagger(){
         // Dagger 2 Network Component
         networkComponent = DaggerNetworkComponent.builder()
-                .networkModule(new NetworkModule(BuildConfig.BASE_URL, splunkRum))
+                .networkModule(new NetworkModule(VariantConfig.getServerBaseUrl(), splunkRum))
                 .appModule(new AppModule(this))
                 .build();
 
@@ -42,11 +54,6 @@ public class RumDemoApp extends Application {
         serviceComponent = DaggerServiceComponent.builder()
                 .networkComponent(networkComponent)
                 .build();
-
-        sharedPreferencesEditor = networkComponent.provideSharedPreference().edit();
-        sharedPreferences = networkComponent.provideSharedPreference();
-
-
     }
 
     /**

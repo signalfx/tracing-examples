@@ -21,11 +21,11 @@ public interface ProductServiceInterface {
     @GET
     Observable<ResponseBody> getProductDetail(@Url String url);
 
-    @GET("/cart")
-    Observable<ResponseBody> getCartItems();
+    @GET()
+    Observable<ResponseBody> getCartItems(@Url String url);
 
     @Multipart
-    @POST("/cart")
-    Observable<ResponseBody> addToCart(@Part(AppConstant.FormDataParameter.QUANTITY) RequestBody quantity,
+    @POST()
+    Observable<ResponseBody> addToCart(@Url String url, @Part(AppConstant.FormDataParameter.QUANTITY) RequestBody quantity,
                                        @Part(AppConstant.FormDataParameter.PRODUCT_ID) RequestBody productId);
 }

@@ -34,7 +34,6 @@
         <item>10</item>
     </string-array>
     <string name="btn_add_to_cart">Add to cart</string>
-    <string name="api_product_detail_end_point" formatted="false" translatable="false">product/%s</string>
     <!--   END PRODUCT DETAILS     -->
 
     <!--   CART     -->
@@ -84,10 +83,10 @@
     <string name="hint_country">Country</string>
     <string name="hint_state">State</string>
     <string name="hint_city">City</string>
-    <string name="hint_credit_card_number">0000&#8211;0000&#8211;0000&#8211;0000</string>
+    <string name="hint_credit_card_number">Credit Card No.</string>
     <string name="hint_month">Month</string>
     <string name="hint_year">Year</string>
-    <string name="hint_cvv">Cvv</string>
+    <string name="hint_cvv">CVV</string>
     <string name="btn_place_order">Place Order</string>
 
     <string name="error_black_validation">Please fill in this field.</string>
@@ -135,13 +134,16 @@
     <string name="error_request_timeout_408">Your request timed out. Please retry the request.</string>
     <string name="error_request_entity_too_large_413">The server is refusing to process a request because the request entity is larger than the server is willing or able to process.</string>
     <string name="error_request_uri_too_long_414">The server is refusing to service the request because the Request-URI is longer than the server is willing to interpret.</string>
-    <string name="error_internal_server_error_500">The server encountered an unexpected condition which prevented it from fulfilling the request.</string>
+    <string name="error_internal_server_error_500">500 Internal server error, The server encountered an unexpected condition which prevented it from fulfilling the request.</string>
     <string name="error_unknown">An unknown error occurred</string>
 
     <!--            END HTTP EXCEPTION     -->
 
 
     <!--  Location Permission -->
+    <string name="location_detected">
+        Location detected successfully.
+    </string>
     <string name="no_location_detected">
         No location detected. Make sure location is enabled on the device.
     </string>
@@ -158,14 +160,11 @@
     <string name="rum_event_logged_in_work_flow">Logged in and ready</string>
     <string name="rum_event_logged_in_msg">Logged in successfully and app is ready for use</string>
 
-    <string name="rum_event_slow_response">Slow API</string>
-    <string name="rum_event_api_return_slow_response">Slow API response track successfully.</string>
-    <string name="rum_event_api_fail_slow_slow_response">failure to communicate with server</string>
-
     <string name="rum_event_product_list_loaded">Product List Loaded</string>
     <string name="rum_event_product_list_loaded_msg">Product list loaded successfully.</string>
 
     <string name="rum_event_product_viewed">Product Viewed</string>
+    <string name="rum_event_attribute_name">product.name</string>
     <string name="rum_event_product_viewed_msg">Product viewed successfully.</string>
 
     <string name="rum_event_cart_viewed">Cart</string>
@@ -199,5 +198,10 @@
 
 
     <!-- END RUM EVENTS -->
+
+    <!-- API END POINTS -->
+    <string name="api_product_detail_end_point" formatted="false" translatable="false">product/%s</string>
+    <string name="api_check_out_end_point" formatted="false" translatable="false">cart/checkout</string>
+    <string name="api_cart_end_point" formatted="false" translatable="false">cart</string>
 
 </resources>
