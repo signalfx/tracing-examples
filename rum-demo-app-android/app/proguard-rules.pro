@@ -54,6 +54,10 @@
   *** rewind();
 }
 -keep class com.splunk.rum.demoApp.model.** { *; }
+
+# keep everything in this package from being removed or renamed
+-keep class io.opentelemetry.** { *; }
+
 -dontwarn rx.**
 -dontwarn okio.**
 -dontwarn javax.annotation.Nullable
