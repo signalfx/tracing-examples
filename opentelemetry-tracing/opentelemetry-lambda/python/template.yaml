@@ -25,7 +25,6 @@ Resources:
           SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
           SPLUNK_REALM: us0
           OTEL_LOG_LEVEL: DEBUG
-          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
 
   SplunkLayerPythonFastApiLambdaFunction:
     Type: AWS::Serverless::Function
@@ -44,7 +43,6 @@ Resources:
           SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
           SPLUNK_REALM: us0
           OTEL_LOG_LEVEL: DEBUG
-          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
       Events:
         ApiEvent:
           Properties:
