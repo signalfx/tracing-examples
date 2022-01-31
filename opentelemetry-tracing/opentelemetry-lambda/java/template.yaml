@@ -27,7 +27,6 @@ Resources:
           SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
           SPLUNK_REALM: us0
           OTEL_LOG_LEVEL: DEBUG
-          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
       Events:
         HelloAll:
           Type: Api
@@ -54,7 +53,6 @@ Resources:
           SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
           SPLUNK_REALM: us0
           OTEL_LOG_LEVEL: DEBUG
-          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
 
   # Event based streaming wrapper (no HTTP propagation)
   SplunkLayerRequestStreamFunction:
@@ -75,4 +73,3 @@ Resources:
           SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
           SPLUNK_REALM: us0
           OTEL_LOG_LEVEL: DEBUG
-          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: http/protobuf
