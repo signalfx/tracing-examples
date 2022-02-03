@@ -6,6 +6,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Toast;
@@ -109,6 +114,9 @@ public final class AppUtils {
                 break;
             case 500:
                 errorMessage = context.getString(R.string.error_internal_server_error_500);
+                break;
+            case 504:
+                errorMessage = context.getString(R.string.error_internal_server_error_504);
                 break;
             default:
                 errorMessage = context.getString(R.string.error_unknown);
@@ -272,5 +280,33 @@ public final class AppUtils {
      */
     private static Toast getToast( Context context,String message, int length) {
         return Toast.makeText(context, message, length);
+    }
+
+
+    /**
+     * @param context View context
+     * @return isNetworkAvailable or not
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) return false;
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            NetworkCapabilities cap = cm.getNetworkCapabilities(cm.getActiveNetwork());
+            if (cap == null) return false;
+            return cap.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Network[] networks = cm.getAllNetworks();
+            for (Network n: networks) {
+                NetworkInfo nInfo = cm.getNetworkInfo(n);
+                if (nInfo != null && nInfo.isConnected()) return true;
+            }
+        } else {
+            NetworkInfo[] networks = cm.getAllNetworkInfo();
+            for (NetworkInfo nInfo: networks) {
+                if (nInfo != null && nInfo.isConnected()) return true;
+            }
+        }
+        return false;
     }
 }

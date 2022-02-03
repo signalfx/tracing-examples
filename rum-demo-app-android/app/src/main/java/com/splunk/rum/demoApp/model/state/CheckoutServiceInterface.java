@@ -26,6 +26,6 @@ public interface CheckoutServiceInterface {
             @Part(AppConstant.FormDataParameter.CC_NUMBER) RequestBody creditCardNumber,
             @Part(AppConstant.FormDataParameter.CC_EX_MONTH) RequestBody creditCardExMonth,
             @Part(AppConstant.FormDataParameter.CC_EX_YEAR) RequestBody creditCardExYear,
-            @Part(AppConstant.FormDataParameter.CC_EX_YEAR) RequestBody creditCardCvv
+            @Part(AppConstant.FormDataParameter.CC_CVV) RequestBody creditCardCvv
     );
 }

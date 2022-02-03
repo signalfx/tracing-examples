@@ -1,6 +1,8 @@
 package com.splunk.rum.demoApp.view.urlConfig.activity;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LONG;
+import static com.splunk.rum.demoApp.util.AppConstant.GLOBLAL_ATTR_LAT;
 import static com.splunk.rum.demoApp.util.AppConstant.REQUEST_CHECK_SETTINGS;
 
 import android.Manifest;
@@ -47,6 +49,7 @@ import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.databinding.ActivityUrlConfigurationBinding;
+import com.splunk.rum.demoApp.service.LocationService;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.ValidationUtil;
@@ -132,6 +135,7 @@ public class URLConfigurationActivity extends BaseActivity {
                     VariantConfig.setServerBaseUrl(finalBaseUrl);
                 }
                 // Navigate to the home screen
+                RumDemoApp.clearPreference();
                 moveActivity(mContext, MainActivity.class, true, true);
             }
         });
@@ -144,17 +148,19 @@ public class URLConfigurationActivity extends BaseActivity {
         };
     }
 
+    private void startLocationService() {
+        startService(new Intent(this, LocationService.class));
+    }
+
     // Trigger new location updates at interval
     protected void startLocationUpdates() {
+        startLocationService();
+
         // Create the location request to start receiving updates
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-        /* 10 secs */
-        long UPDATE_INTERVAL = 10000;
-        mLocationRequest.setInterval(UPDATE_INTERVAL);
-        /* 5 sec */
-        long FASTEST_INTERVAL = 5000;
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest = LocationRequest.create()
+                .setInterval(AppConstant.LOCATION_INTERVAL)
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setFastestInterval(AppConstant.FASTEST_INTERVAL);
 
         // Create LocationSettingsRequest object using location request
         LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
@@ -213,10 +219,14 @@ public class URLConfigurationActivity extends BaseActivity {
     public void onLocationChanged(Location location) {
         if(location != null){
             showSnackBar(getString(R.string.location_detected));
-            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_lat"), location.getLatitude());
-            RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey("_sf_geo_long"), location.getLongitude());
-            if(mFusedLocationClient != null){
-                mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+            boolean isAttributeSet = RumDemoApp.preferenceGetBoolean(AppConstant.SharedPrefKey.IS_LOCATION_ATTRIBUTE_SET,false);
+            if(!isAttributeSet){
+                RumDemoApp.preferencePutBoolean(AppConstant.SharedPrefKey.IS_LOCATION_ATTRIBUTE_SET,true);
+                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBLAL_ATTR_LAT), location.getLatitude());
+                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), location.getLongitude());
+                if(mFusedLocationClient != null){
+                    mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+                }
             }
         }
     }

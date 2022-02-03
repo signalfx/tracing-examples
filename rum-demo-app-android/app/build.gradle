@@ -40,16 +40,17 @@ android {
         }
         release {
             debuggable true
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
     }
     compileOptions {
         // Flag to enable support for the new language APIs
-        coreLibraryDesugaringEnabled true
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        //coreLibraryDesugaringEnabled true
+
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     dataBinding {
@@ -58,10 +59,6 @@ android {
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
-
-    // Splunk RUM Dependency
-    implementation 'com.splunk:splunk-otel-android:0.12.0'
 
     //App Compat And Design Dependency
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -111,7 +108,9 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
 
-    // HTML Parser Library
-    implementation 'org.jsoup:jsoup:1.14.3'
+    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+
+    // Splunk RUM Dependency
+    implementation 'com.splunk:splunk-otel-android:0.12.0'
 
 }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -19,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.badge.BadgeDrawable;
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
+import com.splunk.rum.demoApp.callback.ViewListener;
 import com.splunk.rum.demoApp.databinding.FragmentProductDetailsBinding;
 import com.splunk.rum.demoApp.model.entity.response.NewProduct;
 import com.splunk.rum.demoApp.util.AppConstant;
@@ -47,7 +47,7 @@ import okhttp3.ResponseBody;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
-public class ProductDetailsFragment extends BaseFragment {
+public class ProductDetailsFragment extends BaseFragment implements ViewListener {
 
     FragmentProductDetailsBinding binding;
     private NewProduct productDetails;
@@ -110,14 +110,13 @@ public class ProductDetailsFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false);
-        binding.setProduct(productDetails);
+
 
         // Configure ViewModel
 
         binding.setViewModel(productViewModel);
         binding.setEventViewModel(eventViewModel);
         binding.executePendingBindings();
-
         productViewModel.getProductDetail(productDetails.getId());
 
         //get product detail data
@@ -161,6 +160,7 @@ public class ProductDetailsFragment extends BaseFragment {
             setProductImage();
             setUpRecyclerView();
             setUpQuantitySpinner();
+
 
             if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
                     && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_ANR)) {
@@ -284,13 +284,29 @@ public class ProductDetailsFragment extends BaseFragment {
         ProductListAdapter productListAdapter = new ProductListAdapter(getContext(), otherProductList, this);
         binding.recyclerView.setAdapter(productListAdapter);
 
+
         Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_viewed));
         workflow.setAttribute(getString(R.string.rum_event_attribute_name), productDetails.getName());
         workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_viewed_msg));
         workflow.end();
+
+        binding.setProduct(productDetails);
+        binding.executePendingBindings();
     }
 
     public List<NewProduct> getProductList() {
         return productList;
+    }
+
+    public ProductViewModel getProductViewModel() {
+        return productViewModel;
+    }
+
+    public NewProduct getProductDetails() {
+        return productDetails;
+    }
+
+    public EventViewModel getEventViewModel() {
+        return eventViewModel;
     }
 }

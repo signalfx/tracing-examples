@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.splunk.rum.demoApp.R;
+import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
 import com.splunk.rum.demoApp.databinding.RowProductListBinding;
 import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.StringHelper;
@@ -29,11 +31,12 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements DialogButtonClickListener {
 
     private final Context mContext;
     private final List<NewProduct> productList;
     private final Fragment fragment;
+    private NewProduct product;
 
     public ProductListAdapter(Context context, List<NewProduct> productList, Fragment fragment) {
         this.mContext = context;
@@ -55,23 +58,42 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         loadProductImage(itemViewHolder.getBinding().productImage, product.getPicture());
         itemViewHolder.getData(product);
+        itemViewHolder.getBinding().parentLayout.setTag(product);
         itemViewHolder.getBinding().parentLayout.setOnClickListener(view -> {
-            Parcelable parcelableProduct = Parcels.wrap(product);
-            Bundle bundle = new Bundle();
-            bundle.putParcelable(AppConstant.IntentKey.PRODUCT_DETAILS, parcelableProduct);
+            NewProduct product1 = (NewProduct)view.getTag();
+            itemOnClickListener(product1);
+        });
+    }
 
-            if (fragment instanceof ProductDetailsFragment) {
+    private void itemOnClickListener(NewProduct product){
+        setProduct(product);
+        Parcelable parcelableProduct = Parcels.wrap(product);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(AppConstant.IntentKey.PRODUCT_DETAILS, parcelableProduct);
+
+        if (fragment instanceof ProductDetailsFragment) {
+            if(AppUtils.isNetworkAvailable(mContext)) {
                 Parcelable parcelableProductArray = Parcels.wrap(((ProductDetailsFragment) this.fragment).getProductList());
-                bundle.putParcelable(AppConstant.IntentKey.PRODUCT_ARRAY,parcelableProductArray);
-                bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_ITEM,true);
+                bundle.putParcelable(AppConstant.IntentKey.PRODUCT_ARRAY, parcelableProductArray);
+                bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_ITEM, true);
                 NavHostFragment.findNavController(fragment).navigate(R.id.action_navigation_product_detail_self, bundle);
-            } else {
+            }else{
+                AlertDialogHelper.showDialog(mContext, null, mContext.getString(R.string.error_network)
+                        , mContext.getString(R.string.ok), mContext.getString(R.string.retry), false,
+                        this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
+            }
+        } else {
+            if(AppUtils.isNetworkAvailable(mContext)){
                 Parcelable parcelableProductArray = Parcels.wrap(((ProductListFragment) this.fragment).getProductList());
                 bundle.putParcelable(AppConstant.IntentKey.PRODUCT_ARRAY,parcelableProductArray);
                 bundle.putBoolean(AppConstant.IntentKey.IS_FROM_PRODUCT_ITEM,true);
                 NavHostFragment.findNavController(fragment).navigate(R.id.action_navigation_home_to_productDetailsFragment, bundle);
+            }else{
+                AlertDialogHelper.showDialog(mContext, null, mContext.getString(R.string.error_network)
+                        , mContext.getString(R.string.ok), mContext.getString(R.string.retry), false,
+                        this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
             }
-        });
+        }
     }
 
     private void loadProductImage(ImageView imageView, String imageName) {
@@ -84,6 +106,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public int getItemCount() {
         return productList.size();
+    }
+
+    @Override
+    public void onPositiveButtonClicked(int dialogIdentifier) {
+
+    }
+
+    @Override
+    public void onNegativeButtonClicked(int dialogIdentifier) {
+        if(dialogIdentifier == AppConstant.DialogIdentifier.INTERNET_DIALOG){
+            itemOnClickListener(getProduct());
+        }
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -103,4 +137,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             return binding;
         }
     }
+
+    public NewProduct getProduct() {
+        return product;
+    }
+
+    public void setProduct(NewProduct product){
+        this.product = product;
+    }
+
 }

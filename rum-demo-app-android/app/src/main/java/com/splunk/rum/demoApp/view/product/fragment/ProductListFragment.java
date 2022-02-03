@@ -44,7 +44,7 @@ import okhttp3.ResponseBody;
 public class ProductListFragment extends BaseFragment {
     FragmentProductListBinding binding;
     private ArrayList<NewProduct> productDataList;
-    ProductViewModel productViewModel;
+    private ProductViewModel productViewModel;
 
     public ProductListFragment() {
         // Required empty public constructor
@@ -87,7 +87,6 @@ public class ProductListFragment extends BaseFragment {
                     .observe(getActivity(),
                             handleResponse());
         }
-
 
         productViewModel.getProductList();
 
@@ -145,5 +144,9 @@ public class ProductListFragment extends BaseFragment {
 
     public ArrayList<NewProduct> getProductList() {
         return new ArrayList<>(productDataList);
+    }
+
+    public ProductViewModel getProductViewModel() {
+        return productViewModel;
     }
 }

@@ -45,6 +45,10 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<TextInputLayout> textInputLayoutList;
     private ArrayList<String> errorMessageList;
 
+    public CheckoutViewModel getCheckoutViewModel() {
+        return checkoutViewModel;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -157,6 +161,8 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
                 checkoutViewModel.doCheckOut();
             }
         });
+
+
 
 
     }

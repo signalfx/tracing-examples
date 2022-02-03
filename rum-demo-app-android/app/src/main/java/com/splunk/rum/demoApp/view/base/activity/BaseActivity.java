@@ -13,15 +13,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.splunk.rum.demoApp.R;
+import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
 import com.splunk.rum.demoApp.callback.ViewListener;
 import com.splunk.rum.demoApp.network.RetrofitException;
+import com.splunk.rum.demoApp.util.AlertDialogHelper;
+import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.progressDialog.ProgressDialogHelper;
+import com.splunk.rum.demoApp.view.checkout.activity.CheckOutActivity;
 import com.splunk.rum.demoApp.view.urlConfig.activity.URLConfigurationActivity;
 
 @SuppressWarnings("ALL")
-public class BaseActivity extends AppCompatActivity implements ViewListener {
+public class BaseActivity extends AppCompatActivity implements ViewListener, DialogButtonClickListener {
 
     private ProgressDialogHelper progressDialogHelper;
 
@@ -155,7 +159,19 @@ public class BaseActivity extends AppCompatActivity implements ViewListener {
 
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
-        AppUtils.handleApiError(this, retrofitException);
+        if(errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)){
+            AlertDialogHelper.showDialog(this, null, this.getString(R.string.error_network)
+                    , this.getString(R.string.ok), this.getString(R.string.retry), false,
+                    this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
+        }else{
+            AppUtils.handleApiError(this, retrofitException);
+        }
+
+    }
+
+    @Override
+    public boolean isNetworkAvailable() {
+        return AppUtils.isNetworkAvailable(this);
     }
 
     /**
@@ -170,5 +186,19 @@ public class BaseActivity extends AppCompatActivity implements ViewListener {
             view = new View(activity);
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+    @Override
+    public void onPositiveButtonClicked(int dialogIdentifier) {
+
+    }
+
+    @Override
+    public void onNegativeButtonClicked(int dialogIdentifier) {
+        if(dialogIdentifier == AppConstant.DialogIdentifier.INTERNET_DIALOG){
+            if(this instanceof CheckOutActivity){
+                ((CheckOutActivity) this).getCheckoutViewModel().doCheckOut();
+            }
+        }
     }
 }

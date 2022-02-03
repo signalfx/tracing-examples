@@ -104,7 +104,7 @@ public class LocalWebViewFragment extends BaseFragment {
         }
     }
 
-    private static class WebAppInterface {
+    public static class WebAppInterface {
         private final Context context;
 
         public WebAppInterface(Context context) {

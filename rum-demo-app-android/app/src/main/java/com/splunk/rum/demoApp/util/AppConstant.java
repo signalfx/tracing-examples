@@ -5,17 +5,26 @@ public final class AppConstant {
 
     // Defind all comman constants
     public static final String ERROR_UNKNOWN = "ERR0001";
+    public static final String ERROR_INTERNET = "ERR_INTERNET";
     public static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     public static final int REQUEST_CHECK_SETTINGS = 35;
     public static final int SPLASH_SCREEN_DURATION = 3000;
     public static final String PRODUCT_JSON_FILE_NAME = "product.json";
     public static final String FAKE_CC_NUMBER = "0000-0000-0000-0000";
+    public static final String GLOBLAL_ATTR_LAT= "_sf_geo_lat";
+    public static final String GLOBAL_ATTR_LONG = "_sf_geo_long";
+    public static final long LOCATION_INTERVAL=5000;
+    public static final long FASTEST_INTERVAL=1000;
+
+
 
     @SuppressWarnings("unused")
     // Defind all the dialog identifier constants
     public static final class DialogIdentifier {
         public static final int EMPTY_CART = 2;
         public static final int EXIT = 3;
+        public static final int INTERNET_DIALOG=4;
+        public static final int CHECK_OUT_DIALOG=5;
     }
 
     // Defind all the intent key constants
@@ -29,6 +38,7 @@ public final class AppConstant {
     // Defind all the shared pref key constants
     public static final class SharedPrefKey {
         public static final String CART_PRODUCTS = "CART_PRODUCTS";
+        public static final String IS_LOCATION_ATTRIBUTE_SET = "IS_LOCATION_ATTRIBUTE_SET";
     }
 
     // Defind all the form data parameter constants

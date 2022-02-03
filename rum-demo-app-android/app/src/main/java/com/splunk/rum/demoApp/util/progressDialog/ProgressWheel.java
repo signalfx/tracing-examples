@@ -656,7 +656,7 @@ public class ProgressWheel extends View {
     static class WheelSavedState extends BaseSavedState {
         //required field that makes Parcelables from a Parcel
         public static final Creator<WheelSavedState> CREATOR =
-                new Creator<WheelSavedState>() {
+                new Creator<>() {
                     @Override
                     public WheelSavedState createFromParcel(Parcel in) {
                         return new WheelSavedState(in);

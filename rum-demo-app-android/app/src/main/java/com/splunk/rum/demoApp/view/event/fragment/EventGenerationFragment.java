@@ -125,5 +125,7 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
         }
     }
 
-
+    public EventViewModel getViewModel() {
+        return viewModel;
+    }
 }

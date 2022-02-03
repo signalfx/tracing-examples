@@ -49,6 +49,7 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
     private CartProductListAdapter productListAdapter;
     private int totalItem;
     private EventViewModel viewModel;
+    private ProductViewModel productViewModel;
 
     public ShoppingCartFragment() {
         // Required empty public constructor
@@ -82,7 +83,7 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
         }
 
         // Configure ViewModel
-        ProductViewModel productViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(ProductViewModel.class);
+        productViewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(ProductViewModel.class);
         productViewModel.createView(this);
         binding.setViewModel(productViewModel);
         binding.setEventViewModel(viewModel);
@@ -99,11 +100,8 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
 
         productViewModel.getCartItems();
 
-        binding.btnCheckout.setOnClickListener(view -> {
-            if (getActivity() instanceof BaseActivity) {
-                ((BaseActivity) getActivity()).moveActivity(getContext(), CheckOutActivity.class, false);
-            }
-        });
+        binding.btnCheckout.setOnClickListener(view -> navigateToCheckout());
+
 
         binding.btnBrowseProduct.setOnClickListener(view -> {
             NavHostFragment.findNavController(ShoppingCartFragment.this).navigate(R.id.action_navigation_cart_to_navigation_home);
@@ -117,12 +115,25 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
         return binding.getRoot();
     }
 
+    private void navigateToCheckout(){
+        if (getActivity() instanceof BaseActivity) {
+            if(AppUtils.isNetworkAvailable(getContext())){
+                ((BaseActivity) getActivity()).moveActivity(getContext(), CheckOutActivity.class, false);
+            }else{
+                AlertDialogHelper.showDialog(getContext(), null, getContext().getString(R.string.error_network)
+                        , getContext().getString(R.string.ok), getContext().getString(R.string.retry), false,
+                        this, AppConstant.DialogIdentifier.CHECK_OUT_DIALOG);
+            }
+        }
+    }
+
     /**
      * @return Handle get cart items response
      */
     private androidx.lifecycle.Observer<ResponseBody> handleCartItemsResponse() {
         return response -> {
             try {
+                setUpNoDataFound();
                 calculateTotalCost();
                 setUpRecyclerView();
             } catch (Exception e) {
@@ -184,7 +195,8 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
 
 
     private void setUpNoDataFound() {
-        if (CollectionUtils.isEmpty(AppUtils.getProductsFromPref().getProducts())) {
+        if (CollectionUtils.isEmpty(AppUtils.getProductsFromPref().getProducts())
+                || !AppUtils.isNetworkAvailable(getContext())) {
             binding.noDataLayout.setVisibility(View.VISIBLE);
             binding.contentLayout.setVisibility(View.GONE);
         } else {
@@ -210,11 +222,29 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
                 badge.setVisible(false);
                 badge.clearNumber();
             }
+        }else{
+            super.onPositiveButtonClicked(dialogIdentifier);
         }
     }
 
     @Override
     public void onNegativeButtonClicked(int dialogIdentifier) {
+        if(dialogIdentifier == AppConstant.DialogIdentifier.CHECK_OUT_DIALOG){
+            navigateToCheckout();
+        }else{
+            super.onNegativeButtonClicked(dialogIdentifier);
+        }
+    }
 
+    public ProductViewModel getProductViewModel() {
+        return productViewModel;
+    }
+
+    public EventViewModel getViewModel() {
+        return viewModel;
+    }
+
+    public void setViewModel(EventViewModel viewModel) {
+        this.viewModel = viewModel;
     }
 }

@@ -48,6 +48,12 @@
         <activity
             android:name="com.splunk.rum.demoApp.view.order.activity.OrderDetailActivity"
             android:exported="true" />
+
+        <service
+            android:name=".service.LocationService"
+            android:enabled="true"
+            android:exported="true" />
+
     </application>
 
 </manifest>

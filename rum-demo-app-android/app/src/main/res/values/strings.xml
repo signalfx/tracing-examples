@@ -4,9 +4,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="error_email">Please enter valid email!</string>
-    <string name="error_network" translatable="false">There was a Problem connecting to the Server, please checked your network connection, and then try again.</string>
+    <string name="error_network" translatable="false">There was a problem connecting to the server, please checked your network connection, and then try again.</string>
     <string name="error_unknown_utils">An unknown error occurred</string>
     <string name="ok">Okay</string>
+    <string name="retry">Retry</string>
     <string name="exit_msg" translatable="false">Are you sure you want to exit ?</string>
 
 
@@ -73,6 +74,9 @@
     <string name="btn_shop_web_view">Shop Web View</string>
     <string name="btn_local_web_view">Local Web View</string>
 
+    <string name="method_not_found">4xx</string>
+    <string name="http_error">5xx</string>
+    <string name="slow_api">slow api</string>
     <!--   END EVENT GENERATION     -->
 
     <!-- CHECK OUT -->
@@ -126,15 +130,16 @@
 
 
     <!--            HTTP EXCEPTION     -->
-    <string name="error_bad_request_400">The request could not be understood by the server due to malformed syntax.</string>
+    <string name="error_bad_request_400">400 Bad Request, The request could not be understood by the server due to malformed syntax.</string>
     <string name="error_unauthorized_401">The request requires user authentication. The response MUST include a WWW-Authenticate header field.</string>
     <string name="error_forbidden_403">The server understood the request, but is refusing to fulfill it.</string>
-    <string name="error_not_found_404">The server has not found anything matching the Request-URI.</string>
+    <string name="error_not_found_404">404 Not Found, The server has not found anything matching the Request-URI.</string>
     <string name="error_method_not_allowed_405">The method specified in the Request-Line is not allowed for the resource identified by the Request-URI.</string>
     <string name="error_request_timeout_408">Your request timed out. Please retry the request.</string>
     <string name="error_request_entity_too_large_413">The server is refusing to process a request because the request entity is larger than the server is willing or able to process.</string>
     <string name="error_request_uri_too_long_414">The server is refusing to service the request because the Request-URI is longer than the server is willing to interpret.</string>
     <string name="error_internal_server_error_500">500 Internal server error, The server encountered an unexpected condition which prevented it from fulfilling the request.</string>
+    <string name="error_internal_server_error_504">504 Gateway timeout,The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.</string>
     <string name="error_unknown">An unknown error occurred</string>
 
     <!--            END HTTP EXCEPTION     -->
