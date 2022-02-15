@@ -12,6 +12,7 @@
 
 
     <!--   URL CONFIGURATION     -->
+    <string name="btn_login">Delayed Login</string>
     <string name="title_url_configuration">URL Configuration</string>
     <string name="hint_url">Configuration URL</string>
     <string name="btn_submit">Submit</string>
@@ -77,6 +78,7 @@
     <string name="method_not_found">4xx</string>
     <string name="http_error">5xx</string>
     <string name="slow_api">slow api</string>
+    <string name="new_sales_tax">newSalesTax</string>
     <!--   END EVENT GENERATION     -->
 
     <!-- CHECK OUT -->
@@ -135,7 +137,7 @@
     <string name="error_forbidden_403">The server understood the request, but is refusing to fulfill it.</string>
     <string name="error_not_found_404">404 Not Found, The server has not found anything matching the Request-URI.</string>
     <string name="error_method_not_allowed_405">The method specified in the Request-Line is not allowed for the resource identified by the Request-URI.</string>
-    <string name="error_request_timeout_408">Your request timed out. Please retry the request.</string>
+    <string name="error_request_timeout_408">408 Your request timed out. Please retry the request.</string>
     <string name="error_request_entity_too_large_413">The server is refusing to process a request because the request entity is larger than the server is willing or able to process.</string>
     <string name="error_request_uri_too_long_414">The server is refusing to service the request because the Request-URI is longer than the server is willing to interpret.</string>
     <string name="error_internal_server_error_500">500 Internal server error, The server encountered an unexpected condition which prevented it from fulfilling the request.</string>
@@ -146,9 +148,6 @@
 
 
     <!--  Location Permission -->
-    <string name="location_detected">
-        Location detected successfully.
-    </string>
     <string name="no_location_detected">
         No location detected. Make sure location is enabled on the device.
     </string>
@@ -162,33 +161,37 @@
 
 
     <!-- RUM EVENTS -->
-    <string name="rum_event_logged_in_work_flow">Logged in and ready</string>
-    <string name="rum_event_logged_in_msg">Logged in successfully and app is ready for use</string>
+    <string name="rum_instrumentation_name">SplunkRum</string>
+    <string name="rum_work_flow_name">workflow.name</string>
+    <string name="rum_screen_name">screen.name</string>
 
-    <string name="rum_event_product_list_loaded">Product List Loaded</string>
+    <string name="rum_event_time_to_ready">Time_to_Ready</string>
+
+    <string name="rum_event_product_list_loaded">ProductListLoaded</string>
     <string name="rum_event_product_list_loaded_msg">Product list loaded successfully.</string>
 
-    <string name="rum_event_product_viewed">Product Viewed</string>
+    <string name="rum_event_product_viewed" formatted="true" translatable="false">ProductDetails_%s</string>
     <string name="rum_event_attribute_name">product.name</string>
     <string name="rum_event_product_viewed_msg">Product viewed successfully.</string>
 
-    <string name="rum_event_cart_viewed">Cart</string>
-    <string name="rum_event_cart_viewed_msg">Cart screen viewed successfully.</string>
+    <string name="rum_event_add_to_cart">AddToCart</string>
+    <string name="rum_event_add_to_cart_msg">Product add to cart successfully.</string>
 
     <string name="rum_event_checkout_viewed">Checkout</string>
     <string name="rum_event_checkout_viewed_msg">Checkout screen viewed successfully.</string>
 
-    <string name="rum_event_pay">Payment</string>
-    <string name="rum_event_pay_msg">The user fills out all fields with valid data and proceeds to pay.</string>
+    <string name="rum_event_place_order">PlaceOrder</string>
+    <string name="rum_event_place_order_msg">The user fills out all fields with valid data and proceeds to place order.</string>
 
-    <string name="rum_event_payment">Payment Successful</string>
+    <string name="rum_event_payment">Payment_Success</string>
     <string name="rum_event_payment_msg">Payment successfully done.</string>
 
     <string name="rum_event_app_crash">This app crashed because it failed to parse the json response that was sent by the server.</string>
     <string name="rum_event_app_msg">Maximum available stock size is 1 and the quantity added by the user is > 1 , an exception will be generated and the user will not be able to add it to the cart.</string>
 
-    <string name="rum_event_payment_fail">Payment Failed</string>
+    <string name="rum_event_payment_fail">Payment_Failed</string>
     <string name="rum_event_payment_fail_msg">The provided credit card number is invalid, resulting in payment failure.</string>
+    <string name="rum_event_payment_france_msg">We apologize for the inconvenience, but we cannot accept payments in France.</string>
 
 
 
@@ -201,12 +204,13 @@
     <string name="rum_event_crash_manually">A user wants to crash the app in order to test it</string>
     <string name="rum_event_exception_manually">A user wants to generate the exception in order to test it</string>
 
+    <string name="rum_event_parent">dashboard_list_favorite_load_time</string>
+    <string name="rum_event_child">dashboard_list_custom_load_time</string>
+
+
 
     <!-- END RUM EVENTS -->
 
     <!-- API END POINTS -->
     <string name="api_product_detail_end_point" formatted="false" translatable="false">product/%s</string>
-    <string name="api_check_out_end_point" formatted="false" translatable="false">cart/checkout</string>
-    <string name="api_cart_end_point" formatted="false" translatable="false">cart</string>
-
 </resources>

@@ -25,7 +25,6 @@ public class RumDemoApp extends Application {
     private static SharedPreferences.Editor sharedPreferencesEditor;
     private static SharedPreferences sharedPreferences;
     public static SplunkRum splunkRum;
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -37,8 +36,6 @@ public class RumDemoApp extends Application {
 
         sharedPreferencesEditor = networkComponent.provideSharedPreference().edit();
         sharedPreferences = networkComponent.provideSharedPreference();
-
-
     }
     /**
      * Init dagger2 network and service component

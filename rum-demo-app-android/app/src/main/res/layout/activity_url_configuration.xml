@@ -62,12 +62,20 @@
 
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCallApi"
+                android:id="@+id/btnSubmit"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_15dp"
                 android:clickable="false"
                 android:enabled="false"
                 android:text="@string/btn_submit" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnLogin"
+                style="@style/primaryButtonStyle"
+                android:layout_marginTop="@dimen/size_20dp"
+                android:clickable="false"
+                android:enabled="false"
+                android:text="@string/btn_login" />
 
         </LinearLayout>
 

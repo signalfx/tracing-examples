@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.google.android.gms.common.util.CollectionUtils;
 import com.google.android.material.badge.BadgeDrawable;
-import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
@@ -35,8 +34,6 @@ import com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import io.opentelemetry.api.trace.Span;
-import io.opentelemetry.api.trace.StatusCode;
 import okhttp3.ResponseBody;
 
 /**
@@ -186,11 +183,6 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
             String text = String.format(getResources().getString(R.string.item_in_cart), totalItem);
             binding.totalItemsInCart.setText(text);
         }
-
-        Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_cart_viewed));
-        workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_cart_viewed_msg));
-        workflow.end();
-
     }
 
 

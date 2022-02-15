@@ -28,6 +28,7 @@ import com.splunk.rum.demoApp.view.urlConfig.activity.URLConfigurationActivity;
 public class BaseActivity extends AppCompatActivity implements ViewListener, DialogButtonClickListener {
 
     private ProgressDialogHelper progressDialogHelper;
+    private boolean isSalesTax;
 
 
     /**
@@ -160,6 +161,7 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
         if(errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)){
+            isSalesTax = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.new_sales_tax));
             AlertDialogHelper.showDialog(this, null, this.getString(R.string.error_network)
                     , this.getString(R.string.ok), this.getString(R.string.retry), false,
                     this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
@@ -197,7 +199,11 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
     public void onNegativeButtonClicked(int dialogIdentifier) {
         if(dialogIdentifier == AppConstant.DialogIdentifier.INTERNET_DIALOG){
             if(this instanceof CheckOutActivity){
-                ((CheckOutActivity) this).getCheckoutViewModel().doCheckOut();
+                if(isSalesTax){
+                    ((CheckOutActivity) this).getCheckoutViewModel().generateNewSalesTax();
+                }else{
+                    ((CheckOutActivity) this).getCheckoutViewModel().doCheckOut();
+                }
             }
         }
     }

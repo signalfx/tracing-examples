@@ -216,6 +216,11 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                         }
                         badge.setNumber(totalQty);
                     }
+
+                    Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_add_to_cart));
+                    workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_add_to_cart_msg));
+                    workflow.end();
+
                     NavOptions navOptions = new NavOptions.Builder()
                             .setLaunchSingleTop(false)
                             .setEnterAnim(R.anim.slide_in_right)
@@ -285,7 +290,9 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
         binding.recyclerView.setAdapter(productListAdapter);
 
 
-        Span workflow = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_product_viewed));
+
+
+        Span workflow = SplunkRum.getInstance().startWorkflow(String.format(getString(R.string.rum_event_product_viewed),productDetails.getName()));
         workflow.setAttribute(getString(R.string.rum_event_attribute_name), productDetails.getName());
         workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_viewed_msg));
         workflow.end();

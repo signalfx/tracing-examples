@@ -81,7 +81,7 @@ public final class AppUtils {
 
 
     /**
-     * @param context View context
+     * @param context    View context
      * @param statusCode HTTP status code
      * @return
      */
@@ -128,7 +128,7 @@ public final class AppUtils {
 
 
     /**
-     * @param context View context.
+     * @param context           View context.
      * @param retrofitException Using this parameter handle which kind of retrofit exception occur.
      */
     public static void handleApiError(Context context, RetrofitException retrofitException) {
@@ -236,12 +236,12 @@ public final class AppUtils {
     }
 
     /**
-     * @param mContext View context
+     * @param mContext  View context
      * @param imageName image name which is same as in drawable without extension (air_plant)
      * @return int identifier
      */
     public static int getImage(Context mContext, String imageName) {
-        if (mContext != null){
+        if (mContext != null) {
             return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
         }
         return 0;
@@ -251,16 +251,16 @@ public final class AppUtils {
      * @param context View context
      * @param message Toast message
      */
-    public static void showError(final Context context,final String message) {
-        getToast(context,message).show();
+    public static void showError(final Context context, final String message) {
+        getToast(context, message).show();
     }
 
     /**
      * @param context View context
      * @param message Toast message
      */
-    public static void showShortMessage(Context context,String message) {
-        getToast(context,message,Toast.LENGTH_SHORT).show();
+    public static void showShortMessage(Context context, String message) {
+        getToast(context, message, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -268,17 +268,17 @@ public final class AppUtils {
      * @param message Toast message
      * @return Long duration toast
      */
-    private static Toast getToast(Context context,String message) {
-        return getToast(context,message, Toast.LENGTH_LONG);
+    private static Toast getToast(Context context, String message) {
+        return getToast(context, message, Toast.LENGTH_LONG);
     }
 
     /**
      * @param context View context
      * @param message Toast message
-     * @param length How long to display the message. Either LENGTH_SHORT or LENGTH_LONG
+     * @param length  How long to display the message. Either LENGTH_SHORT or LENGTH_LONG
      * @return apply lenth toast
      */
-    private static Toast getToast( Context context,String message, int length) {
+    private static Toast getToast(Context context, String message, int length) {
         return Toast.makeText(context, message, length);
     }
 
@@ -297,13 +297,13 @@ public final class AppUtils {
             return cap.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Network[] networks = cm.getAllNetworks();
-            for (Network n: networks) {
+            for (Network n : networks) {
                 NetworkInfo nInfo = cm.getNetworkInfo(n);
                 if (nInfo != null && nInfo.isConnected()) return true;
             }
         } else {
             NetworkInfo[] networks = cm.getAllNetworkInfo();
-            for (NetworkInfo nInfo: networks) {
+            for (NetworkInfo nInfo : networks) {
                 if (nInfo != null && nInfo.isConnected()) return true;
             }
         }

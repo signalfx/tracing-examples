@@ -3,9 +3,11 @@ package com.splunk.rum.demoApp.view.checkout.viewModel;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
+import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.model.entity.request.CheckoutRequest;
+import com.splunk.rum.demoApp.model.entity.response.BaseResponse;
 import com.splunk.rum.demoApp.model.state.CheckoutServiceInterface;
 import com.splunk.rum.demoApp.network.RXRetroManager;
 import com.splunk.rum.demoApp.network.RetrofitException;
@@ -31,6 +33,7 @@ public class CheckoutViewModel extends BaseViewModel {
     @Inject
     CheckoutServiceInterface checkoutServiceInterface;
     private MutableLiveData<ResponseBody> baseResponse;
+    private MutableLiveData<BaseResponse> salesTaxResponse;
     private final ObservableBoolean mIsLoading = new ObservableBoolean();
     private final ResourceProvider resourceProvider;
 
@@ -89,10 +92,38 @@ public class CheckoutViewModel extends BaseViewModel {
                         view.hideProgress();
                     }
                 }
-            }.rxSingleCall(checkoutServiceInterface.checkOut(VariantConfig.getServerBaseUrl() + resourceProvider.getString(R.string.api_check_out_end_point), emailBody, addressBody, zipBody, cityBody, stateBody, countryBody, ccNumberBody, ccExMonth, ccExYear, ccCvv));
+            }.rxSingleCall(checkoutServiceInterface.checkOut(VariantConfig.getServerBaseUrl() + BuildConfig.API_CHECK_OUT_END_POINT, emailBody, addressBody, zipBody, cityBody, stateBody, countryBody, ccNumberBody, ccExMonth, ccExYear, ccCvv));
         } else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(""));
+                view.showApiError(retrofitException, AppConstant.ERROR_INTERNET);
+            }
+        }
+    }
+
+    /**
+     * Initiate the API call and handle the response
+     */
+    public void generateNewSalesTax() {
+        if (view != null && view.isNetworkAvailable()) {
+            setIsLoading(true);
+            new RXRetroManager<BaseResponse>() {
+                @Override
+                protected void onSuccess(BaseResponse response) {
+                    setIsLoading(false);
+                    salesTaxResponse.postValue(response);
+                }
+
+                @Override
+                protected void onFailure(RetrofitException retrofitException, String errorCode) {
+                    super.onFailure(retrofitException, errorCode);
+                    setIsLoading(false);
+                }
+            }.rxSingleCall(checkoutServiceInterface.generateNewSalesTax(
+                    VariantConfig.getServerBaseUrl() + BuildConfig.HTTP_GENERATE_NEW_SALES_TAX));
+        } else {
+            if (view != null) {
+                RetrofitException retrofitException = RetrofitException.networkError(new IOException(resourceProvider.getString(R.string.new_sales_tax)));
                 view.showApiError(retrofitException, AppConstant.ERROR_INTERNET);
             }
         }
@@ -103,6 +134,13 @@ public class CheckoutViewModel extends BaseViewModel {
             baseResponse = new MutableLiveData<>();
         }
         return baseResponse;
+    }
+
+    public MutableLiveData<BaseResponse> getSalesTaxResponse() {
+        if (salesTaxResponse == null) {
+            salesTaxResponse = new MutableLiveData<>();
+        }
+        return salesTaxResponse;
     }
 
     public ObservableBoolean getIsLoading() {

@@ -9,7 +9,10 @@ public final class AppConstant {
     public static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     public static final int REQUEST_CHECK_SETTINGS = 35;
     public static final int SPLASH_SCREEN_DURATION = 3000;
+    public static final int RUM_CUSTOM_EVENT_2_SEC_DELAY = 2000;
+    public static final int RUM_CUSTOM_EVENT_4_SEC_DELAY = 4000;
     public static final String PRODUCT_JSON_FILE_NAME = "product.json";
+    public static final String COUNTRY_JSON_FILE_NAME = "country.json";
     public static final String FAKE_CC_NUMBER = "0000-0000-0000-0000";
     public static final String GLOBLAL_ATTR_LAT= "_sf_geo_lat";
     public static final String GLOBAL_ATTR_LONG = "_sf_geo_long";
@@ -33,12 +36,14 @@ public final class AppConstant {
         public static final String PRODUCT_DETAILS = "PRODUCT_DETAILS";
         public static final String PRODUCT_ARRAY = "PRODUCT_ARRAY";
         public static final String IS_FROM_PRODUCT_ITEM = "IS_FROM_PRODUCT_ITEM";
+        public static final String COUNTRY_NAME = "COUNTRY_NAME";
+        public static final String INTENT_KEY="INTENT_KEY";
     }
 
     // Defind all the shared pref key constants
     public static final class SharedPrefKey {
         public static final String CART_PRODUCTS = "CART_PRODUCTS";
-        public static final String IS_LOCATION_ATTRIBUTE_SET = "IS_LOCATION_ATTRIBUTE_SET";
+        public static final String COUNTRY_LIST = "COUNTRY_LIST";
     }
 
     // Defind all the form data parameter constants

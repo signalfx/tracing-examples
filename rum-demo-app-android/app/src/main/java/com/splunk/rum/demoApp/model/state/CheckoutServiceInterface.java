@@ -1,11 +1,13 @@
 package com.splunk.rum.demoApp.model.state;
 
 
+import com.splunk.rum.demoApp.model.entity.response.BaseResponse;
 import com.splunk.rum.demoApp.util.AppConstant;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -28,4 +30,9 @@ public interface CheckoutServiceInterface {
             @Part(AppConstant.FormDataParameter.CC_EX_YEAR) RequestBody creditCardExYear,
             @Part(AppConstant.FormDataParameter.CC_CVV) RequestBody creditCardCvv
     );
+
+    @GET
+    Observable<BaseResponse> generateNewSalesTax(@Url String url);
+
+
 }

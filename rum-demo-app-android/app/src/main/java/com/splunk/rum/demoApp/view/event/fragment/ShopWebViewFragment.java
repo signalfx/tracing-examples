@@ -80,6 +80,7 @@ public class ShopWebViewFragment extends BaseFragment {
     }
 
     private static class webViewClient extends WebViewClientCompat {
+        @SuppressLint("WebViewClientOnReceivedSslError")
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
             if (error.getUrl().startsWith(VariantConfig.getServerBaseUrl())) {

@@ -3,6 +3,7 @@ package com.splunk.rum.demoApp.view.product.viewModel;
 import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
+import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.model.state.ProductServiceInterface;
@@ -124,7 +125,7 @@ public class ProductViewModel extends BaseViewModel {
                         view.showApiError(retrofitException, errorCode);
                     }
                 }
-            }.rxSingleCall(productServiceInterface.getCartItems(VariantConfig.getServerBaseUrl() + resourceProvider.getString(R.string.api_cart_end_point)));
+            }.rxSingleCall(productServiceInterface.getCartItems(VariantConfig.getServerBaseUrl() + BuildConfig.API_CART_END_POINT));
         }else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(""));
@@ -159,11 +160,11 @@ public class ProductViewModel extends BaseViewModel {
                             view.showApiError(retrofitException, errorCode);
                         }
                     }
-                }.rxSingleCall(productServiceInterface.addToCart(VariantConfig.getServerBaseUrl() + resourceProvider.getString(R.string.api_cart_end_point), quantityBody, productIdBody));
+                }.rxSingleCall(productServiceInterface.addToCart(VariantConfig.getServerBaseUrl() + BuildConfig.API_CART_END_POINT, quantityBody, productIdBody));
             }
         }else {
             if (view != null) {
-                RetrofitException retrofitException = RetrofitException.networkError(new IOException(resourceProvider.getString(R.string.rum_event_cart_viewed)));
+                RetrofitException retrofitException = RetrofitException.networkError(new IOException(resourceProvider.getString(R.string.rum_event_add_to_cart)));
                 view.showApiError(retrofitException, AppConstant.ERROR_INTERNET);
             }
         }

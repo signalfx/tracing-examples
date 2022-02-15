@@ -5,6 +5,8 @@ import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LONG;
 import static com.splunk.rum.demoApp.util.AppConstant.GLOBLAL_ATTR_LAT;
 import static com.splunk.rum.demoApp.util.AppConstant.REQUEST_CHECK_SETTINGS;
 
+import static io.opentelemetry.api.common.AttributeKey.stringKey;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -16,6 +18,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
 import android.text.Editable;
@@ -29,6 +32,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -44,36 +48,41 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.databinding.ActivityUrlConfigurationBinding;
+import com.splunk.rum.demoApp.model.entity.response.BaseResponse;
 import com.splunk.rum.demoApp.service.LocationService;
 import com.splunk.rum.demoApp.util.AppConstant;
+import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.ValidationUtil;
 import com.splunk.rum.demoApp.util.VariantConfig;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
+import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
+import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
 import com.splunk.rum.demoApp.view.home.MainActivity;
 
 import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.trace.Span;
 
 
 public class URLConfigurationActivity extends BaseActivity {
 
     private Context mContext;
     private ActivityUrlConfigurationBinding binding;
+    private EventViewModel viewModel;
+    private final int RUM_EVENT_COUNT = 2;
     private static final String TAG = MainActivity.class.getSimpleName();
+
     /**
      * Provides the entry point to the Fused Location Provider API.
      */
     private FusedLocationProviderClient mFusedLocationClient;
-
-    /**
-     * Represents a geographical location.
-     */
-    private Location mLastLocation;
 
     /**
      * Location callback to start location request and remove location request
@@ -81,12 +90,14 @@ public class URLConfigurationActivity extends BaseActivity {
     private LocationCallback mLocationCallback;
 
 
-
     // Allows class to cancel the location request if it exits the activity.
     // Typically, you use one cancellation source per lifecycle.
     private final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
     private LocationRequest mLocationRequest;
+    private int apiCount;
+    private int spanCount;
+    private Span timeToReadyWorkFlow;
 
     @Override
     public void onStart() {
@@ -105,7 +116,7 @@ public class URLConfigurationActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(mFusedLocationClient != null){
+        if (mFusedLocationClient != null) {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
         }
     }
@@ -121,24 +132,28 @@ public class URLConfigurationActivity extends BaseActivity {
         binding.edtUrl.addTextChangedListener(new TextFieldValidation(binding.edtUrl));
         binding.edtUrl.setText(VariantConfig.getServerBaseUrl());
 
+        // Configure ViewModel
+        viewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(EventViewModel.class);
+        viewModel.createView(this);
+
+        //get product detail data
+        viewModel.getBaseResponse()
+                .observe(this,
+                        responseBody());
 
 
-        binding.btnCallApi.setOnClickListener(view -> {
+        binding.btnSubmit.setOnClickListener(this::navigateToProductList);
+
+
+        binding.btnLogin.setOnClickListener(v -> {
             if (validateURLAndSetError()) {
-
-                int length = binding.edtUrl.getText().toString().length();
-                char lastChar = binding.edtUrl.getText().toString().charAt(length - 1);
-                if (String.valueOf(lastChar).equalsIgnoreCase("/")) {
-                    VariantConfig.setServerBaseUrl(binding.edtUrl.getText().toString());
-                } else {
-                    String finalBaseUrl = binding.edtUrl.getText().toString() + "/";
-                    VariantConfig.setServerBaseUrl(finalBaseUrl);
-                }
-                // Navigate to the home screen
-                RumDemoApp.clearPreference();
-                moveActivity(mContext, MainActivity.class, true, true);
+                apiCount = 0;
+                spanCount = 0;
+                timeToReadyWorkFlow = startWorkflow(getString(R.string.rum_event_time_to_ready));
+                callSlowAPI();
             }
         });
+
 
         mLocationCallback = new LocationCallback() {
             @Override
@@ -146,6 +161,91 @@ public class URLConfigurationActivity extends BaseActivity {
                 onLocationChanged(locationResult.getLastLocation());
             }
         };
+    }
+
+    private void navigateToProductList(View view) {
+        if (validateURLAndSetError()) {
+            int length = binding.edtUrl.getText().toString().length();
+            char lastChar = binding.edtUrl.getText().toString().charAt(length - 1);
+            if (String.valueOf(lastChar).equalsIgnoreCase("/")) {
+                VariantConfig.setServerBaseUrl(binding.edtUrl.getText().toString());
+            } else {
+                String finalBaseUrl = binding.edtUrl.getText().toString() + "/";
+                VariantConfig.setServerBaseUrl(finalBaseUrl);
+            }
+
+            if(view != null && view.getId() == R.id.btnSubmit){
+                Span workflow = startWorkflow(getString(R.string.rum_event_time_to_ready));
+                workflow.end();
+            }
+
+
+            // Navigate to the home screen
+            RumDemoApp.preferenceRemoveKey(AppConstant.SharedPrefKey.CART_PRODUCTS);
+            moveActivity(mContext, MainActivity.class, true, true);
+        }
+    }
+
+    private void callSlowAPI() {
+        showProgress();
+        viewModel.slowApiResponse();
+    }
+
+    /**
+     * @return Handle API Response
+     */
+    private androidx.lifecycle.Observer<BaseResponse> responseBody() {
+        return response -> {
+            apiCount++;
+            if (apiCount < RUM_EVENT_COUNT) {
+                viewModel.slowApiResponse();
+            } else {
+                parentOne();
+            }
+        };
+    }
+
+    private void parentOne() {
+        spanCount++;
+        Span parentSpan = SplunkRum.getInstance().getOpenTelemetry()
+                .getTracer(getString(R.string.rum_instrumentation_name)).spanBuilder(getString(R.string.rum_event_parent))
+                .setParent(io.opentelemetry.context.Context.current())
+                .setAttribute(stringKey(getString(R.string.rum_screen_name)), URLConfigurationActivity.class.getSimpleName())
+                .startSpan();
+        new Handler().postDelayed(() -> {
+            childOne(parentSpan);
+            parentSpan.end();
+        }, AppConstant.RUM_CUSTOM_EVENT_2_SEC_DELAY);
+    }
+
+    private void childOne(Span parentSpan) {
+        Span childSpan = SplunkRum.getInstance().getOpenTelemetry()
+                .getTracer(getString(R.string.rum_instrumentation_name)).spanBuilder(getString(R.string.rum_event_child))
+                .setParent(io.opentelemetry.context.Context.current().with(parentSpan))
+                .setAttribute(stringKey(getString(R.string.rum_screen_name)), URLConfigurationActivity.class.getSimpleName())
+                .startSpan();
+
+        new Handler().postDelayed(() -> {
+            childSpan.end();
+            if (spanCount < RUM_EVENT_COUNT) {
+                parentOne();
+            } else {
+                timeToReadyWorkFlow.end();
+                hideProgress();
+                navigateToProductList(null);
+            }
+        }, AppConstant.RUM_CUSTOM_EVENT_4_SEC_DELAY);
+    }
+
+    public Span startWorkflow(String workflowName) {
+        return SplunkRum.getInstance().getOpenTelemetry()
+                .getTracer(getString(R.string.rum_instrumentation_name))
+                .spanBuilder(workflowName)
+                // will only work if the parent was created on the same thread
+                .setParent(io.opentelemetry.context.Context.current())
+                .setAttribute(stringKey(getString(R.string.rum_work_flow_name)), workflowName)
+                .setAttribute(stringKey(getString(R.string.rum_screen_name)), URLConfigurationActivity.class.getSimpleName())
+                .startSpan();
     }
 
     private void startLocationService() {
@@ -177,7 +277,7 @@ public class URLConfigurationActivity extends BaseActivity {
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
                     if (!checkPermissions()) {
                         requestPermissions();
-                    }else{
+                    } else {
                         requestCurrentLocation();
                     }
                 }
@@ -213,18 +313,19 @@ public class URLConfigurationActivity extends BaseActivity {
     }
 
 
-    /** onLocationChanged method call when location change
+    /**
+     * onLocationChanged method call when location change
+     *
      * @param location Location class as parameter
      */
     public void onLocationChanged(Location location) {
-        if(location != null){
-            showSnackBar(getString(R.string.location_detected));
-            boolean isAttributeSet = RumDemoApp.preferenceGetBoolean(AppConstant.SharedPrefKey.IS_LOCATION_ATTRIBUTE_SET,false);
-            if(!isAttributeSet){
-                RumDemoApp.preferencePutBoolean(AppConstant.SharedPrefKey.IS_LOCATION_ATTRIBUTE_SET,true);
-                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBLAL_ATTR_LAT), location.getLatitude());
-                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), location.getLongitude());
-                if(mFusedLocationClient != null){
+        if (location != null) {
+            Double lat = location.getLatitude();
+            Double lon = location.getLongitude();
+            if (lat != null && lon != null) {
+                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBLAL_ATTR_LAT), lat);
+                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
+                if (mFusedLocationClient != null) {
                     mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                 }
             }
@@ -239,10 +340,10 @@ public class URLConfigurationActivity extends BaseActivity {
             if (resultCode == Activity.RESULT_OK) {
                 // All required changes were successfully made
                 requestCurrentLocation();
-            }else if(resultCode == Activity.RESULT_CANCELED){
+            } else if (resultCode == Activity.RESULT_CANCELED) {
                 showSnackBar(getString(R.string.no_location_detected));
                 // The user was asked to change settings, but chose not to
-            }else{
+            } else {
                 showSnackBar(getString(R.string.no_location_detected));
             }
         }
@@ -259,9 +360,9 @@ public class URLConfigurationActivity extends BaseActivity {
         }
     }
 
-    private void changeButtonState(boolean state) {
-        binding.btnCallApi.setEnabled(state);
-        binding.btnCallApi.setClickable(state);
+    private void changeButtonState(boolean state, MaterialButton button) {
+        button.setEnabled(state);
+        button.setClickable(state);
     }
 
     private boolean isValidateURL() {
@@ -295,7 +396,9 @@ public class URLConfigurationActivity extends BaseActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
-                    !charSequence.toString().equals(getString(R.string.https)));
+                    !charSequence.toString().equals(getString(R.string.https)), binding.btnSubmit);
+            changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
+                    !charSequence.toString().equals(getString(R.string.https)), binding.btnLogin);
         }
 
         @Override
@@ -316,7 +419,7 @@ public class URLConfigurationActivity extends BaseActivity {
     @SuppressLint("MissingPermission")
     private void requestCurrentLocation() {
         if (checkPermissions()) {
-            mFusedLocationClient.requestLocationUpdates(mLocationRequest,mLocationCallback,
+            mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback,
                     Looper.myLooper());
         } else {
             requestPermissions();

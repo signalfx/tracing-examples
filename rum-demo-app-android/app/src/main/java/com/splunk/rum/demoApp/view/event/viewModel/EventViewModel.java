@@ -115,7 +115,7 @@ public class EventViewModel extends BaseViewModel {
                         view.showApiError(retrofitException, errorCode);
                     }
                 }
-            }.rxSingleCall(eventServiceInterface.generateHttpError(VariantConfig.getServerBaseUrl() + resourceProvider.getString(R.string.api_check_out_end_point), emailBody, addressBody,
+            }.rxSingleCall(eventServiceInterface.generateHttpError(VariantConfig.getServerBaseUrl() + BuildConfig.API_CHECK_OUT_END_POINT, emailBody, addressBody,
                     zipBody, cityBody, stateBody, countryBody,
                     ccNumberBody, ccExMonth, ccExYear, ccCvv));
         } else {
@@ -136,6 +136,9 @@ public class EventViewModel extends BaseViewModel {
                 @Override
                 protected void onSuccess(BaseResponse response) {
                     setIsLoading(false);
+                    if(baseResponse != null){
+                        baseResponse.postValue(response);
+                    }
                 }
 
                 @Override

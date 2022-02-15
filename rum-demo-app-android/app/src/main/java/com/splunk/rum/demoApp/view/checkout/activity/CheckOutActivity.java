@@ -1,7 +1,10 @@
 package com.splunk.rum.demoApp.view.checkout.activity;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,10 +14,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.splunk.rum.SplunkRum;
+import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.ActivityCheckOutBinding;
 import com.splunk.rum.demoApp.util.AppConstant;
@@ -44,6 +49,7 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<TextInputEditText> textInputEditTextList;
     private ArrayList<TextInputLayout> textInputLayoutList;
     private ArrayList<String> errorMessageList;
+    private String countryName;
 
     public CheckoutViewModel getCheckoutViewModel() {
         return checkoutViewModel;
@@ -146,26 +152,60 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
             }
 
             if (isFormValid) {
-                Span payment = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_pay));
-                payment.setStatus(StatusCode.OK, getString(R.string.rum_event_pay_msg));
+                Span payment = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_place_order));
+                payment.setStatus(StatusCode.OK, getString(R.string.rum_event_place_order_msg));
                 payment.end();
 
-                if (checkoutViewModel.getCheckoutRequest().getCreditCardNumber().equalsIgnoreCase(AppConstant.FAKE_CC_NUMBER)) {
-                    Span paymentFail = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_payment_fail));
-                    paymentFail.setAttribute("error",true);
-                    paymentFail.setStatus(StatusCode.ERROR, getString(R.string.rum_event_payment_fail_msg));
-                    paymentFail.end();
-                    AppUtils.showError(mContext, getString(R.string.rum_event_payment_fail_msg));
-                    return;
+                if (StringHelper.isNotEmpty(getCountryName()) && getCountryName().equalsIgnoreCase(BuildConfig.COUNTRY_NAME_FRANCE)) {
+                    paymentFailCustomEvent(getString(R.string.rum_event_payment_france_msg));
+                    checkoutViewModel.generateNewSalesTax();
+                } else {
+                    if (checkoutViewModel.getCheckoutRequest().getCreditCardNumber().equalsIgnoreCase(AppConstant.FAKE_CC_NUMBER)) {
+                        paymentFailCustomEvent(getString(R.string.rum_event_payment_fail_msg));
+                        return;
+                    }
+                    checkoutViewModel.doCheckOut();
                 }
-                checkoutViewModel.doCheckOut();
             }
         });
-
-
-
-
     }
+
+    private void paymentFailCustomEvent(String message) {
+        Span paymentFail = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_payment_fail));
+        paymentFail.setAttribute("error", true);
+        paymentFail.setStatus(StatusCode.ERROR, message);
+        paymentFail.end();
+        AppUtils.showError(mContext, message);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this)
+                .registerReceiver(mCountryNameReceiver,
+                        new IntentFilter(AppConstant.IntentKey.INTENT_KEY));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this)
+                .unregisterReceiver(mCountryNameReceiver);
+    }
+
+    /*
+      Broadcast Receiver to receive country name from location  service
+    */
+    private final BroadcastReceiver mCountryNameReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Get extra data included in the Intent
+            String name = intent.getStringExtra(AppConstant.IntentKey.COUNTRY_NAME);
+            if (StringHelper.isNotEmpty(name)) {
+                setCountryName(name);
+            }
+        }
+    };
 
     /**
      * @return Handle checkout API Response
@@ -345,5 +385,13 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
 
     private void scrollToTop() {
         binding.scrollView.post(() -> binding.scrollView.smoothScrollTo(0, 0));
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 }

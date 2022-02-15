@@ -12,10 +12,13 @@ import com.splunk.rum.demoApp.network.RetrofitException;
 import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.view.cart.fragment.ShoppingCartFragment;
 import com.splunk.rum.demoApp.view.event.fragment.EventGenerationFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductDetailsFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductListFragment;
+
+import java.util.Objects;
 
 public class BaseFragment extends Fragment implements ViewListener, DialogButtonClickListener {
 
@@ -42,23 +45,28 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
 
     @Override
     public boolean isNetworkAvailable() {
-        return AppUtils.isNetworkAvailable(getContext());
+        if (getContext() != null) {
+            return AppUtils.isNetworkAvailable(getContext());
+        } else {
+            return AppUtils.isNetworkAvailable(requireActivity());
+        }
     }
-
 
 
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
         if (getActivity() != null) {
-            if(errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)){
-                isCart = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.rum_event_cart_viewed));
-                is4xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.method_not_found));
-                is5xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.http_error));
-                isSlowAPI = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.slow_api));
-                AlertDialogHelper.showDialog(getContext(), null, getContext().getString(R.string.error_network)
-                        , getContext().getString(R.string.ok), getContext().getString(R.string.retry), false,
-                        this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
-            }else{
+            if (errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)) {
+                if(retrofitException != null && StringHelper.isNotEmpty(retrofitException.getMessage())){
+                    isCart = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.rum_event_add_to_cart));
+                    is4xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.method_not_found));
+                    is5xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.http_error));
+                    isSlowAPI = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.slow_api));
+                    AlertDialogHelper.showDialog(getContext(), null, getContext().getString(R.string.error_network)
+                            , getContext().getString(R.string.ok), getContext().getString(R.string.retry), false,
+                            this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
+                }
+            } else {
                 AppUtils.handleApiError(getActivity(), retrofitException);
             }
         }
@@ -71,42 +79,42 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
 
     @Override
     public void onNegativeButtonClicked(int dialogIdentifier) {
-        if(dialogIdentifier == AppConstant.DialogIdentifier.INTERNET_DIALOG){
-            if(this instanceof ProductListFragment){
+        if (dialogIdentifier == AppConstant.DialogIdentifier.INTERNET_DIALOG) {
+            if (this instanceof ProductListFragment) {
                 ((ProductListFragment) this).getProductViewModel().getProductList();
-            }else if(this instanceof ProductDetailsFragment){
-                if (isCart){
+            } else if (this instanceof ProductDetailsFragment) {
+                if (isCart) {
                     ((ProductDetailsFragment) this).getProductViewModel().addToCart(String.valueOf(((ProductDetailsFragment) this).getProductDetails().getQuantity()),
                             ((ProductDetailsFragment) this).getProductDetails().getId());
-                }else{
+                } else {
                     ((ProductDetailsFragment) this).getProductViewModel().getProductDetail(((ProductDetailsFragment) this).getProductDetails().getId());
                 }
 
 
-                if(is4xx){
+                if (is4xx) {
                     ((ProductDetailsFragment) this).getEventViewModel().generateHttpNotFound();
                 }
 
-                if(is5xx){
+                if (is5xx) {
                     ((ProductDetailsFragment) this).getEventViewModel().generateHttpError();
                 }
 
-            }else if (this instanceof ShoppingCartFragment){
-                if(isSlowAPI){
+            } else if (this instanceof ShoppingCartFragment) {
+                if (isSlowAPI) {
                     ((ShoppingCartFragment) this).getViewModel().slowApiResponse();
-                }else{
+                } else {
                     ((ShoppingCartFragment) this).getProductViewModel().getCartItems();
                 }
-            }else if(this instanceof EventGenerationFragment){
-                if(is4xx){
+            } else if (this instanceof EventGenerationFragment) {
+                if (is4xx) {
                     ((EventGenerationFragment) this).getViewModel().generateHttpNotFound();
                 }
 
-                if(is5xx){
+                if (is5xx) {
                     ((EventGenerationFragment) this).getViewModel().generateHttpError();
                 }
 
-                if(isSlowAPI){
+                if (isSlowAPI) {
                     ((EventGenerationFragment) this).getViewModel().slowApiResponse();
                 }
             }
