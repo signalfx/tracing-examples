@@ -11,19 +11,18 @@ FROM mcr.microsoft.com/dotnet/core/runtime:3.1
 COPY --from=build /build/publish /app
 WORKDIR /app
 
-ADD https://github.com/signalfx/signalfx-dotnet-tracing/releases/download/v0.1.8/signalfx-dotnet-tracing_0.1.8_amd64.deb /tmp/sdt.deb
-RUN dpkg -i /tmp/sdt.deb
+# Add the SFx.NET Instrumentation
+ARG TRACER_VERSION=0.2.2
+RUN mkdir -p /var/log/signalfx
+RUN mkdir -p /opt/signalfx
+RUN curl -LO https://github.com/signalfx/signalfx-dotnet-tracing/releases/download/v${TRACER_VERSION}/signalfx-dotnet-tracing_${TRACER_VERSION}_amd64.deb
+RUN dpkg -i ./signalfx-dotnet-tracing_${TRACER_VERSION}_amd64.deb
 
-RUN mkdir /var/log/signalfx
+ENV CORECLR_ENABLE_PROFILING=1
+ENV CORECLR_PROFILER={B4C89B0F-9908-4F73-9F59-0D77C5A06874}
+ENV CORECLR_PROFILER_PATH=/opt/signalfx/SignalFx.Tracing.ClrProfiler.Native.so
+ENV SIGNALFX_DOTNET_TRACER_HOME=/opt/signalfx
 
 EXPOSE 5000
-
-RUN dotnet --list-runtimes
-
-ENV CORECLR_ENABLE_PROFILING 1
-ENV CORECLR_PROFILER '{B4C89B0F-9908-4F73-9F59-0D77C5A06874}'
-ENV CORECLR_PROFILER_PATH /opt/signalfx-dotnet-tracing/SignalFx.Tracing.ClrProfiler.Native.so
-ENV SIGNALFX_INTEGRATIONS /opt/signalfx-dotnet-tracing/integrations.json
-ENV SIGNALFX_DOTNET_TRACER_HOME /opt/signalfx-dotnet-tracing
 
 ENTRYPOINT ["dotnet", "ClientExample.dll"]
