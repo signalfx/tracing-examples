@@ -6,7 +6,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.ServiceBus" Version="4.1.3" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.3" />
-    <PackageReference Include="SignalFx.Tracing.OpenTracing" Version="0.1.6" />
+    <PackageReference Include="SignalFx.Tracing.OpenTracing" Version="0.1.16" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">
