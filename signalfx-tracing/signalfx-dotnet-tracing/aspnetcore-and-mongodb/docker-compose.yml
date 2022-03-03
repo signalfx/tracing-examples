@@ -5,20 +5,22 @@ services:
     ports:
      - "5000:5000"
     environment:
-      SIGNALFX_SERVICE_NAME: 'asp.net-core'
-      SIGNALFX_ENDPOINT_URL: 'http://smart-gateway:9080/v1/trace'
+      - SIGNALFX_SERVICE_NAME=asp.net-core
+      - SIGNALFX_ENDPOINT_URL=http://splunk-otel-collector:9411/api/v2/spans
+      - SIGNALFX_ENV=tracing-examples
     depends_on:
       - client
       - mongo
-      - smart-gateway
+      - splunk-otel-collector
     user: 'root'
   client:
     build: src/ClientExample
     environment:
-      SIGNALFX_SERVICE_NAME: 'example-client'
-      SIGNALFX_ENDPOINT_URL: 'http://smart-gateway:9080/v1/trace'
+      - SIGNALFX_SERVICE_NAME=example-client
+      - SIGNALFX_ENDPOINT_URL=http://splunk-otel-collector:9411/api/v2/spans
+      - SIGNALFX_ENV=tracing-examples
     depends_on:
-      - smart-gateway
+      - splunk-otel-collector
     user: 'root'
     entrypoint: 'bash'
     command: '-c "sleep 10; while true; do dotnet ClientExample.dll; done"'
@@ -27,8 +29,19 @@ services:
     restart: unless-stopped
     ports:
       - "27017:27017"
-  smart-gateway:
-    image: smart-gateway
-    restart: unless-stopped
+  splunk-otel-collector:
+    image: quay.io/signalfx/splunk-otel-collector:0.45.0
+    environment:
+      # Provide the values below if you want to submit the data to the APM ingest.
+      - SPLUNK_ACCESS_TOKEN
+      - SPLUNK_REALM
     ports:
-      - "9080:9080"
+      - "1777:1777"  # pprof extension
+      - "8888:8888"  # Prometheus metrics exposed by the collector
+      - "8889:8889"  # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317"  # OTLP gRPC receiver
+      - "4318:4318"  # OTLP HTTP receiver
+      - "55679:55679" # zpages extension
+      - "9411:9411"  # zipkin receiver
+      - "9943:9943"  # signalfx receiver
