@@ -8,12 +8,30 @@ Globals:
 
 Resources:
 
-  SplunkLayerNodejsLambdaFunction:
+  SplunkLayerAsyncNodejsLambdaFunction:
     Type: AWS::Serverless::Function
     Properties:
-      FunctionName: SplunkLayerNodejsLambdaFunction
+      FunctionName: SplunkLayerAsyncNodejsLambdaFunction
       CodeUri: .
-      Handler: lambda_function.lambda_handler
+      Handler: async_lambda_function.lambda_handler
+      Runtime: nodejs14.x
+      Timeout: 60
+      MemorySize: 256
+      Layers:
+        - REPLACE_WITH_LAYER_ARN
+      Environment:
+        Variables:
+          AWS_LAMBDA_EXEC_WRAPPER: /opt/nodejs-otel-handler
+          SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
+          SPLUNK_REALM: us0
+          OTEL_LOG_LEVEL: DEBUG
+
+  SplunkLayerNonAsyncNodejsLambdaFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: SplunkLayerNonAsyncNodejsLambdaFunction
+      CodeUri: .
+      Handler: non_async_lambda_function.lambda_handler
       Runtime: nodejs14.x
       Timeout: 60
       MemorySize: 256
