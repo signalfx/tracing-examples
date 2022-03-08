@@ -13,7 +13,7 @@ Resources:
     Properties:
       FunctionName: SplunkLayerPythonLambdaFunction
       CodeUri: .
-      Handler: lambda_function.lambda_handler
+      Handler: simple_lambda.lambda_handler
       Runtime: python3.8
       Timeout: 60
       MemorySize: 256
