@@ -1,6 +1,6 @@
 package com.splunk.rum.demoApp.callback;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public interface ViewModelListener<T> {
 
     void createView(T view);

@@ -14,10 +14,26 @@
     <!--   URL CONFIGURATION     -->
     <string name="btn_login">Delayed Login</string>
     <string name="title_url_configuration">URL Configuration</string>
-    <string name="hint_url">Configuration URL</string>
+    <string name="hint_url">Store URL</string>
+    <string name="hint_app_name">App Name</string>
+    <string name="hint_token">Token</string>
+    <string name="hint_environment">Environment Name</string>
     <string name="btn_submit">Submit</string>
     <string name="error_url">Please enter valid url</string>
+    <string name="error_token" tools:ignore="UnusedResources">Please enter token</string>
+    <string name="error_environment_name" tools:ignore="UnusedResources">Please enter environment name</string>
+    <string name="error_restart_app">You need to restart your application to reflect the changes made in configuration.</string>
+
     <string name="https">https://</string>
+    <string name="lbl_real_m">realm</string>
+    <string-array name="realm">
+        <item>us0</item>
+        <item tools:ignore="Typos">us1</item>
+        <item>us2</item>
+        <item>eu0</item>
+        <item>lab0</item>
+        <item>rc0</item>
+    </string-array>
     <!--   END URL CONFIGURATION     -->
 
     <!--   PRODUCT LIST     -->
@@ -193,12 +209,6 @@
     <string name="rum_event_payment_fail_msg">The provided credit card number is invalid, resulting in payment failure.</string>
     <string name="rum_event_payment_france_msg">We apologize for the inconvenience, but we cannot accept payments in France.</string>
 
-
-
-    <string name="rum_event_app_start_dummy_api_work_flow">app start dummy api call</string>
-    <string name="rum_event_app_start_dummy_api_success">Success app start dummy api call</string>
-    <string name="rum_event_app_start_dummy_api_fail">Fail to get app start dummy api call</string>
-
     <string name="rum_event_app_freezer">app freezer</string>
     <string name="rum_event_sleep_mode">still in sleep mode</string>
     <string name="rum_event_crash_manually">A user wants to crash the app in order to test it</string>
@@ -206,9 +216,6 @@
 
     <string name="rum_event_parent">dashboard_list_favorite_load_time</string>
     <string name="rum_event_child">dashboard_list_custom_load_time</string>
-
-
-
     <!-- END RUM EVENTS -->
 
     <!-- API END POINTS -->

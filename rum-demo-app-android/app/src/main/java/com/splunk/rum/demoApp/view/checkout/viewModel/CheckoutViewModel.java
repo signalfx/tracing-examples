@@ -7,7 +7,6 @@ import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.model.entity.request.CheckoutRequest;
-import com.splunk.rum.demoApp.model.entity.response.BaseResponse;
 import com.splunk.rum.demoApp.model.state.CheckoutServiceInterface;
 import com.splunk.rum.demoApp.network.RXRetroManager;
 import com.splunk.rum.demoApp.network.RetrofitException;
@@ -33,7 +32,8 @@ public class CheckoutViewModel extends BaseViewModel {
     @Inject
     CheckoutServiceInterface checkoutServiceInterface;
     private MutableLiveData<ResponseBody> baseResponse;
-    private MutableLiveData<BaseResponse> salesTaxResponse;
+    @SuppressWarnings("unused")
+    private MutableLiveData<ResponseBody> salesTaxResponse;
     private final ObservableBoolean mIsLoading = new ObservableBoolean();
     private final ResourceProvider resourceProvider;
 
@@ -104,14 +104,14 @@ public class CheckoutViewModel extends BaseViewModel {
     /**
      * Initiate the API call and handle the response
      */
+    @SuppressWarnings("ALL")
     public void generateNewSalesTax() {
         if (view != null && view.isNetworkAvailable()) {
             setIsLoading(true);
-            new RXRetroManager<BaseResponse>() {
+            new RXRetroManager<ResponseBody>() {
                 @Override
-                protected void onSuccess(BaseResponse response) {
+                protected void onSuccess(ResponseBody response) {
                     setIsLoading(false);
-                    salesTaxResponse.postValue(response);
                 }
 
                 @Override
@@ -120,7 +120,8 @@ public class CheckoutViewModel extends BaseViewModel {
                     setIsLoading(false);
                 }
             }.rxSingleCall(checkoutServiceInterface.generateNewSalesTax(
-                    VariantConfig.getServerBaseUrl() + BuildConfig.HTTP_GENERATE_NEW_SALES_TAX));
+                    VariantConfig.getServerBaseUrl() + BuildConfig.HTTP_GENERATE_NEW_SALES_TAX,
+                    BuildConfig.COUNTRY_NAME_FRANCE.toLowerCase()));
         } else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(resourceProvider.getString(R.string.new_sales_tax)));
@@ -134,13 +135,6 @@ public class CheckoutViewModel extends BaseViewModel {
             baseResponse = new MutableLiveData<>();
         }
         return baseResponse;
-    }
-
-    public MutableLiveData<BaseResponse> getSalesTaxResponse() {
-        if (salesTaxResponse == null) {
-            salesTaxResponse = new MutableLiveData<>();
-        }
-        return salesTaxResponse;
     }
 
     public ObservableBoolean getIsLoading() {

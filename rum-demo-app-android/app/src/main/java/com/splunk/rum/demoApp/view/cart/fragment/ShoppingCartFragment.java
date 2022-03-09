@@ -14,13 +14,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.google.android.gms.common.util.CollectionUtils;
 import com.google.android.material.badge.BadgeDrawable;
 import com.splunk.rum.demoApp.R;
-import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
 import com.splunk.rum.demoApp.databinding.FragmentShoppingCartBinding;
-import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.model.entity.response.Product;
 import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.PreferenceHelper;
 import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
 import com.splunk.rum.demoApp.view.base.fragment.BaseFragment;
@@ -40,6 +40,7 @@ import okhttp3.ResponseBody;
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
  */
+@SuppressWarnings("ALL")
 public class ShoppingCartFragment extends BaseFragment implements DialogButtonClickListener {
     private FragmentShoppingCartBinding binding;
     private boolean isFromProductDetail;
@@ -92,7 +93,10 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
             productViewModel.getBaseResponse()
                     .observe(getActivity(),
                             handleCartItemsResponse());
+
         }
+
+
 
 
         productViewModel.getCartItems();
@@ -113,12 +117,12 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
     }
 
     private void navigateToCheckout(){
-        if (getActivity() instanceof BaseActivity) {
-            if(AppUtils.isNetworkAvailable(getContext())){
-                ((BaseActivity) getActivity()).moveActivity(getContext(), CheckOutActivity.class, false);
+        if (getActivity() != null && getActivity() instanceof BaseActivity) {
+            if(AppUtils.isNetworkAvailable(getActivity())){
+                ((BaseActivity) getActivity()).moveActivity(getActivity(), CheckOutActivity.class, false);
             }else{
-                AlertDialogHelper.showDialog(getContext(), null, getContext().getString(R.string.error_network)
-                        , getContext().getString(R.string.ok), getContext().getString(R.string.retry), false,
+                AlertDialogHelper.showDialog(getActivity(), null, getString(R.string.error_network)
+                        , getString(R.string.ok), getString(R.string.retry), false,
                         this, AppConstant.DialogIdentifier.CHECK_OUT_DIALOG);
             }
         }
@@ -157,8 +161,8 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
     private void calculateTotalCost() {
         double totalCost = 0.0;
         totalItem = 0;
-        if (!CollectionUtils.isEmpty(AppUtils.getProductsFromPref().getProducts())) {
-            for (NewProduct product : AppUtils.getProductsFromPref().getProducts()) {
+        if (!CollectionUtils.isEmpty(AppUtils.getProductsFromPref(getActivity()).getProducts())) {
+            for (Product product : AppUtils.getProductsFromPref(getActivity()).getProducts()) {
                 totalCost += (product.getQuantity() * product.getPriceUsd().getPrice());
                 totalItem += product.getQuantity();
             }
@@ -170,12 +174,12 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
     private void setUpRecyclerView() {
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 1);
         binding.recyclerView.setLayoutManager(gridLayoutManager);
-        ArrayList<NewProduct> arrayList = new ArrayList<>(AppUtils.getProductsFromPref().getProducts());
+        ArrayList<Product> arrayList = new ArrayList<>(AppUtils.getProductsFromPref(getActivity()).getProducts());
 
         productListAdapter = new CartProductListAdapter(getContext(), arrayList);
         binding.recyclerView.setAdapter(productListAdapter);
 
-        if (!CollectionUtils.isEmpty(AppUtils.getProductsFromPref().getProducts())
+        if (!CollectionUtils.isEmpty(AppUtils.getProductsFromPref(getActivity()).getProducts())
                 && totalItem > 1) {
             String text = String.format(getResources().getString(R.string.items_in_cart), totalItem);
             binding.totalItemsInCart.setText(text);
@@ -187,8 +191,8 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
 
 
     private void setUpNoDataFound() {
-        if (CollectionUtils.isEmpty(AppUtils.getProductsFromPref().getProducts())
-                || !AppUtils.isNetworkAvailable(getContext())) {
+        if (getActivity() != null && (CollectionUtils.isEmpty(AppUtils.getProductsFromPref(getActivity()).getProducts())
+                || !AppUtils.isNetworkAvailable(getActivity()))) {
             binding.noDataLayout.setVisibility(View.VISIBLE);
             binding.contentLayout.setVisibility(View.GONE);
         } else {
@@ -203,8 +207,8 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
 
             viewModel.slowApiResponse();
 
-            AppUtils.getProductsFromPref().getProducts().clear();
-            RumDemoApp.preferenceRemoveKey(AppConstant.SharedPrefKey.CART_PRODUCTS);
+            AppUtils.getProductsFromPref(getActivity()).getProducts().clear();
+            PreferenceHelper.removeKey(getActivity(),AppConstant.SharedPrefKey.CART_PRODUCTS);
             productListAdapter.clear();
             setUpNoDataFound();
 

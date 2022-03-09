@@ -15,10 +15,8 @@ import android.view.View;
 
 import com.splunk.rum.demoApp.R;
 
-
+@SuppressWarnings("ALL")
 public class ProgressWheel extends View {
-
-    @SuppressWarnings("unused")
     private static final String TAG = ProgressWheel.class.getSimpleName();
     private final int barLength = 16;
     private int circleRadius = 28;

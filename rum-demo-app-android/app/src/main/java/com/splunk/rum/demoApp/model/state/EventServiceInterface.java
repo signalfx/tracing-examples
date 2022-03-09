@@ -11,6 +11,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 
@@ -23,21 +24,10 @@ public interface EventServiceInterface {
     @POST
     Observable<ResponseBody> generateHttpError(
             @Url String url,
-            @Part(AppConstant.FormDataParameter.EMAIL) RequestBody email,
-            @Part(AppConstant.FormDataParameter.ADDRESS) RequestBody address,
-            @Part(AppConstant.FormDataParameter.ZIPCODE) RequestBody zipCode,
-            @Part(AppConstant.FormDataParameter.CITY) RequestBody city,
-            @Part(AppConstant.FormDataParameter.STATE) RequestBody state,
-            @Part(AppConstant.FormDataParameter.COUNTRY) RequestBody country,
-            @Part(AppConstant.FormDataParameter.CC_NUMBER) RequestBody creditCardNumber,
-            @Part(AppConstant.FormDataParameter.CC_EX_MONTH) RequestBody creditCardExMonth,
-            @Part(AppConstant.FormDataParameter.CC_EX_YEAR) RequestBody creditCardExYear,
-            @Part(AppConstant.FormDataParameter.CC_CVV) RequestBody creditCardCvv
+            @Part(AppConstant.FormDataParameter.PRODUCT_ID) RequestBody email,
+            @Part(AppConstant.FormDataParameter.QUANTITY) RequestBody address
     );
 
-    @POST
-    Observable<BaseResponse> slowApiResponse(@Url String url);
-
     @GET
-    Observable<BaseResponse> splashApiResponse(@Url String url);
+    Observable<ResponseBody> slowApiResponse(@Url String url, @Query("delay") int deplay);
 }

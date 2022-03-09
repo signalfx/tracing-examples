@@ -7,6 +7,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 
+@SuppressWarnings("ALL")
 @Module
 public class AppModule {
 

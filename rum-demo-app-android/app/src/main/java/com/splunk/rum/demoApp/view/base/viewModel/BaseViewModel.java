@@ -11,6 +11,7 @@ import com.splunk.rum.demoApp.callback.ViewListener;
  * reference
  * to the UI Thread.
  */
+@SuppressWarnings("ALL")
 abstract public class BaseViewModel extends BaseViewModelListener<ViewListener> {
     private Handler mUiThreadHandler;
 

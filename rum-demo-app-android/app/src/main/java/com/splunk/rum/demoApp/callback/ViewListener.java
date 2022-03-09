@@ -2,7 +2,7 @@ package com.splunk.rum.demoApp.callback;
 
 
 import com.splunk.rum.demoApp.network.RetrofitException;
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public interface ViewListener {
 
 

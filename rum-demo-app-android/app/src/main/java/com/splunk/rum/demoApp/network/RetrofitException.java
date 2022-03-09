@@ -17,6 +17,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 
 // This is RetrofitError converted to RMRetrofit 2
+@SuppressWarnings("ALL")
 public class RetrofitException extends RuntimeException {
     public static RetrofitException httpError(String url, Response response, Retrofit retrofit) {
         RetrofitExceptionBodyResponse retrofitException = null;
@@ -79,7 +80,6 @@ public class RetrofitException extends RuntimeException {
     /**
      * The request URL which produced the error.
      */
-    @SuppressWarnings("unused")
     public String getUrl() {
         return url;
     }
@@ -101,7 +101,6 @@ public class RetrofitException extends RuntimeException {
     /**
      * The RMRetrofit this request was executed on
      */
-    @SuppressWarnings("unused")
     public Retrofit getRetrofit() {
         return retrofit;
     }
@@ -112,7 +111,6 @@ public class RetrofitException extends RuntimeException {
      *
      * @throws IOException if unable to convert the body to the specified {@code type}.
      */
-    @SuppressWarnings("unused")
     public <T> T getErrorBodyAs(Class<T> type) throws IOException {
         if (response == null || response.errorBody() == null) {
             return null;

@@ -9,10 +9,10 @@ import androidx.databinding.DataBindingUtil;
 
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
-import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.databinding.ActivityOrderDetailsBinding;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.PreferenceHelper;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
 import com.splunk.rum.demoApp.view.home.MainActivity;
 
@@ -23,8 +23,6 @@ import io.opentelemetry.api.trace.StatusCode;
 
 
 public class OrderDetailActivity extends BaseActivity {
-
-    private String uuid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,8 +56,8 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void clearCartItem(){
-        AppUtils.getProductsFromPref().getProducts().clear();
-        RumDemoApp.preferenceRemoveKey(AppConstant.SharedPrefKey.CART_PRODUCTS);
+        AppUtils.getProductsFromPref(this).getProducts().clear();
+        PreferenceHelper.removeKey(this,AppConstant.SharedPrefKey.CART_PRODUCTS);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.splunk.rum.demoApp.model.entity.response;
 
 import org.parceler.Parcel;
 
+@SuppressWarnings("ALL")
 @Parcel
 public class PriceUsd{
     String currencyCode;

@@ -1,6 +1,6 @@
 package com.splunk.rum.demoApp.model.entity.request;
 
-
+@SuppressWarnings("ALL")
 public class CheckoutRequest {
     private String email;
     private String address;

@@ -18,7 +18,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
 import com.splunk.rum.demoApp.databinding.ActivityMainBinding;
-import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.model.entity.response.Product;
 import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
@@ -92,12 +92,12 @@ public class MainActivity extends BaseActivity implements DialogButtonClickListe
      * Using this method total number of product quantity visible on cart icon in red badge
      */
     private void setUpBadge() {
-        if (!CollectionUtils.isEmpty(AppUtils.getProductsFromPref().getProducts())) {
+        if (!CollectionUtils.isEmpty(AppUtils.getProductsFromPref(this).getProducts())) {
             BadgeDrawable badge = getBottomNavigationView().getOrCreateBadge(R.id.navigation_cart);
             badge.clearNumber();
             badge.setVisible(false);
             int totalQty = 0;
-            for (NewProduct product : AppUtils.getProductsFromPref().getProducts()) {
+            for (Product product : AppUtils.getProductsFromPref(this).getProducts()) {
                 totalQty += product.getQuantity();
             }
             badge.setVisible(true);

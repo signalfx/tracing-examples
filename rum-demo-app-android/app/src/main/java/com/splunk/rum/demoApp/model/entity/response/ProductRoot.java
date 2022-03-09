@@ -1,15 +1,15 @@
 package com.splunk.rum.demoApp.model.entity.response;
 
 import java.util.ArrayList;
-
+@SuppressWarnings("ALL")
 public class ProductRoot {
-    private ArrayList<NewProduct> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
 
-    public ArrayList<NewProduct> getProducts() {
+    public ArrayList<Product> getProducts() {
         return products;
     }
 
-    public void setProducts(ArrayList<NewProduct> products) {
+    public void setProducts(ArrayList<Product> products) {
         this.products = products;
     }
 }

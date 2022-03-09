@@ -17,29 +17,20 @@ android {
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
-    signingConfigs {
-        release {
-            storeFile file("rum_demo.jks")
-            storePassword "android"
-            keyAlias "rum_demo"
-            keyPassword "android"
-        }
-    }
 
     buildTypes {
         all {
             resValue("string", "rum_realm", localProperties['rum.realm'] ?: "")
             resValue("string", "rum_access_token", localProperties['rum.access.token'] ?: "")
-            resValue("string", "rum_environment", localProperties['rum.environment'] ?: "development")
+            resValue("string", "rum_environment", localProperties['rum.environment'] ?: "")
 
             buildConfigField("String", "COUNTRY_NAME_FRANCE", "\"France\"")
             buildConfigField("String", "API_CART_END_POINT", "\"cart\"")
             buildConfigField("String", "API_CHECK_OUT_END_POINT", "\"cart/checkout\"")
             buildConfigField("String", "HTTP_404_URL", "\"cart/checkouts\"")
-            buildConfigField("String", "HTTP_GENERATE_NEW_SALES_TAX", "\"generateNewSalesTax\"")
-            buildConfigField("String", "MOCK_500_URL", "\"https://mock.codes/500\"")
-            buildConfigField("String", "SLOW_API_RESPONSE_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=4s\"")
-            buildConfigField("String", "SPLASH_DUMMY_API_URL", "\"https://run.mocky.io/v3/a8d9f55d-f6dc-4f3a-9ac4-3b7b787555cc?mocky-delay=1s\"")
+            buildConfigField("String", "HTTP_GENERATE_NEW_SALES_TAX", "\"checkout/calculateTax\"")
+            buildConfigField("String", "HTTP_500_URL", "\"payment/send\"")
+            buildConfigField("String", "SLOW_API_RESPONSE_URL", "\"cart/clear\"")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -47,9 +38,9 @@ android {
             debuggable true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
         }
     }
+    //noinspection SpellCheckingInspection
     compileOptions {
         // Flag to enable support for the new language APIs
         //coreLibraryDesugaringEnabled true
@@ -63,13 +54,26 @@ android {
     }
 }
 
+configurations {
+    all {
+        exclude group: 'androidx.lifecycle', module: 'lifecycle-viewmodel-ktx'
+    }
+}
+
+//noinspection SpellCheckingInspection
 dependencies {
+
+    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 
     //App Compat And Design Dependency
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "androidx.cardview:cardview:1.0.0"
+    //don't update to 1.4.1
+    // androidx.emoji.text.Spannable Builder.replace method throw android runtime error
+
+    //noinspection GradleDependency
     implementation 'androidx.appcompat:appcompat:1.4.0'
-    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'com.google.android.material:material:1.5.0'
 
     // Glide Image Loading Library
     implementation 'com.github.bumptech.glide:glide:4.12.0'
@@ -99,12 +103,12 @@ dependencies {
     annotationProcessor 'com.google.dagger:dagger-compiler:2.38.1'
 
     // Android Architecture Component ViewModel,LiveData
-    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.4.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata:2.4.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.4.1'
 
     // Navigation Fragment & Navigation View
-    implementation 'androidx.navigation:navigation-fragment:2.3.5'
-    implementation 'androidx.navigation:navigation-ui:2.3.5'
+    implementation 'androidx.navigation:navigation-fragment:2.4.1'
+    implementation 'androidx.navigation:navigation-ui:2.4.1'
 
     // Location Permission
     implementation 'com.google.android.gms:play-services-location:19.0.1'
@@ -113,7 +117,10 @@ dependencies {
     implementation 'org.parceler:parceler-api:1.1.12'
     annotationProcessor 'org.parceler:parceler:1.1.12'
 
-    //coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.maps.android:android-maps-utils:2.3.0'
+
+
 
     // Splunk RUM Dependency
     implementation 'com.splunk:splunk-otel-android:0.12.0'

@@ -18,7 +18,7 @@ import com.bumptech.glide.Glide;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
 import com.splunk.rum.demoApp.databinding.RowProductListBinding;
-import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.model.entity.response.Product;
 import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
@@ -34,11 +34,11 @@ import java.util.List;
 public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements DialogButtonClickListener {
 
     private final Context mContext;
-    private final List<NewProduct> productList;
+    private final List<Product> productList;
     private final Fragment fragment;
-    private NewProduct product;
+    private Product product;
 
-    public ProductListAdapter(Context context, List<NewProduct> productList, Fragment fragment) {
+    public ProductListAdapter(Context context, List<Product> productList, Fragment fragment) {
         this.mContext = context;
         this.productList = new ArrayList<>();
         this.productList.addAll(productList);
@@ -54,18 +54,18 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final NewProduct product = productList.get(position);
+        final Product product = productList.get(position);
         final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
         loadProductImage(itemViewHolder.getBinding().productImage, product.getPicture());
         itemViewHolder.getData(product);
         itemViewHolder.getBinding().parentLayout.setTag(product);
         itemViewHolder.getBinding().parentLayout.setOnClickListener(view -> {
-            NewProduct product1 = (NewProduct)view.getTag();
+            Product product1 = (Product)view.getTag();
             itemOnClickListener(product1);
         });
     }
 
-    private void itemOnClickListener(NewProduct product){
+    private void itemOnClickListener(Product product){
         setProduct(product);
         Parcelable parcelableProduct = Parcels.wrap(product);
         Bundle bundle = new Bundle();
@@ -124,7 +124,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         private final RowProductListBinding binding;
 
-        public void getData(NewProduct product) {
+        public void getData(Product product) {
             binding.setProduct(product);
         }
 
@@ -138,11 +138,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    public NewProduct getProduct() {
+    public Product getProduct() {
         return product;
     }
 
-    public void setProduct(NewProduct product){
+    public void setProduct(Product product){
         this.product = product;
     }
 

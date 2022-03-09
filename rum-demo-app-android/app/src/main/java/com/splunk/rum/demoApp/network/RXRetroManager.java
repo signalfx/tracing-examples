@@ -11,7 +11,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public abstract class RXRetroManager<T> {
 
     public RXRetroManager() {

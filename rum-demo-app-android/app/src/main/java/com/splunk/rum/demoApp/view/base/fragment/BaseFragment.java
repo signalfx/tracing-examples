@@ -17,9 +17,7 @@ import com.splunk.rum.demoApp.view.cart.fragment.ShoppingCartFragment;
 import com.splunk.rum.demoApp.view.event.fragment.EventGenerationFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductDetailsFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductListFragment;
-
-import java.util.Objects;
-
+@SuppressWarnings("ALL")
 public class BaseFragment extends Fragment implements ViewListener, DialogButtonClickListener {
 
     private boolean isCart = false;
@@ -31,7 +29,6 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public void showProgress() {
@@ -62,8 +59,8 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
                     is4xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.method_not_found));
                     is5xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.http_error));
                     isSlowAPI = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.slow_api));
-                    AlertDialogHelper.showDialog(getContext(), null, getContext().getString(R.string.error_network)
-                            , getContext().getString(R.string.ok), getContext().getString(R.string.retry), false,
+                    AlertDialogHelper.showDialog(getActivity(), null, getString(R.string.error_network)
+                            , getString(R.string.ok), getString(R.string.retry), false,
                             this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
                 }
             } else {
@@ -96,7 +93,7 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
                 }
 
                 if (is5xx) {
-                    ((ProductDetailsFragment) this).getEventViewModel().generateHttpError();
+                    ((ProductDetailsFragment) this).getEventViewModel().generateHttpError(((ProductDetailsFragment) this).getProductDetails().getId(),1);
                 }
 
             } else if (this instanceof ShoppingCartFragment) {
@@ -111,7 +108,7 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
                 }
 
                 if (is5xx) {
-                    ((EventGenerationFragment) this).getViewModel().generateHttpError();
+                    ((EventGenerationFragment) this).getViewModel().generateHttpError("",0);
                 }
 
                 if (isSlowAPI) {

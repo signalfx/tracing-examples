@@ -1,9 +1,5 @@
 package com.splunk.rum.demoApp.injection.module;
 
-import android.app.Application;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.splunk.rum.SplunkRum;
@@ -33,17 +29,6 @@ public class NetworkModule {
         this.mBaseUrl = baseUrl;
         this.splunkRum = splunkRum;
     }
-
-    /**
-     * @param application Provide application as parameter
-     * @return SharedPreferences instance
-     */
-    @Provides
-    @Singleton
-    SharedPreferences provideSharedPreference(Application application) {
-        return PreferenceManager.getDefaultSharedPreferences(application);
-    }
-
 
     /**
      * @return Gson instance

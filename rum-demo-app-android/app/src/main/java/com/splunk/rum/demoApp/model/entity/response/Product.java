@@ -3,9 +3,9 @@ package com.splunk.rum.demoApp.model.entity.response;
 import org.parceler.Parcel;
 
 import java.util.ArrayList;
-
+@SuppressWarnings("ALL")
 @Parcel
-public class NewProduct {
+public class Product {
     String id;
     String name;
     String description;
@@ -17,7 +17,7 @@ public class NewProduct {
     ArrayList<String> categories;
     int quantity;
 
-    public NewProduct() {
+    public Product() {
     }
 
     public String getId() {

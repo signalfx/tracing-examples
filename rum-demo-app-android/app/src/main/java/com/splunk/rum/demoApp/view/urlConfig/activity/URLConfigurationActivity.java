@@ -1,10 +1,10 @@
 package com.splunk.rum.demoApp.view.urlConfig.activity;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
+import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LAT;
 import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LONG;
-import static com.splunk.rum.demoApp.util.AppConstant.GLOBLAL_ATTR_LAT;
 import static com.splunk.rum.demoApp.util.AppConstant.REQUEST_CHECK_SETTINGS;
-
+import static com.splunk.rum.demoApp.util.AppUtils.getCountryName;
 import static io.opentelemetry.api.common.AttributeKey.stringKey;
 
 import android.Manifest;
@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
@@ -25,8 +26,12 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.URLUtil;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -50,14 +55,16 @@ import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.databinding.ActivityUrlConfigurationBinding;
-import com.splunk.rum.demoApp.model.entity.response.BaseResponse;
 import com.splunk.rum.demoApp.service.LocationService;
 import com.splunk.rum.demoApp.util.AppConstant;
+import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.PreferenceHelper;
 import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.ValidationUtil;
@@ -67,8 +74,10 @@ import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
 import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
 import com.splunk.rum.demoApp.view.home.MainActivity;
 
+
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.trace.Span;
+import okhttp3.ResponseBody;
 
 
 public class URLConfigurationActivity extends BaseActivity {
@@ -77,6 +86,7 @@ public class URLConfigurationActivity extends BaseActivity {
     private ActivityUrlConfigurationBinding binding;
     private EventViewModel viewModel;
     private final int RUM_EVENT_COUNT = 2;
+    private String selectedRealM;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
@@ -130,19 +140,30 @@ public class URLConfigurationActivity extends BaseActivity {
         // Initialize data binding
         binding = DataBindingUtil.setContentView(this, R.layout.activity_url_configuration);
         binding.edtUrl.addTextChangedListener(new TextFieldValidation(binding.edtUrl));
-        binding.edtUrl.setText(VariantConfig.getServerBaseUrl());
+
+        setUpRealmSpinner();
+        setValueOfTokenAndEnvironment();
 
         // Configure ViewModel
         viewModel = new ViewModelProvider(this, new ViewModelFactory(new ResourceProvider(getResources()))).get(EventViewModel.class);
         viewModel.createView(this);
 
         //get product detail data
-        viewModel.getBaseResponse()
+        viewModel.getSlowAPIResponse()
                 .observe(this,
                         responseBody());
 
 
-        binding.btnSubmit.setOnClickListener(this::navigateToProductList);
+        binding.btnSubmit.setOnClickListener(v -> {
+            if (isConfigValueChanged()) {
+                changeButtonState(false, binding.btnSubmit);
+                changeButtonState(false, binding.btnLogin);
+                AppUtils.showError(this, getString(R.string.error_restart_app));
+                new Handler().postDelayed(() -> navigateToProductList(v), AppConstant.SPLASH_SCREEN_DURATION);
+            } else {
+                navigateToProductList(v);
+            }
+        });
 
 
         binding.btnLogin.setOnClickListener(v -> {
@@ -161,30 +182,121 @@ public class URLConfigurationActivity extends BaseActivity {
                 onLocationChanged(locationResult.getLastLocation());
             }
         };
+
+        double screenSize = AppUtils.getScreenSizeInInch(this);
+
+        if (screenSize < AppConstant.SCREEN_SIZE) {
+            ViewGroup.LayoutParams layoutParams = binding.btnLogin.getLayoutParams();
+            Resources r = getResources();
+            layoutParams.height = Math.round(TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics()));
+            binding.btnLogin.setLayoutParams(layoutParams);
+        }
+
+
+    }
+
+
+    /**
+     * Set the token and environment name into edit text from local.properties file or preference
+     */
+    private void setValueOfTokenAndEnvironment() {
+
+        String environmentName = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.ENVIRONMENT_NAME,
+                String.class, "");
+
+        String appName = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.APP_NAME,
+                String.class, "");
+
+        if (StringHelper.isEmpty(environmentName)) {
+            environmentName = getResources().getString(R.string.rum_environment);
+        }
+
+        if (StringHelper.isEmpty(appName)) {
+            appName = getResources().getString(R.string.app_name);
+        }
+
+        // Set the token and environment name into edit text from local.properties file
+        binding.edtEnvironment.setText(environmentName);
+        binding.edtAppName.setText(appName);
+        binding.edtUrl.setText(VariantConfig.getServerBaseUrl());
     }
 
     private void navigateToProductList(View view) {
         if (validateURLAndSetError()) {
-            int length = binding.edtUrl.getText().toString().length();
-            char lastChar = binding.edtUrl.getText().toString().charAt(length - 1);
-            if (String.valueOf(lastChar).equalsIgnoreCase("/")) {
-                VariantConfig.setServerBaseUrl(binding.edtUrl.getText().toString());
-            } else {
-                String finalBaseUrl = binding.edtUrl.getText().toString() + "/";
-                VariantConfig.setServerBaseUrl(finalBaseUrl);
+            if (isValidateURL(binding.edtUrl)) {
+                int length = String.valueOf(binding.edtUrl.getText()).length();
+                @SuppressWarnings("ConstantConditions")
+                char lastChar = binding.edtUrl.getText().toString().charAt(length - 1);
+                if (String.valueOf(lastChar).equalsIgnoreCase("/")) {
+                    VariantConfig.setServerBaseUrl(binding.edtUrl.getText().toString());
+                } else {
+                    String finalBaseUrl = binding.edtUrl.getText().toString() + "/";
+                    VariantConfig.setServerBaseUrl(finalBaseUrl);
+                }
+                setConfigChangeValue();
             }
-
-            if(view != null && view.getId() == R.id.btnSubmit){
+            if (view != null && view.getId() == R.id.btnSubmit) {
                 Span workflow = startWorkflow(getString(R.string.rum_event_time_to_ready));
                 workflow.end();
             }
-
-
             // Navigate to the home screen
-            RumDemoApp.preferenceRemoveKey(AppConstant.SharedPrefKey.CART_PRODUCTS);
+            PreferenceHelper.removeKey(this, AppConstant.SharedPrefKey.CART_PRODUCTS);
             moveActivity(mContext, MainActivity.class, true, true);
         }
     }
+
+
+    private boolean isConfigValueChanged() {
+        String token = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.TOKEN, String.class, "");
+        String environmentName = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.ENVIRONMENT_NAME,
+                String.class, getString(R.string.rum_environment));
+        String appName = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.APP_NAME, String.class, getString(R.string.app_name));
+        String realM = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.REAL_M,
+                String.class, getString(R.string.rum_realm));
+
+        if (!selectedRealM.equalsIgnoreCase(realM)) {
+            return true;
+        } else if (isValidToken() && !token.equalsIgnoreCase(String.valueOf(binding.edtToken.getText()))) {
+            return true;
+        } else if (isValidAppName() && !appName.equalsIgnoreCase(String.valueOf(binding.edtAppName.getText()))) {
+            return true;
+        } else if (isValidEnvironmentName()
+                && !environmentName.equalsIgnoreCase(String.valueOf(binding.edtEnvironment.getText())))
+            return true;
+
+        return false;
+    }
+
+    private void setConfigChangeValue() {
+        PreferenceHelper.setValue(URLConfigurationActivity.this, AppConstant.SharedPrefKey.REAL_M,
+                selectedRealM);
+
+        if (isValidAppName()) {
+            PreferenceHelper.setValue(this, AppConstant.SharedPrefKey.APP_NAME,
+                    String.valueOf(binding.edtAppName.getText()));
+        } else {
+            PreferenceHelper.setValue(this, AppConstant.SharedPrefKey.APP_NAME,
+                    String.valueOf(getResources().getString(R.string.app_name)));
+        }
+
+        if (isValidToken()) {
+            PreferenceHelper.setValue(this, AppConstant.SharedPrefKey.TOKEN,
+                    String.valueOf(binding.edtToken.getText()));
+        } else {
+            PreferenceHelper.setValue(this, AppConstant.SharedPrefKey.TOKEN,
+                    String.valueOf(getResources().getString(R.string.rum_access_token)));
+        }
+
+        if (isValidEnvironmentName()) {
+            PreferenceHelper.setValue(this, AppConstant.SharedPrefKey.ENVIRONMENT_NAME,
+                    String.valueOf(binding.edtEnvironment.getText()));
+        } else {
+            PreferenceHelper.setValue(this, AppConstant.SharedPrefKey.ENVIRONMENT_NAME,
+                    String.valueOf(getResources().getString(R.string.rum_environment)));
+        }
+    }
+
 
     private void callSlowAPI() {
         showProgress();
@@ -194,7 +306,7 @@ public class URLConfigurationActivity extends BaseActivity {
     /**
      * @return Handle API Response
      */
-    private androidx.lifecycle.Observer<BaseResponse> responseBody() {
+    private androidx.lifecycle.Observer<ResponseBody> responseBody() {
         return response -> {
             apiCount++;
             if (apiCount < RUM_EVENT_COUNT) {
@@ -232,7 +344,14 @@ public class URLConfigurationActivity extends BaseActivity {
             } else {
                 timeToReadyWorkFlow.end();
                 hideProgress();
-                navigateToProductList(null);
+                if (isConfigValueChanged()) {
+                    changeButtonState(false, binding.btnSubmit);
+                    changeButtonState(false, binding.btnLogin);
+                    AppUtils.showError(this, getString(R.string.error_restart_app));
+                    new Handler().postDelayed(() -> navigateToProductList(null), AppConstant.SPLASH_SCREEN_DURATION);
+                } else {
+                    navigateToProductList(null);
+                }
             }
         }, AppConstant.RUM_CUSTOM_EVENT_4_SEC_DELAY);
     }
@@ -273,6 +392,7 @@ public class URLConfigurationActivity extends BaseActivity {
 
         result.addOnCompleteListener(task -> {
             try {
+                //noinspection unused
                 LocationSettingsResponse response = task.getResult(ApiException.class);
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1) {
                     if (!checkPermissions()) {
@@ -322,9 +442,20 @@ public class URLConfigurationActivity extends BaseActivity {
         if (location != null) {
             Double lat = location.getLatitude();
             Double lon = location.getLongitude();
+            //noinspection ConstantConditions
             if (lat != null && lon != null) {
-                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBLAL_ATTR_LAT), lat);
+                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LAT), lat);
                 RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
+                String name = getCountryName(mContext, lat, lon);
+                if (StringHelper.isEmpty(name)) {
+                    PreferenceHelper.setValue(mContext, AppConstant.SharedPrefKey.IS_COUNTRY_NAME_EMPTY, true);
+                    PreferenceHelper.setValue(mContext, AppConstant.SharedPrefKey.LAT, String.valueOf(lat));
+                    PreferenceHelper.setValue(mContext, AppConstant.SharedPrefKey.LNG, String.valueOf(lon));
+                } else {
+                    PreferenceHelper.setValue(mContext, AppConstant.SharedPrefKey.IS_COUNTRY_NAME_EMPTY, false);
+                    PreferenceHelper.setValue(mContext, AppConstant.SharedPrefKey.LAT, String.valueOf(lat));
+                    PreferenceHelper.setValue(mContext, AppConstant.SharedPrefKey.LNG, String.valueOf(lon));
+                }
                 if (mFusedLocationClient != null) {
                     mFusedLocationClient.removeLocationUpdates(mLocationCallback);
                 }
@@ -335,7 +466,7 @@ public class URLConfigurationActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
+        @SuppressWarnings("unused") final LocationSettingsStates states = LocationSettingsStates.fromIntent(data);
         if (requestCode == REQUEST_CHECK_SETTINGS) {
             if (resultCode == Activity.RESULT_OK) {
                 // All required changes were successfully made
@@ -351,7 +482,7 @@ public class URLConfigurationActivity extends BaseActivity {
 
 
     private boolean validateURLAndSetError() {
-        if (!isValidateURL()) {
+        if (!isValidateURL(binding.edtUrl)) {
             ValidationUtil.setErrorIntoInputTextLayout(binding.edtUrl, binding.urlTextField, getString(R.string.error_url));
             return false;
         } else {
@@ -365,15 +496,31 @@ public class URLConfigurationActivity extends BaseActivity {
         button.setClickable(state);
     }
 
-    private boolean isValidateURL() {
-        if (binding.edtUrl.getText() != null
-                && !StringHelper.isEmpty(binding.edtUrl.getText().toString())) {
-            return Patterns.WEB_URL.matcher(binding.edtUrl.getText().toString()).matches()
-                    && (URLUtil.isHttpUrl(binding.edtUrl.getText().toString())
-                    || URLUtil.isHttpsUrl(binding.edtUrl.getText().toString()));
+    private boolean isValidateURL(TextInputEditText textInputEditText) {
+        if (textInputEditText.getText() != null
+                && !StringHelper.isEmpty(textInputEditText.getText().toString())) {
+            return Patterns.WEB_URL.matcher(textInputEditText.getText().toString()).matches()
+                    && (URLUtil.isHttpUrl(textInputEditText.getText().toString())
+                    || URLUtil.isHttpsUrl(textInputEditText.getText().toString()));
         } else {
             return false;
         }
+    }
+
+    private boolean isValidAppName() {
+        return binding.edtAppName.getText() != null
+                && StringHelper.isNotEmpty(binding.edtAppName.getText().toString());
+    }
+
+
+    private boolean isValidToken() {
+        return binding.edtToken.getText() != null
+                && StringHelper.isNotEmpty(binding.edtToken.getText().toString());
+    }
+
+    private boolean isValidEnvironmentName() {
+        return binding.edtEnvironment.getText() != null
+                && StringHelper.isNotEmpty(binding.edtEnvironment.getText().toString());
     }
 
     /**
@@ -395,16 +542,17 @@ public class URLConfigurationActivity extends BaseActivity {
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
-                    !charSequence.toString().equals(getString(R.string.https)), binding.btnSubmit);
-            changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
-                    !charSequence.toString().equals(getString(R.string.https)), binding.btnLogin);
+            if (view.getId() == R.id.edtUrl && isValidateURL(binding.edtUrl)) {
+                changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
+                        !charSequence.toString().equalsIgnoreCase(getString(R.string.https)), binding.btnSubmit);
+                changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
+                        !charSequence.toString().equalsIgnoreCase(getString(R.string.https)), binding.btnLogin);
+            }
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-            if (view.getId() == R.id.edtUrl && isValidateURL()) {
-                //binding.urlTextField.setErrorEnabled(false);
+            if (view.getId() == R.id.edtUrl && isValidateURL(binding.edtUrl)) {
                 binding.urlTextField.setError(null);
             }
         }
@@ -540,6 +688,41 @@ public class URLConfigurationActivity extends BaseActivity {
                         });
             }
         }
+    }
+
+    private void setUpRealmSpinner() {
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
+                R.array.realm, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+
+        adapter.setDropDownViewResource(R.layout.spinner_item);
+        binding.realMSpinner.setAdapter(adapter);
+        binding.spinnerArrow.setOnClickListener(view -> binding.realMSpinner.performClick());
+        binding.txtRealm.setOnClickListener(view -> binding.realMSpinner.performClick());
+        selectedRealM = adapter.getItem(0).toString();
+        String realM = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.REAL_M,
+                String.class, "");
+
+        if (StringHelper.isEmpty(realM)) {
+            realM = getString(R.string.rum_realm);
+        }
+        int position = adapter.getPosition(realM);
+        binding.realMSpinner.setSelection(position);
+
+        binding.realMSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                Object selectedItem = adapterView.getItemAtPosition(position);
+                if (selectedItem != null && !StringHelper.isEmpty(selectedItem.toString())) {
+                    selectedRealM = selectedItem.toString();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     @Override

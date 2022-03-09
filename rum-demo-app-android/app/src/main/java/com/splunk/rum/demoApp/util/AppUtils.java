@@ -5,6 +5,8 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
@@ -22,10 +24,13 @@ import com.google.android.gms.common.util.CollectionUtils;
 import com.google.gson.Gson;
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
-import com.splunk.rum.demoApp.RumDemoApp;
-import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.model.entity.response.Product;
 import com.splunk.rum.demoApp.model.entity.response.ProductListResponse;
 import com.splunk.rum.demoApp.network.RetrofitException;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 @SuppressWarnings("ALL")
 public final class AppUtils {
@@ -35,11 +40,11 @@ public final class AppUtils {
     /**
      * @param product The product class for store product data into the cart
      */
-    public static void storeProductInCart(NewProduct product) {
-        ProductListResponse productListResponse = getProductsFromPref();
+    public static void storeProductInCart(Context context, Product product) {
+        ProductListResponse productListResponse = getProductsFromPref(context);
         if (productListResponse != null) {
             if (!CollectionUtils.isEmpty(productListResponse.getProducts())) {
-                for (NewProduct productDetails : productListResponse.getProducts()) {
+                for (Product productDetails : productListResponse.getProducts()) {
                     if (product.getId().equalsIgnoreCase(productDetails.getId())) {
                         productDetails.setQuantity(productDetails.getQuantity() + product.getQuantity());
                     } else {
@@ -56,12 +61,12 @@ public final class AppUtils {
         }
 
         String cart_product_json = new Gson().toJson(productListResponse);
-        RumDemoApp.preferencePutString(AppConstant.SharedPrefKey.CART_PRODUCTS, cart_product_json);
+        PreferenceHelper.setValue(context, AppConstant.SharedPrefKey.CART_PRODUCTS, cart_product_json);
     }
 
-    public static ProductListResponse getProductsFromPref() {
-        String cart_product_json = RumDemoApp.preferenceGetString(AppConstant
-                .SharedPrefKey.CART_PRODUCTS, "");
+    public static ProductListResponse getProductsFromPref(Context context) {
+        String cart_product_json = PreferenceHelper
+                .getValue(context, AppConstant.SharedPrefKey.CART_PRODUCTS, String.class, "");
 
         if (!StringHelper.isEmpty(cart_product_json)) {
             return new Gson().fromJson(cart_product_json, ProductListResponse.class);
@@ -230,7 +235,6 @@ public final class AppUtils {
      * @param activity To get current activity screen width >= 720
      * @return is10InchTablet or not
      */
-    @SuppressWarnings("unused")
     public static boolean is10InchTablet(Activity activity) {
         return getScreenWidth(activity) >= 720;
     }
@@ -309,4 +313,43 @@ public final class AppUtils {
         }
         return false;
     }
+
+    /**
+     * @param activity pass current activity instance
+     * @return screensize of mobile
+     */
+    public static double getScreenSizeInInch(Activity activity) {
+        if (activity != null) {
+            DisplayMetrics dm = new DisplayMetrics();
+            activity.getWindowManager().getDefaultDisplay().getMetrics(dm);
+            double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
+            double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
+            double screenInches = Math.sqrt(x + y);
+            screenInches = (double) Math.round(screenInches * 10) / 10;
+            return screenInches;
+        }
+        return 0.0;
+    }
+
+    /**
+     * @param context   context View context
+     * @param latitude
+     * @param longitude
+     * @return country name (Note: It may return blank or null in some devices)
+     */
+    public static String getCountryName(Context context, double latitude, double longitude) {
+        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+        List<Address> addresses;
+        try {
+            addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                return addresses.get(0).getCountryName();
+            }
+            return null;
+        } catch (IOException ioException) {
+            AppUtils.handleRumException(ioException);
+        }
+        return null;
+    }
+
 }

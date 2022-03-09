@@ -22,6 +22,9 @@ import androidx.webkit.WebViewClientCompat;
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.FragmentLocalWebViewBinding;
+import com.splunk.rum.demoApp.util.AppConstant;
+import com.splunk.rum.demoApp.util.PreferenceHelper;
+import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
 import com.splunk.rum.demoApp.view.base.fragment.BaseFragment;
 
@@ -33,8 +36,8 @@ import io.opentelemetry.api.common.Attributes;
  * create an instance of this fragment.
  */
 public class LocalWebViewFragment extends BaseFragment {
-    FragmentLocalWebViewBinding binding;
     private WebViewAssetLoader webViewAssetLoader;
+    private FragmentLocalWebViewBinding binding;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -119,12 +122,22 @@ public class LocalWebViewFragment extends BaseFragment {
 
         @JavascriptInterface
         public String getRumAccessToken() {
-            return context.getResources().getString(R.string.rum_access_token);
+            String token = PreferenceHelper.getValue(context, AppConstant.SharedPrefKey.TOKEN, String.class, "");
+            if (StringHelper.isEmpty(token) ) {
+                token = context.getResources().getString(R.string.rum_access_token);
+            }
+            return token;
         }
 
         @JavascriptInterface
         public String getRumRealm() {
-            return context.getResources().getString(R.string.rum_realm);
+            String realM = PreferenceHelper.getValue(context, AppConstant.SharedPrefKey.REAL_M,
+                    String.class, "");
+
+            if(StringHelper.isEmpty(realM)){
+                realM = context.getResources().getString(R.string.rum_realm);
+            }
+            return realM;
         }
     }
 }

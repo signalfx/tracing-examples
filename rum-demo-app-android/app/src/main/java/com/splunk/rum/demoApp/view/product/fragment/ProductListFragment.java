@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.FragmentProductListBinding;
-import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.model.entity.response.Product;
 import com.splunk.rum.demoApp.model.entity.response.ProductRoot;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
@@ -43,7 +43,7 @@ import okhttp3.ResponseBody;
  */
 public class ProductListFragment extends BaseFragment {
     FragmentProductListBinding binding;
-    private ArrayList<NewProduct> productDataList;
+    private ArrayList<Product> productDataList;
     private ProductViewModel productViewModel;
 
     public ProductListFragment() {
@@ -125,7 +125,7 @@ public class ProductListFragment extends BaseFragment {
     /**
      * @return List of products from json
      */
-    private ArrayList<NewProduct> generateProductList() {
+    private ArrayList<Product> generateProductList() {
         try {
             if (getActivity() != null && getActivity() instanceof BaseActivity) {
                 AssetManager assetManager = getActivity().getAssets();
@@ -142,7 +142,7 @@ public class ProductListFragment extends BaseFragment {
         return new ArrayList<>();
     }
 
-    public ArrayList<NewProduct> getProductList() {
+    public ArrayList<Product> getProductList() {
         return new ArrayList<>(productDataList);
     }
 

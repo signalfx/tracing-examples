@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <dimen name="save_button_height_50dp" tools:keep="@dimen/save_button_height_50dp">76dp</dimen>
-    <dimen name="size_minus_50dp">-85dp</dimen>
+    <dimen name="size_minus_50dp" tools:ignore="UnusedResources">-85dp</dimen>
     <dimen name="size_minus_8dp">-5dp</dimen>
     <dimen name="size_minus_12dp" tools:keep="@dimen/size_minus_12dp">-16dp</dimen>
     <dimen name="size_0.5dp">0.5dp</dimen>

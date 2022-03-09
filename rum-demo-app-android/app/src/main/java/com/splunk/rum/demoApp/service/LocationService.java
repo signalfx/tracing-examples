@@ -1,15 +1,13 @@
 package com.splunk.rum.demoApp.service;
 
 import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LONG;
-import static com.splunk.rum.demoApp.util.AppConstant.GLOBLAL_ATTR_LAT;
+import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LAT;
+import static com.splunk.rum.demoApp.util.AppUtils.getCountryName;
 
 import android.Manifest;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.IBinder;
 import android.os.Looper;
@@ -26,17 +24,12 @@ import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.util.AppConstant;
-import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.PreferenceHelper;
 import com.splunk.rum.demoApp.util.StringHelper;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 import io.opentelemetry.api.common.AttributeKey;
 
 public class LocationService extends Service {
-    private final String LOCATION_SERVICE = "LOCATION_SERVICE";
 
     @Override
     public void onCreate() {
@@ -73,37 +66,29 @@ public class LocationService extends Service {
             @Override
             public void onLocationResult(@NonNull LocationResult locationResult) {
                 Location location = locationResult.getLastLocation();
+                //noinspection ConstantConditions
                 if (location != null) {
                     Double lat = location.getLatitude();
                     Double lon = location.getLongitude();
-
+                    //noinspection ConstantConditions
                     if (lat != null && lon != null) {
-                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBLAL_ATTR_LAT), lat);
+                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LAT), lat);
                         RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
                         String name = getCountryName(LocationService.this, lat, lon);
-
-                        if (StringHelper.isNotEmpty(name)) {
-                            sendCountryToActivity(name);
+                        if(StringHelper.isEmpty(name)){
+                            PreferenceHelper.setValue(LocationService.this, AppConstant.SharedPrefKey.IS_COUNTRY_NAME_EMPTY,true);
+                            PreferenceHelper.setValue(LocationService.this, AppConstant.SharedPrefKey.LAT,String.valueOf(lat));
+                            PreferenceHelper.setValue(LocationService.this, AppConstant.SharedPrefKey.LNG,String.valueOf(lon));
+                        }else{
+                            PreferenceHelper.setValue(LocationService.this, AppConstant.SharedPrefKey.IS_COUNTRY_NAME_EMPTY,false);
+                            PreferenceHelper.setValue(LocationService.this, AppConstant.SharedPrefKey.LAT,String.valueOf(lat));
+                            PreferenceHelper.setValue(LocationService.this, AppConstant.SharedPrefKey.LNG,String.valueOf(lon));
                         }
+                        sendCountryToActivity(name);
                     }
                 }
             }
         }, Looper.myLooper());
-    }
-
-    private String getCountryName(Context context, double latitude, double longitude) {
-        Geocoder geocoder = new Geocoder(context, Locale.getDefault());
-        List<Address> addresses;
-        try {
-            addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            if (addresses != null && !addresses.isEmpty()) {
-                return addresses.get(0).getCountryName();
-            }
-            return null;
-        } catch (IOException ioException) {
-            AppUtils.handleRumException(ioException);
-        }
-        return null;
     }
 
     private void sendCountryToActivity(String countryName) {
@@ -111,4 +96,5 @@ public class LocationService extends Service {
         intent.putExtra(AppConstant.IntentKey.COUNTRY_NAME, countryName);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
     }
+
 }

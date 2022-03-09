@@ -20,7 +20,7 @@ import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.callback.ViewListener;
 import com.splunk.rum.demoApp.databinding.FragmentProductDetailsBinding;
-import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.model.entity.response.Product;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.ResourceProvider;
@@ -50,9 +50,9 @@ import okhttp3.ResponseBody;
 public class ProductDetailsFragment extends BaseFragment implements ViewListener {
 
     FragmentProductDetailsBinding binding;
-    private NewProduct productDetails;
-    private ArrayList<NewProduct> productList = new ArrayList<>();
-    private ArrayList<NewProduct> otherProductList = new ArrayList<>();
+    private Product productDetails;
+    private ArrayList<Product> productList = new ArrayList<>();
+    private ArrayList<Product> otherProductList = new ArrayList<>();
     private Context mContext;
     private ProductViewModel productViewModel;
     private EventViewModel eventViewModel;
@@ -70,7 +70,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
             productList = Parcels.unwrap(getArguments().getParcelable(AppConstant.IntentKey.PRODUCT_ARRAY));
 
             Collections.shuffle(productList);
-            for (NewProduct product : productList) {
+            for (Product product : productList) {
                 if (!product.getId().equalsIgnoreCase(productDetails.getId()) && otherProductList.size() < 4) {
                     otherProductList.add(product);
                 }
@@ -187,7 +187,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                 eventViewModel.generateHttpNotFound();
             } else if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
                     && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_5XX)) {
-                eventViewModel.generateHttpError();
+                eventViewModel.generateHttpError(productDetails.getId(),1);
             }
 
         };
@@ -200,18 +200,20 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
         return response -> {
             if (getActivity() instanceof MainActivity) {
                 Boolean isFromCart = ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().getValue();
-                if (!isFromCart) {
+                if (isFromCart != null && isFromCart) {
+                    ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().setValue(Boolean.FALSE);
+                } else {
                     if (productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_CRASH)
                             && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_CART)) {
                         throw new RuntimeException(getString(R.string.rum_event_app_crash));
                     }
-                    AppUtils.storeProductInCart(productDetails);
+                    AppUtils.storeProductInCart(getActivity(),productDetails);
                     if (getActivity() instanceof MainActivity
                             && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
                         BadgeDrawable badge = ((MainActivity) getActivity()).getBottomNavigationView().getOrCreateBadge(R.id.navigation_cart);
                         badge.setVisible(true);
                         int totalQty = 0;
-                        for (NewProduct product : AppUtils.getProductsFromPref().getProducts()) {
+                        for (Product product : AppUtils.getProductsFromPref(getActivity()).getProducts()) {
                             totalQty += product.getQuantity();
                         }
                         badge.setNumber(totalQty);
@@ -237,8 +239,6 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                             && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
                         ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_cart).setChecked(true);
                     }
-                } else {
-                    ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().setValue(Boolean.FALSE);
                 }
             }
         };
@@ -250,10 +250,6 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                     .placeholder(R.drawable.no_image_place_holder).centerCrop().into(binding.productImg);
         }
 
-    }
-
-    private int getImage(String imageName) {
-        return mContext.getResources().getIdentifier(imageName, "drawable", mContext.getPackageName());
     }
 
     private void setUpQuantitySpinner() {
@@ -301,7 +297,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
         binding.executePendingBindings();
     }
 
-    public List<NewProduct> getProductList() {
+    public List<Product> getProductList() {
         return productList;
     }
 
@@ -309,7 +305,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
         return productViewModel;
     }
 
-    public NewProduct getProductDetails() {
+    public Product getProductDetails() {
         return productDetails;
     }
 

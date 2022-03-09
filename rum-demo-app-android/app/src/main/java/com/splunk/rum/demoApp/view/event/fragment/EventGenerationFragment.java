@@ -14,7 +14,6 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.R;
-import com.splunk.rum.demoApp.callback.ViewListener;
 import com.splunk.rum.demoApp.databinding.FragmentEventGenerationBinding;
 import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.ResourceProvider;
@@ -32,10 +31,7 @@ import io.opentelemetry.api.trace.Span;
  * create an instance of this fragment.
  */
 public class EventGenerationFragment extends BaseFragment implements View.OnClickListener, LifecycleObserver {
-    FragmentEventGenerationBinding binding;
     private EventViewModel viewModel;
-    private ViewListener viewListener;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,7 +42,7 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        binding = FragmentEventGenerationBinding.inflate(inflater, container, false);
+        FragmentEventGenerationBinding binding = FragmentEventGenerationBinding.inflate(inflater, container, false);
         if (getActivity() != null && getActivity() instanceof BaseActivity &&
                 ((MainActivity) getActivity()).getBottomNavigationView() != null) {
             ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_events).setChecked(true);
@@ -112,7 +108,7 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
                 viewModel.generateHttpNotFound();
                 break;
             case R.id.btnHttpError:
-                viewModel.generateHttpError();
+                viewModel.generateHttpError("",0);
                 break;
             case R.id.btnShopWebView:
                 NavHostFragment.findNavController(EventGenerationFragment.this).navigate(R.id.action_navigation_events_to_navigation_shop_web_view);

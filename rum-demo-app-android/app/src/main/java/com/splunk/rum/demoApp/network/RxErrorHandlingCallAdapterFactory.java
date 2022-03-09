@@ -32,6 +32,7 @@ public class RxErrorHandlingCallAdapterFactory extends CallAdapter.Factory {
         return new RxCallAdapterWrapper<>(retrofit, mOriginalCallAdapterFactory.get(returnType, annotations, retrofit));
     }
 
+    @SuppressWarnings("rawtypes")
     private static class RxCallAdapterWrapper<R> implements CallAdapter<R, Observable<R>> {
         private final Retrofit mRetrofit;
         private final CallAdapter<R, ?> mWrappedCallAdapter;

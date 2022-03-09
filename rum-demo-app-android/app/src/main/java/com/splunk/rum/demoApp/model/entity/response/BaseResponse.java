@@ -2,7 +2,7 @@ package com.splunk.rum.demoApp.model.entity.response;
 
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public class BaseResponse {
     @SerializedName("IsSuccess")
     private boolean isSuccess;

@@ -40,8 +40,6 @@ public class SplashActivity extends BaseActivity {
 
         //eventViewModel.splashDummyApiCall();
 
-        new Handler().postDelayed(() -> {
-            moveActivity(mContext, URLConfigurationActivity.class, true, true);
-        }, AppConstant.SPLASH_SCREEN_DURATION);
+        new Handler().postDelayed(() -> moveActivity(mContext, URLConfigurationActivity.class, true, true), AppConstant.SPLASH_SCREEN_DURATION);
     }
 }

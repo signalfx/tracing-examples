@@ -17,7 +17,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.common.util.CollectionUtils;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.RowProductCartListBinding;
-import com.splunk.rum.demoApp.model.entity.response.NewProduct;
+import com.splunk.rum.demoApp.model.entity.response.Product;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
 import com.splunk.rum.demoApp.util.StringHelper;
@@ -26,15 +26,13 @@ import org.parceler.Parcels;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.List;
-
 
 public class CartProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context mContext;
-    private final ArrayList<NewProduct> productList = new ArrayList<>();
+    private final ArrayList<Product> productList = new ArrayList<>();
 
-    public CartProductListAdapter(Context context, ArrayList<NewProduct> productList) {
+    public CartProductListAdapter(Context context, ArrayList<Product> productList) {
         this.mContext = context;
         this.productList.addAll(productList);
     }
@@ -48,7 +46,7 @@ public class CartProductListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final NewProduct product = this.productList.get(position);
+        final Product product = this.productList.get(position);
 
         double price = product.getPriceUsd().getPrice() * product.getQuantity();
         String formattedPrice = new DecimalFormat("##.##").format(price);
@@ -81,7 +79,7 @@ public class CartProductListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         private final RowProductCartListBinding binding;
 
-        public void getData(NewProduct product) {
+        public void getData(Product product) {
             binding.setProduct(product);
         }
 
@@ -101,9 +99,5 @@ public class CartProductListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             productList.clear();
             notifyDataSetChanged();
         }
-    }
-
-    public List<NewProduct> getProductList() {
-        return productList;
     }
 }

@@ -2,84 +2,218 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
-        android:id="@+id/main_activity_container"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/main_activity_container"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.60"
+            android:layout_height="wrap_content"
             android:background="@color/primary"
-            android:gravity="center">
+            android:orientation="vertical"
+            android:weightSum="3">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="@dimen/size_168dp"
-                android:layout_height="@dimen/size_168dp"
-                app:srcCompat="@drawable/hipster_logo" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/parentViewMediumPadding"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="@dimen/size_minus_50dp"
-            android:layout_weight="1"
-            android:background="@drawable/rounded_bg"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/extraLargeTextViewStyle"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_marginTop="@dimen/size_5dp"
-                android:gravity="center"
-                android:letterSpacing="0.1"
-                android:text="@string/title_url_configuration"
-                android:textColor="@color/primary"
-                android:textStyle="bold" />
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:gravity="center">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/urlTextField"
-                style="@style/textInputLayoutStyle"
-                android:layout_marginTop="@dimen/size_15dp"
-                android:hint="@string/hint_url"
-                app:errorEnabled="true">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/size_130dp"
+                    android:layout_height="@dimen/size_130dp"
+                    app:srcCompat="@drawable/hipster_logo" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/edtUrl"
-                    style="@style/textInputEditTextStyle"
-                    android:drawableStart="@mipmap/ic_web"
-                    android:drawablePadding="@dimen/size_5dp"
-                    android:inputType="textUri"
-                    android:maxLength="100"
-                    android:maxLines="1"
-                    android:text="@string/https" />
+            </LinearLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
+            <LinearLayout
+                style="@style/parentViewMediumPadding"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.5"
+                android:background="@drawable/rounded_bg"
+                android:orientation="vertical">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/extraLargeTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/size_5dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.1"
+                    android:text="@string/title_url_configuration"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/urlTextField"
+                    style="@style/textInputLayoutStyle"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:hint="@string/hint_url"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtUrl"
+                        style="@style/textInputEditTextStyle"
+                        android:drawableStart="@mipmap/ic_web"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:inputType="textUri"
+                        android:maxLength="100"
+                        android:maxLines="1"
+                        android:text="@string/https" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <RelativeLayout
+                    android:id="@+id/real_m_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/size_54dp"
+                    android:background="@drawable/border_white_layout">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/size_15dp"
+                        android:src="@mipmap/ic_real_m"/>
+
+                    <TextView
+                        android:id="@+id/txtRealm"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/size_10dp"
+                        android:layout_toLeftOf="@+id/view"
+                        android:layout_toRightOf="@+id/icon"
+                        android:gravity="center_vertical"
+                        android:letterSpacing="0.3"
+                        android:text="@string/lbl_real_m"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:id="@+id/view"
+                        android:layout_width="@dimen/size_1dp"
+                        android:layout_height="match_parent"
+                        android:layout_toLeftOf="@+id/dropdown_layout"
+                        android:background="@color/bright_grey" />
+
+                    <LinearLayout
+                        android:id="@+id/dropdown_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentEnd="true"
+                        android:gravity="center"
+                        android:paddingLeft="@dimen/size_10dp"
+                        android:paddingRight="@dimen/size_10dp">
+
+                        <Spinner
+                            android:id="@+id/real_m_spinner"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@android:color/transparent"
+                            android:backgroundTint="@color/grey" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/spinner_arrow"
+                            android:layout_width="@dimen/size_25dp"
+                            android:layout_height="@dimen/size_25dp"
+                            android:layout_gravity="center"
+                            app:srcCompat="@drawable/ic_baseline_keyboard_arrow_down_24" />
+                    </LinearLayout>
+
+                </RelativeLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/appNameTextField"
+                    style="@style/textInputLayoutStyle"
+                    android:layout_marginTop="@dimen/size_16dp"
+                    android:hint="@string/hint_app_name"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtAppName"
+                        style="@style/textInputEditTextStyle"
+                        android:drawableStart="@mipmap/ic_app"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tokenTextField"
+                    style="@style/textInputLayoutStyle"
+                    android:hint="@string/hint_token"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtToken"
+                        style="@style/textInputEditTextStyle"
+                        android:drawableStart="@mipmap/ic_token"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/environmentTextField"
+                    style="@style/textInputLayoutStyle"
+                    android:hint="@string/hint_environment"
+                    app:errorEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/edtEnvironment"
+                        style="@style/textInputEditTextStyle"
+                        android:drawableStart="@mipmap/ic_environment"
+                        android:drawablePadding="@dimen/size_5dp"
+                        android:inputType="text"
+                        android:maxLength="30"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:paddingBottom="@dimen/size_20dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnSubmit"
+                        style="@style/primaryButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_marginEnd="@dimen/size_15dp"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:enabled="false"
+                        android:text="@string/btn_submit"
+                        android:textSize="@dimen/text_size_9sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnLogin"
+                        style="@style/primaryButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/size_15dp"
+                        android:layout_weight="1"
+                        android:clickable="false"
+                        android:enabled="false"
+                        android:text="@string/btn_login"
+                        android:textSize="@dimen/text_size_9sp" />
+
+                </LinearLayout>
 
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnSubmit"
-                style="@style/primaryButtonStyle"
-                android:layout_marginTop="@dimen/size_15dp"
-                android:clickable="false"
-                android:enabled="false"
-                android:text="@string/btn_submit" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogin"
-                style="@style/primaryButtonStyle"
-                android:layout_marginTop="@dimen/size_20dp"
-                android:clickable="false"
-                android:enabled="false"
-                android:text="@string/btn_login" />
+            </LinearLayout>
 
         </LinearLayout>
 
-    </LinearLayout>
+    </ScrollView>
 
 </layout>
 

@@ -5,7 +5,7 @@
 
         <variable
             name="product"
-            type="com.splunk.rum.demoApp.model.entity.response.NewProduct" />
+            type="com.splunk.rum.demoApp.model.entity.response.Product" />
     </data>
 
     <RelativeLayout

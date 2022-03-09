@@ -16,14 +16,17 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.maps.android.PolyUtil;
 import com.splunk.rum.SplunkRum;
 import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.databinding.ActivityCheckOutBinding;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
+import com.splunk.rum.demoApp.util.PreferenceHelper;
 import com.splunk.rum.demoApp.util.ResourceProvider;
 import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.util.ValidationUtil;
@@ -34,6 +37,7 @@ import com.splunk.rum.demoApp.view.order.activity.OrderDetailActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Objects;
 
 import io.opentelemetry.api.trace.Span;
@@ -66,6 +70,8 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
         setupToolbar(true);
         createListOfComponent();
 
+        checkCountryNameIsEmpty();
+
         //Click Listener
         binding.edtYear.setOnClickListener(this);
         binding.edtMonth.setOnClickListener(this);
@@ -84,6 +90,7 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
         checkoutViewModel.getBaseResponse()
                 .observe(this,
                         handleResponse());
+
 
         binding.btnPlaceOrder.setOnClickListener(view -> {
             boolean isFormValid = false;
@@ -203,9 +210,37 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
             String name = intent.getStringExtra(AppConstant.IntentKey.COUNTRY_NAME);
             if (StringHelper.isNotEmpty(name)) {
                 setCountryName(name);
+            } else if (StringHelper.isEmpty(getCountryName())) {
+                checkCountryNameIsEmpty();
             }
         }
     };
+
+    /**
+     * Check country name is set null from location service and based on check country is france or not
+     */
+    private void checkCountryNameIsEmpty() {
+        Boolean isCountryNameEmpty = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.IS_COUNTRY_NAME_EMPTY,
+                Boolean.class, false);
+        if (isCountryNameEmpty) {
+            String lat = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.LAT,
+                    String.class, "");
+            String lon = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.LNG,
+                    String.class, "");
+            if (StringHelper.isNotEmpty(lat) && StringHelper.isNotEmpty(lon)) {
+                LatLng latLng = new LatLng(Double.parseDouble(lat), Double.parseDouble(lon));
+                List<LatLng> latLngList = new ArrayList<>();
+                latLngList.add(AppConstant.PolygonPoint.POINT_1);
+                latLngList.add(AppConstant.PolygonPoint.POINT_2);
+                latLngList.add(AppConstant.PolygonPoint.POINT_3);
+                latLngList.add(AppConstant.PolygonPoint.POINT_4);
+                latLngList.add(AppConstant.PolygonPoint.POINT_5);
+                boolean isCoordinateInPolygon = PolyUtil.containsLocation(latLng, latLngList, true);
+                if (isCoordinateInPolygon) setCountryName(BuildConfig.COUNTRY_NAME_FRANCE);
+            }
+        }
+    }
+
 
     /**
      * @return Handle checkout API Response

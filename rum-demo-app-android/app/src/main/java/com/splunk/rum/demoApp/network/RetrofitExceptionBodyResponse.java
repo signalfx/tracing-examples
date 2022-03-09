@@ -1,6 +1,6 @@
 package com.splunk.rum.demoApp.network;
 
-@SuppressWarnings("unused")
+@SuppressWarnings("ALL")
 public class RetrofitExceptionBodyResponse {
     private long timestamp;
     private int status;

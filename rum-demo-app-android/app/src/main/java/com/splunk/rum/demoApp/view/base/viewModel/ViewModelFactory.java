@@ -10,7 +10,7 @@ import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
 import com.splunk.rum.demoApp.view.home.viewModel.MainViewModel;
 import com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel;
 
-public class ViewModelFactory extends ViewModelProvider.NewInstanceFactory {
+public class ViewModelFactory implements ViewModelProvider.Factory {
     private final ResourceProvider resourceProvider;
 
 
