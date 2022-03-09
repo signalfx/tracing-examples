@@ -25,7 +25,6 @@ class ValidationView: UIView {
     
     func showError(isError: Bool) {
         
-//        self.shadowRadiusView = 4
         if isError {
             let errorColor = UIColor.rgb(red: 219, green: 60, blue: 38, alpha: 1)
             self.borderColorView = errorColor
@@ -35,14 +34,12 @@ class ValidationView: UIView {
         else {
             self.borderColorView = UIColor.rgb(red: 223, green: 232, blue: 247, alpha: 1)
             messageLabel.text = normalMessage
-          //  messageLabel.textColor = UIColor.rgb(red: 0, green: 44, blue: 86, alpha: 1)
             messageLabel.textColor = UIColor.rgb(red: 0, green: 0, blue: 0, alpha: 1)
         }
     }
     
     func showErrorWithCustomMessage(message: String)
     {
-//        self.shadowRadiusView = 4
         let errorColor = UIColor.rgb(red: 219, green: 60, blue: 38, alpha: 1)
         self.borderColorView = errorColor
         messageLabel.text = message
@@ -50,11 +47,8 @@ class ValidationView: UIView {
     }
     
     func showFocused() {
-        
-//        self.shadowRadiusView = 4
         self.borderColorView = UIColor.rgb(red: 37, green: 216, blue: 253, alpha: 1)
         messageLabel.text = normalMessage
-       // messageLabel.textColor = UIColor.rgb(red: 0, green: 44, blue: 86, alpha: 1)
         messageLabel.textColor = UIColor.rgb(red: 0, green: 0, blue: 0, alpha: 1)
     }
 }

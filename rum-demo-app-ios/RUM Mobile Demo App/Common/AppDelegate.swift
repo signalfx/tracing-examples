@@ -61,8 +61,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             SplunkRumCrashReporting.start()
             SplunkRum.setGlobalAttributes(["DeviceID": UIDevice.current.identifierForVendor?.uuidString as Any])
-            //https://ingest.us1.signalfx.com  -- realm URL
-            //https://rum-ingest.us0.signalfx.com/v1/rum  -- default
         
        
         
@@ -155,7 +153,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 extension AppDelegate : CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        //print("LOGGED =>> LOCATION METHOD")
         _ = CLLocation(latitude: (manager.location?.coordinate.latitude) ?? 0 , longitude: (manager.location?.coordinate.longitude) ?? 0)
         
         guard let  coord = manager.location?.coordinate else {
@@ -171,15 +168,12 @@ extension AppDelegate : CLLocationManagerDelegate{
         
         locationObj.stopUpdatingLocation()
         RumEventHelper.shared.handleLocationBasedAPICall()
-        //print("LOGGED =>> LOCATION: \(coordinate.latitude) & \(coordinate.longitude)")
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("LocationManager didFailWithError \(error.localizedDescription)")
            if let error = error as? CLError, error.code == .denied {
               // Location updates are not authorized.
-             // To prevent forever looping of `didFailWithError` callback
-               //locationObj.stopMonitoringSignificantLocationChanges()
               return
            }
     }
@@ -189,20 +183,7 @@ extension AppDelegate : CLLocationManagerDelegate{
             locationObj.requestLocation()
         }
         else if status == .denied{
-            //ask user to go to setting and enable location permission
-            
-            /*let actionCancel = PCLBlurEffectAlertAction(title: "Cancel".localized(), style: .default) {_ in }
-            let actionSettings = PCLBlurEffectAlertAction(title: "Settings".localized(), style: .default) {_ in
-                guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
-                    return
-                }
-                if UIApplication.shared.canOpenURL(settingsUrl) {
-                    UIApplication.shared.open(settingsUrl, completionHandler: { (success) in })
-                 }
-            }
-           
-            window?.rootViewController?.showAlertMessage(title: StringConstants.alertTitle, message: StringConstants.gotoSettingMsg, handlers: [actionCancel,actionSettings])*/
-             
+            //User denied the location permission
         }
     }
 }

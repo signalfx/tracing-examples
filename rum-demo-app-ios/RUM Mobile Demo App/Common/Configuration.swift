@@ -48,9 +48,6 @@ class Configuration : NSObject{
         }
     }
     
-    //MARK: - RUM URL
-    //    var rumURL = "https://app.us1.signalfx.com"//"ENTER_YOUR_RUM_URL"
-    
     // MARK: - Font Scheme
     let fontNameLight = "Roboto-Light"
     let fontNameThin = "Roboto-Thin"

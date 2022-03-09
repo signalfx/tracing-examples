@@ -31,7 +31,6 @@ class DataService{
             guard let url = URL.init(string: urlString) else {return}
             var request = URLRequest.init(url: url)
             request.timeoutInterval = 60.0
-            //        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
             request.httpMethod = method
             
             if let bodyParameters = params {    
