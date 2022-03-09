@@ -1,0 +1,160 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "DeviceKit",
+        "repositoryURL": "https://github.com/devicekit/DeviceKit.git",
+        "state": {
+          "branch": null,
+          "revision": "da57c444cbb7b6159aa871534d4cf2616d1d55c6",
+          "version": "4.5.2"
+        }
+      },
+      {
+        "package": "grpc-swift",
+        "repositoryURL": "https://github.com/grpc/grpc-swift.git",
+        "state": {
+          "branch": null,
+          "revision": "d7961746769616d0b81bda771de5648ebfa1abf9",
+          "version": "1.7.1"
+        }
+      },
+      {
+        "package": "opentelemetry-swift",
+        "repositoryURL": "https://github.com/open-telemetry/opentelemetry-swift",
+        "state": {
+          "branch": null,
+          "revision": "0b391683832a172bcb92dda69718d8f44b1adaf9",
+          "version": "1.1.2"
+        }
+      },
+      {
+        "package": "Opentracing",
+        "repositoryURL": "https://github.com/undefinedlabs/opentracing-objc",
+        "state": {
+          "branch": null,
+          "revision": "18c1a35ca966236cee0c5a714a51a73ff33384c1",
+          "version": "0.5.2"
+        }
+      },
+      {
+        "package": "PLCrashReporter",
+        "repositoryURL": "https://github.com/microsoft/plcrashreporter",
+        "state": {
+          "branch": null,
+          "revision": "6b27393cad517c067dceea85fadf050e70c4ceaa",
+          "version": "1.10.1"
+        }
+      },
+      {
+        "package": "SplunkOtel",
+        "repositoryURL": "https://github.com/signalfx/splunk-otel-ios/",
+        "state": {
+          "branch": null,
+          "revision": "46432b45612643f12cddb3aca634fd8bf33ce49d",
+          "version": "0.5.3"
+        }
+      },
+      {
+        "package": "SplunkOtelCrashReporting",
+        "repositoryURL": "https://github.com/signalfx/splunk-otel-ios-crashreporting",
+        "state": {
+          "branch": "main",
+          "revision": "0a655d817391a1a4a13595b5593eb1bfbd44b59c",
+          "version": null
+        }
+      },
+      {
+        "package": "swift-atomics",
+        "repositoryURL": "https://github.com/apple/swift-atomics.git",
+        "state": {
+          "branch": null,
+          "revision": "919eb1d83e02121cdb434c7bfc1f0c66ef17febe",
+          "version": "1.0.2"
+        }
+      },
+      {
+        "package": "swift-log",
+        "repositoryURL": "https://github.com/apple/swift-log.git",
+        "state": {
+          "branch": null,
+          "revision": "5d66f7ba25daf4f94100e7022febf3c75e37a6c7",
+          "version": "1.4.2"
+        }
+      },
+      {
+        "package": "swift-metrics",
+        "repositoryURL": "https://github.com/apple/swift-metrics.git",
+        "state": {
+          "branch": null,
+          "revision": "3edd2f57afc4e68e23c3e4956bc8b65ca6b5b2ff",
+          "version": "2.2.0"
+        }
+      },
+      {
+        "package": "swift-nio",
+        "repositoryURL": "https://github.com/apple/swift-nio.git",
+        "state": {
+          "branch": null,
+          "revision": "154f1d32366449dcccf6375a173adf4ed2a74429",
+          "version": "2.38.0"
+        }
+      },
+      {
+        "package": "swift-nio-extras",
+        "repositoryURL": "https://github.com/apple/swift-nio-extras.git",
+        "state": {
+          "branch": null,
+          "revision": "f73ca5ee9c6806800243f1ac415fcf82de9a4c91",
+          "version": "1.10.2"
+        }
+      },
+      {
+        "package": "swift-nio-http2",
+        "repositoryURL": "https://github.com/apple/swift-nio-http2.git",
+        "state": {
+          "branch": null,
+          "revision": "000ca94f9de92c95b9ac85d44600b7b0fe25a3e5",
+          "version": "1.19.2"
+        }
+      },
+      {
+        "package": "swift-nio-ssl",
+        "repositoryURL": "https://github.com/apple/swift-nio-ssl.git",
+        "state": {
+          "branch": null,
+          "revision": "52a486ff6de9bc3e26bf634c5413c41c5fa89ca5",
+          "version": "2.17.2"
+        }
+      },
+      {
+        "package": "swift-nio-transport-services",
+        "repositoryURL": "https://github.com/apple/swift-nio-transport-services.git",
+        "state": {
+          "branch": null,
+          "revision": "8ab824b140d0ebcd87e9149266ddc353e3705a3e",
+          "version": "1.11.4"
+        }
+      },
+      {
+        "package": "SwiftProtobuf",
+        "repositoryURL": "https://github.com/apple/swift-protobuf.git",
+        "state": {
+          "branch": null,
+          "revision": "7e2c5f3cbbeea68e004915e3a8961e20bd11d824",
+          "version": "1.18.0"
+        }
+      },
+      {
+        "package": "Thrift",
+        "repositoryURL": "https://github.com/undefinedlabs/Thrift-Swift",
+        "state": {
+          "branch": null,
+          "revision": "18ff09e6b30e589ed38f90a1af23e193b8ecef8e",
+          "version": "1.1.2"
+        }
+      }
+    ]
+  },
+  "version": 1
+}

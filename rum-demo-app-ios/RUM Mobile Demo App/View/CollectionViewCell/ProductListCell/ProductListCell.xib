@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+        <array key="Roboto-Regular.ttf">
+            <string>Roboto-Regular</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductListCell" id="2nB-5s-etP" customClass="ProductListCell" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="230"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="0uj-4J-Pgj">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="230"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pgy-y3-jGa">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="230"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="749" translatesAutoresizingMaskIntoConstraints="NO" id="65y-5J-LRL">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="167"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M6p-DY-F4s">
+                                <rect key="frame" x="8" y="178" width="184" height="15.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="13"/>
+                                <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Oma-Bj-Lvw">
+                                <rect key="frame" x="8" y="204.5" width="184" height="15.5"/>
+                                <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="13"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="65y-5J-LRL" secondAttribute="trailing" id="0Ah-qU-Z3a"/>
+                            <constraint firstAttribute="bottom" secondItem="Oma-Bj-Lvw" secondAttribute="bottom" constant="10" id="0xd-CV-4IQ"/>
+                            <constraint firstItem="65y-5J-LRL" firstAttribute="leading" secondItem="pgy-y3-jGa" secondAttribute="leading" id="1WM-LU-PeS"/>
+                            <constraint firstItem="65y-5J-LRL" firstAttribute="top" secondItem="pgy-y3-jGa" secondAttribute="top" id="9Ir-jJ-6YV"/>
+                            <constraint firstItem="M6p-DY-F4s" firstAttribute="top" secondItem="65y-5J-LRL" secondAttribute="bottom" constant="11" id="CwG-hC-PKL"/>
+                            <constraint firstAttribute="trailing" secondItem="M6p-DY-F4s" secondAttribute="trailing" constant="8" id="R8S-fA-xVS"/>
+                            <constraint firstItem="Oma-Bj-Lvw" firstAttribute="top" secondItem="M6p-DY-F4s" secondAttribute="bottom" constant="11" id="jgr-xb-TCZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Oma-Bj-Lvw" secondAttribute="trailing" constant="8" id="pdD-UE-dbv"/>
+                            <constraint firstItem="M6p-DY-F4s" firstAttribute="leading" secondItem="pgy-y3-jGa" secondAttribute="leading" constant="8" id="raw-x6-8By"/>
+                            <constraint firstItem="Oma-Bj-Lvw" firstAttribute="leading" secondItem="pgy-y3-jGa" secondAttribute="leading" constant="8" id="u5J-Sq-zz4"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="pgy-y3-jGa" firstAttribute="top" secondItem="0uj-4J-Pgj" secondAttribute="top" id="KvI-Jg-wdI"/>
+                    <constraint firstAttribute="bottom" secondItem="pgy-y3-jGa" secondAttribute="bottom" id="gjS-qH-wKO"/>
+                    <constraint firstItem="pgy-y3-jGa" firstAttribute="leading" secondItem="0uj-4J-Pgj" secondAttribute="leading" id="ka9-hM-xcc"/>
+                    <constraint firstAttribute="trailing" secondItem="pgy-y3-jGa" secondAttribute="trailing" id="lRe-jW-FkP"/>
+                </constraints>
+            </collectionViewCellContentView>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <size key="customSize" width="199" height="232"/>
+            <connections>
+                <outlet property="lblName" destination="M6p-DY-F4s" id="S1n-Ur-j59"/>
+                <outlet property="lblPrice" destination="Oma-Bj-Lvw" id="eOV-PU-LD1"/>
+                <outlet property="productImage" destination="65y-5J-LRL" id="qgf-TF-n56"/>
+            </connections>
+            <point key="canvasLocation" x="176.81159420289856" y="64.955357142857139"/>
+        </collectionViewCell>
+    </objects>
+</document>

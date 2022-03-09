@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19162" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Roboto-Medium.ttf">
+            <string>Roboto-Medium</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductListHeaderCell" id="J7r-48-LmH" customClass="ProductListHeaderCell" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="390" height="305"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lwo-Sf-TEi">
+                    <rect key="frame" x="0.0" y="44" width="390" height="261"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QhW-yp-OjI">
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="160.5"/>
+                            <subviews>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="HeroBannerImage2" translatesAutoresizingMaskIntoConstraints="NO" id="ELE-Qc-r2H">
+                                    <rect key="frame" x="0.0" y="0.0" width="390" height="160.5"/>
+                                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </imageView>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Hipster_HeroLogo" translatesAutoresizingMaskIntoConstraints="NO" id="yXs-wH-mUC">
+                                    <rect key="frame" x="137.5" y="-41.5" width="115" height="244"/>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="yXs-wH-mUC" firstAttribute="centerY" secondItem="QhW-yp-OjI" secondAttribute="centerY" id="8au-3Q-hwq"/>
+                                <constraint firstItem="ELE-Qc-r2H" firstAttribute="top" secondItem="QhW-yp-OjI" secondAttribute="top" id="AbZ-GZ-FPq"/>
+                                <constraint firstItem="yXs-wH-mUC" firstAttribute="centerX" secondItem="QhW-yp-OjI" secondAttribute="centerX" id="G96-aE-91J"/>
+                                <constraint firstItem="ELE-Qc-r2H" firstAttribute="leading" secondItem="QhW-yp-OjI" secondAttribute="leading" id="Lf6-yF-gVv"/>
+                                <constraint firstItem="yXs-wH-mUC" firstAttribute="leading" secondItem="QhW-yp-OjI" secondAttribute="leading" constant="137.5" id="QZt-15-Zci"/>
+                                <constraint firstAttribute="trailing" secondItem="ELE-Qc-r2H" secondAttribute="trailing" id="Vye-KD-WsS"/>
+                                <constraint firstAttribute="bottom" secondItem="ELE-Qc-r2H" secondAttribute="bottom" id="i1a-aO-Siv"/>
+                                <constraint firstAttribute="trailing" secondItem="yXs-wH-mUC" secondAttribute="trailing" constant="137.5" id="ijN-VC-Yfy"/>
+                            </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k0I-HZ-aRH">
+                            <rect key="frame" x="0.0" y="160.5" width="390" height="89.5"/>
+                            <subviews>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Free shipping with $75 purchase!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j1n-ky-kHf">
+                                    <rect key="frame" x="0.0" y="3" width="390" height="16"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="fontDescription" name="Roboto-Medium" family="Roboto" pointSize="13"/>
+                                    <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Hipster_HotProducts" translatesAutoresizingMaskIntoConstraints="NO" id="mAb-RD-ApF">
+                                    <rect key="frame" x="81.5" y="31" width="227" height="50"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="50" id="PsE-RE-ShA"/>
+                                    </constraints>
+                                </imageView>
+                            </subviews>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="mAb-RD-ApF" firstAttribute="centerX" secondItem="k0I-HZ-aRH" secondAttribute="centerX" id="2WJ-mN-8aZ"/>
+                                <constraint firstAttribute="trailing" secondItem="j1n-ky-kHf" secondAttribute="trailing" id="YIg-dA-LVv"/>
+                                <constraint firstAttribute="height" constant="89.5" id="ajV-Y0-rWc"/>
+                                <constraint firstItem="j1n-ky-kHf" firstAttribute="top" secondItem="k0I-HZ-aRH" secondAttribute="top" constant="3" id="e7e-9k-Q6F"/>
+                                <constraint firstAttribute="bottom" secondItem="mAb-RD-ApF" secondAttribute="bottom" constant="8.5" id="ewh-ea-02X"/>
+                                <constraint firstItem="j1n-ky-kHf" firstAttribute="leading" secondItem="k0I-HZ-aRH" secondAttribute="leading" id="wGH-ZV-hsF"/>
+                                <constraint firstItem="mAb-RD-ApF" firstAttribute="top" secondItem="j1n-ky-kHf" secondAttribute="bottom" constant="12" id="zgw-yh-Bpi"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="k0I-HZ-aRH" secondAttribute="bottom" constant="11" id="0vs-Np-S3S"/>
+                        <constraint firstAttribute="trailing" secondItem="QhW-yp-OjI" secondAttribute="trailing" id="1q2-Cj-H2J"/>
+                        <constraint firstItem="k0I-HZ-aRH" firstAttribute="top" secondItem="QhW-yp-OjI" secondAttribute="bottom" id="44p-YK-EtT"/>
+                        <constraint firstItem="QhW-yp-OjI" firstAttribute="top" secondItem="lwo-Sf-TEi" secondAttribute="top" id="F4X-3M-iiD"/>
+                        <constraint firstItem="QhW-yp-OjI" firstAttribute="leading" secondItem="lwo-Sf-TEi" secondAttribute="leading" id="JCP-Fz-VBO"/>
+                        <constraint firstAttribute="trailing" secondItem="k0I-HZ-aRH" secondAttribute="trailing" id="ldU-UC-fd4"/>
+                        <constraint firstItem="k0I-HZ-aRH" firstAttribute="leading" secondItem="lwo-Sf-TEi" secondAttribute="leading" id="mIf-5C-QY2"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="Ek9-L0-p8q"/>
+            <color key="backgroundColor" red="0.94901960780000005" green="0.94509803920000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="Ek9-L0-p8q" firstAttribute="bottom" secondItem="lwo-Sf-TEi" secondAttribute="bottom" id="8eC-4D-gZb"/>
+                <constraint firstItem="Ek9-L0-p8q" firstAttribute="trailing" secondItem="lwo-Sf-TEi" secondAttribute="trailing" id="Mud-S8-IWZ"/>
+                <constraint firstItem="lwo-Sf-TEi" firstAttribute="top" secondItem="Ek9-L0-p8q" secondAttribute="top" id="fVo-yu-hFy"/>
+                <constraint firstItem="lwo-Sf-TEi" firstAttribute="leading" secondItem="Ek9-L0-p8q" secondAttribute="leading" id="gxO-23-XW0"/>
+            </constraints>
+            <connections>
+                <outlet property="lblShipping" destination="j1n-ky-kHf" id="DDV-NG-nKP"/>
+            </connections>
+            <point key="canvasLocation" x="228.98550724637684" y="-73.660714285714278"/>
+        </collectionReusableView>
+    </objects>
+    <resources>
+        <image name="HeroBannerImage2" width="1680" height="319"/>
+        <image name="Hipster_HeroLogo" width="325" height="244"/>
+        <image name="Hipster_HotProducts" width="227" height="144"/>
+    </resources>
+</document>

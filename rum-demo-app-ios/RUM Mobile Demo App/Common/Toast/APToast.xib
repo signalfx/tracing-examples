@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="APToast" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="403" height="85"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gxR-qr-PbG">
+                    <rect key="frame" x="151.5" y="25" width="100" height="35.5"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" text="Hello there!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dJS-bD-9JE">
+                            <rect key="frame" x="8" y="8" width="84" height="19.5"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" white="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="dJS-bD-9JE" secondAttribute="bottom" constant="8" id="5GP-T4-Kmd"/>
+                        <constraint firstItem="dJS-bD-9JE" firstAttribute="leading" secondItem="gxR-qr-PbG" secondAttribute="leading" constant="8" id="BeV-zE-hg3"/>
+                        <constraint firstItem="dJS-bD-9JE" firstAttribute="top" secondItem="gxR-qr-PbG" secondAttribute="top" constant="8" id="HN1-3O-153"/>
+                        <constraint firstAttribute="trailing" secondItem="dJS-bD-9JE" secondAttribute="trailing" constant="8" id="lhZ-6d-bPP"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="gxR-qr-PbG" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Cax-oD-TlK"/>
+                <constraint firstItem="gxR-qr-PbG" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="20" id="DI1-xu-orZ"/>
+                <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="gxR-qr-PbG" secondAttribute="bottom" constant="10" id="FcA-Jf-LkP"/>
+                <constraint firstItem="gxR-qr-PbG" firstAttribute="top" relation="greaterThanOrEqual" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="GIA-a5-CEv"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="gxR-qr-PbG" secondAttribute="trailing" constant="20" id="Wv2-oC-ObQ"/>
+                <constraint firstItem="gxR-qr-PbG" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="hHa-IV-IOv"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="lblMessage" destination="dJS-bD-9JE" id="ckE-nP-Lz7"/>
+                <outlet property="viewContainer" destination="gxR-qr-PbG" id="jhc-2g-qgo"/>
+            </connections>
+            <point key="canvasLocation" x="100.72463768115942" y="-123.54910714285714"/>
+        </view>
+    </objects>
+</document>

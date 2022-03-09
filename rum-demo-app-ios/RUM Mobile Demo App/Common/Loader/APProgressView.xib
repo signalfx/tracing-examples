@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="DBU-31-vfq" customClass="APProgressView" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="We2-hC-Gsx" customClass="ViewCornerRadiusWithBorder" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+                    <rect key="frame" x="145" y="366" width="124" height="124"/>
+                    <subviews>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="qDK-Js-cDl">
+                            <rect key="frame" x="20" y="25" width="84" height="74"/>
+                            <subviews>
+                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="ML2-yC-YCc">
+                                    <rect key="frame" x="23.5" y="0.0" width="37" height="37"/>
+                                    <color key="color" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </activityIndicatorView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="251" text="Loading..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T5h-9S-Tym">
+                                    <rect key="frame" x="10.5" y="57" width="63.5" height="17"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
+                    </subviews>
+                    <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="qDK-Js-cDl" firstAttribute="centerY" secondItem="We2-hC-Gsx" secondAttribute="centerY" id="OL5-BI-gD0"/>
+                        <constraint firstAttribute="width" secondItem="We2-hC-Gsx" secondAttribute="height" multiplier="1:1" id="RnH-q4-H0g"/>
+                        <constraint firstItem="qDK-Js-cDl" firstAttribute="top" secondItem="We2-hC-Gsx" secondAttribute="top" constant="25" id="fMD-8Y-1Sj"/>
+                        <constraint firstItem="qDK-Js-cDl" firstAttribute="leading" secondItem="We2-hC-Gsx" secondAttribute="leading" constant="20" id="nbJ-Oh-Z3O"/>
+                        <constraint firstAttribute="bottom" secondItem="qDK-Js-cDl" secondAttribute="bottom" constant="25" id="qjo-cd-UOS"/>
+                        <constraint firstAttribute="trailing" secondItem="qDK-Js-cDl" secondAttribute="trailing" constant="20" id="skL-6i-gmi"/>
+                    </constraints>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="10"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="p5C-Jn-KYH"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="We2-hC-Gsx" firstAttribute="centerY" secondItem="DBU-31-vfq" secondAttribute="centerY" constant="-20" id="Hb3-1l-tNn"/>
+                <constraint firstItem="We2-hC-Gsx" firstAttribute="centerX" secondItem="DBU-31-vfq" secondAttribute="centerX" id="cFo-jT-nLY"/>
+            </constraints>
+            <connections>
+                <outlet property="activityLoader" destination="ML2-yC-YCc" id="DDG-0D-HDE"/>
+                <outlet property="lblLoading" destination="T5h-9S-Tym" id="C4f-Jg-JjG"/>
+                <outlet property="viewLoaderContainer" destination="We2-hC-Gsx" id="l5G-9S-Q6l"/>
+            </connections>
+            <point key="canvasLocation" x="-216" y="-219"/>
+        </view>
+    </objects>
+</document>
