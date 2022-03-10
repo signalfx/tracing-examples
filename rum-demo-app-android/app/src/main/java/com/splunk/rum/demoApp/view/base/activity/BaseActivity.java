@@ -160,6 +160,7 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
 
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
+        hideProgress();
         if(errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)){
             isSalesTax = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.new_sales_tax));
             AlertDialogHelper.showDialog(this, null, this.getString(R.string.error_network)

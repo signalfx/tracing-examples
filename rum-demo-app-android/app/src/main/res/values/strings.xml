@@ -26,14 +26,12 @@
 
     <string name="https">https://</string>
     <string name="lbl_real_m">realm</string>
-    <string-array name="realm">
-        <item>us0</item>
-        <item tools:ignore="Typos">us1</item>
-        <item>us2</item>
-        <item>eu0</item>
-        <item>lab0</item>
-        <item>rc0</item>
-    </string-array>
+    <string name="real_m_us0">us0</string>
+    <string name="real_m_us1" tools:ignore="Typos">us1</string>
+    <string name="real_m_us2">us2</string>
+    <string name="real_m_eu0">eu0</string>
+    <string name="real_m_lab0">lab0</string>
+    <string name="real_m_rc0">rc0</string>
     <!--   END URL CONFIGURATION     -->
 
     <!--   PRODUCT LIST     -->

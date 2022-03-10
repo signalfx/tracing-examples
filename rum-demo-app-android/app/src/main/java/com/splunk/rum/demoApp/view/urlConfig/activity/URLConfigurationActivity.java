@@ -27,15 +27,18 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.URLUtil;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.widget.PopupWindowCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -61,6 +64,7 @@ import com.splunk.rum.demoApp.BuildConfig;
 import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.databinding.ActivityUrlConfigurationBinding;
+import com.splunk.rum.demoApp.databinding.PopupRealmBinding;
 import com.splunk.rum.demoApp.service.LocationService;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
@@ -73,7 +77,6 @@ import com.splunk.rum.demoApp.view.base.activity.BaseActivity;
 import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
 import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
 import com.splunk.rum.demoApp.view.home.MainActivity;
-
 
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.trace.Span;
@@ -102,6 +105,7 @@ public class URLConfigurationActivity extends BaseActivity {
 
     // Allows class to cancel the location request if it exits the activity.
     // Typically, you use one cancellation source per lifecycle.
+    @SuppressWarnings("ALL")
     private final CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
     private LocationRequest mLocationRequest;
@@ -192,6 +196,8 @@ public class URLConfigurationActivity extends BaseActivity {
                     TypedValue.COMPLEX_UNIT_DIP, 50, r.getDisplayMetrics()));
             binding.btnLogin.setLayoutParams(layoutParams);
         }
+
+        binding.dropdownLayout.setOnClickListener(v -> showRealMPopUp());
 
 
     }
@@ -691,38 +697,42 @@ public class URLConfigurationActivity extends BaseActivity {
     }
 
     private void setUpRealmSpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
-                R.array.realm, R.layout.spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_item);
-
-        adapter.setDropDownViewResource(R.layout.spinner_item);
-        binding.realMSpinner.setAdapter(adapter);
-        binding.spinnerArrow.setOnClickListener(view -> binding.realMSpinner.performClick());
-        binding.txtRealm.setOnClickListener(view -> binding.realMSpinner.performClick());
-        selectedRealM = adapter.getItem(0).toString();
         String realM = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.REAL_M,
                 String.class, "");
 
         if (StringHelper.isEmpty(realM)) {
             realM = getString(R.string.rum_realm);
         }
-        int position = adapter.getPosition(realM);
-        binding.realMSpinner.setSelection(position);
+        selectedRealM = realM;
+        binding.txtRealMValue.setText(realM);
+    }
 
-        binding.realMSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                Object selectedItem = adapterView.getItemAtPosition(position);
-                if (selectedItem != null && !StringHelper.isEmpty(selectedItem.toString())) {
-                    selectedRealM = selectedItem.toString();
-                }
-            }
+    private void showRealMPopUp() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        PopupRealmBinding popupRealmBinding = PopupRealmBinding.inflate(inflater);
+        View view = popupRealmBinding.getRoot();
+        PopupWindow mPopupWindow = new PopupWindow(this, null, R.attr.popupMenuStyle);
+        mPopupWindow.setFocusable(true); // otherwise on android 4.1.x the onItemClickListener won't work.
+        mPopupWindow.setContentView(view);
+        mPopupWindow.setOutsideTouchable(true);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+        View.OnClickListener onClickListener = v -> {
+            TextView textView = ((TextView) v);
+            selectedRealM = String.valueOf(textView.getText());
+            binding.txtRealMValue.setText(selectedRealM);
+            mPopupWindow.dismiss();
+        };
+        popupRealmBinding.txtRealMUs0.setOnClickListener(onClickListener);
+        popupRealmBinding.txtRealMUs1.setOnClickListener(onClickListener);
+        popupRealmBinding.txtRealMUs2.setOnClickListener(onClickListener);
+        popupRealmBinding.txtRealMEu0.setOnClickListener(onClickListener);
+        popupRealmBinding.txtRealMLab0.setOnClickListener(onClickListener);
+        popupRealmBinding.txtRealMRc0.setOnClickListener(onClickListener);
 
-            }
-        });
+
+        PopupWindowCompat.showAsDropDown(mPopupWindow, binding.dropdownLayout, 0, 0, Gravity.CENTER);
+
+
     }
 
     @Override
