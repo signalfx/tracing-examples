@@ -133,7 +133,7 @@
                                                                                                         </constraints>
                                                                                                     </imageView>
                                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="251" text="realm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGN-OA-Ngx">
-                                                                                                        <rect key="frame" x="42" y="17" width="199" height="21.5"/>
+                                                                                                        <rect key="frame" x="42" y="17" width="199" height="21"/>
                                                                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                         <nil key="highlightedColor"/>
@@ -1289,10 +1289,10 @@
                                 <rect key="frame" x="0.0" y="66" width="414" height="747"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YCQ-Yr-eth">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="546"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="100" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-fU-Chj">
-                                                <rect key="frame" x="20" y="50" width="374" height="446"/>
+                                                <rect key="frame" x="20" y="50" width="374" height="314"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYw-9J-1Y3" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
@@ -1367,8 +1367,8 @@
                                                             <action selector="btnSlowApiResponseClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="kBU-Yy-ArV"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bAP-Bs-Gbm" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="330" width="374" height="50"/>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bAP-Bs-Gbm" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="314" width="374" height="0.0"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="LOCAL WEB VIEW">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1377,8 +1377,8 @@
                                                             <action selector="btnLocalWebViewClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="1hF-7v-QVx"/>
                                                         </connections>
                                                     </button>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ara-bX-cxy" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="396" width="374" height="50"/>
+                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ara-bX-cxy" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="314" width="374" height="0.0"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="SHOP WEB VIEW">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1478,7 +1478,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check Out" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOr-tY-gcJ">
-                                <rect key="frame" x="20" y="108" width="92.5" height="23.5"/>
+                                <rect key="frame" x="20" y="108" width="96" height="23.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23.5" id="IoM-EH-8bR"/>
                                 </constraints>
@@ -2063,46 +2063,46 @@
     </scenes>
     <designables>
         <designable name="5y8-lB-zw3">
-            <size key="intrinsicContentSize" width="91" height="34"/>
+            <size key="intrinsicContentSize" width="136.5" height="34"/>
         </designable>
         <designable name="DRh-eM-AXL">
-            <size key="intrinsicContentSize" width="97.5" height="34"/>
+            <size key="intrinsicContentSize" width="139.5" height="34"/>
         </designable>
         <designable name="Hnp-ae-nVw">
-            <size key="intrinsicContentSize" width="90.5" height="34"/>
+            <size key="intrinsicContentSize" width="132.5" height="34"/>
         </designable>
         <designable name="RZH-JB-BJ8">
-            <size key="intrinsicContentSize" width="63" height="34"/>
+            <size key="intrinsicContentSize" width="103" height="34"/>
         </designable>
         <designable name="YcD-dh-vW2">
-            <size key="intrinsicContentSize" width="186.5" height="34"/>
+            <size key="intrinsicContentSize" width="230.5" height="34"/>
         </designable>
         <designable name="b4r-GP-tqe">
-            <size key="intrinsicContentSize" width="70" height="34"/>
+            <size key="intrinsicContentSize" width="110.5" height="34"/>
         </designable>
         <designable name="eSE-r7-JFK">
-            <size key="intrinsicContentSize" width="80" height="34"/>
+            <size key="intrinsicContentSize" width="120" height="34"/>
         </designable>
         <designable name="hHl-nO-vyf">
-            <size key="intrinsicContentSize" width="161" height="34"/>
+            <size key="intrinsicContentSize" width="198.5" height="34"/>
         </designable>
         <designable name="nbV-X1-Hdf">
-            <size key="intrinsicContentSize" width="141.5" height="34"/>
+            <size key="intrinsicContentSize" width="181.5" height="34"/>
         </designable>
         <designable name="qb7-Oj-YG4">
-            <size key="intrinsicContentSize" width="144.5" height="34"/>
+            <size key="intrinsicContentSize" width="185.5" height="34"/>
         </designable>
         <designable name="t7V-dI-4WX">
-            <size key="intrinsicContentSize" width="158.5" height="34"/>
+            <size key="intrinsicContentSize" width="195.5" height="34"/>
         </designable>
         <designable name="vPW-cN-oIM">
-            <size key="intrinsicContentSize" width="64" height="34"/>
+            <size key="intrinsicContentSize" width="103" height="34"/>
         </designable>
         <designable name="ycF-SQ-Dg1">
-            <size key="intrinsicContentSize" width="161" height="34"/>
+            <size key="intrinsicContentSize" width="198.5" height="34"/>
         </designable>
         <designable name="zh7-9Q-70J">
-            <size key="intrinsicContentSize" width="58.5" height="34"/>
+            <size key="intrinsicContentSize" width="100" height="34"/>
         </designable>
     </designables>
     <resources>

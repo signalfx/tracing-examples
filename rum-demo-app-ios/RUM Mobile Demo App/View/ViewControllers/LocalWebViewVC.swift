@@ -8,7 +8,9 @@
 import UIKit
 import WebKit
 
-class LocalWebViewVC: UIViewController {
+class LocalWebViewVC: UIViewController {}
+//Commented Webview related code due to the functions used to detect the click of HTML buttons are not working in Xcode version < 13. Due this, app is throwing compile time errors for Xcode < 13.0
+/*
     
     @IBOutlet weak var webView : WKWebView?
     
@@ -73,3 +75,4 @@ extension LocalWebViewVC : WKNavigationDelegate, WKUIDelegate, WKScriptMessageHa
         }
 }
 
+*/
