@@ -4,16 +4,19 @@
     <item
         android:id="@+id/navigation_home"
         android:icon="@drawable/ic_home_24"
-        android:title="@string/title_product_list" />
+        android:contentDescription="@string/bottom_navigation_home_icon"
+        android:title="@string/bottom_navigation_home_icon" />
 
     <item
         android:id="@+id/navigation_cart"
         android:icon="@drawable/ic_shopping_cart_24"
-        android:title="@string/title_shopping_cart" />
+        android:contentDescription="@string/bottom_navigation_cart_icon"
+        android:title="@string/bottom_navigation_cart_icon" />
 
     <item
         android:id="@+id/navigation_events"
         android:icon="@drawable/ic_settings_applications_24"
-        android:title="@string/title_event_generation" />
+        android:contentDescription="@string/bottom_navigation_events_icon"
+        android:title="@string/bottom_navigation_events_icon" />
 
 </menu>

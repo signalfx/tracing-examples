@@ -34,7 +34,9 @@
 
         <activity
             android:name="com.splunk.rum.demoApp.view.urlConfig.activity.URLConfigurationActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden"
+            />
 
         <activity
             android:name="com.splunk.rum.demoApp.view.home.MainActivity"
@@ -42,7 +44,9 @@
 
         <activity
             android:name="com.splunk.rum.demoApp.view.checkout.activity.CheckOutActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden"
+            />
 
         <activity
             android:name="com.splunk.rum.demoApp.view.order.activity.OrderDetailActivity"

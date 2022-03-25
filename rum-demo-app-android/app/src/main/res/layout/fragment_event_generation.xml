@@ -29,64 +29,72 @@
             <Button
                 android:id="@+id/btnCrashApp"
                 style="@style/primaryButtonStyle"
+                android:contentDescription="@string/event_generation_crash_btn"
                 android:text="@string/btn_crash_app" />
 
             <Button
                 android:id="@+id/btnANR"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_anr_btn"
                 android:text="@string/btn_anr_app" />
 
             <Button
                 android:id="@+id/btnGenerateException"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_exception_btn"
                 android:text="@string/btn_generate_exception" />
 
             <Button
                 android:id="@+id/btnFreezeApp"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_freeze_btn"
                 android:text="@string/btn_freeze_app" />
 
             <Button
                 android:id="@+id/btnSlowApiResponse"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_slow_api_btn"
                 android:text="@string/btn_slow_api_response" />
 
             <Button
                 android:id="@+id/btnHttpNotFound"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_4XX_btn"
                 android:text="@string/btn_http_not_found" />
 
             <Button
                 android:id="@+id/btnHttpError"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_5XX_btn"
                 android:text="@string/btn_http_error" />
 
             <Button
                 android:id="@+id/btnShopWebView"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_shop_webview_btn"
                 android:text="@string/btn_shop_web_view" />
 
             <Button
                 android:id="@+id/btnLocalWebView"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
+                android:contentDescription="@string/event_generation_local_webview_btn"
                 android:text="@string/btn_local_web_view" />
 
         </LinearLayout>
 
         <include
-            android:id="@+id/progress_wheel"
+            android:id="@+id/progress_bar"
             layout="@layout/dialog_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+            android:layout_gravity="center_horizontal|center_vertical" />
     </FrameLayout>
 </layout>

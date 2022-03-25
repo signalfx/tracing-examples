@@ -23,211 +23,213 @@
         android:layout_height="match_parent"
         android:background="@color/colorWindowBackground">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWindowBackground"
-        tools:context=".view.cart.fragment.ShoppingCartFragment"
-        android:visibility="@{viewModel.isLoading==false ||  eventViewModel.isLoading == false? View.VISIBLE : View.GONE}">
-
         <RelativeLayout
-            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/size_15dp"
-            android:visibility="visible">
+            android:layout_height="match_parent"
+            android:background="@color/colorWindowBackground"
+            tools:context=".view.cart.fragment.ShoppingCartFragment">
 
-
-            <LinearLayout
-                android:id="@+id/totalItemLayout"
+            <RelativeLayout
+                android:id="@+id/contentLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="@dimen/size_15dp"
-                android:paddingTop="@dimen/size_15dp"
-                android:paddingEnd="@dimen/size_15dp">
+                android:paddingBottom="@dimen/size_15dp"
+                android:visibility="visible">
+
+
+                <LinearLayout
+                    android:id="@+id/totalItemLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/size_15dp"
+                    android:paddingTop="@dimen/size_15dp"
+                    android:paddingEnd="@dimen/size_15dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/total_items_in_cart"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="0dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnEmptyCart"
+                        style="@style/mediumFontTextViewStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/size_40dp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/bordered_button"
+                        android:contentDescription="@string/cart_empty_btn"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:letterSpacing="0.3"
+                        android:paddingStart="@dimen/size_10dp"
+                        android:paddingEnd="@dimen/size_10dp"
+                        android:text="@string/btn_empty_cart" />
+                </LinearLayout>
+
+                <!-- A CardView that contains a TextView -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/totalItemLayout"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/size_5dp"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginEnd="@dimen/size_5dp"
+                    card_view:cardCornerRadius="@dimen/size_10dp"
+                    card_view:cardElevation="@dimen/size_3dp"
+                    card_view:cardUseCompatPadding="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:id="@+id/shipping_cost_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="@dimen/size_10dp"
+                            android:paddingTop="@dimen/size_15dp"
+                            android:paddingEnd="@dimen/size_10dp"
+                            android:paddingBottom="@dimen/size_15dp"
+                            android:weightSum="6">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/lbl_shipping_cost"
+                                style="@style/mediumFontTextViewStyle"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="5.5"
+                                android:text="@string/lbl_shipping_cost"
+                                android:textColor="@color/grey"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_shipping_cost"
+                                style="@style/mediumFontTextViewStyle"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.5"
+                                android:gravity="end"
+                                android:text="@string/shipping_cost"
+                                android:textColor="#96000000"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_below="@+id/shipping_cost_layout"
+                            android:background="@color/grey" />
+
+                        <LinearLayout
+                            android:id="@+id/total_cost_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/line"
+                            android:paddingStart="@dimen/size_10dp"
+                            android:paddingTop="@dimen/size_15dp"
+                            android:paddingEnd="@dimen/size_10dp"
+                            android:paddingBottom="@dimen/size_15dp"
+                            android:weightSum="6">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/lbl_total_cost"
+                                style="@style/mediumFontTextViewStyle"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="5.5"
+                                android:text="@string/lbl_total_cost"
+                                android:textColor="@color/grey"
+                                android:textStyle="bold" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/tv_total_cost"
+                                style="@style/mediumFontTextViewStyle"
+                                android:layout_gravity="center_vertical"
+                                android:layout_weight="0.5"
+                                android:gravity="end"
+                                android:text=""
+                                android:textColor="#96000000"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
+
+
+                    </RelativeLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_above="@+id/btnCheckout"
+                    android:layout_below="@+id/card_view"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:layout_marginBottom="@dimen/size_10dp"
+                    android:paddingStart="@dimen/size_15dp"
+                    android:paddingEnd="@dimen/size_15dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCheckout"
+                    style="@style/primaryButtonStyle"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/size_15dp"
+                    android:layout_marginEnd="@dimen/size_15dp"
+                    android:contentDescription="@string/cart_checkout_btn"
+                    android:text="@string/btn_check_out" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/no_data_layout"
+                style="@style/parentViewLargePadding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:visibility="gone">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/total_items_in_cart"
-                    style="@style/mediumFontTextViewStyle"
-                    android:layout_width="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
+                    android:id="@+id/title_cart_empty"
+                    style="@style/largeMediumFontTextViewStyle"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:letterSpacing="0.1"
+                    android:text="@string/lbl_cart_empty"
                     android:textColor="@color/black"
                     android:textStyle="bold" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnEmptyCart"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/disc_cart_empty"
                     style="@style/mediumFontTextViewStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/size_40dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@drawable/bordered_button"
-                    android:letterSpacing="0.3"
-                    android:paddingStart="@dimen/size_10dp"
-                    android:paddingEnd="@dimen/size_10dp"
-                    android:text="@string/btn_empty_cart" />
-            </LinearLayout>
-
-            <!-- A CardView that contains a TextView -->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/card_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/totalItemLayout"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/size_5dp"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:layout_marginEnd="@dimen/size_5dp"
-                card_view:cardCornerRadius="@dimen/size_10dp"
-                card_view:cardElevation="@dimen/size_3dp"
-                card_view:cardUseCompatPadding="true">
-
-                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_below="@+id/title_cart_empty"
+                    android:layout_marginTop="@dimen/size_10dp"
+                    android:gravity="center"
+                    android:letterSpacing="0.1"
+                    android:text="@string/lbl_cart_desc"
+                    android:textColor="@color/black" />
 
-                    <LinearLayout
-                        android:id="@+id/shipping_cost_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="@dimen/size_10dp"
-                        android:paddingTop="@dimen/size_15dp"
-                        android:paddingEnd="@dimen/size_10dp"
-                        android:paddingBottom="@dimen/size_15dp"
-                        android:weightSum="6">
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBrowseProduct"
+                    style="@style/primaryButtonStyle"
+                    android:layout_below="@+id/disc_cart_empty"
+                    android:layout_marginTop="@dimen/size_15dp"
+                    android:contentDescription="@string/cart_keep_browsing_btn"
+                    android:text="@string/btn_browse_products" />
 
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/lbl_shipping_cost"
-                            style="@style/mediumFontTextViewStyle"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="5.5"
-                            android:text="@string/lbl_shipping_cost"
-                            android:textColor="@color/grey"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_shipping_cost"
-                            style="@style/mediumFontTextViewStyle"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="0.5"
-                            android:gravity="end"
-                            android:text="@string/shipping_cost"
-                            android:textColor="#96000000"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:id="@+id/line"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_below="@+id/shipping_cost_layout"
-                        android:background="@color/grey" />
-
-                    <LinearLayout
-                        android:id="@+id/total_cost_layout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/line"
-                        android:paddingStart="@dimen/size_10dp"
-                        android:paddingTop="@dimen/size_15dp"
-                        android:paddingEnd="@dimen/size_10dp"
-                        android:paddingBottom="@dimen/size_15dp"
-                        android:weightSum="6">
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/lbl_total_cost"
-                            style="@style/mediumFontTextViewStyle"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="5.5"
-                            android:text="@string/lbl_total_cost"
-                            android:textColor="@color/grey"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/tv_total_cost"
-                            style="@style/mediumFontTextViewStyle"
-                            android:layout_gravity="center_vertical"
-                            android:layout_weight="0.5"
-                            android:gravity="end"
-                            android:text=""
-                            android:textColor="#96000000"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_above="@+id/btnCheckout"
-                android:layout_below="@+id/card_view"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:layout_marginBottom="@dimen/size_10dp"
-                android:paddingStart="@dimen/size_15dp"
-                android:paddingEnd="@dimen/size_15dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnCheckout"
-                style="@style/primaryButtonStyle"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/size_15dp"
-                android:layout_marginEnd="@dimen/size_15dp"
-                android:text="@string/btn_check_out" />
-
+            </RelativeLayout>
         </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/no_data_layout"
-            style="@style/parentViewLargePadding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:visibility="gone">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/title_cart_empty"
-                style="@style/largeMediumFontTextViewStyle"
-                android:layout_width="match_parent"
-                android:gravity="center"
-                android:letterSpacing="0.1"
-                android:text="@string/lbl_cart_empty"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/disc_cart_empty"
-                style="@style/mediumFontTextViewStyle"
-                android:layout_width="match_parent"
-                android:layout_below="@+id/title_cart_empty"
-                android:layout_marginTop="@dimen/size_10dp"
-                android:gravity="center"
-                android:letterSpacing="0.1"
-                android:text="@string/lbl_cart_desc"
-                android:textColor="@color/black" />
-
-            <Button
-                android:id="@+id/btnBrowseProduct"
-                style="@style/primaryButtonStyle"
-                android:layout_below="@+id/disc_cart_empty"
-                android:layout_marginTop="@dimen/size_15dp"
-                android:text="@string/btn_browse_products" />
-
-        </RelativeLayout>
-    </RelativeLayout>
 
         <include
-            android:id="@+id/progress_wheel"
+            android:id="@+id/progressBar"
             layout="@layout/dialog_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:visibility="@{viewModel.isLoading || eventViewModel.isLoading? View.VISIBLE : View.GONE}" />
+            android:layout_gravity="center_horizontal|center_vertical" />
 
     </FrameLayout>
 </layout>

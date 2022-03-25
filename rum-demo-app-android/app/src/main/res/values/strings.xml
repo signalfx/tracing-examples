@@ -70,14 +70,6 @@
     <string name="shipping_cost">USD 5.88</string>
     <!--   END CART     -->
 
-    <!--   BOTTOM NAVIGATION     -->
-
-    <string name="title_product_list">Product List</string>
-    <string name="title_shopping_cart">Shopping Cart</string>
-    <string name="title_event_generation">Event Generation</string>
-
-    <!--   END BOTTOM NAVIGATION     -->
-
     <!--   EVENT GENERATION     -->
     <string name="btn_crash_app">Crash App</string>
     <string name="btn_anr_app">Generate ANR</string>
@@ -218,4 +210,81 @@
 
     <!-- API END POINTS -->
     <string name="api_product_detail_end_point" formatted="false" translatable="false">product/%s</string>
+
+    <!-- CONTENT DISCRIPTION -->
+
+    <!-- URL CONFIG-->
+    <string name="url_configuration_scrollview">url_configuration_scrollview</string>
+    <string name="url_configuration_store_link">url_configuration_store_link</string>
+    <string name="url_configuration_submit_btn">url_configuration_submit_btn</string>
+    <string name="url_configuration_delayed_login_btn">url_configuration_delayed_login_btn</string>
+    <string name="url_configuration_realm_dropdown">url_configuration_realm_dropdown</string>
+    <string name="url_configuration_app_name">url_configuration_app_name</string>
+    <string name="url_configuration_hint_token">url_configuration_hint_token</string>
+    <string name="url_configuration_environment">url_configuration_environment</string>
+    <string name="url_configuration_realm_us0">url_configuration_realm_us0</string>
+    <string name="url_configuration_realm_us1" tools:ignore="Typos">url_configuration_realm_us1</string>
+    <string name="url_configuration_realm_us2">url_configuration_realm_us2</string>
+    <string name="url_configuration_realm_eu0">url_configuration_realm_eu0</string>
+    <string name="url_configuration_realm_lab0">url_configuration_realm_lab0</string>
+    <string name="url_configuration_realm_rc0">url_configuration_realm_rc0</string>
+
+    <!-- BOTTOM NAVIGATION -->
+    <string name="bottom_navigation_home_icon">bottom_navigation_home_icon</string>
+    <string name="bottom_navigation_cart_icon">bottom_navigation_cart_icon</string>
+    <string name="bottom_navigation_events_icon">bottom_navigation_events_icon</string>
+
+    <!-- HEADER -->
+    <string name="header_back_btn">header_back_btn</string>
+    <string name="header_context_menu_item">header_context_menu_item</string>
+    
+    <!-- PRODUCT LIST -->
+    <string name="product_list_scrollview">product_list_scrollview</string>
+    <string name="product_list_item_">product_list_item_%s</string>
+    
+    <!-- PRODUCT DETAIL -->
+    <string name="product_detail_scrollview">product_detail_scrollview</string>
+    <string name="product_detail_add_to_cart_btn">product_detail_add_to_cart_btn</string>
+    <string name="product_detail_quantity">product_detail_quantity</string>
+    <string name="product_detail_quantity_">product_detail_quantity_%s</string>
+    
+    <!-- CART -->
+    <string name="cart_empty_btn">cart_empty_btn</string>
+    <string name="cart_keep_browsing_btn">cart_keep_browsing_btn</string>
+    <string name="cart_checkout_btn">cart_checkout_btn</string>
+    
+    <!-- CHECKOUT -->
+    <string name="checkout_scrollview">checkout_scrollview</string>
+    <string name="checkout_cardview">checkout_cardview</string>
+    <string name="checkout_email_address">checkout_email_address</string>
+    <string name="checkout_postal_address">checkout_postal_address</string>
+    <string name="checkout_zip_code">checkout_zip_code</string>
+    <string name="checkout_country">checkout_country</string>
+    <string name="checkout_state">checkout_state</string>
+    <string name="checkout_city">checkout_city</string>
+    <string name="checkout_cvv">checkout_cvv</string>
+    <string name="checkout_credit_card_number">checkout_credit_card_number</string>
+    <string name="checkout_expiry_month">checkout_expiry_month</string>
+    <string name="checkout_expiry_year">checkout_expiry_year</string>
+    <string name="checkout_place_order_btn">checkout_place_order_btn</string>
+    <string name="checkout_month_">checkout_month_%s</string>
+    <string name="checkout_year_">checkout_year_%s</string>
+
+    <!-- ORDER CONFIRMATION -->
+    <string name="order_confirmation_cardview">order_confirmation_cardview</string>
+    <string name="order_confirmation_browsing_btn">order_confirmation_browsing_btn</string>
+
+    <!-- EVENT GENERATION -->
+    <string name="event_generation_crash_btn">event_generation_crash_btn</string>
+    <string name="event_generation_exception_btn">event_generation_exception_btn</string>
+    <string name="event_generation_anr_btn">event_generation_anr_btn</string>
+    <string name="event_generation_freeze_btn">event_generation_freeze_btn</string>
+    <string name="event_generation_slow_api_btn">event_generation_slow_api_btn</string>
+    <string name="event_generation_5XX_btn">event_generation_5XX_btn</string>
+    <string name="event_generation_4XX_btn">event_generation_4XX_btn</string>
+    <string name="event_generation_shop_webview_btn">event_generation_shop_webview_btn</string>
+    <string name="event_generation_local_webview_btn">event_generation_local_webview_btn</string>
+    
+    <!-- END CONTENT DISCRIPTION -->
+
 </resources>

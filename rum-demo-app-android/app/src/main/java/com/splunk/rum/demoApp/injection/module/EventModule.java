@@ -6,7 +6,7 @@ import com.splunk.rum.demoApp.model.state.EventServiceInterface;
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
-
+@SuppressWarnings("ALL")
 @Module
 public class EventModule {
 

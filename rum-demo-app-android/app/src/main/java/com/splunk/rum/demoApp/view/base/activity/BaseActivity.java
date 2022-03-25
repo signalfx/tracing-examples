@@ -3,6 +3,7 @@ package com.splunk.rum.demoApp.view.base.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,6 +45,7 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
 
             if (isShowBack) {
                 toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+                toolbar.setNavigationContentDescription(getString(R.string.header_back_btn));
                 toolbar.setNavigationOnClickListener(v -> onBackPressed());
             }
         }
@@ -132,6 +134,12 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.overflow_menu, menu);
+        for(int i = 0; i< menu.size(); i++){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                    && menu.getItem(i).getItemId() == R.id.configChange) {
+                menu.getItem(i).setContentDescription(getString(R.string.header_context_menu_item));
+            }
+        }
         return true;
     }
 

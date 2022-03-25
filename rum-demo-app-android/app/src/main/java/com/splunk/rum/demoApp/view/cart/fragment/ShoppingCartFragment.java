@@ -94,6 +94,8 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
                     .observe(getActivity(),
                             handleCartItemsResponse());
 
+            productViewModel.getmIsLoading().observe(getActivity(), handleLoadingResponse());
+            viewModel.getmIsLoading().observe(getActivity(), handleLoadingResponse());
         }
 
 
@@ -126,6 +128,19 @@ public class ShoppingCartFragment extends BaseFragment implements DialogButtonCl
                         this, AppConstant.DialogIdentifier.CHECK_OUT_DIALOG);
             }
         }
+    }
+
+    /**
+     * @return show hider progressbar based on  isLoading boolean value
+     */
+    private androidx.lifecycle.Observer<Boolean> handleLoadingResponse() {
+        return isLoading -> {
+            try {
+                AppUtils.showHideLoader(isLoading,binding.progressBar.progressLinearLayout,binding.parentLayout);
+            } catch (Exception e) {
+                AppUtils.handleRumException(e);
+            }
+        };
     }
 
     /**

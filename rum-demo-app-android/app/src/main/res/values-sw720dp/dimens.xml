@@ -43,7 +43,7 @@
     <dimen name="size_46dp" tools:keep="@dimen/size_46dp">62dp</dimen>
     <dimen name="size_50dp">70dp</dimen>
     <dimen name="size_54dp">82dp</dimen>
-    <dimen name="size_60dp" tools:keep="@dimen/size_60dp">96dp</dimen>
+    <dimen name="size_60dp" tools:keep="@dimen/size_60dp">65dp</dimen>
     <dimen name="size_66dp">100dp</dimen>
     <dimen name="size_70dp">108dp</dimen>
     <dimen name="size_76dp" tools:keep="@dimen/size_76dp">116dp</dimen>

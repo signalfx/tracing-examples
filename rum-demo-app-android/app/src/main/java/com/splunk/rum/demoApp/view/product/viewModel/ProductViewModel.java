@@ -1,6 +1,5 @@
 package com.splunk.rum.demoApp.view.product.viewModel;
 
-import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
 import com.splunk.rum.demoApp.BuildConfig;
@@ -30,7 +29,7 @@ public class ProductViewModel extends BaseViewModel {
     ProductServiceInterface productServiceInterface;
     private MutableLiveData<ResponseBody> baseResponse;
     private MutableLiveData<ResponseBody> addProductToCartResponse;
-    private final ObservableBoolean mIsLoading = new ObservableBoolean();
+    private MutableLiveData<Boolean> mIsLoading;
     private final ResourceProvider resourceProvider;
 
     public ProductViewModel(ResourceProvider resourceProvider) {
@@ -42,7 +41,7 @@ public class ProductViewModel extends BaseViewModel {
      * Initiate the API call and handle the response
      */
     public void getProductList() {
-        if(view != null && view.isNetworkAvailable()){
+        if (view != null && view.isNetworkAvailable()) {
             setIsLoading(true);
             new RXRetroManager<ResponseBody>() {
                 @Override
@@ -62,7 +61,7 @@ public class ProductViewModel extends BaseViewModel {
                     }
                 }
             }.rxSingleCall(productServiceInterface.getProductList(VariantConfig.getServerBaseUrl()));
-        }else {
+        } else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(""));
                 view.showApiError(retrofitException, AppConstant.ERROR_INTERNET);
@@ -74,7 +73,7 @@ public class ProductViewModel extends BaseViewModel {
      * Initiate the API call and handle the response
      */
     public void getProductDetail(String productId) {
-        if(view != null && view.isNetworkAvailable()) {
+        if (view != null && view.isNetworkAvailable()) {
             setIsLoading(true);
             new RXRetroManager<ResponseBody>() {
                 @Override
@@ -95,7 +94,7 @@ public class ProductViewModel extends BaseViewModel {
                 }
             }.rxSingleCall(productServiceInterface.getProductDetail(VariantConfig.getServerBaseUrl() + String.format(resourceProvider.
                     getString(R.string.api_product_detail_end_point), productId)));
-        }else {
+        } else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(""));
                 view.showApiError(retrofitException, AppConstant.ERROR_INTERNET);
@@ -108,7 +107,7 @@ public class ProductViewModel extends BaseViewModel {
      * Initiate the API call and handle the response
      */
     public void getCartItems() {
-        if(view != null && view.isNetworkAvailable()) {
+        if (view != null && view.isNetworkAvailable()) {
             setIsLoading(true);
             new RXRetroManager<ResponseBody>() {
                 @Override
@@ -126,7 +125,7 @@ public class ProductViewModel extends BaseViewModel {
                     }
                 }
             }.rxSingleCall(productServiceInterface.getCartItems(VariantConfig.getServerBaseUrl() + BuildConfig.API_CART_END_POINT));
-        }else {
+        } else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(""));
                 view.showApiError(retrofitException, AppConstant.ERROR_INTERNET);
@@ -139,7 +138,7 @@ public class ProductViewModel extends BaseViewModel {
      * Initiate the API call and handle the response
      */
     public void addToCart(String quantity, String productId) {
-        if(view != null && view.isNetworkAvailable()) {
+        if (view != null && view.isNetworkAvailable()) {
             if (StringHelper.isNotEmpty(quantity) && StringHelper.isNotEmpty(productId)) {
                 RequestBody quantityBody = RequestBody.create(quantity, MediaType.parse("text/plain"));
                 RequestBody productIdBody = RequestBody.create(productId, MediaType.parse("text/plain"));
@@ -162,7 +161,7 @@ public class ProductViewModel extends BaseViewModel {
                     }
                 }.rxSingleCall(productServiceInterface.addToCart(VariantConfig.getServerBaseUrl() + BuildConfig.API_CART_END_POINT, quantityBody, productIdBody));
             }
-        }else {
+        } else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(resourceProvider.getString(R.string.rum_event_add_to_cart)));
                 view.showApiError(retrofitException, AppConstant.ERROR_INTERNET);
@@ -178,6 +177,14 @@ public class ProductViewModel extends BaseViewModel {
         return baseResponse;
     }
 
+    @SuppressWarnings("ALL")
+    public MutableLiveData<Boolean> getmIsLoading() {
+        if (mIsLoading == null) {
+            mIsLoading = new MutableLiveData<>();
+        }
+        return mIsLoading;
+    }
+
     public MutableLiveData<ResponseBody> getAddProductToCartResponse() {
         if (addProductToCartResponse == null) {
             addProductToCartResponse = new MutableLiveData<>();
@@ -185,11 +192,9 @@ public class ProductViewModel extends BaseViewModel {
         return addProductToCartResponse;
     }
 
-    public ObservableBoolean getIsLoading() {
-        return mIsLoading;
-    }
-
     public void setIsLoading(boolean isLoading) {
-        mIsLoading.set(isLoading);
+        if (mIsLoading != null) {
+            mIsLoading.postValue(isLoading);
+        }
     }
 }

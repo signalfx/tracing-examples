@@ -22,9 +22,10 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/parentLayout"
             android:layout_width="match_parent"
+            android:contentDescription="@string/product_list_scrollview"
             android:layout_height="match_parent"
             android:background="@color/colorWindowBackground"
-            android:visibility="@{viewModel.isLoading==false ? View.VISIBLE : View.GONE}">
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,6 +41,8 @@
                         android:id="@+id/banner_image"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/size_172dp"
+                        android:focusableInTouchMode="true"
+                        android:focusable="true"
                         android:adjustViewBounds="true"
                         android:scaleType="centerCrop"
                         android:src="@drawable/hero_banner_image" />
@@ -76,13 +79,11 @@
         </androidx.core.widget.NestedScrollView>
 
         <include
-            android:id="@+id/progress_wheel"
+            android:id="@+id/progress_bar"
             layout="@layout/dialog_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
+            android:layout_gravity="center_horizontal|center_vertical" />
     </FrameLayout>
 
 

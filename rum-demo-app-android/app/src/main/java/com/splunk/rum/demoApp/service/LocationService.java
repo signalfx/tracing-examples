@@ -1,7 +1,5 @@
 package com.splunk.rum.demoApp.service;
 
-import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LONG;
-import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LAT;
 import static com.splunk.rum.demoApp.util.AppUtils.getCountryName;
 
 import android.Manifest;
@@ -26,8 +24,6 @@ import com.splunk.rum.demoApp.RumDemoApp;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.PreferenceHelper;
 import com.splunk.rum.demoApp.util.StringHelper;
-
-import io.opentelemetry.api.common.AttributeKey;
 
 public class LocationService extends Service {
 
@@ -72,8 +68,9 @@ public class LocationService extends Service {
                     Double lon = location.getLongitude();
                     //noinspection ConstantConditions
                     if (lat != null && lon != null) {
-                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LAT), lat);
-                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
+//                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LAT), lat);
+//                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
+                        RumDemoApp.getSplunkRum().updateLocation(location);
                         String name = getCountryName(LocationService.this, lat, lon);
                         if(StringHelper.isEmpty(name)){
                             PreferenceHelper.setValue(LocationService.this, AppConstant.SharedPrefKey.IS_COUNTRY_NAME_EMPTY,true);

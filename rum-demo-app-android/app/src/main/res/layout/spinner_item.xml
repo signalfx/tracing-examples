@@ -3,5 +3,6 @@
     style="@style/mediumFontTextViewStyle"
     android:layout_width="match_parent"
     android:gravity="center"
+    android:id="@+id/tvSpinnerItem"
     android:padding="@dimen/size_15dp"
     android:textColor="@color/black" />

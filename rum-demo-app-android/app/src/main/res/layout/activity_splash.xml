@@ -28,18 +28,7 @@
             android:layout_width="@dimen/size_172dp"
             android:layout_height="@dimen/size_172dp"
             app:srcCompat="@drawable/hipster_logo" />
-
-
     </LinearLayout>
-
-        <include
-            android:id="@+id/progress_wheel"
-            layout="@layout/dialog_loading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/size_25dp"
-            android:layout_gravity="center_horizontal|bottom"
-            android:visibility="@{viewModel.isLoading ? View.VISIBLE : View.GONE}" />
 
     </FrameLayout>
 </layout>

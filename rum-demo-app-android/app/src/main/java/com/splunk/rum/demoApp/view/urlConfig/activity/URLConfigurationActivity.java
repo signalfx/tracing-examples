@@ -1,8 +1,6 @@
 package com.splunk.rum.demoApp.view.urlConfig.activity;
 
 import static com.google.android.gms.location.LocationServices.getFusedLocationProviderClient;
-import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LAT;
-import static com.splunk.rum.demoApp.util.AppConstant.GLOBAL_ATTR_LONG;
 import static com.splunk.rum.demoApp.util.AppConstant.REQUEST_CHECK_SETTINGS;
 import static com.splunk.rum.demoApp.util.AppUtils.getCountryName;
 import static io.opentelemetry.api.common.AttributeKey.stringKey;
@@ -31,6 +29,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.webkit.URLUtil;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -78,7 +77,6 @@ import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
 import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
 import com.splunk.rum.demoApp.view.home.MainActivity;
 
-import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.trace.Span;
 import okhttp3.ResponseBody;
 
@@ -112,6 +110,7 @@ public class URLConfigurationActivity extends BaseActivity {
     private int apiCount;
     private int spanCount;
     private Span timeToReadyWorkFlow;
+    private PopupWindow mPopupWindow;
 
     @Override
     public void onStart() {
@@ -132,6 +131,10 @@ public class URLConfigurationActivity extends BaseActivity {
         super.onPause();
         if (mFusedLocationClient != null) {
             mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+        }
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
+            mPopupWindow = null;
         }
     }
 
@@ -450,8 +453,9 @@ public class URLConfigurationActivity extends BaseActivity {
             Double lon = location.getLongitude();
             //noinspection ConstantConditions
             if (lat != null && lon != null) {
-                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LAT), lat);
-                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
+//                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LAT), lat);
+//                RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
+                RumDemoApp.getSplunkRum().updateLocation(location);
                 String name = getCountryName(mContext, lat, lon);
                 if (StringHelper.isEmpty(name)) {
                     PreferenceHelper.setValue(mContext, AppConstant.SharedPrefKey.IS_COUNTRY_NAME_EMPTY, true);
@@ -711,7 +715,7 @@ public class URLConfigurationActivity extends BaseActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
         PopupRealmBinding popupRealmBinding = PopupRealmBinding.inflate(inflater);
         View view = popupRealmBinding.getRoot();
-        PopupWindow mPopupWindow = new PopupWindow(this, null, R.attr.popupMenuStyle);
+        mPopupWindow = new PopupWindow(this, null, R.attr.popupMenuStyle);
         mPopupWindow.setFocusable(true); // otherwise on android 4.1.x the onItemClickListener won't work.
         mPopupWindow.setContentView(view);
         mPopupWindow.setOutsideTouchable(true);
@@ -731,9 +735,11 @@ public class URLConfigurationActivity extends BaseActivity {
 
 
         PopupWindowCompat.showAsDropDown(mPopupWindow, binding.dropdownLayout, 0, 0, Gravity.CENTER);
-
+        mPopupWindow.update(binding.dropdownLayout, WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.WRAP_CONTENT);
 
     }
+
 
     @Override
     protected void onStop() {

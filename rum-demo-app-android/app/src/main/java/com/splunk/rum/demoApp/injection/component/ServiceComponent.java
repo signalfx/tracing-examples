@@ -16,6 +16,7 @@ import dagger.Component;
         modules = {CheckoutModule.class, ProductModule.class,
                 EventModule.class})
 
+@SuppressWarnings("ALL")
 public interface ServiceComponent {
     // for authentication view model
 

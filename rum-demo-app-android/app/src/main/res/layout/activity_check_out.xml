@@ -39,12 +39,14 @@
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/checkout_scrollview"
                 android:layout_below="@+id/tv_check_out"
                 android:paddingTop="@dimen/size_5dp">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card_view"
                     android:layout_width="match_parent"
+                    android:contentDescription="@string/checkout_cardview"
                     android:layout_height="wrap_content"
                     app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="@dimen/size_10dp"
@@ -70,6 +72,7 @@
                                 android:id="@+id/edtEmail"
                                 style="@style/textInputEditTextStyle"
                                 android:drawablePadding="@dimen/size_minus_8dp"
+                                android:contentDescription="@string/checkout_email_address"
                                 android:imeOptions="actionNext"
                                 android:inputType="textEmailAddress"
                                 android:text="@={checkoutViewModel.checkoutRequest.email}" />
@@ -89,6 +92,7 @@
                                 style="@style/textInputEditTextStyle"
                                 android:drawablePadding="@dimen/size_minus_8dp"
                                 android:imeOptions="actionNext"
+                                android:contentDescription="@string/checkout_postal_address"
                                 android:inputType="textPostalAddress"
                                 android:text="@={checkoutViewModel.checkoutRequest.address}"
                                 />
@@ -109,6 +113,7 @@
                                 android:digits="0123456789"
                                 android:drawablePadding="@dimen/size_minus_8dp"
                                 android:imeOptions="actionNext"
+                                android:contentDescription="@string/checkout_zip_code"
                                 android:inputType="number"
                                 android:maxLength="5"
                                 android:text="@={checkoutViewModel.checkoutRequest.zipCode}" />
@@ -128,6 +133,7 @@
                                 style="@style/textInputEditTextStyle"
                                 android:drawablePadding="@dimen/size_minus_8dp"
                                 android:imeOptions="actionNext"
+                                android:contentDescription="@string/checkout_country"
                                 android:inputType="text"
                                 android:text="@={checkoutViewModel.checkoutRequest.country}" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -146,6 +152,7 @@
                                 style="@style/textInputEditTextStyle"
                                 android:drawablePadding="@dimen/size_minus_8dp"
                                 android:imeOptions="actionNext"
+                                android:contentDescription="@string/checkout_state"
                                 android:inputType="text"
                                 android:text="@={checkoutViewModel.checkoutRequest.state}" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -165,6 +172,7 @@
                                 android:drawablePadding="@dimen/size_minus_8dp"
                                 android:imeOptions="actionNext"
                                 android:inputType="text"
+                                android:contentDescription="@string/checkout_city"
                                 android:text="@={checkoutViewModel.checkoutRequest.city}" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -184,6 +192,7 @@
                                 android:drawablePadding="@dimen/size_minus_8dp"
                                 android:imeOptions="actionNext"
                                 android:inputType="number"
+                                android:contentDescription="@string/checkout_credit_card_number"
                                 android:maxLength="19"
                                 android:text="@={checkoutViewModel.checkoutRequest.creditCardNumber}" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -211,6 +220,7 @@
                                     style="@style/textInputEditTextStyle"
                                     android:cursorVisible="false"
                                     android:drawablePadding="@dimen/size_minus_8dp"
+                                    android:contentDescription="@string/checkout_expiry_month"
                                     android:focusable="false"
                                     android:imeOptions="actionNext"
                                     android:inputType="text"
@@ -233,6 +243,7 @@
                                     style="@style/textInputEditTextStyle"
                                     android:cursorVisible="false"
                                     android:drawablePadding="@dimen/size_minus_8dp"
+                                    android:contentDescription="@string/checkout_expiry_year"
                                     android:focusable="false"
                                     android:imeOptions="actionNext"
                                     android:inputType="text"
@@ -264,6 +275,7 @@
                                     style="@style/textInputEditTextStyle"
                                     android:digits="0123456789"
                                     android:drawablePadding="@dimen/size_minus_8dp"
+                                    android:contentDescription="@string/checkout_cvv"
                                     android:imeOptions="actionDone"
                                     android:inputType="numberPassword"
                                     android:maxLength="3"
@@ -294,6 +306,7 @@
                             android:id="@+id/btnPlaceOrder"
                             style="@style/primaryButtonStyle"
                             android:layout_below="@+id/cvvLayout"
+                            android:contentDescription="@string/checkout_place_order_btn"
                             android:layout_marginTop="@dimen/size_20dp"
                             android:text="@string/btn_place_order" />
                     </RelativeLayout>

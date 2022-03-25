@@ -15,6 +15,7 @@ import retrofit2.http.Query;
 import retrofit2.http.Url;
 
 
+@SuppressWarnings("ALL")
 public interface EventServiceInterface {
 
     @GET

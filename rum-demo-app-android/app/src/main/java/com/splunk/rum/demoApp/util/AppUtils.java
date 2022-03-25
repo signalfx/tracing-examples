@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.os.Build;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
@@ -67,12 +68,16 @@ public final class AppUtils {
     public static ProductListResponse getProductsFromPref(Context context) {
         String cart_product_json = PreferenceHelper
                 .getValue(context, AppConstant.SharedPrefKey.CART_PRODUCTS, String.class, "");
-
-        if (!StringHelper.isEmpty(cart_product_json)) {
-            return new Gson().fromJson(cart_product_json, ProductListResponse.class);
-        } else {
-            return new ProductListResponse();
+        try {
+            if (!StringHelper.isEmpty(cart_product_json)) {
+                return new Gson().fromJson(cart_product_json, ProductListResponse.class);
+            } else {
+                return new ProductListResponse();
+            }
+        } catch (Exception e) {
+            AppUtils.handleRumException(e);
         }
+        return new ProductListResponse();
     }
 
     /**
@@ -352,4 +357,17 @@ public final class AppUtils {
         return null;
     }
 
+    public static void showHideLoader(boolean isLoading, View loaderView, View parentLayout) {
+        if (isLoading) {
+            loaderView.setVisibility(View.VISIBLE);
+            if (parentLayout != null) {
+                parentLayout.setVisibility(View.GONE);
+            }
+        } else {
+            loaderView.setVisibility(View.GONE);
+            if (parentLayout != null) {
+                parentLayout.setVisibility(View.VISIBLE);
+            }
+        }
+    }
 }

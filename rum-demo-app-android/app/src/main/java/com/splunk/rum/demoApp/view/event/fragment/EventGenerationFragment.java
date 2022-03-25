@@ -32,6 +32,8 @@ import io.opentelemetry.api.trace.Span;
  */
 public class EventGenerationFragment extends BaseFragment implements View.OnClickListener, LifecycleObserver {
     private EventViewModel viewModel;
+    @SuppressWarnings("ALL")
+    private FragmentEventGenerationBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        FragmentEventGenerationBinding binding = FragmentEventGenerationBinding.inflate(inflater, container, false);
+        binding = FragmentEventGenerationBinding.inflate(inflater, container, false);
         if (getActivity() != null && getActivity() instanceof BaseActivity &&
                 ((MainActivity) getActivity()).getBottomNavigationView() != null) {
             ((MainActivity) getActivity()).getBottomNavigationView().getMenu().findItem(R.id.navigation_events).setChecked(true);
@@ -53,6 +55,9 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
         viewModel.createView(this);
         binding.setViewModel(viewModel);
         binding.executePendingBindings();
+
+        viewModel.getmIsLoading().observe(getActivity(), handleLoadingResponse());
+        viewModel.setIsLoading(false);
 
         // Set OnClick Listener
         binding.btnCrashApp.setOnClickListener(this);
@@ -66,6 +71,20 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
         binding.btnLocalWebView.setOnClickListener(this);
 
         return binding.getRoot();
+    }
+
+    /**
+     * @return show hider progressbar based on  isLoading boolean value
+     */
+
+    private androidx.lifecycle.Observer<Boolean> handleLoadingResponse() {
+        return isLoading -> {
+            try {
+                AppUtils.showHideLoader(isLoading,binding.progressBar.progressLinearLayout,null);
+            } catch (Exception e) {
+                AppUtils.handleRumException(e);
+            }
+        };
     }
 
     @SuppressLint("NonConstantResourceId")

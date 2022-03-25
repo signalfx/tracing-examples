@@ -56,6 +56,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final Product product = productList.get(position);
         final ItemViewHolder itemViewHolder = (ItemViewHolder) holder;
+
+
+        String formatedContentDesc = String.format(mContext.getString(R.string.product_list_item_),product.getName());
+        itemViewHolder.binding.parentLayout.setContentDescription(formatedContentDesc);
+
         loadProductImage(itemViewHolder.getBinding().productImage, product.getPicture());
         itemViewHolder.getData(product);
         itemViewHolder.getBinding().parentLayout.setTag(product);

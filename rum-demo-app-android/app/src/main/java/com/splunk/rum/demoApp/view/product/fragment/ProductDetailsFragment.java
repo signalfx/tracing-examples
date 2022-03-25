@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -31,11 +31,13 @@ import com.splunk.rum.demoApp.view.base.viewModel.ViewModelFactory;
 import com.splunk.rum.demoApp.view.event.viewModel.EventViewModel;
 import com.splunk.rum.demoApp.view.home.MainActivity;
 import com.splunk.rum.demoApp.view.product.adapter.ProductListAdapter;
+import com.splunk.rum.demoApp.view.product.adapter.QuantitySpinnerAdapter;
 import com.splunk.rum.demoApp.view.product.viewModel.ProductViewModel;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -56,6 +58,8 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
     private Context mContext;
     private ProductViewModel productViewModel;
     private EventViewModel eventViewModel;
+    @SuppressWarnings("ALL")
+    private boolean isAddToCartBtnClicked;
 
     public ProductDetailsFragment() {
         // Required empty public constructor
@@ -101,6 +105,12 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+        isAddToCartBtnClicked = false;
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mContext = null;
@@ -129,8 +139,12 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                 .observe(getViewLifecycleOwner(),
                         handleAddProductToCartResponse());
 
+        productViewModel.getmIsLoading().observe(getViewLifecycleOwner(),
+                handleLoadingResponse());
+
 
         binding.btnAddToCart.setOnClickListener(view -> {
+            isAddToCartBtnClicked = true;
             if (productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_EXCEPTION)
                     && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_ADD_PRODUCT)) {
                 if (productDetails.getQuantity() > Integer.parseInt(productDetails.getAvailableQty())) {
@@ -150,6 +164,24 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
         });
 
         return binding.getRoot();
+    }
+
+    /**
+     * @return show hider progressbar based on  isLoading boolean value
+     */
+
+    private androidx.lifecycle.Observer<Boolean> handleLoadingResponse() {
+        return isLoading -> {
+            try {
+                View parentLayout = binding.scrollView;
+                if (isAddToCartBtnClicked) {
+                    parentLayout = null;
+                }
+                AppUtils.showHideLoader(isLoading, binding.progressBar.progressLinearLayout, parentLayout);
+            } catch (Exception e) {
+                AppUtils.handleRumException(e);
+            }
+        };
     }
 
     /**
@@ -187,7 +219,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                 eventViewModel.generateHttpNotFound();
             } else if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
                     && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_5XX)) {
-                eventViewModel.generateHttpError(productDetails.getId(),1);
+                eventViewModel.generateHttpError(productDetails.getId(), 1);
             }
 
         };
@@ -207,7 +239,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                             && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_CART)) {
                         throw new RuntimeException(getString(R.string.rum_event_app_crash));
                     }
-                    AppUtils.storeProductInCart(getActivity(),productDetails);
+                    AppUtils.storeProductInCart(getActivity(), productDetails);
                     if (getActivity() instanceof MainActivity
                             && ((MainActivity) getActivity()).getBottomNavigationView() != null) {
                         BadgeDrawable badge = ((MainActivity) getActivity()).getBottomNavigationView().getOrCreateBadge(R.id.navigation_cart);
@@ -253,8 +285,10 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
     }
 
     private void setUpQuantitySpinner() {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(mContext,
-                R.array.quantity, R.layout.spinner_item);
+        List<String> quantityList = Arrays.asList(getResources().getStringArray(R.array.quantity));
+        QuantitySpinnerAdapter adapter = new QuantitySpinnerAdapter(getActivity(),
+                R.layout.spinner_item, R.id.tvSpinnerItem, quantityList);
+
         adapter.setDropDownViewResource(R.layout.spinner_item);
         binding.quantitySpinner.setAdapter(adapter);
         binding.spinnerArrow.setOnClickListener(view -> binding.quantitySpinner.performClick());
@@ -286,9 +320,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
         binding.recyclerView.setAdapter(productListAdapter);
 
 
-
-
-        Span workflow = SplunkRum.getInstance().startWorkflow(String.format(getString(R.string.rum_event_product_viewed),productDetails.getName()));
+        Span workflow = SplunkRum.getInstance().startWorkflow(String.format(getString(R.string.rum_event_product_viewed), productDetails.getName()));
         workflow.setAttribute(getString(R.string.rum_event_attribute_name), productDetails.getName());
         workflow.setStatus(StatusCode.OK, getString(R.string.rum_event_product_viewed_msg));
         workflow.end();

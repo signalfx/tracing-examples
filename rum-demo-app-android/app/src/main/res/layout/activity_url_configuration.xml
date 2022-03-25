@@ -4,11 +4,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:contentDescription="@string/url_configuration_scrollview">
 
         <LinearLayout
             android:id="@+id/main_activity_container"
             android:layout_width="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_height="wrap_content"
             android:background="@color/primary"
             android:orientation="vertical"
@@ -55,6 +58,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/edtUrl"
                         style="@style/textInputEditTextStyle"
+                        android:contentDescription="@string/url_configuration_store_link"
                         android:drawableStart="@mipmap/ic_web"
                         android:drawablePadding="@dimen/size_5dp"
                         android:inputType="textUri"
@@ -105,6 +109,7 @@
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:gravity="center"
+                        android:contentDescription="@string/url_configuration_realm_dropdown"
                         android:paddingLeft="@dimen/size_10dp"
                         android:paddingRight="@dimen/size_10dp">
 
@@ -137,6 +142,7 @@
                         style="@style/textInputEditTextStyle"
                         android:drawableStart="@mipmap/ic_app"
                         android:drawablePadding="@dimen/size_5dp"
+                        android:contentDescription="@string/url_configuration_app_name"
                         android:inputType="text"
                         android:maxLength="50"
                         android:maxLines="1" />
@@ -154,6 +160,7 @@
                         style="@style/textInputEditTextStyle"
                         android:drawableStart="@mipmap/ic_token"
                         android:drawablePadding="@dimen/size_5dp"
+                        android:contentDescription="@string/url_configuration_hint_token"
                         android:inputType="text"
                         android:maxLength="30"
                         android:maxLines="1" />
@@ -170,6 +177,7 @@
                         android:id="@+id/edtEnvironment"
                         style="@style/textInputEditTextStyle"
                         android:drawableStart="@mipmap/ic_environment"
+                        android:contentDescription="@string/url_configuration_environment"
                         android:drawablePadding="@dimen/size_5dp"
                         android:inputType="text"
                         android:maxLength="30"
@@ -190,6 +198,7 @@
                         android:layout_marginEnd="@dimen/size_15dp"
                         android:layout_weight="1"
                         android:clickable="false"
+                        android:contentDescription="@string/url_configuration_submit_btn"
                         android:enabled="false"
                         android:text="@string/btn_submit"
                         android:textSize="@dimen/text_size_9sp" />
@@ -201,6 +210,7 @@
                         android:layout_marginStart="@dimen/size_15dp"
                         android:layout_weight="1"
                         android:clickable="false"
+                        android:contentDescription="@string/url_configuration_delayed_login_btn"
                         android:enabled="false"
                         android:text="@string/btn_login"
                         android:textSize="@dimen/text_size_9sp" />

@@ -29,6 +29,8 @@ import okhttp3.ResponseBody;
 public class CheckoutViewModel extends BaseViewModel {
 
     private CheckoutRequest checkoutRequest;
+
+    @SuppressWarnings("ALL")
     @Inject
     CheckoutServiceInterface checkoutServiceInterface;
     private MutableLiveData<ResponseBody> baseResponse;

@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -308,6 +309,13 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
                 popupMenu.getMenu().add(1, i, i, String.valueOf(i));
             }
 
+            for(int i = 0; i< popupMenu.getMenu().size(); i++){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    popupMenu.getMenu().getItem(i).setContentDescription(String.format(getString(R.string.checkout_year_),
+                            popupMenu.getMenu().getItem(i)));
+                }
+            }
+
             // Inflating popup menu from popup_menu.xml file
             popupMenu.getMenuInflater().inflate(R.menu.year_menu, popupMenu.getMenu());
 
@@ -325,6 +333,13 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
 
             // Inflating popup menu from popup_menu.xml file
             popupMenu.getMenuInflater().inflate(R.menu.month_menu, popupMenu.getMenu());
+
+            for(int i = 0; i< popupMenu.getMenu().size(); i++){
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    popupMenu.getMenu().getItem(i).setContentDescription(String.format(getString(R.string.checkout_month_),
+                            popupMenu.getMenu().getItem(i)));
+                }
+            }
 
             popupMenu.setOnMenuItemClickListener(menuItem -> {
                 checkoutViewModel.getCheckoutRequest().setMonth(menuItem.getItemId());

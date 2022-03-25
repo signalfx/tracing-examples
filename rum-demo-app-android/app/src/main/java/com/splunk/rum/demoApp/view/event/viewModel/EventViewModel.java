@@ -1,6 +1,5 @@
 package com.splunk.rum.demoApp.view.event.viewModel;
 
-import androidx.databinding.ObservableBoolean;
 import androidx.lifecycle.MutableLiveData;
 
 import com.splunk.rum.demoApp.BuildConfig;
@@ -27,13 +26,14 @@ import okhttp3.ResponseBody;
 
 public class EventViewModel extends BaseViewModel {
 
+    @SuppressWarnings("ALL")
     @Inject
     EventServiceInterface eventServiceInterface;
     @SuppressWarnings("unused")
     private MutableLiveData<BaseResponse> baseResponse;
     private MutableLiveData<ResponseBody> slowAPIResponse;
     private final ResourceProvider resourceProvider;
-    private final ObservableBoolean mIsLoading = new ObservableBoolean();
+    private MutableLiveData<Boolean> mIsLoading;
 
     public EventViewModel(ResourceProvider resourceProvider) {
         this.resourceProvider = resourceProvider;
@@ -130,9 +130,14 @@ public class EventViewModel extends BaseViewModel {
                 protected void onFailure(RetrofitException retrofitException, String errorCode) {
                     super.onFailure(retrofitException, errorCode);
                     setIsLoading(false);
-                    if (view != null) {
-                        view.showApiError(retrofitException, errorCode);
+                    //TODO Remove this code after API deployed on server
+                    if (slowAPIResponse != null) {
+                        slowAPIResponse.postValue(null);
                     }
+                    //TODO Uncomment this code after API deployed on server
+//                    if (view != null) {
+//                        view.showApiError(retrofitException, errorCode);
+//                    }
 
                 }
             }.rxSingleCall(eventServiceInterface.slowApiResponse(VariantConfig.getServerBaseUrl() + BuildConfig.SLOW_API_RESPONSE_URL,AppConstant.SLOW_API_SECOND));
@@ -150,12 +155,17 @@ public class EventViewModel extends BaseViewModel {
         }
         return slowAPIResponse;
     }
-
-    public ObservableBoolean getIsLoading() {
+    @SuppressWarnings("ALL")
+    public MutableLiveData<Boolean> getmIsLoading() {
+        if (mIsLoading == null) {
+            mIsLoading = new MutableLiveData<>();
+        }
         return mIsLoading;
     }
 
     public void setIsLoading(boolean isLoading) {
-        mIsLoading.set(isLoading);
+        if (mIsLoading != null) {
+            mIsLoading.postValue(isLoading);
+        }
     }
 }

@@ -86,6 +86,8 @@ public class ProductListFragment extends BaseFragment {
             productViewModel.getBaseResponse()
                     .observe(getActivity(),
                             handleResponse());
+
+            productViewModel.getmIsLoading().observe(getActivity(), handleLoadingResponse());
         }
 
         productViewModel.getProductList();
@@ -101,6 +103,20 @@ public class ProductListFragment extends BaseFragment {
         return response -> {
             try {
                 setUpRecyclerView();
+            } catch (Exception e) {
+                AppUtils.handleRumException(e);
+            }
+        };
+    }
+
+    /**
+     * @return show hider progressbar based on  isLoading boolean value
+     */
+
+    private androidx.lifecycle.Observer<Boolean> handleLoadingResponse() {
+        return isLoading -> {
+            try {
+                AppUtils.showHideLoader(isLoading,binding.progressBar.progressLinearLayout,binding.parentLayout);
             } catch (Exception e) {
                 AppUtils.handleRumException(e);
             }
