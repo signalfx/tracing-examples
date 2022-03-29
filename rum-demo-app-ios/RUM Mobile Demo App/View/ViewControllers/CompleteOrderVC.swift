@@ -50,17 +50,15 @@ class CompleteOrderVC  : UIViewController{
         // pop to product list
         //show card tab selected.
         DispatchQueue.main.async {
-            CartVM().emptyCart() {
-                DispatchQueue.main.async {
-                    sharedCart.cartItems?.removeAll()
-                    self.navigationController?.popToRootViewController(animated: false)
-                    
-                    let tabContoller = window?.rootViewController as? SlideAnimatedTabbarController
-                    //tabContoller?.selectedIndex = 0
-                    tabContoller?.animateToTab(toIndex: 0, completionHandler: {success in })
-                    tabContoller?.tabBar.removeBadge(fromIndex: 1)
-                }
-            }
+            
+            sharedCart.cartItems?.removeAll()
+            self.navigationController?.popToRootViewController(animated: false)
+            
+            let tabContoller = window?.rootViewController as? SlideAnimatedTabbarController
+            //tabContoller?.selectedIndex = 0
+            tabContoller?.animateToTab(toIndex: 0, completionHandler: {success in })
+            tabContoller?.tabBar.removeBadge(fromIndex: 1)
+            
         }
         
     }

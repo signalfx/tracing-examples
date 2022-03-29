@@ -167,6 +167,8 @@ extension UIViewController {
         lbutton.imageView?.contentMode = .scaleAspectFit
         lbutton.tintColor = config.secondaryAccentColor
         lbutton.setImage(image, for: .normal)
+        lbutton.isAccessibilityElement = true
+        lbutton.accessibilityLabel = "header_back_btn"
         
         
         
@@ -178,6 +180,8 @@ extension UIViewController {
         rbutton.imageView?.contentMode = .scaleAspectFit
         rbutton.tintColor = .white //config.secondaryAccentColor
         rbutton.setImage(image1, for: .normal)
+        rbutton.isAccessibilityElement = true
+        rbutton.accessibilityLabel = "header_context_menu_icon"
         
         
         let logoImageView = UIImageView()
@@ -307,6 +311,8 @@ extension UIViewController {
             btn.backgroundColor = UIColor.red.withAlphaComponent(0.5)
             btn.addTarget(self, action: #selector(self.changeConfigURLButtonClicked(_:)), for: .touchUpInside)
             btn.isUserInteractionEnabled = true
+            btn.isAccessibilityElement = true
+            btn.accessibilityLabel = "header_context_menu_item"
             
             viewMainContainer.tag = 102010
     //        viewMainContainer.bringSubviewToFront(viewForMenu)
@@ -475,6 +481,9 @@ extension UIViewController {
                 clickHandler?()
             }
             
+            alertAction.isAccessibilityElement = true
+            alertAction.accessibilityLabel = "alert_dialogue_single_button_action"
+            
             alertController.addAction(alertAction)
             self.presentController(viewController: alertController, animated: true)
         }
@@ -492,6 +501,11 @@ extension UIViewController {
             let alertAction2 = UIAlertAction.init(title: buttonTitle2, style: .default) { action in
                 clickHandler2?()
             }
+            
+            alertAction1.isAccessibilityElement = true
+            alertAction1.accessibilityLabel = "alert_dialogue_double_button_action1"
+            alertAction2.isAccessibilityElement = true
+            alertAction2.accessibilityLabel = "alert_dialogue_double_button_action2"
             
             alertController.addAction(alertAction1)
             alertController.addAction(alertAction2)

@@ -24,8 +24,16 @@ class ProductDetailsHeader: UICollectionReusableView {
         qtyPickerView.delegate = self
         qtyPickerView.dataSource = self
         txtQty.inputView = qtyPickerView
+        
+        qtyPickerView.isAccessibilityElement = true
+        qtyPickerView.accessibilityLabel = "product_detail_quantity"
     }
     
+    //MARK: - Actions
+    
+    @IBAction func btnQuantityPressed(_ sender : UIButton) {
+        self.txtQty.becomeFirstResponder()
+    }
 }
 
 extension ProductDetailsHeader: UIPickerViewDelegate, UIPickerViewDataSource {
@@ -45,6 +53,17 @@ extension ProductDetailsHeader: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         txtQty.text = quantityArray[row]
         qtyUpdatedCallBack?(quantityArray[row])
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let lblTitle = UILabel.init()
+        lblTitle.text = self.quantityArray[row]
+        lblTitle.textColor = .black
+        lblTitle.textAlignment = .center
+        lblTitle.isAccessibilityElement = true
+        lblTitle.accessibilityLabel = "product_detail_quantity_\(quantityArray[row])"
+        print((self.lblProductName.text ?? ""))
+        return lblTitle
     }
 
 }

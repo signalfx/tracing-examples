@@ -50,19 +50,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 locationObj.startUpdatingLocation()
             }
         }
-        
-        //Initialise the timer to get the latest location coordinates on every 5 seconds
-        timerForLocation = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: { timerObj in
-            self.startGettingLatestLocation()
-        })
                 
     
         SplunkRum.initialize(beaconUrl: AppVariables.current.beaconURL , rumAuth: AppVariables.current.token ,options: SplunkRumOptions(debug: true, environment: AppVariables.current.environment))
             
             SplunkRumCrashReporting.start()
             SplunkRum.setGlobalAttributes(["DeviceID": UIDevice.current.identifierForVendor?.uuidString as Any])
+            //https://ingest.us1.signalfx.com  -- realm URL
+            //https://rum-ingest.us0.signalfx.com/v1/rum  -- default
         
        
+        //Initialise the timer to get the latest location coordinates on every 5 seconds
+        timerForLocation = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: { timerObj in
+            self.startGettingLatestLocation()
+        })
         
         //set root view controlle here
         self.window = UIWindow(frame: UIScreen.main.bounds)
@@ -162,7 +163,6 @@ extension AppDelegate : CLLocationManagerDelegate{
         coordinate = coord
         
         //FRANCE: 46.2276, 2.2137
-        //Uncomment below line of of code and comment the line after it to statically add the location in France
         //SplunkRum.setGlobalAttributes(["_sf_geo_lat":46.2276,"_sf_geo_long":2.2137])
         SplunkRum.setGlobalAttributes(["_sf_geo_lat":coordinate.latitude as Any,"_sf_geo_long":coordinate.longitude as Any])
         
@@ -174,6 +174,8 @@ extension AppDelegate : CLLocationManagerDelegate{
         print("LocationManager didFailWithError \(error.localizedDescription)")
            if let error = error as? CLError, error.code == .denied {
               // Location updates are not authorized.
+             // To prevent forever looping of `didFailWithError` callback
+               //locationObj.stopMonitoringSignificantLocationChanges()
               return
            }
     }
@@ -181,9 +183,6 @@ extension AppDelegate : CLLocationManagerDelegate{
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         if status == .authorizedWhenInUse {
             locationObj.requestLocation()
-        }
-        else if status == .denied{
-            //User denied the location permission
         }
     }
 }

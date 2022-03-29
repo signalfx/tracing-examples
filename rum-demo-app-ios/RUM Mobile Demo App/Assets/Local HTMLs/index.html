@@ -7,6 +7,20 @@
             <link rel="stylesheet" href="stylesheet.css">
                 <script src="https://cdn.signalfx.com/o11y-gdi-rum/latest/splunk-otel-web.js"
                     crossorigin="anonymous"></script>
+                <script type="text/javascript">
+                    function initialiseRUM(data) {
+                        var jsons = JSON.parse(data)
+                        webkit.messageHandlers.callbackHandler.postMessage('https://rum-ingest.' + jsons.realm  + '.signalfx.com/v1/rum');
+                        SplunkRum.init({
+                            beaconUrl: 'https://rum-ingest.' + jsons.realm  + '.signalfx.com/v1/rum',
+                            rumAuth: jsons.token,
+                            app: "iOS WebView Spectacular.com 13"
+                        });
+                        
+                        setSessionID(jsons.sessionId)
+                    }
+                    
+                </script>
         </head>
         <body>
             <p>This file was loaded from in-app content</p>
@@ -20,6 +34,10 @@
                     } catch(err) {
                         console.log('The native context does not exist yet');
                     }
+                }
+                
+                function setSessionID(data) {
+                    document.getElementById("session_id").innerHTML = data;
                 }
                 
             </script>

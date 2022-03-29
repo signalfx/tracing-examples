@@ -100,8 +100,10 @@ class CheckOutVC  : UIViewController{
             self.showAlertNativeSingleAction(StringConstants.paymentFailed, message: StringConstants.paymentFailedDueToCC)
         } else if RumEventHelper.shared.shouldFailPayment {
             //Generate payment failure exception
-            RumEventHelper.shared.addError(RumEventHelper.RumCustomEvent.paymentFailed.rawValue, attributes: ["error" : StringConstants.paymentFailedDueToLocation])
-            self.showAlertNativeSingleAction(StringConstants.paymentFailed, message: StringConstants.paymentFailedDueToLocation)
+            RumEventHelper.shared.generateSalesTaxAPICall {
+                RumEventHelper.shared.addError(RumEventHelper.RumCustomEvent.paymentFailed.rawValue, attributes: ["error" : StringConstants.paymentFailedDueToLocation])
+                self.showAlertNativeSingleAction(StringConstants.paymentFailed, message: StringConstants.paymentFailedDueToLocation)
+            }
         }else {
             checkoutViewModel.callCheckoutAPI(email: self.txtEmailAddress.text ?? "", streetAddress: self.txtStreetAddress.text ?? "", zipCode: self.txtZipCode.text ?? "", city: self.txtCity.text ?? "", state: self.txtState.text ?? "", country: self.txtCountry.text ?? "", creditCarNumber: self.txtCreditCardNumber.text ?? "", creditCardExpMonth: self.txtMonth.text ?? "", creditCardExpYear: self.txtYear.text ?? "", creditCardCVV: self.txtCVV.text ?? "") { errorMessage in
                 

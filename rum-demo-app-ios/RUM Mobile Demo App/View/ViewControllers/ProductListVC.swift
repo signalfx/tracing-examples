@@ -104,6 +104,9 @@ extension ProductListVC :  UICollectionViewDataSource,UICollectionViewDelegateFl
         
         cell.productImage.image = UIImage.init(named: product.picture)
         
+        cell.isAccessibilityElement = true
+        cell.accessibilityLabel = "product_list_item_\(product.name)"
+        
         return cell
     }
     

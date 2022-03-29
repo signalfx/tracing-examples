@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="stylesheet.css">
     <script src="https://cdn.signalfx.com/o11y-gdi-rum/latest/splunk-otel-web.js"
             crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        function setSessionID(data) {
+            setSessionIDInBody(data)
+        }
+        
+        </script>
 </head>
 <body>
 <p>This file was <b>also</b> loaded from in-app content</p>
@@ -21,6 +27,10 @@
         } catch(err) {
             console.log('The native context does not exist yet');
         }
+    }
+    
+    function setSessionIDInBody(data) {
+        document.getElementById("session_id").innerHTML = data;
     }
     
 </script>

@@ -118,24 +118,19 @@ class RumEventHelper {
     
     func handleLocationBasedAPICall() {
         //FRANCE: 46.2276, 2.2137
-        //Uncomment below line and comment the line after that when you need a static location of France.
         //let location = CLLocation.init(latitude: 46.2276, longitude: 2.2137)
         let location = CLLocation.init(latitude: coordinate.latitude, longitude: coordinate.longitude)
         location.fetchCountry { country, error in
             if let countryName = country, !countryName.isEmpty {
-//                print("======>>>> COUNTRY => \(countryName)")
-                if countryName.lowercased() == "france" {
-                    self.shouldFailPayment = true
-                    DispatchQueue.main.async {
-                        DataService.request(getURL(for: "\(ApiName.GenerateSalesTax.rawValue)?country=\(countryName.lowercased())"), method: "GET", params: nil, shouldDisplayLoader: false, type: ProductDetail.self) { responseModel, errorMessage, responseCode in}
-                    }
-                } else {
-                    RumEventHelper.shared.shouldFailPayment = false
-                }
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
-                    self.handleLocationBasedAPICall()
-                }
+                self.shouldFailPayment = countryName.lowercased() == "france"
+            }
+        }
+    }
+    
+    func generateSalesTaxAPICall(_ completion : @escaping ()->Void) {
+        DispatchQueue.main.async {
+            DataService.request(getURL(for: "\(ApiName.GenerateSalesTax.rawValue)?country=france"), method: "GET", params: nil, shouldDisplayLoader: false, type: ProductDetail.self) { responseModel, errorMessage, responseCode in
+                completion()
             }
         }
     }

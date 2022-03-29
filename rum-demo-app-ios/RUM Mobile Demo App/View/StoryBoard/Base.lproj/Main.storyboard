@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Myp-2a-TFZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Myp-2a-TFZ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <accessibilityOverrides dynamicTypePreference="2"/>
     <dependencies>
         <deployment version="4624" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -79,6 +79,7 @@
                                                                                     </label>
                                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="HTTP://" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5y8-lB-zw3" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                                         <rect key="frame" x="0.0" y="24.5" width="376" height="55"/>
+                                                                                        <accessibility key="accessibilityConfiguration" label="url_configuration_store_link"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="55" id="g3M-Ff-Pjn"/>
                                                                                         </constraints>
@@ -133,7 +134,7 @@
                                                                                                         </constraints>
                                                                                                     </imageView>
                                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="251" text="realm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGN-OA-Ngx">
-                                                                                                        <rect key="frame" x="42" y="17" width="199" height="21"/>
+                                                                                                        <rect key="frame" x="42" y="17" width="199" height="21.5"/>
                                                                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                         <nil key="highlightedColor"/>
@@ -169,6 +170,7 @@
                                                                                                             </textField>
                                                                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gDw-1R-cyd">
                                                                                                                 <rect key="frame" x="10" y="10" width="80" height="35"/>
+                                                                                                                <accessibility key="accessibilityConfiguration" label="url_configuration_realm_dropdown"/>
                                                                                                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                                                                                 <connections>
                                                                                                                     <action selector="btnRealmClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uEz-Zl-wMW"/>
@@ -232,6 +234,7 @@
                                                                                     </label>
                                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter App Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="t7V-dI-4WX" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                                         <rect key="frame" x="0.0" y="24.5" width="376" height="55"/>
+                                                                                        <accessibility key="accessibilityConfiguration" label="url_configuration_app_name"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="55" id="5JA-SX-b2m"/>
                                                                                         </constraints>
@@ -279,6 +282,7 @@
                                                                                     </label>
                                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="RUM Auth Token" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ycF-SQ-Dg1" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                                         <rect key="frame" x="0.0" y="24.5" width="376" height="55"/>
+                                                                                        <accessibility key="accessibilityConfiguration" label="url_configuration_hint_token"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="55" id="qor-O4-pUl"/>
                                                                                         </constraints>
@@ -324,8 +328,9 @@
                                                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                         <nil key="highlightedColor"/>
                                                                                     </label>
-                                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="RUM Auth Token" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hHl-nO-vyf" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+                                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Environment Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="hHl-nO-vyf" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                                         <rect key="frame" x="0.0" y="24.5" width="376" height="55"/>
+                                                                                        <accessibility key="accessibilityConfiguration" label="url_configuration_environment"/>
                                                                                         <constraints>
                                                                                             <constraint firstAttribute="height" constant="55" id="100-5X-iwV"/>
                                                                                         </constraints>
@@ -378,6 +383,7 @@
                                                                 <subviews>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gCG-uu-fK6" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                         <rect key="frame" x="0.0" y="0.0" width="182" height="50"/>
+                                                                        <accessibility key="accessibilityConfiguration" label="url_configuration_submit_btn"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="50" id="nKM-ys-J4c"/>
                                                                         </constraints>
@@ -392,6 +398,7 @@
                                                                     </button>
                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x2t-ag-mGC" customClass="RoundedCornerButtonNoFrame" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                         <rect key="frame" x="192" y="0.0" width="182" height="50"/>
+                                                                        <accessibility key="accessibilityConfiguration" label="url_configuration_delayed_login_btn"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="50" id="SCB-87-pPn"/>
                                                                         </constraints>
@@ -453,6 +460,9 @@
                                 </constraints>
                                 <viewLayoutGuide key="contentLayoutGuide" id="Qqh-ob-4Ph"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="tmZ-58-BM2"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="url_configuration_scrollview"/>
+                                </userDefinedRuntimeAttributes>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -570,6 +580,9 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <color key="backgroundColor" red="0.94901960780000005" green="0.94509803920000002" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </collectionReusableView>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="product_list_collectionview"/>
+                                </userDefinedRuntimeAttributes>
                                 <connections>
                                     <outlet property="dataSource" destination="tBE-75-7Tl" id="cvg-Mo-Ik3"/>
                                     <outlet property="delegate" destination="tBE-75-7Tl" id="EMV-bj-nYj"/>
@@ -690,15 +703,27 @@
                                                                         <constraint firstAttribute="height" constant="30" id="ad6-wS-s8h"/>
                                                                     </constraints>
                                                                 </imageView>
+                                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zr8-7i-RL4">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="44"/>
+                                                                    <accessibility key="accessibilityConfiguration" label="product_detail_update_quantity_btn"/>
+                                                                    <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                    <connections>
+                                                                        <action selector="btnQuantityPressed:" destination="lYw-Gx-7mL" eventType="touchUpInside" id="xsi-g6-RJ5"/>
+                                                                    </connections>
+                                                                </button>
                                                             </subviews>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                             <constraints>
                                                                 <constraint firstItem="bu8-4m-gwb" firstAttribute="leading" secondItem="qDL-je-s4L" secondAttribute="trailing" constant="8" id="2sQ-gi-xOj"/>
+                                                                <constraint firstItem="zr8-7i-RL4" firstAttribute="top" secondItem="d93-MK-Ew4" secondAttribute="top" id="9A1-Ob-24A"/>
                                                                 <constraint firstItem="qDL-je-s4L" firstAttribute="leading" secondItem="d93-MK-Ew4" secondAttribute="leading" constant="8" id="Tgb-pF-kGP"/>
                                                                 <constraint firstAttribute="width" constant="100" id="TuW-JY-2m1"/>
                                                                 <constraint firstAttribute="trailing" secondItem="bu8-4m-gwb" secondAttribute="trailing" constant="8" id="a49-RC-uNt"/>
                                                                 <constraint firstItem="bu8-4m-gwb" firstAttribute="centerY" secondItem="d93-MK-Ew4" secondAttribute="centerY" id="eg8-fD-HEp"/>
+                                                                <constraint firstAttribute="trailing" secondItem="zr8-7i-RL4" secondAttribute="trailing" id="mTp-fk-rlF"/>
                                                                 <constraint firstItem="qDL-je-s4L" firstAttribute="centerY" secondItem="bu8-4m-gwb" secondAttribute="centerY" id="qjr-pO-hZ6"/>
+                                                                <constraint firstItem="zr8-7i-RL4" firstAttribute="leading" secondItem="d93-MK-Ew4" secondAttribute="leading" id="x0U-zd-Pm9"/>
+                                                                <constraint firstAttribute="bottom" secondItem="zr8-7i-RL4" secondAttribute="bottom" id="zSZ-uu-0wA"/>
                                                             </constraints>
                                                         </view>
                                                     </subviews>
@@ -728,6 +753,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZCP-1i-y1B" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                     <rect key="frame" x="0.0" y="587" width="396" height="50"/>
                                                     <color key="backgroundColor" red="0.090196078430000007" green="0.63529411759999999" blue="0.72156862749999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <accessibility key="accessibilityConfiguration" label="product_detail_add_to_cart_btn"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="50" id="Sdq-wI-bmg"/>
                                                     </constraints>
@@ -807,6 +833,9 @@
                                                 <outlet property="txtQty" destination="qDL-je-s4L" id="O8L-nH-jf5"/>
                                             </connections>
                                         </collectionReusableView>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="product_detail_collectionview"/>
+                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="dataSource" destination="Oa0-CH-g0Q" id="AWo-Vd-tWH"/>
                                             <outlet property="delegate" destination="Oa0-CH-g0Q" id="FTp-yF-v5g"/>
@@ -871,6 +900,7 @@
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g5G-yp-9pI">
                                                             <rect key="frame" x="234" y="0.0" width="140" height="40"/>
                                                             <color key="backgroundColor" red="0.76862745098039209" green="0.76862745098039209" blue="0.76862745098039209" alpha="0.19" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <accessibility key="accessibilityConfiguration" label="cart_empty_btn"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="140" id="cfo-K7-EuL"/>
                                                             </constraints>
@@ -1007,6 +1037,7 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uzb-nb-htH" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                     <rect key="frame" x="20" y="47" width="374" height="50"/>
+                                                    <accessibility key="accessibilityConfiguration" label="cart_checkout_btn"/>
                                                     <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
                                                     <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                     <state key="normal" title="CHECK OUT">
@@ -1177,6 +1208,7 @@
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oex-Ja-GFb" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="cart_keep_browsing_btn"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="PgO-06-acg"/>
                                                         </constraints>
@@ -1289,13 +1321,14 @@
                                 <rect key="frame" x="0.0" y="66" width="414" height="747"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YCQ-Yr-eth">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="414"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="546"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="100" axis="vertical" distribution="fillEqually" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="uwa-fU-Chj">
-                                                <rect key="frame" x="20" y="50" width="374" height="314"/>
+                                                <rect key="frame" x="20" y="50" width="374" height="446"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYw-9J-1Y3" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="event_generation_crash_btn"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="hJc-zo-rKu"/>
                                                         </constraints>
@@ -1319,6 +1352,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzw-4l-dzi" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="66" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="event_generation_4XX_btn"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="4** ERROR">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1329,6 +1363,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2V3-N3-O4g" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="132" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="event_generation_5XX_btn"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="5** ERROR">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1349,6 +1384,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CtK-EL-J7v" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="198" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="event_generation_exception_btn"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="EXCEPTION">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1359,6 +1395,7 @@
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Usv-7i-ZV7" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="264" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="event_generation_slow_api_btn"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="SLOW RESPONSE">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1367,8 +1404,9 @@
                                                             <action selector="btnSlowApiResponseClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="kBU-Yy-ArV"/>
                                                         </connections>
                                                     </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bAP-Bs-Gbm" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="314" width="374" height="0.0"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bAP-Bs-Gbm" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="330" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="event_generation_local_webview_btn"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="LOCAL WEB VIEW">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1377,8 +1415,9 @@
                                                             <action selector="btnLocalWebViewClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="1hF-7v-QVx"/>
                                                         </connections>
                                                     </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ara-bX-cxy" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="314" width="374" height="0.0"/>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ara-bX-cxy" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
+                                                        <rect key="frame" x="0.0" y="396" width="374" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="event_generation_shop_webview_btn"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="SHOP WEB VIEW">
                                                             <color key="titleColor" systemColor="tintColor"/>
@@ -1478,7 +1517,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check Out" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOr-tY-gcJ">
-                                <rect key="frame" x="20" y="108" width="96" height="23.5"/>
+                                <rect key="frame" x="20" y="108" width="92.5" height="23.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23.5" id="IoM-EH-8bR"/>
                                 </constraints>
@@ -1497,6 +1536,7 @@
                                                 <subviews>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="nbV-X1-Hdf" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="0.0" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_email_address"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="55" id="ce6-zK-dZS"/>
                                                         </constraints>
@@ -1527,6 +1567,7 @@
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Street address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qb7-Oj-YG4" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="75" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_postal_address"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -1554,6 +1595,7 @@
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Zip code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="DRh-eM-AXL" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="150" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_zip_code"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
@@ -1581,6 +1623,7 @@
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Country" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Hnp-ae-nVw" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="225" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_country"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -1608,6 +1651,7 @@
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="State" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="b4r-GP-tqe" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="300" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_state"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -1635,6 +1679,7 @@
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="City" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zh7-9Q-70J" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="375" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_city"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -1662,6 +1707,7 @@
                                                     </textField>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Credit Card Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YcD-dh-vW2" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="450" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_credit_card_number"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad"/>
@@ -1692,6 +1738,7 @@
                                                         <subviews>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Month" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eSE-r7-JFK" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="157" height="55"/>
+                                                                <accessibility key="accessibilityConfiguration" label="checkout_expiry_month"/>
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -1719,6 +1766,7 @@
                                                             </textField>
                                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Year" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="vPW-cN-oIM" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                                 <rect key="frame" x="177" y="0.0" width="157" height="55"/>
+                                                                <accessibility key="accessibilityConfiguration" label="checkout_expiry_year"/>
                                                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                                 <textInputTraits key="textInputTraits" autocorrectionType="no"/>
@@ -1751,6 +1799,7 @@
                                                     </stackView>
                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="CVV" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RZH-JB-BJ8" customClass="DesignableUITextField" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="600" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_cvv"/>
                                                         <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                         <textInputTraits key="textInputTraits" autocorrectionType="no" keyboardType="numberPad" secureTextEntry="YES"/>
@@ -1778,6 +1827,7 @@
                                                     </textField>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b7E-hO-eSo" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="675" width="334" height="55"/>
+                                                        <accessibility key="accessibilityConfiguration" label="checkout_place_order_btn"/>
                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="15"/>
                                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                                         <state key="normal" title="PLACE ORDER">
@@ -1791,6 +1841,9 @@
                                             </stackView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <accessibility key="accessibilityConfiguration" label="checkout_cardview">
+                                            <bool key="isElement" value="YES"/>
+                                        </accessibility>
                                         <constraints>
                                             <constraint firstItem="12s-do-IXQ" firstAttribute="leading" secondItem="vx7-fo-aX4" secondAttribute="leading" constant="20" id="PGA-yW-2lc"/>
                                             <constraint firstItem="12s-do-IXQ" firstAttribute="top" secondItem="vx7-fo-aX4" secondAttribute="top" constant="25" id="XmL-d9-K8W"/>
@@ -1818,6 +1871,9 @@
                                     <constraint firstItem="vx7-fo-aX4" firstAttribute="leading" secondItem="bN8-56-NDz" secondAttribute="leading" id="mQ6-gK-CQM"/>
                                     <constraint firstItem="vx7-fo-aX4" firstAttribute="centerX" secondItem="bN8-56-NDz" secondAttribute="centerX" id="svo-Hn-h48"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="accessibilityLabel" value="checkout_scrollview"/>
+                                </userDefinedRuntimeAttributes>
                             </scrollView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="mtN-hP-4M8"/>
@@ -1950,6 +2006,7 @@
                                                     </tableView>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cgy-sc-ljs" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="20" y="570" width="334" height="50"/>
+                                                        <accessibility key="accessibilityConfiguration" label="order_confirmation_browsing_btn"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="50" id="OQr-Ru-6tI"/>
                                                         </constraints>
@@ -1963,6 +2020,9 @@
                                                     </button>
                                                 </subviews>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <accessibility key="accessibilityConfiguration" label="order_confirmation_cardview">
+                                                    <bool key="isElement" value="YES"/>
+                                                </accessibility>
                                                 <constraints>
                                                     <constraint firstItem="cgy-sc-ljs" firstAttribute="leading" secondItem="kg1-Oe-heR" secondAttribute="leading" constant="20" symbolic="YES" id="AT0-Rj-Uhx"/>
                                                     <constraint firstItem="3iL-5W-a4j" firstAttribute="leading" secondItem="kg1-Oe-heR" secondAttribute="leading" id="Lvg-Va-FLT"/>
@@ -2063,46 +2123,46 @@
     </scenes>
     <designables>
         <designable name="5y8-lB-zw3">
-            <size key="intrinsicContentSize" width="136.5" height="34"/>
+            <size key="intrinsicContentSize" width="137" height="34"/>
         </designable>
         <designable name="DRh-eM-AXL">
-            <size key="intrinsicContentSize" width="139.5" height="34"/>
+            <size key="intrinsicContentSize" width="137.5" height="34"/>
         </designable>
         <designable name="Hnp-ae-nVw">
-            <size key="intrinsicContentSize" width="132.5" height="34"/>
+            <size key="intrinsicContentSize" width="130.5" height="34"/>
         </designable>
         <designable name="RZH-JB-BJ8">
             <size key="intrinsicContentSize" width="103" height="34"/>
         </designable>
         <designable name="YcD-dh-vW2">
-            <size key="intrinsicContentSize" width="230.5" height="34"/>
+            <size key="intrinsicContentSize" width="226.5" height="34"/>
         </designable>
         <designable name="b4r-GP-tqe">
-            <size key="intrinsicContentSize" width="110.5" height="34"/>
+            <size key="intrinsicContentSize" width="110" height="34"/>
         </designable>
         <designable name="eSE-r7-JFK">
             <size key="intrinsicContentSize" width="120" height="34"/>
         </designable>
         <designable name="hHl-nO-vyf">
-            <size key="intrinsicContentSize" width="198.5" height="34"/>
+            <size key="intrinsicContentSize" width="215" height="34"/>
         </designable>
         <designable name="nbV-X1-Hdf">
             <size key="intrinsicContentSize" width="181.5" height="34"/>
         </designable>
         <designable name="qb7-Oj-YG4">
-            <size key="intrinsicContentSize" width="185.5" height="34"/>
+            <size key="intrinsicContentSize" width="184.5" height="34"/>
         </designable>
         <designable name="t7V-dI-4WX">
-            <size key="intrinsicContentSize" width="195.5" height="34"/>
+            <size key="intrinsicContentSize" width="192.5" height="34"/>
         </designable>
         <designable name="vPW-cN-oIM">
-            <size key="intrinsicContentSize" width="103" height="34"/>
+            <size key="intrinsicContentSize" width="104" height="34"/>
         </designable>
         <designable name="ycF-SQ-Dg1">
-            <size key="intrinsicContentSize" width="198.5" height="34"/>
+            <size key="intrinsicContentSize" width="195" height="34"/>
         </designable>
         <designable name="zh7-9Q-70J">
-            <size key="intrinsicContentSize" width="100" height="34"/>
+            <size key="intrinsicContentSize" width="98.5" height="34"/>
         </designable>
     </designables>
     <resources>

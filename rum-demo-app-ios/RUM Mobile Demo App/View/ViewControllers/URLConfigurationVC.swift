@@ -78,7 +78,6 @@ class URLConfigurationVC : UIViewController {
         self.realmPickerView.selectRow(arrayRealm.firstIndex(of: AppVariables.current.realm) ?? 0, inComponent: 0, animated: true)
     }
     
-    
     /// This function enable/disable the Submit button based on valid inputs of store url.
     func setSubmitButtonStatus(){
         if txtURL.text?.isEmpty ?? true {
@@ -101,7 +100,6 @@ class URLConfigurationVC : UIViewController {
     /// - Returns: TRUE if input is valid and FALSE if not.
     func validateInputs() -> Bool {
         
-        var validInputs = true
         var urlToCheck = self.txtURL.text
         
         if urlToCheck?.last == "/" {
@@ -112,25 +110,25 @@ class URLConfigurationVC : UIViewController {
             self.txtURL.layer.borderColor = UIColor.red.cgColor
             self.lblErrorMessage.isHidden = false
             self.lblErrorMessage.text = StringConstants.noURLMsg
-            validInputs = false
+            return false
         }
-        else if !(urlToCheck?.isValidUrl() ?? false) {
+        else if urlToCheck?.isValidUrl() == false {
             
             if let url = URL.init(string: urlToCheck ?? ""), UIApplication.shared.canOpenURL(url) {
                 self.lblErrorMessage.isHidden = true
-                validInputs = true
+                return true
             }
             
             self.txtURL.layer.borderColor = UIColor.red.cgColor
             self.lblErrorMessage.isHidden = false
             self.lblErrorMessage.text = StringConstants.urlIsNotProperMsg
-            validInputs = false
+            return false
         }
         else{
             self.lblErrorMessage.isHidden = true
         }
         
-        return validInputs
+        return true
     }
     
     
@@ -194,7 +192,13 @@ class URLConfigurationVC : UIViewController {
     
     /// Redirect user to Products List screen.
     func navigateToProductList() {
-        let mainTabBarController = mainStoryBoard.instantiateViewController(withIdentifier: "MainTabBarController")
+        guard let mainTabBarController = mainStoryBoard.instantiateViewController(withIdentifier: "MainTabBarController") as? UITabBarController else {return}
+        mainTabBarController.tabBar.items?[0].isAccessibilityElement = true
+        mainTabBarController.tabBar.items?[0].accessibilityLabel = "bottom_navigation_home_icon"
+        mainTabBarController.tabBar.items?[1].isAccessibilityElement = true
+        mainTabBarController.tabBar.items?[1].accessibilityLabel = "bottom_navigation_cart_icon"
+        mainTabBarController.tabBar.items?[2].isAccessibilityElement = true
+        mainTabBarController.tabBar.items?[2].accessibilityLabel = "bottom_navigation_events_icon"
         (UIApplication.shared.delegate as? AppDelegate)?.changeRootViewController(mainTabBarController)
     }
     
@@ -328,5 +332,25 @@ extension URLConfigurationVC: UIPickerViewDelegate, UIPickerViewDataSource {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.txtRealm.text = arrayRealm[row]
     }
-
+    
+    func pickerView(_ pickerView: UIPickerView, accessibilityLabelForComponent component: Int) -> String? {
+        
+        for (index, eachRealm) in self.arrayRealm.enumerated() {
+            guard let rowView = pickerView.view(forRow: index, forComponent: component) else {return nil}
+            rowView.isAccessibilityElement = true
+            rowView.accessibilityLabel = "url_configuration_realm_\(eachRealm)"
+        }
+        
+        return nil
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        let lblTitle = UILabel.init()
+        lblTitle.text = self.arrayRealm[row]
+        lblTitle.textColor = .black
+        lblTitle.textAlignment = .center
+        lblTitle.isAccessibilityElement = true
+        lblTitle.accessibilityLabel = "url_configuration_realm_\(self.arrayRealm[row])"
+        return lblTitle
+    }
 }
