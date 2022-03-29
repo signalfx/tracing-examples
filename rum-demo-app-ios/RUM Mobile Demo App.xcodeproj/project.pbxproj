@@ -11,6 +11,7 @@
 		265FE53827C8D78F00B9D5B2 /* APToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 265FE53627C8D78F00B9D5B2 /* APToast.swift */; };
 		265FE53927C8D78F00B9D5B2 /* APToast.xib in Resources */ = {isa = PBXBuildFile; fileRef = 265FE53727C8D78F00B9D5B2 /* APToast.xib */; };
 		682C04C4278BEA7800CA5734 /* CollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 682C04C3278BEA7800CA5734 /* CollectionReusableView.swift */; };
+		840587FC274CFCD5007AED26 /* rumLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 840587FB274CFCD5007AED26 /* rumLogo.png */; };
 		8409284A2705899100AC6DA4 /* ValidationAndError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840928492705899100AC6DA4 /* ValidationAndError.swift */; };
 		8409284C27058A1B00AC6DA4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409284B27058A1B00AC6DA4 /* UIViewExtension.swift */; };
 		8409284E27058AB600AC6DA4 /* ColorExtension..swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409284D27058AB600AC6DA4 /* ColorExtension..swift */; };
@@ -67,8 +68,6 @@
 		84D70FA3270B0D94008740A0 /* Roboto-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 84D70F96270B0D93008740A0 /* Roboto-LightItalic.ttf */; };
 		84D70FA7270B1777008740A0 /* ProductListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84D70FA6270B1777008740A0 /* ProductListCell.swift */; };
 		84D70FA9270B17A0008740A0 /* ProductListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D70FA8270B17A0008740A0 /* ProductListCell.xib */; };
-		84E56C6127169F8D00622698 /* sample1.html in Resources */ = {isa = PBXBuildFile; fileRef = 84E56C5F27169F8D00622698 /* sample1.html */; };
-		84E56C6227169F8D00622698 /* sample2.html in Resources */ = {isa = PBXBuildFile; fileRef = 84E56C6027169F8D00622698 /* sample2.html */; };
 		84E56C6B2716B71B00622698 /* SplunkOtel in Frameworks */ = {isa = PBXBuildFile; productRef = 84E56C6A2716B71B00622698 /* SplunkOtel */; };
 		84E56C6E2716B77A00622698 /* SplunkOtelCrashReporting in Frameworks */ = {isa = PBXBuildFile; productRef = 84E56C6D2716B77A00622698 /* SplunkOtelCrashReporting */; };
 		84E56C702716EF7200622698 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E56C6F2716EF7200622698 /* AppUtility.swift */; };
@@ -121,6 +120,7 @@
 		4C3FC1C9F3CB7A7DFB895A1F /* Pods_RUM_Mobile_Demo_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RUM_Mobile_Demo_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		682C04C3278BEA7800CA5734 /* CollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableView.swift; sourceTree = "<group>"; };
 		81C16AC3BC49B3776AEAFEDC /* Pods-RUM Mobile Demo App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RUM Mobile Demo App.release.xcconfig"; path = "Target Support Files/Pods-RUM Mobile Demo App/Pods-RUM Mobile Demo App.release.xcconfig"; sourceTree = "<group>"; };
+		840587FB274CFCD5007AED26 /* rumLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rumLogo.png; path = ImageAssets/rumLogo.png; sourceTree = "<group>"; };
 		840928492705899100AC6DA4 /* ValidationAndError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationAndError.swift; sourceTree = "<group>"; };
 		8409284B27058A1B00AC6DA4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 		8409284D27058AB600AC6DA4 /* ColorExtension..swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension..swift; sourceTree = "<group>"; };
@@ -181,8 +181,6 @@
 		84D70FA6270B1777008740A0 /* ProductListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductListCell.swift; sourceTree = "<group>"; };
 		84D70FA8270B17A0008740A0 /* ProductListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ProductListCell.xib; sourceTree = "<group>"; };
 		84D81E522713FDD9004BF8A1 /* RUM Mobile Demo App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RUM Mobile Demo App.entitlements"; sourceTree = "<group>"; };
-		84E56C5F27169F8D00622698 /* sample1.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = sample1.html; sourceTree = "<group>"; };
-		84E56C6027169F8D00622698 /* sample2.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = sample2.html; sourceTree = "<group>"; };
 		84E56C6F2716EF7200622698 /* AppUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtility.swift; sourceTree = "<group>"; };
 		84E56CB1271709CF00622698 /* RUM Mobile Demo AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RUM Mobile Demo AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		84E56CB3271709CF00622698 /* RUM_Mobile_Demo_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RUM_Mobile_Demo_AppTests.swift; sourceTree = "<group>"; };
@@ -298,6 +296,7 @@
 		841DF5D12704477000792A02 = {
 			isa = PBXGroup;
 			children = (
+				840587FB274CFCD5007AED26 /* rumLogo.png */,
 				841DF5DC2704477000792A02 /* RUM Mobile Demo App */,
 				84E56CB2271709CF00622698 /* RUM Mobile Demo AppTests */,
 				84E56CBF271709E900622698 /* RUM Mobile Demo AppUITests */,
@@ -395,7 +394,6 @@
 				265FE53527C8D78F00B9D5B2 /* Toast */,
 				F4DA6B1727BB9EED00AA66E9 /* Nav Menu */,
 				F4FB81662796F1F200A9E87E /* Loader */,
-				84E56C5E27169F4600622698 /* Html */,
 				84D70F89270B0D29008740A0 /* Font */,
 				8409286227059DB600AC6DA4 /* PCLBlurEffectAlert */,
 				841DF5DD2704477000792A02 /* AppDelegate.swift */,
@@ -479,15 +477,6 @@
 				84D70FA8270B17A0008740A0 /* ProductListCell.xib */,
 			);
 			path = ProductListCell;
-			sourceTree = "<group>";
-		};
-		84E56C5E27169F4600622698 /* Html */ = {
-			isa = PBXGroup;
-			children = (
-				84E56C5F27169F8D00622698 /* sample1.html */,
-				84E56C6027169F8D00622698 /* sample2.html */,
-			);
-			path = Html;
 			sourceTree = "<group>";
 		};
 		84E56CB2271709CF00622698 /* RUM Mobile Demo AppTests */ = {
@@ -695,6 +684,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				840587FC274CFCD5007AED26 /* rumLogo.png in Resources */,
 				84D70F9B270B0D94008740A0 /* Roboto-Medium.ttf in Resources */,
 				84D70FA0270B0D94008740A0 /* Roboto-Bold.ttf in Resources */,
 				F4C2DECE27BE68F20098543C /* index.html in Resources */,
@@ -715,8 +705,6 @@
 				F4C2DECD27BE68F20098543C /* stylesheet.css in Resources */,
 				F4C2DECF27BE68F20098543C /* second.html in Resources */,
 				84D70F9A270B0D94008740A0 /* Roboto-BoldItalic.ttf in Resources */,
-				84E56C6127169F8D00622698 /* sample1.html in Resources */,
-				84E56C6227169F8D00622698 /* sample2.html in Resources */,
 				84D70F9D270B0D94008740A0 /* LICENSE.txt in Resources */,
 				F4FB816A2796F23F00A9E87E /* APProgressView.xib in Resources */,
 				841DF5E52704477000792A02 /* Main.storyboard in Resources */,
@@ -1033,7 +1021,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 254Z2A9PCP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RUM Mobile Demo App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1066,7 +1054,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 254Z2A9PCP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RUM Mobile Demo App/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

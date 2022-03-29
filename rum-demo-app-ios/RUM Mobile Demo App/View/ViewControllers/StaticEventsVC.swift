@@ -110,10 +110,6 @@ class StaticEventsVC : UIViewController{
     
     //MARK: - Actions
     
-    @IBAction func btnLoadWebViewClicked(_ sender: Any) {
-        loadWebView(withFile: "sample1") //2) load web view using local html file
-    }
-    
     @IBAction func btnExceptionClicked(_ sender: Any) {
         do {
             let htmlPath = Bundle.main.path(forResource: "sample4", ofType: "html")
