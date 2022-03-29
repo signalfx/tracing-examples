@@ -66,14 +66,6 @@ class LocalWebViewVC: UIViewController {
                 let jsonString = String(data: jsonData, encoding: .utf8)!
                 print(jsonString)
                 self.jsonUpdate = jsonString
-//                let javaScript = "initialiseRUM(\'\(jsonString)')"
-//
-//                localwebView.evaluateJavaScript(javaScript) { result, error in
-//                    guard error == nil else {
-//                        print(error ?? "Failed to evaluate JS")
-//                        return
-//                    }
-//                }
             }
         }
         
@@ -87,7 +79,6 @@ extension LocalWebViewVC : WKNavigationDelegate, WKUIDelegate, WKScriptMessageHa
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         APProgressHUD.shared.dismissProgressHUD()
-        print("didFinish navigation")
         if !isFirstTimeLoad{
             self.isFirstTimeLoad = true
             webView.evaluateJavaScript("initialiseRUM(\'\(self.jsonUpdate)')") { result, error in
@@ -108,16 +99,11 @@ extension LocalWebViewVC : WKNavigationDelegate, WKUIDelegate, WKScriptMessageHa
     
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage)
     {
-        print("WEBVIEW ==>> \(message.body as? String ?? "")")
         if(message.body as? String ?? "" == "helloClicked") {
             APToast.showToastWith(message: "Hello iOS User!!")
         } else if(message.body as? String ?? "" == "goodbyeClicked") {
             APToast.showToastWith(message: "Goodbye iOS!")
         }
-    }
-    
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("didStartProvisionalNavigation\n\(webView.url?.absoluteString ?? "NA")")
     }
 }
 

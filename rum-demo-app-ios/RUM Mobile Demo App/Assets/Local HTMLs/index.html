@@ -10,11 +10,10 @@
                 <script type="text/javascript">
                     function initialiseRUM(data) {
                         var jsons = JSON.parse(data)
-                        webkit.messageHandlers.callbackHandler.postMessage('https://rum-ingest.' + jsons.realm  + '.signalfx.com/v1/rum');
                         SplunkRum.init({
                             beaconUrl: 'https://rum-ingest.' + jsons.realm  + '.signalfx.com/v1/rum',
                             rumAuth: jsons.token,
-                            app: "iOS WebView Spectacular.com 13"
+                            app: "iOS WebView Spectacular.com"
                         });
                         
                         setSessionID(jsons.sessionId)
