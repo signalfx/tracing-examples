@@ -31,6 +31,7 @@ class DataService{
             guard let url = URL.init(string: urlString) else {return}
             var request = URLRequest.init(url: url)
             request.timeoutInterval = 60.0
+            //        request.setValue("keep-alive", forHTTPHeaderField: "Connection")
             request.httpMethod = method
             
             if let bodyParameters = params {    
@@ -79,7 +80,7 @@ enum ApiName: String{
     case ProductDetails = "product/"
     case Cart = "cart"
     case GenerateCartEmpty = "cart/clear"
-    case GenerateSalesTax = "checkout/calculateTax"
+    case GenerateSalesTax = "cart/calculateTax"
 }
 func getURL(for apiname: String)-> String{
     return "\(AppVariables.current.configURL)\(apiname)"

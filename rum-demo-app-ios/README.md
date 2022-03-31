@@ -81,10 +81,127 @@ It will create the certificates and profiles required automatically.
 5. To generate the appbundle, start building the project either using the shortcut `cmd + B` or you can click on "Products -> Build` in the menu bar.
 Once the build process is successfully finished, in the project navigation, go to `Rum Mobile Demo App -> Products` folder and select the appbundle file created. The generated .app file is the signed build.
 #### Generate .ipa file
-Perform *steps 1 to 5* from [Generate Signed Build](https://github.com/shraddha-crest/RUM-Mobile-Demo-App/blob/master/README.md#generating-build-signed) section.
+Perform *steps 1 to 5* from [Generate Signed Build](../master/README.md#generating-build-signed) section.
 1. To generate the .ipa file, select `Any iOS Device" on the target device (instead of any simulator) and click on `Products -> Archive` menu in the menu bar.
 This will compile the code and create the archive. Once it is successfully compiled, it will open one window where you can see the `Distribute App` button on right side panel.
 2. Select `Development` in the next step. Select Automatic Signing in the option appearing in the upcoming step and click on `Export` button at the last step where it finishes the process.
 3. On the export action, it will save the archive folder to your selected location. In that folder, one will be able to find the .ipa file.
  
  
+## Configure the RUM SDK
+To configure the RUM SDK, Splunk OpenTelemetry package must be installed first in the Swift Package Dependencies. After that, RUM SDK can be initialised as below:
+
+```
+import SplunkOtel
+
+SplunkRum.initialize(beaconUrl: <Beacon URL>, rumAuth: <RUM Auth Token>)
+```
+
+Code Reference: [here](../main/RUM%20Mobile%20Demo%20App/Common/AppDelegate.swift#L55)
+
+## Set Global Attributes for RUM
+We can set the global attributes for RUM SDK. The code snippet below demonstrate the way to set location values in the global attributes of RUM SDK.
+
+```
+SplunkRum.setGlobalAttributes([
+                                "_sf_geo_lat": <Location Latitude>,
+                                "_sf_geo_long": <Location Longitude>
+                                ])
+```
+
+Code Reference: [here](../main/RUM%20Mobile%20Demo%20App/Common/AppDelegate.swift#L167)
+
+## Add Custom Event 
+We can set the custom event to identify specific actions or event triggered on the app side.
+```
+import SplunkOtel
+
+fileprivate var tracer : Tracer {
+        get {
+            return OpenTelemetry.instance.tracerProvider.get(instrumentationName: "splunk-ios", instrumentationVersion: SplunkRumVersionString)
+        }
+    }
+    
+    let span = tracer.spanBuilder(spanName: eventName).startSpan()
+    span.end()
+```
+
+#### Add extra attributes to custom event
+This takes additional attributes in the parameters as well for logging extra details from custom event.
+
+```
+let span = tracer.spanBuilder(spanName: eventName).startSpan()
+span.setAttribute(key: <KEY NAME>, value: <VALUE>)
+span.end()
+```
+
+Code Reference: [here](../main/RUM%20Mobile%20Demo%20App/View/ViewControllers/URLConfigurationVC.swift#L248)
+
+## Log Error on RUM Platform
+For any specific action or event on the app side, we can log the error on RUM Dashboard. Sample snippet is as below:
+
+```
+let span = tracer.spanBuilder(spanName: errorName).startSpan()
+span.setAttribute(key: "component", value: "error")
+span.setAttribute(key: "error", value: true)
+span.end()
+```
+
+#### Add extra attributes to error event
+This takes additional attributes in the parameters as well for logging extra details related to error occurred.
+
+```
+let span = tracer.spanBuilder(spanName: errorName).startSpan()
+span.setAttribute(key: "component", value: "error")
+span.setAttribute(key: "error", value: true)
+span.setAttribute(key: <KEY NAME>, value: <VALUE>)
+span.end()
+```
+
+Code Reference: [here](../main/RUM%20Mobile%20Demo%20App/View/ViewControllers/CheckOutVC.swift#L99)
+
+## Create Nested Flow
+It is possible to create parent-child like workflow in RUM SDK. For this, child span needs to be passed within the parent span object.
+
+Span can be started and ended for explicit duration decided by code. In below example, it demonstrates how we can create parent-child workflow of span and how we can manage the duration of the child and parent span.
+
+Code Reference: [here](../main/RUM%20Mobile%20Demo%20App/View/ViewControllers/URLConfigurationVC.swift#L268)
+
+```
+fileprivate var tracer : Tracer {
+        get {
+            return OpenTelemetry.instance.tracerProvider.get(instrumentationName: "splunk-ios", instrumentationVersion: SplunkRumVersionString)
+        }
+    }
+
+if let activeSpan = OpenTelemetry.instance.contextProvider.activeSpan {
+            var parentSpan = tracer.spanBuilder(spanName: spanName).setParent(activeSpan).startSpan()
+            parentSpan.setAttribute(key: <KEY NAME>, value: <VALUE>)
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                var childSpan = tracer.spanBuilder(spanName: spanName).setParent(parentSpan).startSpan()
+                childSpan.setAttribute(key: <KEY NAME>, value: <VALUE>)
+                childSpan.end()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    parentSpan.end()
+                }
+            }
+        }
+```
+
+## Configuration of RUM SDK with WebView
+We can initialise the RUM SDK for webview as well. While loading the HTML file in the WKWebView using Xib or Storyboard, please add below script to HTML header.
+
+Code Reference: [here](../main/RUM%20Mobile%20Demo%20App/View/ViewControllers/LocalWebViewVC.swift#L32)
+
+```
+<script src="https://cdn.signalfx.com/o11y-gdi-rum/latest/splunk-otel-web.js"
+                    crossorigin="anonymous"></script>
+                <script type="text/javascript">
+                        SplunkRum.init({
+                            beaconUrl: 'https://rum-ingest.<REALM VALUE>.signalfx.com/v1/rum',
+                            rumAuth: '<RUM AuthToken Value>',
+                            app: '<APPLICATION_NAME>'
+                        });
+                </script>
+```
