@@ -20,7 +20,6 @@ import com.splunk.rum.demoApp.util.VariantConfig;
 
 import io.opentelemetry.api.common.Attributes;
 
-@SuppressWarnings("ALL")
 public class RumDemoApp extends Application {
     public static NetworkComponent networkComponent;
     public static ServiceComponent serviceComponent;
@@ -58,26 +57,29 @@ public class RumDemoApp extends Application {
     private void setupSplunkRUM() {
 
         String token = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.TOKEN, String.class, "");
-        String environmentName = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.ENVIRONMENT_NAME, String.class, "");
+        String environmentName = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.ENVIRONMENT_NAME,
+                String.class, "");
         String appName = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.APP_NAME, String.class, "");
-        if (StringHelper.isEmpty(token) || StringHelper.isEmpty(environmentName)) {
-            token = getResources().getString(R.string.rum_access_token);
-            environmentName = getResources().getString(R.string.rum_environment);
-        }
-
         String realM = PreferenceHelper.getValue(this, AppConstant.SharedPrefKey.REAL_M,
                 String.class, "");
 
-        if(StringHelper.isEmpty(realM)){
+        if (StringHelper.isEmpty(token)) {
+            token = getString(R.string.rum_access_token);
+        }
+
+        if (StringHelper.isEmpty(environmentName)) {
+            environmentName = getString(R.string.rum_environment);
+        }
+
+        if (StringHelper.isEmpty(realM)) {
             realM = getResources().getString(R.string.rum_realm);
         }
 
-        if(StringHelper.isEmpty(appName)){
+        if (StringHelper.isEmpty(appName)) {
             appName = getString(R.string.app_name);
         }
-        String appVersion = BuildConfig.VERSION_NAME;
+
         Config config = SplunkRum.newConfigBuilder()
-                //rum.access.token
                 .realm(realM)
                 .rumAccessToken(token)
                 .applicationName(appName)
@@ -85,7 +87,7 @@ public class RumDemoApp extends Application {
                 .debugEnabled(true)
                 .globalAttributes(
                         Attributes.builder()
-                                .put(StandardAttributes.APP_VERSION, appVersion)
+                                .put(StandardAttributes.APP_VERSION, BuildConfig.VERSION_NAME)
                                 .build())
                 .build();
         SplunkRum splunkRum = SplunkRum.initialize(config, this);
@@ -105,11 +107,6 @@ public class RumDemoApp extends Application {
         RumDemoApp.splunkRum = splunkRum;
     }
 
-
-    // Get Network component
-    public NetworkComponent getNetworkComponent() {
-        return networkComponent;
-    }
 
     // Get Service component
     public static ServiceComponent getServiceComponent() {

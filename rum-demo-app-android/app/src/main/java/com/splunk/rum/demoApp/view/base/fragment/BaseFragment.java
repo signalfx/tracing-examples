@@ -17,7 +17,6 @@ import com.splunk.rum.demoApp.view.cart.fragment.ShoppingCartFragment;
 import com.splunk.rum.demoApp.view.event.fragment.EventGenerationFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductDetailsFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductListFragment;
-@SuppressWarnings("ALL")
 public class BaseFragment extends Fragment implements ViewListener, DialogButtonClickListener {
 
     private boolean isCart = false;
@@ -30,14 +29,14 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void showProgress() {
-
     }
 
+    @SuppressWarnings("unused")
     @Override
     public void hideProgress() {
-
     }
 
     @Override
@@ -49,7 +48,7 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
         }
     }
 
-
+    @SuppressWarnings("unused")
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
         if (getActivity() != null) {

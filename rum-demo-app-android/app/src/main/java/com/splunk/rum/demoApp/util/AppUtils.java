@@ -1,13 +1,11 @@
 package com.splunk.rum.demoApp.util;
 
 
-import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
@@ -17,9 +15,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.location.LocationManagerCompat;
 
 import com.google.android.gms.common.util.CollectionUtils;
 import com.google.gson.Gson;
@@ -33,7 +28,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
-@SuppressWarnings("ALL")
 public final class AppUtils {
 
     private static final String APP_UTILS = "AppUtils.java";
@@ -41,6 +35,7 @@ public final class AppUtils {
     /**
      * @param product The product class for store product data into the cart
      */
+    @SuppressWarnings("ALL")
     public static void storeProductInCart(Context context, Product product) {
         ProductListResponse productListResponse = getProductsFromPref(context);
         if (productListResponse != null) {
@@ -93,7 +88,7 @@ public final class AppUtils {
     /**
      * @param context    View context
      * @param statusCode HTTP status code
-     * @return
+     * @return error message from the status code
      */
     public static String getHttpErrorMessage(Context context, int statusCode) {
         String errorMessage;
@@ -192,40 +187,6 @@ public final class AppUtils {
         }
     }
 
-
-    /**
-     * @param context View context
-     * @return Location permission is granted or not
-     */
-    public static boolean checkLocationPermissions(Context context) {
-        int permissionState = ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION);
-        return permissionState == PackageManager.PERMISSION_GRANTED;
-    }
-
-    /**
-     * @param activity current activity
-     */
-    public static void startLocationPermissionRequest(Activity activity) {
-        ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
-                AppConstant.REQUEST_PERMISSIONS_REQUEST_CODE
-        );
-    }
-
-    /**
-     * @param context View context
-     * @return is location is enable or not
-     */
-    public static boolean isLocationEnabled(Context context) {
-        if (context != null) {
-            LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-            return LocationManagerCompat.isLocationEnabled(locationManager);
-        }
-        return false;
-    }
-
-
     /**
      * @param activity To get current activity screen width
      * @return width of screen
@@ -240,6 +201,7 @@ public final class AppUtils {
      * @param activity To get current activity screen width >= 720
      * @return is10InchTablet or not
      */
+    @SuppressWarnings("ALL")
     public static boolean is10InchTablet(Activity activity) {
         return getScreenWidth(activity) >= 720;
     }
@@ -268,6 +230,7 @@ public final class AppUtils {
      * @param context View context
      * @param message Toast message
      */
+    @SuppressWarnings("unused")
     public static void showShortMessage(Context context, String message) {
         getToast(context, message, Toast.LENGTH_SHORT).show();
     }
@@ -296,6 +259,7 @@ public final class AppUtils {
      * @param context View context
      * @return isNetworkAvailable or not
      */
+    @SuppressLint("ObsoleteSdkInt")
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) return false;
@@ -338,8 +302,8 @@ public final class AppUtils {
 
     /**
      * @param context   context View context
-     * @param latitude
-     * @param longitude
+     * @param latitude  latitude of location
+     * @param longitude longitude of location
      * @return country name (Note: It may return blank or null in some devices)
      */
     public static String getCountryName(Context context, double latitude, double longitude) {
@@ -357,6 +321,12 @@ public final class AppUtils {
         return null;
     }
 
+    /**
+     * @param isLoading pass true/false to show or hide progress view
+     * @param loaderView parent of progress dialog view
+     * @param parentLayout parent layout of fragment view (If loading progressBar is visible then Hide background view)
+     */
+    @SuppressWarnings("ALL")
     public static void showHideLoader(boolean isLoading, View loaderView, View parentLayout) {
         if (isLoading) {
             loaderView.setVisibility(View.VISIBLE);

@@ -23,7 +23,7 @@
         tools:targetApi="n">
 
         <activity
-            android:name="com.splunk.rum.demoApp.view.splash.activity.SplashActivity"
+            android:name="com.splunk.rum.demoApp.view.splash.activity.AppStartingActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

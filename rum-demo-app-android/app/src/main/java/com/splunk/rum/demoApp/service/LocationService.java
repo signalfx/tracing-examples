@@ -68,8 +68,6 @@ public class LocationService extends Service {
                     Double lon = location.getLongitude();
                     //noinspection ConstantConditions
                     if (lat != null && lon != null) {
-//                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LAT), lat);
-//                        RumDemoApp.getSplunkRum().setGlobalAttribute(AttributeKey.doubleKey(GLOBAL_ATTR_LONG), lon);
                         RumDemoApp.getSplunkRum().updateLocation(location);
                         String name = getCountryName(LocationService.this, lat, lon);
                         if(StringHelper.isEmpty(name)){

@@ -8,7 +8,6 @@ import com.splunk.rum.demoApp.R;
 import com.splunk.rum.demoApp.callback.DialogButtonClickListener;
 
 
-@SuppressWarnings({"ALL", "unused"})
 public final class AlertDialogHelper {
 
     /**
@@ -65,6 +64,7 @@ public final class AlertDialogHelper {
      * @param context View context
      * @param dialogMessage Dialog message
      */
+    @SuppressWarnings("unused")
     public static void showDialog(Context context, String dialogMessage) {
         showDialog(context, null, dialogMessage, context.getString(R.string.ok), null, true, null, 0);
     }
@@ -75,6 +75,7 @@ public final class AlertDialogHelper {
      * @param dialogMessage Dialog message ==> example "Are you sure you want remove this item?"
      * @param buttonClickListener buttonClickListener interface implentation in activity or fragment then pass this. If you don't want click listener then pass null
      */
+    @SuppressWarnings("unused")
     public static void showDialog(Context context, String title, String dialogMessage, final DialogButtonClickListener buttonClickListener) {
         showDialog(context, title, dialogMessage, context.getString(R.string.ok), null, true, buttonClickListener, 0);
     }

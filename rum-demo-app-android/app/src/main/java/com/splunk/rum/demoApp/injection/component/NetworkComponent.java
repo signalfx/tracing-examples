@@ -15,11 +15,11 @@ import retrofit2.Retrofit;
  * This is parent component for dependent child component i.e. ServiceComponent.
  * Please refer signature of ServiceComponent.
  */
-@SuppressWarnings("ALL")
 @Singleton
 @Component(modules = {AppModule.class, NetworkModule.class})
 public interface NetworkComponent {
 
     Retrofit provideRetrofit();
+    @SuppressWarnings("ALL")
     Application provideAppContext();
 }

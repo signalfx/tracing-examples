@@ -2,20 +2,6 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-
-        <import type="android.view.View" />
-
-        <variable
-            name="viewModel"
-            type="com.splunk.rum.demoApp.view.event.viewModel.EventViewModel" />
-
-    </data>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
     <LinearLayout
         style="@style/parentViewMediumPadding"
         android:layout_width="match_parent"
@@ -30,6 +16,5 @@
             app:srcCompat="@drawable/hipster_logo" />
     </LinearLayout>
 
-    </FrameLayout>
 </layout>
 

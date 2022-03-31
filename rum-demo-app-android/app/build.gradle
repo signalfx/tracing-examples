@@ -28,7 +28,7 @@ android {
             buildConfigField("String", "API_CART_END_POINT", "\"cart\"")
             buildConfigField("String", "API_CHECK_OUT_END_POINT", "\"cart/checkout\"")
             buildConfigField("String", "HTTP_404_URL", "\"cart/checkouts\"")
-            buildConfigField("String", "HTTP_GENERATE_NEW_SALES_TAX", "\"checkout/calculateTax\"")
+            buildConfigField("String", "HTTP_GENERATE_NEW_SALES_TAX", "\"cart/calculateTax\"")
             buildConfigField("String", "HTTP_500_URL", "\"payment/send\"")
             buildConfigField("String", "SLOW_API_RESPONSE_URL", "\"cart/clear\"")
             minifyEnabled false

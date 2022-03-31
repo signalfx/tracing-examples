@@ -25,7 +25,7 @@ import com.splunk.rum.demoApp.util.progressDialog.ProgressDialogHelper;
 import com.splunk.rum.demoApp.view.checkout.activity.CheckOutActivity;
 import com.splunk.rum.demoApp.view.urlConfig.activity.URLConfigurationActivity;
 
-@SuppressWarnings("ALL")
+
 public class BaseActivity extends AppCompatActivity implements ViewListener, DialogButtonClickListener {
 
     private ProgressDialogHelper progressDialogHelper;
@@ -61,11 +61,11 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
 
 
     /**
-     * @param context activity or fragment context
+     * @param context          activity or fragment context
      * @param destinationClass Destination navigation class
-     * @param finish Boolean to finish the current activity
-     * @param clearStack Clear the activity stack
-     * @param bundle Bundle data
+     * @param finish           Boolean to finish the current activity
+     * @param clearStack       Clear the activity stack
+     * @param bundle           Bundle data
      */
     public void moveActivity(Context context, Class<?> destinationClass, boolean finish, boolean clearStack, Bundle bundle) {
         Intent intent = new Intent(context, destinationClass);
@@ -86,22 +86,23 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
     }
 
     /**
-     * @param context activity or fragment context
+     * @param context          activity or fragment context
      * @param destinationClass Destination navigation class
-     * @param finish Boolean to finish the current activity
+     * @param finish           Boolean to finish the current activity
      */
-    public void moveActivity(Context context, Class<?> destinationClass,boolean finish){
-        moveActivity(context,destinationClass,finish,false,null);
+    @SuppressWarnings("unused")
+    public void moveActivity(Context context, Class<?> destinationClass, boolean finish) {
+        moveActivity(context, destinationClass, finish, false, null);
     }
 
     /**
-     * @param context activity or fragment context
+     * @param context          activity or fragment context
      * @param destinationClass Destination navigation class
-     * @param finish Boolean to finish the current activity
-     * @param clearStack Clear the activity stack
+     * @param finish           Boolean to finish the current activity
+     * @param clearStack       Clear the activity stack
      */
-    public void moveActivity(Context context, Class<?> destinationClass,boolean finish,boolean clearStack){
-        moveActivity(context,destinationClass,finish,clearStack,null);
+    public void moveActivity(Context context, Class<?> destinationClass, boolean finish, boolean clearStack) {
+        moveActivity(context, destinationClass, finish, clearStack, null);
     }
 
 
@@ -134,7 +135,7 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.overflow_menu, menu);
-        for(int i = 0; i< menu.size(); i++){
+        for (int i = 0; i < menu.size(); i++) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                     && menu.getItem(i).getItemId() == R.id.configChange) {
                 menu.getItem(i).setContentDescription(getString(R.string.header_context_menu_item));
@@ -166,20 +167,25 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
         hideProgressDialog();
     }
 
+    @SuppressWarnings("ALL")
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
         hideProgress();
-        if(errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)){
+        if (errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)
+                && retrofitException != null
+                && StringHelper.isNotEmpty(retrofitException.getMessage())) {
+
             isSalesTax = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.new_sales_tax));
             AlertDialogHelper.showDialog(this, null, this.getString(R.string.error_network)
                     , this.getString(R.string.ok), this.getString(R.string.retry), false,
                     this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
-        }else{
+        } else {
             AppUtils.handleApiError(this, retrofitException);
         }
 
     }
 
+    @SuppressWarnings("unused")
     @Override
     public boolean isNetworkAvailable() {
         return AppUtils.isNetworkAvailable(this);
@@ -206,11 +212,11 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
 
     @Override
     public void onNegativeButtonClicked(int dialogIdentifier) {
-        if(dialogIdentifier == AppConstant.DialogIdentifier.INTERNET_DIALOG){
-            if(this instanceof CheckOutActivity){
-                if(isSalesTax){
+        if (dialogIdentifier == AppConstant.DialogIdentifier.INTERNET_DIALOG) {
+            if (this instanceof CheckOutActivity) {
+                if (isSalesTax) {
                     ((CheckOutActivity) this).getCheckoutViewModel().generateNewSalesTax();
-                }else{
+                } else {
                     ((CheckOutActivity) this).getCheckoutViewModel().doCheckOut();
                 }
             }
