@@ -22,10 +22,6 @@
 		8409285A2705986800AC6DA4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840928592705986800AC6DA4 /* DateExtension.swift */; };
 		8409285C270598B300AC6DA4 /* BaseResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409285B270598B300AC6DA4 /* BaseResponseData.swift */; };
 		8409285E27059A2000AC6DA4 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409285D27059A2000AC6DA4 /* UIViewControllerExtension.swift */; };
-		8409286827059DB600AC6DA4 /* PCLBlurEffectAlert+TransitionAnimator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409286427059DB600AC6DA4 /* PCLBlurEffectAlert+TransitionAnimator.swift */; };
-		8409286927059DB600AC6DA4 /* PCLBlurEffectAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409286527059DB600AC6DA4 /* PCLBlurEffectAlert.swift */; };
-		8409286A27059DB600AC6DA4 /* PCLBlurEffectAlert+Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409286627059DB600AC6DA4 /* PCLBlurEffectAlert+Action.swift */; };
-		8409286B27059DB600AC6DA4 /* PCLBlurEffectAlert+Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409286727059DB600AC6DA4 /* PCLBlurEffectAlert+Controller.swift */; };
 		8409286E2705D1BC00AC6DA4 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409286D2705D1BC00AC6DA4 /* DataService.swift */; };
 		840928722705F04B00AC6DA4 /* StringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840928712705F04B00AC6DA4 /* StringConstants.swift */; };
 		841DF5DE2704477000792A02 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF5DD2704477000792A02 /* AppDelegate.swift */; };
@@ -113,9 +109,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		05FCC1F6295B509B7B73F7D5 /* Pods-RUM Mobile Demo App.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RUM Mobile Demo App.debug.xcconfig"; path = "Target Support Files/Pods-RUM Mobile Demo App/Pods-RUM Mobile Demo App.debug.xcconfig"; sourceTree = "<group>"; };
 		265FE53627C8D78F00B9D5B2 /* APToast.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APToast.swift; sourceTree = "<group>"; };
 		265FE53727C8D78F00B9D5B2 /* APToast.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = APToast.xib; sourceTree = "<group>"; };
 		4C3FC1C9F3CB7A7DFB895A1F /* Pods_RUM_Mobile_Demo_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RUM_Mobile_Demo_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D792114D21118B5CEB0B797 /* Pods-RUM Mobile Demo App.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RUM Mobile Demo App.release.xcconfig"; path = "Target Support Files/Pods-RUM Mobile Demo App/Pods-RUM Mobile Demo App.release.xcconfig"; sourceTree = "<group>"; };
 		682C04C3278BEA7800CA5734 /* CollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionReusableView.swift; sourceTree = "<group>"; };
 		840928492705899100AC6DA4 /* ValidationAndError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationAndError.swift; sourceTree = "<group>"; };
 		8409284B27058A1B00AC6DA4 /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
@@ -128,11 +126,6 @@
 		840928592705986800AC6DA4 /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		8409285B270598B300AC6DA4 /* BaseResponseData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponseData.swift; sourceTree = "<group>"; };
 		8409285D27059A2000AC6DA4 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
-		8409286327059DB600AC6DA4 /* PCLBlurEffectAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCLBlurEffectAlert.h; sourceTree = "<group>"; };
-		8409286427059DB600AC6DA4 /* PCLBlurEffectAlert+TransitionAnimator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PCLBlurEffectAlert+TransitionAnimator.swift"; sourceTree = "<group>"; };
-		8409286527059DB600AC6DA4 /* PCLBlurEffectAlert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PCLBlurEffectAlert.swift; sourceTree = "<group>"; };
-		8409286627059DB600AC6DA4 /* PCLBlurEffectAlert+Action.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PCLBlurEffectAlert+Action.swift"; sourceTree = "<group>"; };
-		8409286727059DB600AC6DA4 /* PCLBlurEffectAlert+Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PCLBlurEffectAlert+Controller.swift"; sourceTree = "<group>"; };
 		8409286D2705D1BC00AC6DA4 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		840928712705F04B00AC6DA4 /* StringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConstants.swift; sourceTree = "<group>"; };
 		841DF5DA2704477000792A02 /* RUM Mobile Demo App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RUM Mobile Demo App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -268,18 +261,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		8409286227059DB600AC6DA4 /* PCLBlurEffectAlert */ = {
-			isa = PBXGroup;
-			children = (
-				8409286327059DB600AC6DA4 /* PCLBlurEffectAlert.h */,
-				8409286427059DB600AC6DA4 /* PCLBlurEffectAlert+TransitionAnimator.swift */,
-				8409286527059DB600AC6DA4 /* PCLBlurEffectAlert.swift */,
-				8409286627059DB600AC6DA4 /* PCLBlurEffectAlert+Action.swift */,
-				8409286727059DB600AC6DA4 /* PCLBlurEffectAlert+Controller.swift */,
-			);
-			path = PCLBlurEffectAlert;
-			sourceTree = "<group>";
-		};
 		841DF5D12704477000792A02 = {
 			isa = PBXGroup;
 			children = (
@@ -288,6 +269,7 @@
 				84E56CBF271709E900622698 /* RUM Mobile Demo AppUITests */,
 				841DF5DB2704477000792A02 /* Products */,
 				2128B9C163C073EAF026D26F /* Frameworks */,
+				D8F4B5D12E007FA2BC319C13 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -380,7 +362,6 @@
 				F4DA6B1727BB9EED00AA66E9 /* Nav Menu */,
 				F4FB81662796F1F200A9E87E /* Loader */,
 				84D70F89270B0D29008740A0 /* Font */,
-				8409286227059DB600AC6DA4 /* PCLBlurEffectAlert */,
 				841DF5DD2704477000792A02 /* AppDelegate.swift */,
 				8409285327058F0400AC6DA4 /* Configuration.swift */,
 				84092855270596B900AC6DA4 /* Constants.swift */,
@@ -489,6 +470,15 @@
 				84F433FE270EDE3100B6A4B3 /* ProductListHeaderCell.xib */,
 			);
 			path = ProductListHeader;
+			sourceTree = "<group>";
+		};
+		D8F4B5D12E007FA2BC319C13 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				05FCC1F6295B509B7B73F7D5 /* Pods-RUM Mobile Demo App.debug.xcconfig */,
+				4D792114D21118B5CEB0B797 /* Pods-RUM Mobile Demo App.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		F4B2593C27A00BA40095C37B /* Helpers */ = {
@@ -760,11 +750,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8409286927059DB600AC6DA4 /* PCLBlurEffectAlert.swift in Sources */,
 				841DF614270481A500792A02 /* ProductDetail.swift in Sources */,
 				265FE53827C8D78F00B9D5B2 /* APToast.swift in Sources */,
 				84E56C702716EF7200622698 /* AppUtility.swift in Sources */,
-				8409286827059DB600AC6DA4 /* PCLBlurEffectAlert+TransitionAnimator.swift in Sources */,
 				8409285A2705986800AC6DA4 /* DateExtension.swift in Sources */,
 				84F433FD270EDDFF00B6A4B3 /* ProductListHeaderCell.swift in Sources */,
 				841DF616270481B900792A02 /* Cart.swift in Sources */,
@@ -777,7 +765,6 @@
 				84D70FA7270B1777008740A0 /* ProductListCell.swift in Sources */,
 				841DF61C2704820300792A02 /* CheckOut.swift in Sources */,
 				F43284D627B138540095B273 /* Reachability.swift in Sources */,
-				8409286A27059DB600AC6DA4 /* PCLBlurEffectAlert+Action.swift in Sources */,
 				841DF6082704664A00792A02 /* StaticEventsVC.swift in Sources */,
 				8409286E2705D1BC00AC6DA4 /* DataService.swift in Sources */,
 				841DF5DE2704477000792A02 /* AppDelegate.swift in Sources */,
@@ -806,7 +793,6 @@
 				8409285427058F0400AC6DA4 /* Configuration.swift in Sources */,
 				84FE6BC927105D4B00C238AE /* StaticEventsVM.swift in Sources */,
 				841DF618270481CC00792A02 /* Payment.swift in Sources */,
-				8409286B27059DB600AC6DA4 /* PCLBlurEffectAlert+Controller.swift in Sources */,
 				841DF60A27047B3000792A02 /* ProductListVM.swift in Sources */,
 				8409285C270598B300AC6DA4 /* BaseResponseData.swift in Sources */,
 				84692EDA2743CBC100DC13A2 /* BaseViewController.swift in Sources */,
@@ -998,6 +984,7 @@
 		};
 		841DF5EF2704477200792A02 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 05FCC1F6295B509B7B73F7D5 /* Pods-RUM Mobile Demo App.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "RUM Mobile Demo App/RUM Mobile Demo App.entitlements";
@@ -1030,6 +1017,7 @@
 		};
 		841DF5F02704477200792A02 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4D792114D21118B5CEB0B797 /* Pods-RUM Mobile Demo App.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "RUM Mobile Demo App/RUM Mobile Demo App.entitlements";
@@ -1200,8 +1188,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/signalfx/splunk-otel-ios/";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.4.0;
+				kind = exactVersion;
+				version = 0.5.3;
 			};
 		};
 		84E56C6C2716B77A00622698 /* XCRemoteSwiftPackageReference "splunk-otel-ios-crashreporting" */ = {

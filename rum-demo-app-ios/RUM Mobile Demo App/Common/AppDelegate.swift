@@ -113,7 +113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
      *Parameter vc: The view controller which needs to be set as root controller of the window
      *Parameter animated: Whether the window root controller needs to be set with animation or not.
     */
-    func changeRootViewController(_ vc: UIViewController, animated: Bool = true)  {
+    func changeRootViewController(_ vc: UIViewController, animated: Bool = true) {
         
         DispatchQueue.main.async {
             guard let window = self.window else {

@@ -54,16 +54,7 @@ class ProductListVC : UIViewController {
             }
             self.products = products
         }
-        
-        viewModel.showAlertClosure = {
-            if let error = self.viewModel.error {
-                let actionOK = PCLBlurEffectAlertAction(title: "OK".localized(), style: .default) {_ in }
-                
-                self.showAlertNativeSingleAction(StringConstants.alertTitle , message: error.localizedDescription)
-                print(error.localizedDescription)
-            }
-        }
-        
+
         viewModel.didFinishFetch = {
             // show data on view
             //update view logic goes here

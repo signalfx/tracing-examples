@@ -39,23 +39,22 @@ class StaticEventsVC : UIViewController{
         super.viewWillAppear(animated)
         self.addBlueHeader(title: "RUM Mobile Demo", isRightButtonHidden: false, isBackButtonHidden: true)
         btnCrashApp?.addTextSpacing()
-        btnAnr.addTextSpacing()
         btnFourHundredError.addTextSpacing()
         btnFiveHundredError.addTextSpacing()
-        btnLoadWebView.addTextSpacing()
         btnException.addTextSpacing()
         btnSlowApiResponse.addTextSpacing()
         btnLocalWebView.addTextSpacing()
         btnShopWebView.addTextSpacing()
     }
     
-    // MARK: - button action
+    // MARK: - Networking
+    private func attemptNetwrokCall(withcode : Int) {
+        viewModel.staticEvent(withcode: withcode)
+    }
+    
+    //MARK: - Actions
      @IBAction func btnCrashAppClicked(_ sender: Any) {
          viewModel.crashApp()
-    }
-    @IBAction func btnGeneralANRClicked(_ sender: Any) {
-        NSException(name: NSExceptionName(rawValue: "IllegalFormatError"), reason: "Could not parse input", userInfo: nil).raise()
-        print("should not reach here")
     }
 
     @IBAction func btnFourHundredErrorClicked(_ sender: Any) {
@@ -66,49 +65,6 @@ class StaticEventsVC : UIViewController{
         attemptNetwrokCall(withcode: 500)
     }
     
-    // MARK: - Networking
-    private func attemptNetwrokCall(withcode : Int) {
-        viewModel.staticEvent(withcode: withcode)
-        
-        viewModel.showAlertClosure = {
-            if let error = self.viewModel.error {
-                let actionOK = PCLBlurEffectAlertAction(title: "OK".localized(), style: .default) {_ in }
-                
-                self.showAlertNativeSingleAction(StringConstants.alertTitle , message: error.localizedDescription)
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
-    //MARK: -
-    
-    func loadWebView(with urlstring : String) {
-        print("web view is loading using URL....")
-
-        let webview = WKWebView(frame: .zero)
-        let url = URL(string: urlstring)
-        let req = URLRequest(url: url!)
-        view = webview
-        SplunkRum.integrateWithBrowserRum(webview)
-        webview.load(req)
-    }
-    
-    func loadWebView(withFile name : String){
-        print("web view is loading using sample1.html....")
-        let webView = WKWebView(frame: .zero)
-        let htmlPath = Bundle.main.path(forResource: name, ofType: "html")
-
-        let htmlUrl = URL(fileURLWithPath: htmlPath!)
-
-        view = webView
-        SplunkRum.setGlobalAttributes(["HTML-file-name" : name])
-        SplunkRum.integrateWithBrowserRum(webView)
-        webView.loadFileURL(htmlUrl, allowingReadAccessTo: htmlUrl)
-
-        
-    }
-    
-    //MARK: - Actions
     
     @IBAction func btnExceptionClicked(_ sender: Any) {
         do {
@@ -146,15 +102,6 @@ class StaticEventsVC : UIViewController{
     
     private func attemptSlowApiResponse() {
         viewModel.slowApiResponse()
-        
-        viewModel.showAlertClosure = {
-            if let error = self.viewModel.error {
-                let actionOK = PCLBlurEffectAlertAction(title: "OK".localized(), style: .default) {_ in }
-                
-                self.showAlertNativeSingleAction(StringConstants.alertTitle, message: error.localizedDescription)
-                print(error.localizedDescription)
-            }
-        }
     }
     
     func isFileAvailableAt(resourcePath : String) throws {

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Myp-2a-TFZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Myp-2a-TFZ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <accessibilityOverrides dynamicTypePreference="2"/>
     <dependencies>
         <deployment version="4624" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -134,7 +134,7 @@
                                                                                                         </constraints>
                                                                                                     </imageView>
                                                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="200" verticalHuggingPriority="251" text="realm" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hGN-OA-Ngx">
-                                                                                                        <rect key="frame" x="42" y="17" width="199" height="21.5"/>
+                                                                                                        <rect key="frame" x="42" y="17" width="199" height="21"/>
                                                                                                         <fontDescription key="fontDescription" name="Roboto-Regular" family="Roboto" pointSize="18"/>
                                                                                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                         <nil key="highlightedColor"/>
@@ -1517,7 +1517,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Check Out" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WOr-tY-gcJ">
-                                <rect key="frame" x="20" y="108" width="92.5" height="23.5"/>
+                                <rect key="frame" x="20" y="108" width="96" height="23.5"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23.5" id="IoM-EH-8bR"/>
                                 </constraints>
@@ -2123,46 +2123,46 @@
     </scenes>
     <designables>
         <designable name="5y8-lB-zw3">
-            <size key="intrinsicContentSize" width="137" height="34"/>
+            <size key="intrinsicContentSize" width="136.5" height="34"/>
         </designable>
         <designable name="DRh-eM-AXL">
-            <size key="intrinsicContentSize" width="137.5" height="34"/>
+            <size key="intrinsicContentSize" width="139.5" height="34"/>
         </designable>
         <designable name="Hnp-ae-nVw">
-            <size key="intrinsicContentSize" width="130.5" height="34"/>
+            <size key="intrinsicContentSize" width="132.5" height="34"/>
         </designable>
         <designable name="RZH-JB-BJ8">
             <size key="intrinsicContentSize" width="103" height="34"/>
         </designable>
         <designable name="YcD-dh-vW2">
-            <size key="intrinsicContentSize" width="226.5" height="34"/>
+            <size key="intrinsicContentSize" width="230.5" height="34"/>
         </designable>
         <designable name="b4r-GP-tqe">
-            <size key="intrinsicContentSize" width="110" height="34"/>
+            <size key="intrinsicContentSize" width="110.5" height="34"/>
         </designable>
         <designable name="eSE-r7-JFK">
             <size key="intrinsicContentSize" width="120" height="34"/>
         </designable>
         <designable name="hHl-nO-vyf">
-            <size key="intrinsicContentSize" width="215" height="34"/>
+            <size key="intrinsicContentSize" width="215.5" height="34"/>
         </designable>
         <designable name="nbV-X1-Hdf">
             <size key="intrinsicContentSize" width="181.5" height="34"/>
         </designable>
         <designable name="qb7-Oj-YG4">
-            <size key="intrinsicContentSize" width="184.5" height="34"/>
+            <size key="intrinsicContentSize" width="185.5" height="34"/>
         </designable>
         <designable name="t7V-dI-4WX">
-            <size key="intrinsicContentSize" width="192.5" height="34"/>
+            <size key="intrinsicContentSize" width="195.5" height="34"/>
         </designable>
         <designable name="vPW-cN-oIM">
-            <size key="intrinsicContentSize" width="104" height="34"/>
+            <size key="intrinsicContentSize" width="103" height="34"/>
         </designable>
         <designable name="ycF-SQ-Dg1">
-            <size key="intrinsicContentSize" width="195" height="34"/>
+            <size key="intrinsicContentSize" width="198.5" height="34"/>
         </designable>
         <designable name="zh7-9Q-70J">
-            <size key="intrinsicContentSize" width="98.5" height="34"/>
+            <size key="intrinsicContentSize" width="100" height="34"/>
         </designable>
     </designables>
     <resources>

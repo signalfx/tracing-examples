@@ -43,27 +43,16 @@ func handleNoInternetConnection(_ internetCompletion : @escaping ()->Void, _ okA
         let appDel = UIApplication.shared.delegate as? AppDelegate
         
         if let rootVC = appDel?.window?.rootViewController {
-            
-            let actionRetry = PCLBlurEffectAlertAction(title: "Retry".localized(), style: .default) {_ in
-                if Reachability.isConnectedToNetwork() {
-                    internetCompletion()
-                } else {
-                    handleNoInternetConnection(internetCompletion, okAction)
-                }
-            }
-            let actionOK = PCLBlurEffectAlertAction(title: "Okay".localized(), style: .default) {_ in
-                okAction?()
-            }
-            
+
             rootVC.showAlertNativeDoubleAction(StringConstants.noInternetTitle, message: StringConstants.noInternetMessage, buttonTitle1: "Retry", clickHandler1: {
                 if Reachability.isConnectedToNetwork() {
                     internetCompletion()
                 } else {
                     handleNoInternetConnection(internetCompletion, okAction)
                 }
-            }, buttonTitle2: "Okay") {
+            }, buttonTitle2: "Okay", clickHandler2: {
                 okAction?()
-            }
+            }, dismissCompletion: nil)
         }
         return
     } else {

@@ -71,6 +71,8 @@ class CheckOutVC  : UIViewController{
         textField.text = self.modifyCreditCardString(creditCardString: textField.text!)
     }
     
+    //Below function is a solution given by Teena nath Paul on Stackoverflow.
+    //https://stackoverflow.com/a/46096440
     func modifyCreditCardString(creditCardString : String) -> String {
          let trimmedString = creditCardString.components(separatedBy: "-").joined()
 
