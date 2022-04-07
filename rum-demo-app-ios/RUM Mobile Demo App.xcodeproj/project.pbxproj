@@ -1188,8 +1188,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/signalfx/splunk-otel-ios/";
 			requirement = {
-				kind = exactVersion;
-				version = 0.5.3;
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.3;
 			};
 		};
 		84E56C6C2716B77A00622698 /* XCRemoteSwiftPackageReference "splunk-otel-ios-crashreporting" */ = {
