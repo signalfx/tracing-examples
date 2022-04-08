@@ -145,7 +145,10 @@
                     android:layout_below="@+id/quantity_layout"
                     android:layout_marginTop="@dimen/size_20dp"
                     android:contentDescription="@string/product_detail_add_to_cart_btn"
-                    android:text="@string/btn_add_to_cart" />
+                    android:text="@string/btn_add_to_cart"
+                    android:clickable="false"
+                    android:enabled="false"
+                    />
 
                 <View
                     android:id="@+id/line"

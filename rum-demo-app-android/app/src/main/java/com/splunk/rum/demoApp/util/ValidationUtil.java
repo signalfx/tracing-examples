@@ -65,7 +65,7 @@ public class ValidationUtil {
      * @param message Error message which we want to show below the edit text
      */
     public static void setErrorIntoInputTextLayout(View viewEditText, View viewInputTextLout, String message) {
-        if (!StringHelper.isEmpty(message)) {
+        if (StringHelper.isNotEmpty(message)) {
             ((TextInputLayout) viewInputTextLout).setError(message);
             (viewEditText).requestFocus();
         }

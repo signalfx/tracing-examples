@@ -121,9 +121,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                              Bundle savedInstanceState) {
         binding = FragmentProductDetailsBinding.inflate(inflater, container, false);
 
-
         // Configure ViewModel
-
         binding.setViewModel(productViewModel);
         binding.setEventViewModel(eventViewModel);
         binding.executePendingBindings();
@@ -145,6 +143,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
 
         binding.btnAddToCart.setOnClickListener(view -> {
             isAddToCartBtnClicked = true;
+            AppUtils.enableDisableBtn(false,binding.btnAddToCart);
             if (productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_EXCEPTION)
                     && productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_ADD_PRODUCT)) {
                 if (productDetails.getQuantity() > Integer.parseInt(productDetails.getAvailableQty())) {
@@ -153,6 +152,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
                     } catch (Exception e) {
                         AppUtils.showError(mContext, getString(R.string.rum_event_app_msg));
                         AppUtils.handleRumException(e);
+                        AppUtils.enableDisableBtn(true,binding.btnAddToCart);
                     }
                 } else {
                     productViewModel.addToCart(String.valueOf(productDetails.getQuantity()), productDetails.getId());
@@ -192,7 +192,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
             setProductImage();
             setUpRecyclerView();
             setUpQuantitySpinner();
-
+            AppUtils.enableDisableBtn(true,binding.btnAddToCart);
 
             if (productDetails.getErrorAction().equalsIgnoreCase(AppConstant.ErrorAction.ACTION_VIEW)
                     && productDetails.getErrorType().equalsIgnoreCase(AppConstant.ErrorType.ERR_ANR)) {
@@ -230,6 +230,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
      */
     private androidx.lifecycle.Observer<ResponseBody> handleAddProductToCartResponse() {
         return response -> {
+            AppUtils.enableDisableBtn(true,binding.btnAddToCart);
             if (getActivity() instanceof MainActivity) {
                 Boolean isFromCart = ((MainActivity) getActivity()).getMainViewModel().getIsFromCart().getValue();
                 if (isFromCart != null && isFromCart) {
@@ -297,7 +298,7 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 Object selectedItem = adapterView.getItemAtPosition(i);
-                if (selectedItem != null && !StringHelper.isEmpty(selectedItem.toString())) {
+                if (selectedItem != null && StringHelper.isNotEmpty(selectedItem.toString())) {
                     productDetails.setQuantity(Integer.parseInt(selectedItem.toString()));
                 }
             }
@@ -343,5 +344,9 @@ public class ProductDetailsFragment extends BaseFragment implements ViewListener
 
     public EventViewModel getEventViewModel() {
         return eventViewModel;
+    }
+
+    public FragmentProductDetailsBinding getBinding() {
+        return binding;
     }
 }

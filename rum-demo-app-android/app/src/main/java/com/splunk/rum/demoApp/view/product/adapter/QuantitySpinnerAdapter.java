@@ -47,7 +47,7 @@ public class QuantitySpinnerAdapter extends ArrayAdapter<String> {
             flater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             rowview = flater.inflate(R.layout.spinner_item, parent, false);
 
-            holder.txtTitle = (TextView) rowview.findViewById(R.id.tvSpinnerItem);
+            holder.txtTitle = rowview.findViewById(R.id.tvSpinnerItem);
             rowview.setTag(holder);
         } else {
             holder = (viewHolder) rowview.getTag();

@@ -102,7 +102,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     private void loadProductImage(ImageView imageView, String imageName) {
-        if (!StringHelper.isEmpty(imageName) && AppUtils.getImage(mContext,imageName) != 0) {
+        if (StringHelper.isNotEmpty(imageName) && AppUtils.getImage(mContext,imageName) != 0) {
             Glide.with(mContext).load(AppUtils.getImage(mContext,imageName))
                     .placeholder(R.drawable.no_image_place_holder).centerCrop().into(imageView);
         }

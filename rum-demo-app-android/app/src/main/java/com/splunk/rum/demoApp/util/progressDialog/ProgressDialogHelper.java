@@ -73,7 +73,7 @@ public class ProgressDialogHelper {
     private Dialog getProgressDialog(Context context, String message) {
         ProgressDialog progressDialog = new ProgressDialog(context, R.style.customAlertDialogParentThemeStyle);
         progressDialog.setCancelable(false);
-        if (!StringHelper.isEmpty(message)) {
+        if (StringHelper.isNotEmpty(message)) {
             progressDialog.setMessage(message);
         }
         return progressDialog;

@@ -55,7 +55,6 @@ import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.tasks.CancellationTokenSource;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.splunk.rum.SplunkRum;
@@ -163,8 +162,8 @@ public class URLConfigurationActivity extends BaseActivity {
 
         binding.btnSubmit.setOnClickListener(v -> {
             if (isConfigValueChanged()) {
-                changeButtonState(false, binding.btnSubmit);
-                changeButtonState(false, binding.btnLogin);
+                AppUtils.enableDisableBtn(false, binding.btnSubmit);
+                AppUtils.enableDisableBtn(false, binding.btnLogin);
                 AppUtils.showError(this, getString(R.string.error_restart_app));
                 new Handler().postDelayed(() -> navigateToProductList(v), AppConstant.SPLASH_SCREEN_DURATION);
             } else {
@@ -175,6 +174,7 @@ public class URLConfigurationActivity extends BaseActivity {
 
         binding.btnLogin.setOnClickListener(v -> {
             if (validateURLAndSetError()) {
+                AppUtils.enableDisableBtn(false,binding.btnLogin);
                 apiCount = 0;
                 spanCount = 0;
                 timeToReadyWorkFlow = startWorkflow(getString(R.string.rum_event_time_to_ready));
@@ -354,13 +354,14 @@ public class URLConfigurationActivity extends BaseActivity {
                 timeToReadyWorkFlow.end();
                 hideProgress();
                 if (isConfigValueChanged()) {
-                    changeButtonState(false, binding.btnSubmit);
-                    changeButtonState(false, binding.btnLogin);
+                    AppUtils.enableDisableBtn(false, binding.btnSubmit);
+                    AppUtils.enableDisableBtn(false, binding.btnLogin);
                     AppUtils.showError(this, getString(R.string.error_restart_app));
                     new Handler().postDelayed(() -> navigateToProductList(null), AppConstant.SPLASH_SCREEN_DURATION);
                 } else {
                     navigateToProductList(null);
                 }
+                AppUtils.enableDisableBtn(true,binding.btnLogin);
             }
         }, AppConstant.RUM_CUSTOM_EVENT_4_SEC_DELAY);
     }
@@ -499,14 +500,9 @@ public class URLConfigurationActivity extends BaseActivity {
         }
     }
 
-    private void changeButtonState(boolean state, MaterialButton button) {
-        button.setEnabled(state);
-        button.setClickable(state);
-    }
-
     private boolean isValidateURL(TextInputEditText textInputEditText) {
         if (textInputEditText.getText() != null
-                && !StringHelper.isEmpty(textInputEditText.getText().toString())) {
+                && StringHelper.isNotEmpty(textInputEditText.getText().toString())) {
             return Patterns.WEB_URL.matcher(textInputEditText.getText().toString()).matches()
                     && (URLUtil.isHttpUrl(textInputEditText.getText().toString())
                     || URLUtil.isHttpsUrl(textInputEditText.getText().toString()));
@@ -551,9 +547,9 @@ public class URLConfigurationActivity extends BaseActivity {
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             if (view.getId() == R.id.edtUrl && isValidateURL(binding.edtUrl)) {
-                changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
+                AppUtils.enableDisableBtn(StringHelper.isNotEmpty(charSequence.toString()) &&
                         !charSequence.toString().equalsIgnoreCase(getString(R.string.https)), binding.btnSubmit);
-                changeButtonState(!StringHelper.isEmpty(charSequence.toString()) &&
+                AppUtils.enableDisableBtn(StringHelper.isNotEmpty(charSequence.toString()) &&
                         !charSequence.toString().equalsIgnoreCase(getString(R.string.https)), binding.btnLogin);
             }
         }
@@ -745,5 +741,9 @@ public class URLConfigurationActivity extends BaseActivity {
         if (cancellationTokenSource != null) {
             cancellationTokenSource.cancel();
         }
+    }
+
+    public ActivityUrlConfigurationBinding getBinding() {
+        return binding;
     }
 }

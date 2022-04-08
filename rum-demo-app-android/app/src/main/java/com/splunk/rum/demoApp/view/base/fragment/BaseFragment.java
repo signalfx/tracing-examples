@@ -12,11 +12,11 @@ import com.splunk.rum.demoApp.network.RetrofitException;
 import com.splunk.rum.demoApp.util.AlertDialogHelper;
 import com.splunk.rum.demoApp.util.AppConstant;
 import com.splunk.rum.demoApp.util.AppUtils;
-import com.splunk.rum.demoApp.util.StringHelper;
 import com.splunk.rum.demoApp.view.cart.fragment.ShoppingCartFragment;
 import com.splunk.rum.demoApp.view.event.fragment.EventGenerationFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductDetailsFragment;
 import com.splunk.rum.demoApp.view.product.fragment.ProductListFragment;
+
 public class BaseFragment extends Fragment implements ViewListener, DialogButtonClickListener {
 
     private boolean isCart = false;
@@ -51,20 +51,27 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
     @SuppressWarnings("unused")
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
+        hideProgress();
         if (getActivity() != null) {
-            if (errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)) {
-                if(retrofitException != null && StringHelper.isNotEmpty(retrofitException.getMessage())){
-                    isCart = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.rum_event_add_to_cart));
-                    is4xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.method_not_found));
-                    is5xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.http_error));
-                    isSlowAPI = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.slow_api));
-                    AlertDialogHelper.showDialog(getActivity(), null, getString(R.string.error_network)
-                            , getString(R.string.ok), getString(R.string.retry), false,
-                            this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
-                }
+            if (errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)
+                    && retrofitException != null
+                    && retrofitException.getMessage() != null) {
+                isCart = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.rum_event_add_to_cart));
+                is4xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.method_not_found));
+                is5xx = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.http_error));
+                isSlowAPI = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.slow_api));
+                AlertDialogHelper.showDialog(getActivity(), null, getString(R.string.error_network)
+                        , getString(R.string.ok), getString(R.string.retry), false,
+                        this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
             } else {
                 AppUtils.handleApiError(getActivity(), retrofitException);
             }
+
+            if (this instanceof ProductDetailsFragment) {
+                AppUtils.enableDisableBtn(true,
+                        ((ProductDetailsFragment) this).getBinding().btnAddToCart);
+            }
+
         }
     }
 
@@ -92,7 +99,7 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
                 }
 
                 if (is5xx) {
-                    ((ProductDetailsFragment) this).getEventViewModel().generateHttpError(((ProductDetailsFragment) this).getProductDetails().getId(),1);
+                    ((ProductDetailsFragment) this).getEventViewModel().generateHttpError(((ProductDetailsFragment) this).getProductDetails().getId(), 1);
                 }
 
             } else if (this instanceof ShoppingCartFragment) {
@@ -107,7 +114,7 @@ public class BaseFragment extends Fragment implements ViewListener, DialogButton
                 }
 
                 if (is5xx) {
-                    ((EventGenerationFragment) this).getViewModel().generateHttpError("",0);
+                    ((EventGenerationFragment) this).getViewModel().generateHttpError("", 0);
                 }
 
                 if (isSlowAPI) {

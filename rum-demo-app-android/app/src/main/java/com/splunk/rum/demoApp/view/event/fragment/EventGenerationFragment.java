@@ -73,12 +73,25 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
         return binding.getRoot();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppUtils.enableDisableBtn(true,binding.btnLocalWebView);
+        AppUtils.enableDisableBtn(true,binding.btnShopWebView);
+    }
+
     /**
      * @return show hider progressbar based on  isLoading boolean value
      */
 
     private androidx.lifecycle.Observer<Boolean> handleLoadingResponse() {
         return isLoading -> {
+            if(!isLoading){
+                AppUtils.enableDisableBtn(true,binding.btnSlowApiResponse);
+                AppUtils.enableDisableBtn(true,binding.btnHttpError);
+                AppUtils.enableDisableBtn(true,binding.btnHttpNotFound);
+            }
+
             try {
                 AppUtils.showHideLoader(isLoading,binding.progressBar.progressLinearLayout,null);
             } catch (Exception e) {
@@ -100,13 +113,16 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
                     i++;
                 }
             case R.id.btnGenerateException:
+                AppUtils.enableDisableBtn(false,binding.btnGenerateException);
                 try {
                     throw new RuntimeException(getString(R.string.rum_event_exception_manually));
                 } catch (Exception e) {
                     AppUtils.handleRumException(e);
+                    AppUtils.enableDisableBtn(true,binding.btnGenerateException);
                 }
                 break;
             case R.id.btnFreezeApp:
+                AppUtils.enableDisableBtn(false,binding.btnFreezeApp);
                 Span appFreezer = SplunkRum.getInstance().startWorkflow(getString(R.string.rum_event_app_freezer));
                 try {
                     for (int j = 0; j < 20; j++) {
@@ -118,21 +134,27 @@ public class EventGenerationFragment extends BaseFragment implements View.OnClic
                     e.printStackTrace();
                 } finally {
                     appFreezer.end();
+                    AppUtils.enableDisableBtn(true,binding.btnFreezeApp);
                 }
                 break;
             case R.id.btnSlowApiResponse:
+                AppUtils.enableDisableBtn(false,binding.btnSlowApiResponse);
                 viewModel.slowApiResponse();
                 break;
             case R.id.btnHttpNotFound:
+                AppUtils.enableDisableBtn(false,binding.btnHttpNotFound);
                 viewModel.generateHttpNotFound();
                 break;
             case R.id.btnHttpError:
+                AppUtils.enableDisableBtn(false,binding.btnHttpError);
                 viewModel.generateHttpError("",0);
                 break;
             case R.id.btnShopWebView:
+                AppUtils.enableDisableBtn(false,binding.btnShopWebView);
                 NavHostFragment.findNavController(EventGenerationFragment.this).navigate(R.id.action_navigation_events_to_navigation_shop_web_view);
                 break;
             case R.id.btnLocalWebView:
+                AppUtils.enableDisableBtn(false,binding.btnLocalWebView);
                 NavHostFragment.findNavController(EventGenerationFragment.this).navigate(R.id.action_navigation_events_to_local_web_view);
                 break;
             default:

@@ -26,62 +26,62 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnCrashApp"
                 style="@style/primaryButtonStyle"
                 android:contentDescription="@string/event_generation_crash_btn"
                 android:text="@string/btn_crash_app" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnANR"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
                 android:contentDescription="@string/event_generation_anr_btn"
                 android:text="@string/btn_anr_app" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGenerateException"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
                 android:contentDescription="@string/event_generation_exception_btn"
                 android:text="@string/btn_generate_exception" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnFreezeApp"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
                 android:contentDescription="@string/event_generation_freeze_btn"
                 android:text="@string/btn_freeze_app" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSlowApiResponse"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
                 android:contentDescription="@string/event_generation_slow_api_btn"
                 android:text="@string/btn_slow_api_response" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnHttpNotFound"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
                 android:contentDescription="@string/event_generation_4XX_btn"
                 android:text="@string/btn_http_not_found" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnHttpError"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
                 android:contentDescription="@string/event_generation_5XX_btn"
                 android:text="@string/btn_http_error" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnShopWebView"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"
                 android:contentDescription="@string/event_generation_shop_webview_btn"
                 android:text="@string/btn_shop_web_view" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnLocalWebView"
                 style="@style/primaryButtonStyle"
                 android:layout_marginTop="@dimen/size_10dp"

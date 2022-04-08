@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "com.splunk.rum.demoApp"
         minSdk 21
-        targetSdk 31
+        targetSdk 32
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -68,9 +68,9 @@ dependencies {
     //App Compat And Design Dependency
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation "androidx.cardview:cardview:1.0.0"
-    //don't update to 1.4.1
-    // androidx.emoji.text.Spannable Builder.replace method throw android runtime error
 
+    //don't update to 1.4.1
+    //androidx.emoji.text.Spannable Builder.replace method throw android runtime error
     //noinspection GradleDependency
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.5.0'
@@ -98,9 +98,6 @@ dependencies {
 
     // Dagger 2 Dependency Injection
     implementation 'com.google.dagger:dagger:2.38.1'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
-
     annotationProcessor 'com.google.dagger:dagger-compiler:2.38.1'
 
     // Android Architecture Component ViewModel,LiveData
@@ -120,8 +117,6 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.maps.android:android-maps-utils:2.3.0'
-
-
 
     // Splunk RUM Dependency
     implementation 'com.splunk:splunk-otel-android:0.13.0'

@@ -79,9 +79,9 @@ public class EventViewModel extends BaseViewModel {
         if (view != null && view.isNetworkAvailable()) {
             setIsLoading(true);
 
-            if (StringHelper.isEmpty(productId) && quantity == 0){
+            if (StringHelper.isEmpty(productId) && quantity == 0) {
                 productId = "66VCHSJNUP";
-                quantity=1;
+                quantity = 1;
             }
 
             RequestBody productIdBody = RequestBody.create(productId, MediaType.parse("text/plain"));
@@ -130,17 +130,11 @@ public class EventViewModel extends BaseViewModel {
                 protected void onFailure(RetrofitException retrofitException, String errorCode) {
                     super.onFailure(retrofitException, errorCode);
                     setIsLoading(false);
-                    //TODO Remove this code after API deployed on server
                     if (slowAPIResponse != null) {
                         slowAPIResponse.postValue(null);
                     }
-                    //TODO Uncomment this code after API deployed on server
-//                    if (view != null) {
-//                        view.showApiError(retrofitException, errorCode);
-//                    }
-
                 }
-            }.rxSingleCall(eventServiceInterface.slowApiResponse(VariantConfig.getServerBaseUrl() + BuildConfig.SLOW_API_RESPONSE_URL,AppConstant.SLOW_API_SECOND));
+            }.rxSingleCall(eventServiceInterface.slowApiResponse(VariantConfig.getServerBaseUrl() + BuildConfig.SLOW_API_RESPONSE_URL, AppConstant.SLOW_API_SECOND));
         } else {
             if (view != null) {
                 RetrofitException retrofitException = RetrofitException.networkError(new IOException(resourceProvider.getString(R.string.slow_api)));
@@ -155,6 +149,7 @@ public class EventViewModel extends BaseViewModel {
         }
         return slowAPIResponse;
     }
+
     @SuppressWarnings("ALL")
     public MutableLiveData<Boolean> getmIsLoading() {
         if (mIsLoading == null) {

@@ -171,16 +171,23 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
     @Override
     public void showApiError(RetrofitException retrofitException, String errorCode) {
         hideProgress();
+
         if (errorCode.equalsIgnoreCase(AppConstant.ERROR_INTERNET)
                 && retrofitException != null
-                && StringHelper.isNotEmpty(retrofitException.getMessage())) {
-
+                && retrofitException.getMessage() != null) {
             isSalesTax = retrofitException.getMessage().equalsIgnoreCase(getString(R.string.new_sales_tax));
             AlertDialogHelper.showDialog(this, null, this.getString(R.string.error_network)
                     , this.getString(R.string.ok), this.getString(R.string.retry), false,
                     this, AppConstant.DialogIdentifier.INTERNET_DIALOG);
         } else {
             AppUtils.handleApiError(this, retrofitException);
+        }
+        if (this instanceof CheckOutActivity) {
+            AppUtils.enableDisableBtn(true,
+                    ((CheckOutActivity) this).getBinding().btnPlaceOrder);
+        } else if (this instanceof URLConfigurationActivity) {
+            AppUtils.enableDisableBtn(true,
+                    ((URLConfigurationActivity) this).getBinding().btnLogin);
         }
 
     }
@@ -219,6 +226,8 @@ public class BaseActivity extends AppCompatActivity implements ViewListener, Dia
                 } else {
                     ((CheckOutActivity) this).getCheckoutViewModel().doCheckOut();
                 }
+            } else if (this instanceof URLConfigurationActivity) {
+                ((URLConfigurationActivity) this).getBinding().btnLogin.performClick();
             }
         }
     }

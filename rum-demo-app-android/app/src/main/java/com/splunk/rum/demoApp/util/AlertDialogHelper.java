@@ -27,7 +27,7 @@ public final class AlertDialogHelper {
                                   final int dialogIdentifier) {
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-        if (!StringHelper.isEmpty(dialogTitle)) {
+        if (StringHelper.isNotEmpty(dialogTitle)) {
             alertDialogBuilder.setTitle(dialogTitle);
         }
         alertDialogBuilder.setMessage(dialogMessage);

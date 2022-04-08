@@ -23,7 +23,7 @@ Android 5.0(Lollipop) to the latest android os version
 | 1 | **splunk-otel-android** | https://github.com/signalfx/splunk-otel-android |
 | 2 | **Dagger2** | https://github.com/google/dagger |
 | 3 | **Glide** | https://github.com/bumptech/glide |
-| 4 | **Retrofit2** | https://square.github.io/retrofit/ |
+| 4 | **Retrofit2** | https://github.com/square/retrofit |
 | 5 | **RxJava2** | https://github.com/ReactiveX/RxJava |
 | 6 | **Androidx.navigation** | https://developer.android.com/jetpack/androidx/releases/navigation |
 | 7 | **Parceler** | https://github.com/johncarl81/parceler |

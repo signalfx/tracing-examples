@@ -172,6 +172,7 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
                         paymentFailCustomEvent(getString(R.string.rum_event_payment_fail_msg));
                         return;
                     }
+                    AppUtils.enableDisableBtn(false,binding.btnPlaceOrder);
                     checkoutViewModel.doCheckOut();
                 }
             }
@@ -248,6 +249,7 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
      */
     private androidx.lifecycle.Observer<ResponseBody> handleResponse() {
         return response -> {
+            AppUtils.enableDisableBtn(true,binding.btnPlaceOrder);
             try {
                 if (response != null && StringHelper.isNotEmpty(response.toString())) {
                     moveActivity(this, OrderDetailActivity.class, true, true);
@@ -383,6 +385,7 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
                     .get(position).getText()).toString())) {
                 ValidationUtil.removeErrorFromTextLayout(textInputLayoutList.get(position));
 
+                //// https://stackoverflow.com/questions/11790102/format-credit-card-in-edit-text-in-android
                 if (textInputEditTextList.get(position).getId() == R.id.edtCreditCard
                         && !isInputCorrect(editable)) {
                     editable.replace(0, editable.length(),
@@ -392,7 +395,7 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-
+    // https://stackoverflow.com/questions/11790102/format-credit-card-in-edit-text-in-android
     private boolean isInputCorrect(Editable s) {
         boolean isCorrect = s.length() <= TextFieldValidation.TOTAL_SYMBOLS; // check size of entered string
         for (int i = 0; i < s.length(); i++) { // check that every element is right
@@ -405,6 +408,7 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
         return isCorrect;
     }
 
+    // https://stackoverflow.com/questions/11790102/format-credit-card-in-edit-text-in-android
     private String buildCorrectString(char[] digits) {
         final StringBuilder formatted = new StringBuilder();
 
@@ -443,5 +447,9 @@ public class CheckOutActivity extends BaseActivity implements View.OnClickListen
 
     public void setCountryName(String countryName) {
         this.countryName = countryName;
+    }
+
+    public ActivityCheckOutBinding getBinding() {
+        return binding;
     }
 }

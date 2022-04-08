@@ -62,8 +62,6 @@
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/bordered_button"
                         android:contentDescription="@string/cart_empty_btn"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:letterSpacing="0.3"
                         android:paddingStart="@dimen/size_10dp"
                         android:paddingEnd="@dimen/size_10dp"

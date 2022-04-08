@@ -16,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.AppCompatButton;
+
 import com.google.android.gms.common.util.CollectionUtils;
 import com.google.gson.Gson;
 import com.splunk.rum.SplunkRum;
@@ -64,7 +66,7 @@ public final class AppUtils {
         String cart_product_json = PreferenceHelper
                 .getValue(context, AppConstant.SharedPrefKey.CART_PRODUCTS, String.class, "");
         try {
-            if (!StringHelper.isEmpty(cart_product_json)) {
+            if (StringHelper.isNotEmpty(cart_product_json)) {
                 return new Gson().fromJson(cart_product_json, ProductListResponse.class);
             } else {
                 return new ProductListResponse();
@@ -154,7 +156,7 @@ public final class AppUtils {
                             AlertDialogHelper.showDialog(context, null, errorMessage
                                     , context.getString(R.string.ok), null, false,
                                     null, 0);
-                        } else if (!StringHelper.isEmpty(retrofitException.getMessage())) {
+                        } else if (StringHelper.isNotEmpty(retrofitException.getMessage())) {
                             AlertDialogHelper.showDialog(context, null, retrofitException.getMessage()
                                     , context.getString(R.string.ok), null, false,
                                     null, 0);
@@ -322,8 +324,8 @@ public final class AppUtils {
     }
 
     /**
-     * @param isLoading pass true/false to show or hide progress view
-     * @param loaderView parent of progress dialog view
+     * @param isLoading    pass true/false to show or hide progress view
+     * @param loaderView   parent of progress dialog view
      * @param parentLayout parent layout of fragment view (If loading progressBar is visible then Hide background view)
      */
     @SuppressWarnings("ALL")
@@ -338,6 +340,17 @@ public final class AppUtils {
             if (parentLayout != null) {
                 parentLayout.setVisibility(View.VISIBLE);
             }
+        }
+    }
+
+    /**
+     * @param isEnable pass true/false to enable or disable the button
+     * @param button pass button which is enable or disable
+     */
+    public static void enableDisableBtn(boolean isEnable, AppCompatButton button) {
+        if (button != null) {
+            button.setEnabled(isEnable);
+            button.setClickable(isEnable);
         }
     }
 }
