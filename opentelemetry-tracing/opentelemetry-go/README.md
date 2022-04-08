@@ -1,11 +1,12 @@
-# The Splunk distribution of OpenTelemetry Go instrumentation
+# Splunk distribution of OpenTelemetry Go
 
-This repository contains some example applications that utilize auto-instrumentation for
-a supported Go HTTP libraries.
+This repository contains sample applications that use instrumentation for
+supported Go HTTP libraries.
 
-For more detailed information about the functionality of the provided tracer and instrumentation configuration,
-please see the [Splunk distribution of OpenTelemetry Go instrumentation project](https://github.com/signalfx/splunk-otel-go).
+For more information on the tracer and instrumentation configuration, see the
 
-## Libraries and Framework Examples
+[Splunk distribution of OpenTelemetry Go instrumentation project](https://github.com/signalfx/splunk-otel-go).
+
+## Libraries and framework examples
 
 - [gorilla/mux, http](./gorilla-mux)
