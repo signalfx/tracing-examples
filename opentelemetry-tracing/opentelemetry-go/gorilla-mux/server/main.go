@@ -67,7 +67,7 @@ func main() {
 		Addr:    ":8080",
 		Handler: otelHandler,
 	}
-	srvErrCh := make(chan error)
+	srvErrCh := make(chan error, 1)
 	go func() {
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			srvErrCh <- err

@@ -72,6 +72,5 @@ func call(ctx context.Context, client *http.Client) {
 	if _, err := io.Copy(os.Stdout, resp.Body); err != nil {
 		log.Println(err)
 	}
-	fmt.Print(" HTTP Headers: ")
-	fmt.Println(resp.Header)
+	fmt.Printf(" HTTP Headers: %v\n", resp.Headers)
 }
