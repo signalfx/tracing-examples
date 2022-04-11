@@ -7,7 +7,6 @@ require (
 	github.com/signalfx/splunk-otel-go/distro v0.8.0
 	github.com/signalfx/splunk-otel-go/instrumentation/net/http/splunkhttp v0.8.0
 	go.opentelemetry.io/contrib/instrumentation/github.com/gorilla/mux/otelmux v0.31.0
-	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.31.0
 )
 
 require (
@@ -28,7 +27,6 @@ require (
 	go.opentelemetry.io/otel/exporters/otlp/internal/retry v1.6.1 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.6.1 // indirect
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.6.1 // indirect
-	go.opentelemetry.io/otel/metric v0.28.0 // indirect
 	go.opentelemetry.io/otel/sdk v1.6.1 // indirect
 	go.opentelemetry.io/otel/trace v1.6.1 // indirect
 	go.opentelemetry.io/proto/otlp v0.12.1 // indirect
