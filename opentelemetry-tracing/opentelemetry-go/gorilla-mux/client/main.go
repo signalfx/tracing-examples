@@ -51,6 +51,7 @@ func main() {
 	for {
 		select {
 		case <-ctx.Done():
+			stop() // stop receiving signal notifications; next interrupt signal should kill the application
 			return
 		case <-time.After(time.Second):
 			call(ctx, client)
