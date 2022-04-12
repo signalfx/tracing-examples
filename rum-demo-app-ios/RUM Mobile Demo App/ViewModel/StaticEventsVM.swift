@@ -34,7 +34,7 @@ class StaticEventsVM {
     */
     func staticEvent(withcode : Int, productID : String = "66VCHSJNUP", completion: (()->Void)? = nil) {
         if withcode == 400{
-            self.generate4xxEndpoitError(completion: completion)
+            self.generate4xxEndpointError(completion: completion)
         }
         else{
             self.generate5xxEndpointError(productID : productID, completion: completion)
@@ -54,7 +54,7 @@ class StaticEventsVM {
         }
     }
     
-    fileprivate func generate4xxEndpoitError(completion: (()->Void)? = nil) {
+    fileprivate func generate4xxEndpointError(completion: (()->Void)? = nil) {
         
         let URL = "\(AppVariables.current.configURL)cart/checkouts"
         DataService.request( URL , method: "GET", params:[:], type: StaticEvents.self) { (staticevent, error , responsecode) in
