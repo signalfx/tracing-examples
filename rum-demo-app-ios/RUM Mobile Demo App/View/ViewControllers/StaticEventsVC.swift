@@ -48,7 +48,7 @@ class StaticEventsVC : UIViewController{
     }
     
     // MARK: - Networking
-    private func attemptNetwrokCall(withcode : Int) {
+    private func attemptNetworkCall(withcode : Int) {
         viewModel.staticEvent(withcode: withcode)
     }
     
@@ -58,11 +58,11 @@ class StaticEventsVC : UIViewController{
     }
 
     @IBAction func btnFourHundredErrorClicked(_ sender: Any) {
-        attemptNetwrokCall(withcode: 400)
+        attemptNetworkCall(withcode: 400)
     }
     
     @IBAction func btnFiveHundredErrorClicked(_ sender: Any) {
-        attemptNetwrokCall(withcode: 500)
+        attemptNetworkCall(withcode: 500)
     }
     
     
