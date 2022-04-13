@@ -80,6 +80,7 @@ Go to `Xcode -> Preferences -> Accounts` in the menu bar and click on '+' button
 It will create the certificates and profiles required automatically.
 5. To generate the appbundle, start building the project either using the shortcut `cmd + B` or you can click on "Products -> Build` in the menu bar.
 Once the build process is successfully finished, in the project navigation, go to `Rum Mobile Demo App -> Products` folder and select the appbundle file created. The generated .app file is the signed build.
+
 #### Generate .ipa file
 Perform *steps 1 to 5* from [Generate Signed Build](../master/README.md#generating-build-signed) section.
 1. To generate the .ipa file, select `Any iOS Device" on the target device (instead of any simulator) and click on `Products -> Archive` menu in the menu bar.
@@ -88,6 +89,12 @@ This will compile the code and create the archive. Once it is successfully compi
 3. On the export action, it will save the archive folder to your selected location. In that folder, one will be able to find the .ipa file.
  
  
+
+## Note
+If the `app bundle` file generated from Xcode 13.x, then the build is crashing in virtual simulator (like Saucelabs or Appetize) having iOS 11.4. For iOS 12 and later, this works fine. 
+
+To run the app in iOS 11.4 simulator, we reccommend the use of Xcode 12.x to generate the app bundle file from the code.
+
 ## Configure the RUM SDK
 To configure the RUM SDK, Splunk OpenTelemetry package must be installed first in the Swift Package Dependencies. After that, RUM SDK can be initialised as below:
 
