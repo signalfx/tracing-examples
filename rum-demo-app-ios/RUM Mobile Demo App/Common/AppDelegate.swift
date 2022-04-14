@@ -56,9 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             SplunkRumCrashReporting.start()
             SplunkRum.setGlobalAttributes(["DeviceID": UIDevice.current.identifierForVendor?.uuidString as Any])
-            //https://ingest.us1.signalfx.com  -- realm URL
-            //https://rum-ingest.us0.signalfx.com/v1/rum  -- default
-        
        
         //Initialise the timer to get the latest location coordinates on every 5 seconds
         timerForLocation = Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true, block: { timerObj in
