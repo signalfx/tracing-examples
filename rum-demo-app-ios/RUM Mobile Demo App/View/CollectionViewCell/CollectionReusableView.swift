@@ -62,7 +62,6 @@ extension ProductDetailsHeader: UIPickerViewDelegate, UIPickerViewDataSource {
         lblTitle.textAlignment = .center
         lblTitle.isAccessibilityElement = true
         lblTitle.accessibilityLabel = "product_detail_quantity_\(quantityArray[row])"
-        print((self.lblProductName.text ?? ""))
         return lblTitle
     }
 
