@@ -47,7 +47,6 @@ class StaticEventsVC : UIViewController{
         viewModel.showAlertClosure = {
             if let error = self.viewModel.error {
                 self.showAlertNativeSingleAction(StringConstants.alertTitle , message: error.localizedDescription)
-                print(error.localizedDescription)
             }
         }
     }
@@ -106,16 +105,12 @@ class StaticEventsVC : UIViewController{
         viewModel.showAlertClosure = {
             if let error = self.viewModel.error {
                 self.showAlertNativeSingleAction(StringConstants.alertTitle, message: error.localizedDescription)
-                print(error.localizedDescription)
             }
         }
     }
     
     func isFileAvailableAt(resourcePath : String) throws {
-        if FileManager.default.fileExists(atPath: resourcePath){
-            print("file is exist at path")
-        }
-        else{
+        if !FileManager.default.fileExists(atPath: resourcePath){
             throw CustomError.notFound
         }
     }

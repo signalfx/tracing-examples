@@ -168,7 +168,6 @@ extension AppDelegate : CLLocationManagerDelegate{
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("LocationManager didFailWithError \(error.localizedDescription)")
            if let error = error as? CLError, error.code == .denied {
               return
            }

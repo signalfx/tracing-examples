@@ -78,7 +78,6 @@ extension LocalWebViewVC : WKNavigationDelegate, WKUIDelegate, WKScriptMessageHa
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         APProgressHUD.shared.dismissProgressHUD()
-        print("didFinish navigation")
         if !isFirstTimeLoad{
             self.isFirstTimeLoad = true
             
@@ -112,10 +111,6 @@ extension LocalWebViewVC : WKNavigationDelegate, WKUIDelegate, WKScriptMessageHa
         } else if(message.body as? String ?? "" == "goodbyeClicked") {
             APToast.showToastWith(message: "Goodbye iOS!")
         }
-    }
-    
-    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
-        print("didStartProvisionalNavigation\n\(webView.url?.absoluteString ?? "NA")")
     }
 }
 

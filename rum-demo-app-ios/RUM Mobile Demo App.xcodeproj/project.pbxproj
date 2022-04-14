@@ -14,13 +14,9 @@
 		8409284A2705899100AC6DA4 /* ValidationAndError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840928492705899100AC6DA4 /* ValidationAndError.swift */; };
 		8409284C27058A1B00AC6DA4 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409284B27058A1B00AC6DA4 /* UIViewExtension.swift */; };
 		8409284E27058AB600AC6DA4 /* ColorExtension..swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409284D27058AB600AC6DA4 /* ColorExtension..swift */; };
-		8409285027058D6300AC6DA4 /* NumberPadReturnKeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409284F27058D6300AC6DA4 /* NumberPadReturnKeyExtension.swift */; };
 		8409285227058E2300AC6DA4 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409285127058E2300AC6DA4 /* StringExtension.swift */; };
 		8409285427058F0400AC6DA4 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409285327058F0400AC6DA4 /* Configuration.swift */; };
 		84092856270596B900AC6DA4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84092855270596B900AC6DA4 /* Constants.swift */; };
-		840928582705978D00AC6DA4 /* BaseRequestData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840928572705978D00AC6DA4 /* BaseRequestData.swift */; };
-		8409285A2705986800AC6DA4 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840928592705986800AC6DA4 /* DateExtension.swift */; };
-		8409285C270598B300AC6DA4 /* BaseResponseData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409285B270598B300AC6DA4 /* BaseResponseData.swift */; };
 		8409285E27059A2000AC6DA4 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409285D27059A2000AC6DA4 /* UIViewControllerExtension.swift */; };
 		8409286E2705D1BC00AC6DA4 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409286D2705D1BC00AC6DA4 /* DataService.swift */; };
 		840928722705F04B00AC6DA4 /* StringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840928712705F04B00AC6DA4 /* StringConstants.swift */; };
@@ -42,9 +38,6 @@
 		841DF6122704819200792A02 /* ProductList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF6112704819200792A02 /* ProductList.swift */; };
 		841DF614270481A500792A02 /* ProductDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF613270481A500792A02 /* ProductDetail.swift */; };
 		841DF616270481B900792A02 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF615270481B900792A02 /* Cart.swift */; };
-		841DF618270481CC00792A02 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF617270481CC00792A02 /* Payment.swift */; };
-		841DF61A270481DE00792A02 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF619270481DE00792A02 /* Order.swift */; };
-		841DF61C2704820300792A02 /* CheckOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841DF61B2704820300792A02 /* CheckOut.swift */; };
 		84692ED82743C5BA00DC13A2 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84692ED72743C5BA00DC13A2 /* UIDeviceExtension.swift */; };
 		84692EDA2743CBC100DC13A2 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84692ED92743CBC000DC13A2 /* BaseViewController.swift */; };
 		8498BF3E2758CF6F00806623 /* CartTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8498BF3D2758CF6F00806623 /* CartTableCell.swift */; };
@@ -65,7 +58,6 @@
 		84D70FA9270B17A0008740A0 /* ProductListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84D70FA8270B17A0008740A0 /* ProductListCell.xib */; };
 		84E56C6B2716B71B00622698 /* SplunkOtel in Frameworks */ = {isa = PBXBuildFile; productRef = 84E56C6A2716B71B00622698 /* SplunkOtel */; };
 		84E56C6E2716B77A00622698 /* SplunkOtelCrashReporting in Frameworks */ = {isa = PBXBuildFile; productRef = 84E56C6D2716B77A00622698 /* SplunkOtelCrashReporting */; };
-		84E56C702716EF7200622698 /* AppUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E56C6F2716EF7200622698 /* AppUtility.swift */; };
 		84E56CB4271709CF00622698 /* RUM_Mobile_Demo_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E56CB3271709CF00622698 /* RUM_Mobile_Demo_AppTests.swift */; };
 		84E56CC1271709E900622698 /* RUM_Mobile_Demo_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E56CC0271709E900622698 /* RUM_Mobile_Demo_AppUITests.swift */; };
 		84E56CC3271709E900622698 /* RUM_Mobile_Demo_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84E56CC2271709E900622698 /* RUM_Mobile_Demo_AppUITestsLaunchTests.swift */; };
@@ -752,18 +744,13 @@
 			files = (
 				841DF614270481A500792A02 /* ProductDetail.swift in Sources */,
 				265FE53827C8D78F00B9D5B2 /* APToast.swift in Sources */,
-				84E56C702716EF7200622698 /* AppUtility.swift in Sources */,
-				8409285A2705986800AC6DA4 /* DateExtension.swift in Sources */,
 				84F433FD270EDDFF00B6A4B3 /* ProductListHeaderCell.swift in Sources */,
 				841DF616270481B900792A02 /* Cart.swift in Sources */,
-				840928582705978D00AC6DA4 /* BaseRequestData.swift in Sources */,
-				841DF61A270481DE00792A02 /* Order.swift in Sources */,
 				841DF61027047B9A00792A02 /* CheckOutVM.swift in Sources */,
 				8498BF3E2758CF6F00806623 /* CartTableCell.swift in Sources */,
 				F4C2DED127BE69750098543C /* LocalWebViewVC.swift in Sources */,
 				84692ED82743C5BA00DC13A2 /* UIDeviceExtension.swift in Sources */,
 				84D70FA7270B1777008740A0 /* ProductListCell.swift in Sources */,
-				841DF61C2704820300792A02 /* CheckOut.swift in Sources */,
 				F43284D627B138540095B273 /* Reachability.swift in Sources */,
 				841DF6082704664A00792A02 /* StaticEventsVC.swift in Sources */,
 				8409286E2705D1BC00AC6DA4 /* DataService.swift in Sources */,
@@ -792,11 +779,8 @@
 				8409284C27058A1B00AC6DA4 /* UIViewExtension.swift in Sources */,
 				8409285427058F0400AC6DA4 /* Configuration.swift in Sources */,
 				84FE6BC927105D4B00C238AE /* StaticEventsVM.swift in Sources */,
-				841DF618270481CC00792A02 /* Payment.swift in Sources */,
 				841DF60A27047B3000792A02 /* ProductListVM.swift in Sources */,
-				8409285C270598B300AC6DA4 /* BaseResponseData.swift in Sources */,
 				84692EDA2743CBC100DC13A2 /* BaseViewController.swift in Sources */,
-				8409285027058D6300AC6DA4 /* NumberPadReturnKeyExtension.swift in Sources */,
 				8409285227058E2300AC6DA4 /* StringExtension.swift in Sources */,
 				F4C2DEC627BE1DCA0098543C /* ShopWebViewVC.swift in Sources */,
 				841DF5FE2704657100792A02 /* ProductDetailVC.swift in Sources */,
