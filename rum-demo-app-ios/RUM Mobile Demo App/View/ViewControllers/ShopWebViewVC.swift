@@ -7,6 +7,7 @@
 
 import UIKit
 import WebKit
+import SplunkOtel
 
 class ShopWebViewVC: UIViewController {
 
@@ -33,6 +34,9 @@ class ShopWebViewVC: UIViewController {
         let request = URLRequest.init(url: webURL)
         self.webView?.navigationDelegate = self
         self.webView?.load(request)
+        
+        guard let webviewOutlet = self.webView else {return}
+        SplunkRum.integrateWithBrowserRum(webviewOutlet)
     }
 
 }

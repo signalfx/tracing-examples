@@ -54,11 +54,6 @@ class ProductListVC : UIViewController {
             }
             self.products = products
         }
-
-        viewModel.didFinishFetch = {
-            // show data on view
-            //update view logic goes here
-        }
     }
 }
 extension ProductListVC :  UICollectionViewDataSource,UICollectionViewDelegateFlowLayout{

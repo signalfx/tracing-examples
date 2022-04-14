@@ -185,7 +185,7 @@ extension ProductDetailVC: UICollectionViewDelegate {
                         if (Int(qty) ?? 1) > self.product?.availableQty ?? 1 {
                             let errorMessage = "Maximum available stock size is 1 and the quantity added by the user is > 1 , an exception will be generated and the user will not be able to add it to the cart."
                             headerView.txtQty.endEditing(true)
-                            handleException(errorstring: errorMessage)
+                            RumEventHelper.shared.addError(errorMessage, attributes: nil)
                             self.showAlertNativeSingleAction("Error", message: errorMessage)
                             headerView.txtQty.text = self.productQuantity.description
                         } else {

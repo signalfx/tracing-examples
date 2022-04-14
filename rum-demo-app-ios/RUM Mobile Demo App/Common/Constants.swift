@@ -13,18 +13,7 @@ struct Constants {
     static let NavigationBarHeightNotch: Float = 94
     static let NavigationBarButtonHeight: Float = 40
     static let NavigationBarButtonWidth: Float = 40
-    
-    static let ViewStartPosition : Float = NavigationBarHeight + 20 
-    
-    static let PasswordeMaxLength: Int = 20
-    static let UserNameMaxLength: Int = 20
-    static let DefaultMaxLength: Int = 40
-   
-    static let OnlyAlphabetsWithSpace = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz "
-    static let OnlyAlphaNumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz"
-    static let OnlyAlphaNumericWithSpace = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvxyz "
 
-   
     static let DefaultCurrencyCode = "USD"
 }
 

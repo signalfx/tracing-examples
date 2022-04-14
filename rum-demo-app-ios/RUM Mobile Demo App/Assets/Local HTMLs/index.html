@@ -1,13 +1,20 @@
 <html>
     <meta name="viewport" content="width=device-width, shrink-to-fit=YES">
         <head>
-            <!-- Tip: Use relative URLs when referring to other in-app content to give
-            your app code the flexibility to change the scheme or domain as
-            necessary. -->
             <link rel="stylesheet" href="stylesheet.css">
                 <script src="https://cdn.signalfx.com/o11y-gdi-rum/latest/splunk-otel-web.js"
                     crossorigin="anonymous"></script>
                 <script type="text/javascript">
+                    
+                    function addPreconnect(data) {
+                        var jsons = JSON.parse(data)
+                        var link = document.createElement('link');
+                        link.setAttribute('rel', 'preconnect');
+                        link.setAttribute('href', 'https://rum-ingest.' + jsons.realm + '.signalfx.com/v1/rum?auth=' + jsons.token);
+                        link.setAttribute('crossorigin', true);
+                        document.head.append(link)
+                    }
+                    
                     function initialiseRUM(data) {
                         var jsons = JSON.parse(data)
                         SplunkRum.init({

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Myp-2a-TFZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Myp-2a-TFZ">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <accessibilityOverrides dynamicTypePreference="2"/>
     <dependencies>
         <deployment version="4624" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
@@ -1340,16 +1340,6 @@
                                                             <action selector="btnCrashAppClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="deG-59-fr4"/>
                                                         </connections>
                                                     </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DKt-o9-AJB" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="58" width="374" height="0.0"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="GENERAL ANR">
-                                                            <color key="titleColor" systemColor="tintColor"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="btnGeneralANRClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="46k-kh-gco"/>
-                                                        </connections>
-                                                    </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jzw-4l-dzi" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
                                                         <rect key="frame" x="0.0" y="66" width="374" height="50"/>
                                                         <accessibility key="accessibilityConfiguration" label="event_generation_4XX_btn"/>
@@ -1370,16 +1360,6 @@
                                                         </state>
                                                         <connections>
                                                             <action selector="btnFiveHundredErrorClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="3xh-iq-6q8"/>
-                                                        </connections>
-                                                    </button>
-                                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UcY-tF-Mzc" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="190" width="374" height="0.0"/>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="LOAD WEBVIEW">
-                                                            <color key="titleColor" systemColor="tintColor"/>
-                                                        </state>
-                                                        <connections>
-                                                            <action selector="btnLoadWebViewClicked:" destination="9Xp-az-Lot" eventType="touchUpInside" id="0EE-57-ujs"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CtK-EL-J7v" customClass="RoundedCornerButton" customModule="RUM_Mobile_Demo_App" customModuleProvider="target">
@@ -1459,12 +1439,10 @@
                     </view>
                     <navigationItem key="navigationItem" id="C0U-Wa-kxY"/>
                     <connections>
-                        <outlet property="btnAnr" destination="DKt-o9-AJB" id="hAn-sg-R4h"/>
                         <outlet property="btnCrashApp" destination="gYw-9J-1Y3" id="rHI-nP-0ev"/>
                         <outlet property="btnException" destination="CtK-EL-J7v" id="TcT-OL-suS"/>
                         <outlet property="btnFiveHundredError" destination="2V3-N3-O4g" id="OmK-fq-WA8"/>
                         <outlet property="btnFourHundredError" destination="jzw-4l-dzi" id="xGi-qC-4sY"/>
-                        <outlet property="btnLoadWebView" destination="UcY-tF-Mzc" id="UMY-lC-hmg"/>
                         <outlet property="btnLocalWebView" destination="bAP-Bs-Gbm" id="eDx-sR-QYC"/>
                         <outlet property="btnShopWebView" destination="ara-bX-cxy" id="oDR-jn-FFN"/>
                         <outlet property="btnSlowApiResponse" destination="Usv-7i-ZV7" id="Bqj-nx-WA8"/>
@@ -2123,46 +2101,46 @@
     </scenes>
     <designables>
         <designable name="5y8-lB-zw3">
-            <size key="intrinsicContentSize" width="136.5" height="34"/>
+            <size key="intrinsicContentSize" width="90.5" height="34"/>
         </designable>
         <designable name="DRh-eM-AXL">
-            <size key="intrinsicContentSize" width="139.5" height="34"/>
+            <size key="intrinsicContentSize" width="99.5" height="34"/>
         </designable>
         <designable name="Hnp-ae-nVw">
-            <size key="intrinsicContentSize" width="132.5" height="34"/>
+            <size key="intrinsicContentSize" width="92.5" height="34"/>
         </designable>
         <designable name="RZH-JB-BJ8">
-            <size key="intrinsicContentSize" width="103" height="34"/>
+            <size key="intrinsicContentSize" width="63" height="34"/>
         </designable>
         <designable name="YcD-dh-vW2">
-            <size key="intrinsicContentSize" width="230.5" height="34"/>
+            <size key="intrinsicContentSize" width="190.5" height="34"/>
         </designable>
         <designable name="b4r-GP-tqe">
-            <size key="intrinsicContentSize" width="110.5" height="34"/>
+            <size key="intrinsicContentSize" width="70.5" height="34"/>
         </designable>
         <designable name="eSE-r7-JFK">
-            <size key="intrinsicContentSize" width="120" height="34"/>
+            <size key="intrinsicContentSize" width="80" height="34"/>
         </designable>
         <designable name="hHl-nO-vyf">
-            <size key="intrinsicContentSize" width="215.5" height="34"/>
-        </designable>
-        <designable name="nbV-X1-Hdf">
             <size key="intrinsicContentSize" width="181.5" height="34"/>
         </designable>
+        <designable name="nbV-X1-Hdf">
+            <size key="intrinsicContentSize" width="141.5" height="34"/>
+        </designable>
         <designable name="qb7-Oj-YG4">
-            <size key="intrinsicContentSize" width="185.5" height="34"/>
+            <size key="intrinsicContentSize" width="145.5" height="34"/>
         </designable>
         <designable name="t7V-dI-4WX">
-            <size key="intrinsicContentSize" width="195.5" height="34"/>
+            <size key="intrinsicContentSize" width="161.5" height="34"/>
         </designable>
         <designable name="vPW-cN-oIM">
-            <size key="intrinsicContentSize" width="103" height="34"/>
+            <size key="intrinsicContentSize" width="63" height="34"/>
         </designable>
         <designable name="ycF-SQ-Dg1">
-            <size key="intrinsicContentSize" width="198.5" height="34"/>
+            <size key="intrinsicContentSize" width="164.5" height="34"/>
         </designable>
         <designable name="zh7-9Q-70J">
-            <size key="intrinsicContentSize" width="100" height="34"/>
+            <size key="intrinsicContentSize" width="60" height="34"/>
         </designable>
     </designables>
     <resources>

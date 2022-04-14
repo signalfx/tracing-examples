@@ -14,6 +14,10 @@ extension UIColor {
         return UIColor(red: red/255, green: green/255, blue: blue/255, alpha: alpha)
     }
     
+    /*
+     Below extension code is reference from Luca Torella's answer on Stackoverflow
+     Reference: https://stackoverflow.com/a/33397427
+     */
     convenience init(hexString: String) {
         
         let hex = hexString.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)

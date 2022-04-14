@@ -38,12 +38,10 @@ class LocalWebViewVC: UIViewController {
                 name: "callbackHandler"
             )
             
-            
             let config = WKWebViewConfiguration()
             config.userContentController = contentController
             
             let localwebView = WKWebView(frame: self.webView?.bounds ?? .zero, configuration: config)
-           // localwebView.navigationDelegate = self
             
             APProgressHUD.shared.showProgressHUD()
             self.webView?.addSubview(localwebView)
@@ -53,6 +51,7 @@ class LocalWebViewVC: UIViewController {
             localwebView.uiDelegate = self
             localwebView.load(request)
             
+            SplunkRum.integrateWithBrowserRum(localwebView)
             
             //Initialise RUM SDK
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
@@ -79,8 +78,17 @@ extension LocalWebViewVC : WKNavigationDelegate, WKUIDelegate, WKScriptMessageHa
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
         APProgressHUD.shared.dismissProgressHUD()
+        print("didFinish navigation")
         if !isFirstTimeLoad{
             self.isFirstTimeLoad = true
+            
+            webView.evaluateJavaScript("addPreconnect(\'\(self.jsonUpdate)')") { result, error in
+                                guard error == nil else {
+                                    print(error ?? "Failed to evaluate JS")
+                                    return
+                                }
+            }
+            
             webView.evaluateJavaScript("initialiseRUM(\'\(self.jsonUpdate)')") { result, error in
                                 guard error == nil else {
                                     print(error ?? "Failed to evaluate JS")
@@ -104,6 +112,10 @@ extension LocalWebViewVC : WKNavigationDelegate, WKUIDelegate, WKScriptMessageHa
         } else if(message.body as? String ?? "" == "goodbyeClicked") {
             APToast.showToastWith(message: "Goodbye iOS!")
         }
+    }
+    
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+        print("didStartProvisionalNavigation\n\(webView.url?.absoluteString ?? "NA")")
     }
 }
 

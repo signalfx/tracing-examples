@@ -14,18 +14,11 @@ import SplunkOtel
 class StaticEventsVC : UIViewController{
     
     @IBOutlet weak var btnCrashApp: RoundedCornerButton?
-    @IBOutlet weak var btnAnr: RoundedCornerButton!
     @IBOutlet weak var btnFourHundredError: RoundedCornerButton!
     @IBOutlet weak var btnFiveHundredError: RoundedCornerButton!
-    
-    @IBOutlet weak var btnLoadWebView: RoundedCornerButton!
-    
     @IBOutlet weak var btnException: RoundedCornerButton!
-    
     @IBOutlet weak var btnSlowApiResponse: RoundedCornerButton!
-    
     @IBOutlet weak var btnShopWebView: RoundedCornerButton!
-    
     @IBOutlet weak var btnLocalWebView: RoundedCornerButton!
     
     // MARK: - Injection
@@ -50,6 +43,13 @@ class StaticEventsVC : UIViewController{
     // MARK: - Networking
     private func attemptNetworkCall(withcode : Int) {
         viewModel.staticEvent(withcode: withcode)
+        
+        viewModel.showAlertClosure = {
+            if let error = self.viewModel.error {
+                self.showAlertNativeSingleAction(StringConstants.alertTitle , message: error.localizedDescription)
+                print(error.localizedDescription)
+            }
+        }
     }
     
     //MARK: - Actions
@@ -73,7 +73,7 @@ class StaticEventsVC : UIViewController{
             try isFileAvailableAt(resourcePath: htmlPath ?? "sample4.html")
         }
         catch CustomError.notFound {
-            handleException(errorstring: "File not exist.")  // common function in apputils file
+            RumEventHelper.shared.addError("File not exist.", attributes: nil)
         }
         catch {
             //other error
@@ -102,6 +102,13 @@ class StaticEventsVC : UIViewController{
     
     private func attemptSlowApiResponse() {
         viewModel.slowApiResponse()
+        
+        viewModel.showAlertClosure = {
+            if let error = self.viewModel.error {
+                self.showAlertNativeSingleAction(StringConstants.alertTitle, message: error.localizedDescription)
+                print(error.localizedDescription)
+            }
+        }
     }
     
     func isFileAvailableAt(resourcePath : String) throws {

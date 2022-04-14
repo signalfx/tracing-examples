@@ -11,6 +11,10 @@ import UIKit
 
 public class Reachability {
 
+    
+    /*Below function to check the internet connection reachability is a reference from answer on Stackoverflow by Eric Aya
+     Reference: https://stackoverflow.com/q/30743408
+     */
     class func isConnectedToNetwork() -> Bool {
 
         var zeroAddress = sockaddr_in(sin_len: 0, sin_family: 0, sin_port: 0, sin_addr: in_addr(s_addr: 0), sin_zero: (0, 0, 0, 0, 0, 0, 0, 0))
@@ -43,7 +47,7 @@ func handleNoInternetConnection(_ internetCompletion : @escaping ()->Void, _ okA
         let appDel = UIApplication.shared.delegate as? AppDelegate
         
         if let rootVC = appDel?.window?.rootViewController {
-
+            
             rootVC.showAlertNativeDoubleAction(StringConstants.noInternetTitle, message: StringConstants.noInternetMessage, buttonTitle1: "Retry", clickHandler1: {
                 if Reachability.isConnectedToNetwork() {
                     internetCompletion()
@@ -52,7 +56,7 @@ func handleNoInternetConnection(_ internetCompletion : @escaping ()->Void, _ okA
                 }
             }, buttonTitle2: "Okay", clickHandler2: {
                 okAction?()
-            }, dismissCompletion: nil)
+            })
         }
         return
     } else {
