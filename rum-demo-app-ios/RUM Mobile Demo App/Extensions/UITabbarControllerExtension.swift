@@ -9,29 +9,29 @@ import Foundation
 
 // MARK: - UITabbarcontroller sub class
 class SlideAnimatedTabbarController: UITabBarController {
-
+    
     override func viewDidLoad() {
-      super.viewDidLoad()
-      self.delegate = self
-      self.tabBar.tintColor = config.buttonBackGroundColor
-      self.tabBar.unselectedItemTintColor = UIColor.black
-
+        super.viewDidLoad()
+        self.delegate = self
+        self.tabBar.tintColor = config.buttonBackGroundColor
+        self.tabBar.unselectedItemTintColor = UIColor.black
+        
     }
-   
+    
 }
 
 extension SlideAnimatedTabbarController : UITabBarControllerDelegate {
     func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
-            animateSliding(fromController: selectedViewController, toController: viewController)
-            return false
-        }
-
-
-func animateSliding(fromController: UIViewController?, toController: UIViewController?) {
+        animateSliding(fromController: selectedViewController, toController: viewController)
+        return false
+    }
+    
+    
+    func animateSliding(fromController: UIViewController?, toController: UIViewController?) {
         
         guard let fromController = fromController, let toController = toController  else { return }
         guard let fromIndex = self.viewControllers?.firstIndex(of: fromController),
-        let toIndex = self.viewControllers?.firstIndex(of: toController) else { return }
+              let toIndex = self.viewControllers?.firstIndex(of: toController) else { return }
         guard fromIndex != toIndex else { return }
         
         let fromView = fromController.view!
@@ -43,16 +43,16 @@ func animateSliding(fromController: UIViewController?, toController: UIViewContr
                               y: viewSize.origin.y,
                               width: screenWidth,
                               height: viewSize.height)
-
+        
         func animate() {
             fromView.frame = CGRect(x: scrollRight ? -screenWidth : screenWidth,
                                     y: viewSize.origin.y,
                                     width: screenWidth,
                                     height: viewSize.height)
             toView.frame = CGRect(x: 0,
-                                    y: viewSize.origin.y,
-                                    width: screenWidth,
-                                    height: viewSize.height)
+                                  y: viewSize.origin.y,
+                                  width: screenWidth,
+                                  height: viewSize.height)
         }
         
         func finished(_ completed: Bool) {
@@ -135,16 +135,23 @@ extension UITabBar {
         }
     }
     
- }
+}
 // MARK: - textfield with left image
 @IBDesignable
 class DesignableUITextField: UITextField {
     
-    // Provides left padding for images    
+    // Provides left padding for images
     @IBInspectable var leftImage: UIImage? {
         didSet {
             updateView()
         }
+    }
+    
+    // Provides left padding for images
+    override func leftViewRect(forBounds bounds: CGRect) -> CGRect {
+        var textRect = super.leftViewRect(forBounds: bounds)
+        textRect.origin.x += leftPadding
+        return textRect
     }
     
     @IBInspectable var leftPadding: CGFloat = 0
@@ -162,14 +169,14 @@ class DesignableUITextField: UITextField {
             imageView.contentMode = .scaleAspectFit
             imageView.image = image
             // Note: In order for your image to use the tint color, you have to select the image in the Assets.xcassets and change the "Render As" property to "Template Image".
-                   imageView.tintColor = color
-                   leftView = imageView
-               } else {
-                   leftViewMode = UITextField.ViewMode.never
-                   leftView = nil
-               }
-               
-               // Placeholder text color
-               attributedPlaceholder = NSAttributedString(string: placeholder != nil ?  placeholder! : "", attributes:[NSAttributedString.Key.foregroundColor: color])
-           }
+            imageView.tintColor = color
+            leftView = imageView
+        } else {
+            leftViewMode = UITextField.ViewMode.never
+            leftView = nil
+        }
+        
+        // Placeholder text color
+        attributedPlaceholder = NSAttributedString(string: placeholder != nil ?  placeholder! : "", attributes:[NSAttributedString.Key.foregroundColor: color])
+    }
 }
