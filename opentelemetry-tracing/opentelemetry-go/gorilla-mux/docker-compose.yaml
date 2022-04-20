@@ -1,0 +1,36 @@
+version: "3.9"
+services:
+  server:
+    build:
+      context: ./server
+      dockerfile: ../Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=server
+      - OTEL_RESOURCE_ATTRIBUTES
+    network_mode: host
+    depends_on:
+      - otel-collector
+
+  client:
+    build:
+      context: ./client
+      dockerfile: ../Dockerfile
+    environment:
+      - OTEL_SERVICE_NAME=client
+      - OTEL_RESOURCE_ATTRIBUTES
+    network_mode: host
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    image: quay.io/signalfx/splunk-otel-collector:0.48.0
+    environment:
+      - SPLUNK_ACCESS_TOKEN
+      - SPLUNK_REALM
+    ports:
+      - "1777:1777"   # pprof extension
+      - "8888:8888"   # Prometheus metrics exposed by the collector
+      - "13133:13133" # health_check extension
+      - "55679:55679" # zpages extension
+      - "4317:4317"   # OTLP gRPC receiver
+      - "4318:4318"   # OTLP HTTP receiver
