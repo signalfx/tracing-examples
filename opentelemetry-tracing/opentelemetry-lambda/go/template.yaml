@@ -1,0 +1,25 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Splunk OpenTelemetry Lambda GO example
+
+Resources:
+  SplunkOtelLambdaGoTest:
+    Type: AWS::Serverless::Function
+    Description: Splunk OpenTelemetry Lambda GO example. Can be safely deleted.
+    Properties:
+      FunctionName: SplunkOtelLambdaGoTest
+      CodeUri: build/bootstrap.zip
+      Handler: bootstrap
+      Runtime: go1.x
+      Timeout: 60
+      MemorySize: 256
+      Layers:
+        - REPLACE_WITH_LAYER_ARN
+      Environment:
+        Variables:
+          OTEL_SERVICE_NAME: TestGoFunction
+          OTEL_METRICS_EXPORTER: none
+          OTEL_LOG_LEVEL: DEBUG
+          OTEL_TRACES_EXPORTER: jaeger-thrift-splunk
+          SPLUNK_REALM: us0
+          SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
