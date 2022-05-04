@@ -38,3 +38,6 @@ All examples are in the [Python directory](./python).
 
 ## Node.js
 All examples are in the [Node.js directory](./nodejs).
+
+## Go
+All examples are in the [Go directory](./go).
