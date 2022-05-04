@@ -1,13 +1,13 @@
 package main
 
 import (
+	"context"
 	"crypto/tls"
 	"fmt"
-	"context"
-	"go.opentelemetry.io/otel"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/signalfx/splunk-otel-go/distro"
 	"go.opentelemetry.io/contrib/instrumentation/github.com/aws/aws-lambda-go/otellambda"
+	"go.opentelemetry.io/otel"
 )
 
 type MyEvent struct {
@@ -15,7 +15,7 @@ type MyEvent struct {
 }
 
 func HandleRequest(ctx context.Context, name MyEvent) (string, error) {
-	return fmt.Sprintf("Hello %s!", name.Name ), nil
+	return fmt.Sprintf("Hello %s!", name.Name), nil
 }
 
 func clientTLSConfig() *tls.Config {

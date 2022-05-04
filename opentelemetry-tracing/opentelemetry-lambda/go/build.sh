@@ -1,8 +1,6 @@
 #!/bin/bash -e
 
-GOARCH=${GOARCH-amd64}
-
 mkdir -p build
-GOOS=linux go build -o ./build/bootstrap .
+GOOS=linux GOARCH=${GOARCH-amd64} go build -o ./build/bootstrap .
 cd build || exit
 zip bootstrap.zip bootstrap
