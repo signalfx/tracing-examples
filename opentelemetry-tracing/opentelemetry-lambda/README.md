@@ -39,5 +39,5 @@ All examples are in the [Python directory](./python).
 ## Node.js
 All examples are in the [Node.js directory](./nodejs).
 
-## GO
-All examples are in the [GG directory](./go).
+## Go
+All examples are in the [Go directory](./go).
