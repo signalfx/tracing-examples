@@ -55,7 +55,7 @@ func main() {
 
 	// instrument http.Handler
 	r.Use(otelmux.Middleware("mux-server"))
-	handler := splunkhttp.NewHandler(r)
+	r.Use(func(h http.Handler) http.Handler { return splunkhttp.NewHandler(h) })
 
 	r.HandleFunc("/hello", func(rw http.ResponseWriter, r *http.Request) {
 		_, _ = io.WriteString(rw, "Hello there.") // ignore the error
@@ -63,7 +63,7 @@ func main() {
 
 	srv := &http.Server{
 		Addr:    ":8080",
-		Handler: handler,
+		Handler: r,
 	}
 	srvErrCh := make(chan error, 1)
 	go func() {
