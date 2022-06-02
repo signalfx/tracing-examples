@@ -30,7 +30,7 @@ services:
     ports:
       - "27017:27017"
   splunk-otel-collector:
-    image: quay.io/signalfx/splunk-otel-collector:0.45.0
+    image: quay.io/signalfx/splunk-otel-collector:0.52.1
     environment:
       # Provide the values below if you want to submit the data to the APM ingest.
       - SPLUNK_ACCESS_TOKEN
