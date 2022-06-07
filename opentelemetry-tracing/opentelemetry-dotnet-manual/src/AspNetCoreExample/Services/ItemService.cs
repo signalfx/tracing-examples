@@ -2,6 +2,7 @@
 using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 using OpenTracing;
 using OpenTracing.Util;
 
@@ -17,7 +18,11 @@ namespace AspNetCoreExample.Services
         {
             using (var scope = tracer.BuildSpan("establish.ItemService").IgnoreActiveSpan().StartActive(finishSpanOnDispose: true))
             {
-                var client = new MongoClient(settings.ConnectionString);
+                // Subscribe to the Mongo activities for OpenTelemetry.
+                var clientSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
+                clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
+
+                var client = new MongoClient(clientSettings);
                 var database = client.GetDatabase(settings.DatabaseName);
                 _Items = database.GetCollection<Item>(settings.ItemsCollectionName);
             }

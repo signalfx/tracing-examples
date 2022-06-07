@@ -45,7 +45,8 @@ namespace AspNetCoreExample
             {
                 builder
                     .AddOtlpExporter()
-                    .AddAspNetCoreInstrumentation();
+                    .AddAspNetCoreInstrumentation()
+                    .AddMongoDBInstrumentation();
             });
         }
 
