@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using OpenTelemetry;
+using OpenTelemetry.Trace;
 using OpenTracing;
 using OpenTracing.Util;
 
@@ -56,6 +58,11 @@ namespace ClientExample
 
         public static async Task Main(string[] args)
         {
+            using var tracerProvider = Sdk.CreateTracerProviderBuilder()
+                .AddOtlpExporter()
+                .AddHttpClientInstrumentation()
+                .Build();
+
             await CreateItems(itemsToUse);
             await FetchItems();
             await UpdateItems();
