@@ -14,12 +14,17 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using OpenTelemetry.Context.Propagation;
+using OpenTelemetry.Shims.OpenTracing;
 using OpenTelemetry.Trace;
+using OpenTracing;
 
 namespace AspNetCoreExample
 {
     public class Startup
     {
+        private const string defaultActivitySourceName = "AspNetCoreExample";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -46,8 +51,21 @@ namespace AspNetCoreExample
                 builder
                     .AddOtlpExporter()
                     .AddAspNetCoreInstrumentation()
-                    .AddMongoDBInstrumentation();
+                    .AddMongoDBInstrumentation()
+                    .AddSource(defaultActivitySourceName);
             });
+
+            // Instantiate the OpenTracing shim. The underlying OpenTelemetry tracer will create
+            // spans using the defaultActivitySourceName source.
+            var openTracingTracer = new TracerShim(
+                TracerProvider.Default.GetTracer(defaultActivitySourceName),
+                Propagators.DefaultTextMapPropagator);
+
+            // The registration of a global tracer in OpenTracing must happen before any use of
+            // GlobalTracer.Instance. Otherwise, a no-op tracer is going to be register for the
+            // respective load context. OpenTracing only allow the registration of a single global
+            // tracer per load context.
+            OpenTracing.Util.GlobalTracer.Register(openTracingTracer);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
