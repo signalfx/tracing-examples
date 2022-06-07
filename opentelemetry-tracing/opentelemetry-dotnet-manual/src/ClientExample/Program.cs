@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -15,8 +16,9 @@ namespace ClientExample
     public class Program
     {
         private static string exampleUrl = "http://aspnetcore:5000/api/items";
+        private static string clientActivitySourceName = "ClientExample";
 
-        private static ITracer tracer = GlobalTracer.Instance;
+        private static ActivitySource activitySource = new ActivitySource(clientActivitySourceName, "1.0.0");
 
         private static Dictionary<string, Item> itemStore = new Dictionary<string, Item>();
 
@@ -61,6 +63,7 @@ namespace ClientExample
             using var tracerProvider = Sdk.CreateTracerProviderBuilder()
                 .AddOtlpExporter()
                 .AddHttpClientInstrumentation()
+                .AddSource(clientActivitySourceName)
                 .Build();
 
             await CreateItems(itemsToUse);
@@ -71,7 +74,7 @@ namespace ClientExample
 
         public static async Task CreateItems(List<Item> items)
         {
-            using (var scope = tracer.BuildSpan("CreateItems").StartActive(finishSpanOnDispose: true))
+            using (activitySource.StartActivity("CreateItems", ActivityKind.Client))
             {
                 foreach (var item in items)
                 {
@@ -83,7 +86,7 @@ namespace ClientExample
 
         public static async Task FetchItems()
         {
-            using (var scope = tracer.BuildSpan("FetchItems").StartActive(finishSpanOnDispose: true))
+            using (activitySource.StartActivity("FetchItems", ActivityKind.Client))
             {
                 foreach (var item in itemStore)
                 {
@@ -94,19 +97,22 @@ namespace ClientExample
 
         public static async Task UpdateItems()
         {
-            using (var scope = tracer.BuildSpan("UpdateItems").StartActive(finishSpanOnDispose: true))
+            using (var activity = activitySource.StartActivity("UpdateItems", ActivityKind.Client))
             {
                 foreach (var item in itemStore)
                 {
                    var updated = await UpdateItem(item.Value);
-                   scope.Span.Log(updated ? $"Updated {item.Key}." : $"Failed to update {item.Key}.");
+                   if (activity != null)
+                   {
+                       activity.AddEvent(new ActivityEvent(updated ? $"Updated {item.Key}." : $"Failed to update {item.Key}."));
+                   }
                 }
             }
         }
 
         public static async Task DeleteItems()
         {
-            using (var scope = tracer.BuildSpan("DeleteItems").StartActive(finishSpanOnDispose: true))
+            using (var activity = activitySource.StartActivity("DeleteItems", ActivityKind.Client))
             {
                 foreach (var item in itemStore)
                 {
@@ -116,7 +122,10 @@ namespace ClientExample
                        itemStore.Remove(item.Key);
                    }
 
-                   scope.Span.Log(deleted ? $"Deleted {item.Key}." : $"Failed to delete {item.Key}.");
+                    if (activity != null)
+                    {
+                        activity.AddEvent(new ActivityEvent(deleted ? $"Deleted {item.Key}." : $"Failed to delete {item.Key}."));
+                    }
                 }
             }
         }
@@ -124,13 +133,16 @@ namespace ClientExample
         public static async Task<Item> CreateItem(Item item)
         {
             Console.WriteLine($"Creating {item.Name}: {item.Maker} - {item.Description}");
-            using (var scope = tracer.BuildSpan("CreateItem").StartActive(finishSpanOnDispose: true))
+            using (var activity = activitySource.StartActivity("CreateItems", ActivityKind.Client))
             {
-                scope.Span.SetTag("item.name", item.Name);
-                scope.Span.SetTag("item.description", item.Description);
-                scope.Span.SetTag("item.maker", item.Maker);
-                scope.Span.SetTag("item.price", $"${item.Price}");
-                scope.Span.SetTag("item.url", item.Url);
+                if (activity != null)
+                {
+                    activity.SetTag("item.name", item.Name);
+                    activity.SetTag("item.description", item.Description);
+                    activity.SetTag("item.maker", item.Maker);
+                    activity.SetTag("item.price", $"${item.Price}");
+                    activity.SetTag("item.url", item.Url);
+                }
 
                 var jsonObject = JsonConvert.SerializeObject(item);
 
@@ -153,7 +165,7 @@ namespace ClientExample
         {
             Console.WriteLine($"Fetching {item.Id}");
             Item fetchedItem = null;
-            using (var scope = tracer.BuildSpan("FetchItem").StartActive(finishSpanOnDispose: true))
+            using (var activity = activitySource.StartActivity("FetchItem", ActivityKind.Client))
             {
                 using (var client = new HttpClient())
                 {
@@ -165,11 +177,16 @@ namespace ClientExample
                         fetchedItem = JsonConvert.DeserializeObject<Item>(responseContent);
                     }
                 }
-                scope.Span.SetTag("item.name", fetchedItem.Name);
-                scope.Span.SetTag("item.description", fetchedItem.Description);
-                scope.Span.SetTag("item.maker", fetchedItem.Maker);
-                scope.Span.SetTag("item.price", $"${fetchedItem.Price}");
-                scope.Span.SetTag("item.url", fetchedItem.Url);
+
+                if (activity != null)
+                {
+                    activity.SetTag("item.name", fetchedItem.Name);
+                    activity.SetTag("item.description", fetchedItem.Description);
+                    activity.SetTag("item.maker", fetchedItem.Maker);
+                    activity.SetTag("item.price", $"${fetchedItem.Price}");
+                    activity.SetTag("item.url", fetchedItem.Url);
+                }
+
                 return fetchedItem;
             }
         }
@@ -177,11 +194,14 @@ namespace ClientExample
         public static async Task<bool> UpdateItem(Item item)
         {
             Console.WriteLine($"Updating {item.Name}: {item.Maker} - {item.Description}");
-            using (var scope = tracer.BuildSpan("UpdateItem").StartActive(finishSpanOnDispose: true))
+            using (var activity = activitySource.StartActivity("UpdateItem", ActivityKind.Client))
             {
                 var updatedDescription = $"updated: {item.Description}";
                 item.Description = updatedDescription;
-                scope.Span.Log($"Updating item.description to {updatedDescription}");
+                if (activity != null)
+                {
+                    activity?.AddEvent(new ActivityEvent($"Updating item.description to {updatedDescription}"));
+                }
 
                 var jsonObject = JsonConvert.SerializeObject(item);
 
@@ -203,9 +223,9 @@ namespace ClientExample
         public static async Task<bool> DeleteItem(Item item)
         {
             Console.WriteLine($"Deleting {item.Name}: {item.Maker} - {item.Description}");
-            using (var scope = tracer.BuildSpan("DeleteItem").StartActive(finishSpanOnDispose: true))
+            using (var activity = activitySource.StartActivity("DeleteItem", ActivityKind.Client))
             {
-                scope.Span.SetTag("item.name", item.Name);
+                activity?.SetTag("item.name", item.Name);
 
                 using (var client = new HttpClient())
                 {
