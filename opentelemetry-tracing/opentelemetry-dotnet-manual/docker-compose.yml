@@ -5,9 +5,11 @@ services:
     ports:
      - "5000:5000"
     environment:
-      - SIGNALFX_SERVICE_NAME=asp.net-core
-      - SIGNALFX_ENDPOINT_URL=http://splunk-otel-collector:9411/api/v2/spans
-      - SIGNALFX_ENV=tracing-examples
+      - OTEL_SERVICE_NAME=asp.net-core
+      - OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://splunk-otel-collector:4318
+      - OTEL_EXPORTER_OTLP_TIMEOUT=10000 # Exporter timeout in milliseconds
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=otel-dotnet-sdk-example
     depends_on:
       - client
       - mongo

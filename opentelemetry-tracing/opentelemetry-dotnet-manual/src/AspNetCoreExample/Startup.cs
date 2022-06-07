@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
+using OpenTelemetry.Trace;
+
 namespace AspNetCoreExample
 {
     public class Startup
@@ -37,6 +39,14 @@ namespace AspNetCoreExample
 
             services.AddControllers()
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
+
+            // Configure OpenTelemetry tracing
+            services.AddOpenTelemetryTracing(builder =>
+            {
+                builder
+                    .AddOtlpExporter()
+                    .AddAspNetCoreInstrumentation();
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
