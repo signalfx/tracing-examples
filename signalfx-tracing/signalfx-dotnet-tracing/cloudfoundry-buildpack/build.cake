@@ -5,19 +5,19 @@ var runtime = Argument("runtime", "linux-x64");
 Task("Restore")
   .Does(() =>
 {
-    DotNetCoreRestore(".");
+    DotNetRestore(".");
 });
 
 Task("Build")
   .Does(() =>
 {
-    DotNetCoreBuild(".");
+    DotNetBuild(".");
 });
 
 Task("Publish")
   .Does(() =>
 {
-    var settings = new DotNetCorePublishSettings
+    var settings = new DotNetPublishSettings
     {
         Configuration = "Release",
         OutputDirectory = "./publish",
@@ -25,7 +25,7 @@ Task("Publish")
         VersionSuffix = tag
     };
 
-    DotNetCorePublish(".", settings);
+    DotNetPublish(".", settings);
 });
 
 Task("Clean")
