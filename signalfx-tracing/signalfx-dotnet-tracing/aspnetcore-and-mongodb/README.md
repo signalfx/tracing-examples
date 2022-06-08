@@ -1,4 +1,4 @@
-# ASP.NET Core and MongoDb Auto-Instrumentation Example
+# ASP.NET Core and MongoDB Auto-Instrumentation Example
 
 This is an example of automatically producing distributed traces using the
 [SignalFx Tracing Library for .NET](https://github.com/signalfx/signalfx-dotnet-tracing).
@@ -24,9 +24,9 @@ The value for `SPLUNK_REALM` can be found
 Reference: [docs](https://docs.splunk.com/Observability/admin/allow-services.html).
 
 These commands will build the .NET projects and provide and coordinate their environments to create instrumented
-request activity to be reported to Splunk Observability.  The traced activity is initiated by the ExampleClient running through a
+request activity to be reported to Splunk Observability. The traced activity is initiated by the ExampleClient running through a
 perpetual cycle of CRUD operations, which take place via the AspNetCoreExample ASP.NET Core application and its
-associated MongoDb driver.
+associated MongoDB driver.
 
 You can find the collected traces in Splunk Observability Cloud: <https://app.signalfx.com/#/apm?environments=YOURUSERNAME>
 
