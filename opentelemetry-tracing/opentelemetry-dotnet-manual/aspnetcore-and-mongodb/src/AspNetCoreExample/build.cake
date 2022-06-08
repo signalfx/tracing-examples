@@ -22,6 +22,7 @@ Task("Publish")
         Configuration = "Release",
         OutputDirectory = "./publish",
         Runtime = runtime,
+        SelfContained = false,
         VersionSuffix = tag
     };
                 
