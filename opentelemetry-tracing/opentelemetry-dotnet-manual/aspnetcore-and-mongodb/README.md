@@ -3,9 +3,18 @@
 This example is a simple inventory system that is instrumented via
 the [OpenTelemetry .NET](https://opentelemetry.io/docs/instrumentation/net/).
 
+The example instruments the following libraries and frameworks:
+
+- ASP.NET Core
+- HttpClient
+- MongoDB
+
+Both the client and server are configured to send spans to a local instance of
+the Splunk OpenTelemetry Collector, which propagates them to Splunk Observability Cloud.
+
 ## Building and running the example app and client
 
-This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed and on your system. To build and run the example services, please clone this repository and from this directory do the following:
+This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed on your system. To build and run the example services, please clone this repository and from this directory do the following:
 
 ```sh
 docker-compose build
