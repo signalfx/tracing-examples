@@ -3,7 +3,7 @@ module client
 go 1.18
 
 require (
-	github.com/signalfx/splunk-otel-go/distro v0.9.0
+	github.com/signalfx/splunk-otel-go/distro v1.0.0
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.32.0
 )
 
@@ -15,7 +15,7 @@ require (
 	github.com/go-logr/zapr v1.2.3 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.10.3 // indirect
-	github.com/signalfx/splunk-otel-go v0.9.0 // indirect
+	github.com/signalfx/splunk-otel-go v1.0.0 // indirect
 	go.opentelemetry.io/contrib/propagators/aws v1.7.0 // indirect
 	go.opentelemetry.io/contrib/propagators/b3 v1.7.0 // indirect
 	go.opentelemetry.io/contrib/propagators/jaeger v1.7.0 // indirect
