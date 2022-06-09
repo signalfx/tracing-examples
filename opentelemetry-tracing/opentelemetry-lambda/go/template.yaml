@@ -5,7 +5,7 @@ Description: Splunk OpenTelemetry Lambda GO example
 Resources:
   SplunkOtelLambdaGoTest:
     Type: AWS::Serverless::Function
-    Description: Splunk OpenTelemetry Lambda GO example. Can be safely deleted.
+    Description: Splunk OpenTelemetry Lambda Go example. Can be safely deleted.
     Properties:
       FunctionName: SplunkOtelLambdaGoTest
       CodeUri: build/bootstrap.zip
@@ -18,8 +18,6 @@ Resources:
       Environment:
         Variables:
           OTEL_SERVICE_NAME: TestGoFunction
-          OTEL_METRICS_EXPORTER: none
-          OTEL_LOG_LEVEL: DEBUG
-          OTEL_TRACES_EXPORTER: jaeger-thrift-splunk
+          OTEL_LOG_LEVEL: debug
           SPLUNK_REALM: us0
           SPLUNK_ACCESS_TOKEN: REPLACE_WITH_SPLUNK_ACCESS_TOKEN
