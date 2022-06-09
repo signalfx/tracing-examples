@@ -1,14 +1,20 @@
-# ASP.NET Core and MongoDB Auto-Instrumentation Example
+# OpenTelemetry .NET SDK Example
 
-This is an example of automatically producing distributed traces using the
-[SignalFx Tracing Library for .NET](https://github.com/signalfx/signalfx-dotnet-tracing).
-Please examine the instrumented [HttpClient](./src/ExampleClient/Program.cs) and [ASP.NET Core application](./src/AspNetCoreExample/Services/ItemService.cs)
-for custom instrumentation patterns using the OpenTracing API. This example is of a simple
-inventory system that is auto-instrumented via [configuration of the CLR Profiler and tracing library](./src/AspNetCoreExample/Dockerfile).
+This example is a simple inventory system that is instrumented via
+the [OpenTelemetry .NET](https://opentelemetry.io/docs/instrumentation/net/).
+
+The example instruments the following libraries and frameworks:
+
+- ASP.NET Core
+- HttpClient
+- MongoDB
+
+Both the client and server are configured to send spans to a local instance of
+the Splunk OpenTelemetry Collector, which propagates them to Splunk Observability Cloud.
 
 ## Building and running the example app and client
 
-This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed and on your system. To build and run the example services, please clone this repository and from this directory do the following:
+This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed on your system. To build and run the example services, please clone this repository and from this directory do the following:
 
 ```sh
 docker-compose build

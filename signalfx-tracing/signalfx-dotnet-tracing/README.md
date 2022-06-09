@@ -7,5 +7,5 @@ For more detailed information about the functionality of the provided tracer and
 please see the [SignalFx Tracing Library for .NET project](https://github.com/signalfx/signalfx-dotnet-tracing/).
 
 ## Libraries and Framework Examples
-- [ASP.NET Core and MongoDb](./aspnetcore-and-mongodb)
+- [ASP.NET Core and MongoDB](./aspnetcore-and-mongodb)
 - [CloudFoundry .NET Core Buildpack](./cloudfoundry-buildpack)
