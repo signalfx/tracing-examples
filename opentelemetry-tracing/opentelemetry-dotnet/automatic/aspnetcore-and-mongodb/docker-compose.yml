@@ -1,0 +1,57 @@
+version: '3.7'
+services:
+  aspnetcore:
+    image: otel-dotnet-auto-aspnetcore-and-mongodb/server-app
+    build:
+      context: InstrumentContainer
+      args:
+        - SOURCE_CONTAINER=aspnetcore-and-mongdb-server-app
+    ports:
+     - "5000:5000"
+    environment:
+      - OTEL_SERVICE_NAME=asp.net-core
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=otel-dotnet-auto-tracing-examples,service.version=1.0.0
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://splunk-otel-collector:4318
+      - OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS=AspNet,HttpClient
+    depends_on:
+      - client
+      - mongo
+      - splunk-otel-collector
+    user: 'root'
+  client:
+    image: otel-dotnet-auto-aspnetcore-and-mongodb/client-app
+    build:
+      context: InstrumentContainer
+      args:
+        - SOURCE_CONTAINER=aspnetcore-and-mongdb-client-app
+    environment:
+      - OTEL_SERVICE_NAME=example-client
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=otel-dotnet-auto-tracing-examples,service.version=1.0.0
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://splunk-otel-collector:4318
+      - OTEL_DOTNET_AUTO_ENABLED_INSTRUMENTATIONS=HttpClient
+    depends_on:
+      - splunk-otel-collector
+    user: 'root'
+    entrypoint: 'bash'
+    command: '-c "sleep 10; while true; do dotnet ClientExample.dll; done"'
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+  splunk-otel-collector:
+    image: quay.io/signalfx/splunk-otel-collector:0.52.1
+    environment:
+      # Provide the values below if you want to submit the data to the APM ingest.
+      - SPLUNK_ACCESS_TOKEN
+      - SPLUNK_REALM
+    ports:
+      - "1777:1777"  # pprof extension
+      - "8888:8888"  # Prometheus metrics exposed by the collector
+      - "8889:8889"  # Prometheus exporter metrics
+      - "13133:13133" # health_check extension
+      - "4317:4317"  # OTLP gRPC receiver
+      - "4318:4318"  # OTLP HTTP receiver
+      - "55679:55679" # zpages extension
+      - "9411:9411"  # zipkin receiver
+      - "9943:9943"  # signalfx receiver
