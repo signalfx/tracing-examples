@@ -11,6 +11,8 @@ inventory system that is auto-instrumented via [configuration of the CLR Profile
 This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed and on your system. To build and run the example services, please clone this repository and from this directory do the following:
 
 ```sh
+docker build ../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/ -t aspnetcore-and-mongodb-server-app
+docker build ../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/ -t aspnetcore-and-mongdb-client-app
 docker-compose build
 SPLUNK_ACCESS_TOKEN=<access_token> SPLUNK_REALM=<realm> docker-compose up
 ```

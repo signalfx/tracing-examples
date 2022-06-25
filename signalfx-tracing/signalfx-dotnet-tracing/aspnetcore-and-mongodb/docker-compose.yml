@@ -1,24 +1,32 @@
 version: '3.7'
 services:
   aspnetcore:
-    build: src/AspNetCoreExample 
+    image: sfx-dotnet-aspnetcore-and-mongodb/server-app
+    build:
+      context: InstrumentContainer
+      args:
+        - SOURCE_CONTAINER=aspnetcore-and-mongdb-server-app
     ports:
      - "5000:5000"
     environment:
       - SIGNALFX_SERVICE_NAME=asp.net-core
       - SIGNALFX_ENDPOINT_URL=http://splunk-otel-collector:9411/api/v2/spans
-      - SIGNALFX_ENV=tracing-examples
+      - SIGNALFX_ENV=signalfx-dotnet-tracing-examples
     depends_on:
       - client
       - mongo
       - splunk-otel-collector
     user: 'root'
   client:
-    build: src/ClientExample
+    image: sfx-dotnet-aspnetcore-and-mongodb/client-app
+    build:
+      context: InstrumentContainer
+      args:
+        - SOURCE_CONTAINER=aspnetcore-and-mongdb-client-app
     environment:
       - SIGNALFX_SERVICE_NAME=example-client
       - SIGNALFX_ENDPOINT_URL=http://splunk-otel-collector:9411/api/v2/spans
-      - SIGNALFX_ENV=tracing-examples
+      - SIGNALFX_ENV=signalfx-dotnet-tracing-examples
     depends_on:
       - splunk-otel-collector
     user: 'root'
