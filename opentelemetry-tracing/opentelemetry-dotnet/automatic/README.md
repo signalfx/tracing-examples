@@ -5,4 +5,4 @@ This folder contains sample applications that are instrumented using
 
 ## Libraries and Framework Examples
 
-- [ASP.NET Core, MongoDB, and HttpClient](./aspnetcore-and-mongodb/README.md)
+- [ASP.NET Core and HttpClient](./aspnetcore-and-mongodb/README.md)

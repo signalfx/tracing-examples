@@ -4,7 +4,7 @@ This folder contains sample applications that were instrumented using
 [OpenTelemetry .NET](https://opentelemetry.io/docs/instrumentation/net/).
 
 You can instrument your application automatically or manually.
-Automatically doesn't require any source code changes.
+Automatic instrumentation doesn't require any source code changes.
 Manual instrumentation requires adding and intializing the
 [OpenTelemetry .NET SDK](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry/README.md).
 Follow the links below for examples of these two instrumentation modes:
