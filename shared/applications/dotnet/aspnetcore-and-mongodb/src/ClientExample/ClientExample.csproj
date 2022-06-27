@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Adding "Microsoft.Extensions.Logging.Abstractions" is a workaround to instument the client app -->
+    <!-- with the OpenTelelemetry .NET AutoInstrumentation v0.1.0-beta.1 / this should be removed when  -->
+    <!-- the auto instrumentation version is updated.                                                   -->
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="OpenTracing" Version="0.12.1" />
+  </ItemGroup>
+
+</Project>

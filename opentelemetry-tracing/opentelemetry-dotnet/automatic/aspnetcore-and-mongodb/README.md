@@ -1,11 +1,11 @@
 # ASP.NET Core and MongoDB Auto-Instrumentation Example
 
 In this example, distributed traces are produced automatically using the
-[SignalFx Tracing Library for .NET](https://github.com/signalfx/signalfx-dotnet-tracing).
+[OpenTelemetry .NET Automatic Instrumentation](https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation#opentelemetry-net-automatic-instrumentation).
 Look at the
-[HttpClient](../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/Program.cs)
+[HttpClient](../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/Program.cs)
 and
-[ASP.NET Core application](../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/Services/ItemService.cs)
+[ASP.NET Core application](../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/Services/ItemService.cs)
 source code.
 Add the configuration of a CLR Profiler and the automatic instrumentation
 to the respective [Dockerfile](./InstrumentContainer/Dockerfile)
@@ -17,8 +17,8 @@ This multi-container application assumes you have [Docker Compose](https://docs.
 To build and run the example services, clone this repository, move to this folder and from there do the following:
 
 ```sh
-docker build ../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/ -t aspnetcore-and-mongodb-server-app
-docker build ../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/ -t aspnetcore-and-mongdb-client-app
+docker build ../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/ -t aspnetcore-and-mongodb-server-app
+docker build ../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/ -t aspnetcore-and-mongdb-client-app
 docker-compose build
 SPLUNK_ACCESS_TOKEN=<access_token> SPLUNK_REALM=<realm> docker-compose up
 ```

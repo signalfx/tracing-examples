@@ -1,7 +1,7 @@
 # OpenTelemetry .NET SDK Example
 
-This example is a simple inventory system that is instrumented via
-the [OpenTelemetry .NET](https://opentelemetry.io/docs/instrumentation/net/).
+In this example, distributed traces are produced by manually adding
+[OpenTelemetry .NET](https://opentelemetry.io/docs/instrumentation/net/).
 
 The example instruments the following libraries and frameworks:
 
@@ -14,7 +14,8 @@ the Splunk OpenTelemetry Collector, which propagates them to Splunk Observabilit
 
 ## Building and running the example app and client
 
-This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed on your system. To build and run the example services, please clone this repository and from this directory do the following:
+This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed on your system.
+To build and run the example services, clone this repository, move to this folder and from there do the following:
 
 ```sh
 docker-compose build
