@@ -1,6 +1,6 @@
 # OpenTelemetry .NET manual instrumentation examples
 
-This folder contains sample applications that were manually instrumented using
+This folder contains sample applications manually instrumented using
 [OpenTelemetry .NET](https://opentelemetry.io/docs/instrumentation/net/).
 
 For more information on OpenTelemetry .NET and some of the available instrumentations, see:

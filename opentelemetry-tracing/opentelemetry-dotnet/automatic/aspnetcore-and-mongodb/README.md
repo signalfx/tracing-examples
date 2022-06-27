@@ -1,20 +1,20 @@
 # ASP.NET Core and MongoDB Auto-Instrumentation Example
 
-This is an example of automatically producing distributed traces using the
+In this example, distributed traces are produced automatically using the
 [OpenTelemetry .NET Automatic Instrumentation](https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation#opentelemetry-net-automatic-instrumentation).
 Please examine the
 [HttpClient](../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/Program.cs)
 and
 [ASP.NET Core application](../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/Services/ItemService.cs)
 source code.
-This example is of a simple
-inventory system that is automatically instrumented by adding
-the configuration of a CLR Profiler and the automatic instrumentation
-to the respective [Dockerfile](./InstrumentContainer/Dockerfile).
+Add the configuration of a CLR Profiler and the automatic instrumentation
+to the respective [Dockerfile](./InstrumentContainer/Dockerfile)
+to automatically instrument a simple inventory system.
 
 ## Building and running the example app and client
 
-This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed and on your system. To build and run the example services, please clone this repository and from this directory do the following:
+This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed and on your system.
+To build and run the example services, clone this repository, move to this folder and from there do the following:
 
 ```sh
 docker build ../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/ -t aspnetcore-and-mongodb-server-app
