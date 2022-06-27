@@ -2,7 +2,7 @@
 
 In this example, distributed traces are produced automatically using the
 [SignalFx Tracing Library for .NET](https://github.com/signalfx/signalfx-dotnet-tracing).
-Please examine the
+Look at the
 [HttpClient](../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/Program.cs)
 and
 [ASP.NET Core application](../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/Services/ItemService.cs)

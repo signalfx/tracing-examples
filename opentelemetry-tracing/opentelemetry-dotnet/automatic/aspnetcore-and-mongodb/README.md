@@ -2,7 +2,7 @@
 
 In this example, distributed traces are produced automatically using the
 [OpenTelemetry .NET Automatic Instrumentation](https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation#opentelemetry-net-automatic-instrumentation).
-Please examine the
+Look at the
 [HttpClient](../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/Program.cs)
 and
 [ASP.NET Core application](../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/Services/ItemService.cs)
