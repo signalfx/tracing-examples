@@ -18,7 +18,7 @@ To build and run the example services, clone this repository, move to this folde
 
 ```sh
 docker build ../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/AspNetCoreExample/ -t aspnetcore-and-mongodb-server-app
-docker build ../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/ -t aspnetcore-and-mongdb-client-app
+docker build ../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/ -t aspnetcore-and-mongodb-client-app
 docker-compose build
 SPLUNK_ACCESS_TOKEN=<access_token> SPLUNK_REALM=<realm> docker-compose up
 ```
