@@ -5,7 +5,7 @@ services:
     build:
       context: InstrumentContainer
       args:
-        - SOURCE_CONTAINER=aspnetcore-and-mongdb-server-app
+        - SOURCE_CONTAINER=aspnetcore-and-mongodb-server-app
     ports:
      - "5000:5000"
     environment:
@@ -22,7 +22,7 @@ services:
     build:
       context: InstrumentContainer
       args:
-        - SOURCE_CONTAINER=aspnetcore-and-mongdb-client-app
+        - SOURCE_CONTAINER=aspnetcore-and-mongodb-client-app
     environment:
       - SIGNALFX_SERVICE_NAME=example-client
       - SIGNALFX_ENDPOINT_URL=http://splunk-otel-collector:9411/api/v2/spans

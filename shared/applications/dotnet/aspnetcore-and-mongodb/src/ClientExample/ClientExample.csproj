@@ -11,7 +11,6 @@
     <!-- the auto instrumentation version is updated.                                                   -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
-    <PackageReference Include="OpenTracing" Version="0.12.1" />
   </ItemGroup>
 
 </Project>

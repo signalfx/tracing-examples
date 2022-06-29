@@ -8,8 +8,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OpenTelemetry;
 using OpenTelemetry.Trace;
-using OpenTracing;
-using OpenTracing.Util;
 
 namespace ClientExample 
 {

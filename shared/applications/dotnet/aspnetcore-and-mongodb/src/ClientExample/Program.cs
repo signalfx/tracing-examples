@@ -5,16 +5,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using OpenTracing;
-using OpenTracing.Util;
 
 namespace ClientExample 
 {
     public class Program
     {
         private static string exampleUrl = "http://aspnetcore:5000/api/items";
-
-        private static ITracer tracer = GlobalTracer.Instance;
 
         private static Dictionary<string, Item> itemStore = new Dictionary<string, Item>();
 
@@ -64,52 +60,37 @@ namespace ClientExample
 
         public static async Task CreateItems(List<Item> items)
         {
-            using (var scope = tracer.BuildSpan("CreateItems").StartActive(finishSpanOnDispose: true))
+            foreach (var item in items)
             {
-                foreach (var item in items)
-                {
-                    var created = await CreateItem(item);
-                    itemStore[created.Id] = created;
-                }
+                var created = await CreateItem(item);
+                itemStore[created.Id] = created;
             }
         }
 
         public static async Task FetchItems()
         {
-            using (var scope = tracer.BuildSpan("FetchItems").StartActive(finishSpanOnDispose: true))
+            foreach (var item in itemStore)
             {
-                foreach (var item in itemStore)
-                {
-                    await FetchItem(item.Value);
-                }
+                await FetchItem(item.Value);
             }
         }
 
         public static async Task UpdateItems()
         {
-            using (var scope = tracer.BuildSpan("UpdateItems").StartActive(finishSpanOnDispose: true))
+            foreach (var item in itemStore)
             {
-                foreach (var item in itemStore)
-                {
-                   var updated = await UpdateItem(item.Value);
-                   scope.Span.Log(updated ? $"Updated {item.Key}." : $"Failed to update {item.Key}.");
-                }
+                await UpdateItem(item.Value);
             }
         }
 
         public static async Task DeleteItems()
         {
-            using (var scope = tracer.BuildSpan("DeleteItems").StartActive(finishSpanOnDispose: true))
+            foreach (var item in itemStore)
             {
-                foreach (var item in itemStore)
+                var deleted = await DeleteItem(item.Value);
+                if (deleted)
                 {
-                   var deleted = await DeleteItem(item.Value);
-                   if (deleted)
-                   {
-                       itemStore.Remove(item.Key);
-                   }
-
-                   scope.Span.Log(deleted ? $"Deleted {item.Key}." : $"Failed to delete {item.Key}.");
+                    itemStore.Remove(item.Key);
                 }
             }
         }
@@ -117,27 +98,19 @@ namespace ClientExample
         public static async Task<Item> CreateItem(Item item)
         {
             Console.WriteLine($"Creating {item.Name}: {item.Maker} - {item.Description}");
-            using (var scope = tracer.BuildSpan("CreateItem").StartActive(finishSpanOnDispose: true))
+
+            var jsonObject = JsonConvert.SerializeObject(item);
+
+            using (var client = new HttpClient())
             {
-                scope.Span.SetTag("item.name", item.Name);
-                scope.Span.SetTag("item.description", item.Description);
-                scope.Span.SetTag("item.maker", item.Maker);
-                scope.Span.SetTag("item.price", $"${item.Price}");
-                scope.Span.SetTag("item.url", item.Url);
+                var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
 
-                var jsonObject = JsonConvert.SerializeObject(item);
-
-                using (var client = new HttpClient())
+                using (var responseMessage = await client.PostAsync($"{exampleUrl}", content))
                 {
-                    var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-
-                    using (var responseMessage = await client.PostAsync($"{exampleUrl}", content))
-                    {
-                        var responseContent = await responseMessage.Content.ReadAsStringAsync();
-                        var responseStatus = responseMessage.StatusCode;
-                        Console.WriteLine($"CreateItem response - {responseStatus}: {responseContent}");
-                        return JsonConvert.DeserializeObject<Item>(responseContent);
-                    }
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responseStatus = responseMessage.StatusCode;
+                    Console.WriteLine($"CreateItem response - {responseStatus}: {responseContent}");
+                    return JsonConvert.DeserializeObject<Item>(responseContent);
                 }
             }
         }
@@ -146,49 +119,38 @@ namespace ClientExample
         {
             Console.WriteLine($"Fetching {item.Id}");
             Item fetchedItem = null;
-            using (var scope = tracer.BuildSpan("FetchItem").StartActive(finishSpanOnDispose: true))
+            using (var client = new HttpClient())
             {
-                using (var client = new HttpClient())
+                using (var responseMessage = await client.GetAsync($"{exampleUrl}/{item.Id}"))
                 {
-                    using (var responseMessage = await client.GetAsync($"{exampleUrl}/{item.Id}"))
-                    {
-                        var responseContent = await responseMessage.Content.ReadAsStringAsync();
-                        var responseStatus = responseMessage.StatusCode;
-                        Console.WriteLine($"FetchItem response - {responseStatus}: {responseContent}");
-                        fetchedItem = JsonConvert.DeserializeObject<Item>(responseContent);
-                    }
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responseStatus = responseMessage.StatusCode;
+                    Console.WriteLine($"FetchItem response - {responseStatus}: {responseContent}");
+                    fetchedItem = JsonConvert.DeserializeObject<Item>(responseContent);
                 }
-                scope.Span.SetTag("item.name", fetchedItem.Name);
-                scope.Span.SetTag("item.description", fetchedItem.Description);
-                scope.Span.SetTag("item.maker", fetchedItem.Maker);
-                scope.Span.SetTag("item.price", $"${fetchedItem.Price}");
-                scope.Span.SetTag("item.url", fetchedItem.Url);
-                return fetchedItem;
             }
+
+            return fetchedItem;
         }
 
         public static async Task<bool> UpdateItem(Item item)
         {
             Console.WriteLine($"Updating {item.Name}: {item.Maker} - {item.Description}");
-            using (var scope = tracer.BuildSpan("UpdateItem").StartActive(finishSpanOnDispose: true))
+            var updatedDescription = $"updated: {item.Description}";
+            item.Description = updatedDescription;
+
+            var jsonObject = JsonConvert.SerializeObject(item);
+
+            using (var client = new HttpClient())
             {
-                var updatedDescription = $"updated: {item.Description}";
-                item.Description = updatedDescription;
-                scope.Span.Log($"Updating item.description to {updatedDescription}");
+                var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
 
-                var jsonObject = JsonConvert.SerializeObject(item);
-
-                using (var client = new HttpClient())
+                using (var responseMessage = await client.PutAsync($"{exampleUrl}/{item.Id}", content))
                 {
-                    var content = new StringContent(jsonObject.ToString(), Encoding.UTF8, "application/json");
-
-                    using (var responseMessage = await client.PutAsync($"{exampleUrl}/{item.Id}", content))
-                    {
-                        var responseContent = await responseMessage.Content.ReadAsStringAsync();
-                        var responseStatus = responseMessage.StatusCode;
-                        Console.WriteLine($"UpdateItem response - {responseStatus}: {responseContent}");
-                        return responseStatus == HttpStatusCode.NoContent;
-                    }
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responseStatus = responseMessage.StatusCode;
+                    Console.WriteLine($"UpdateItem response - {responseStatus}: {responseContent}");
+                    return responseStatus == HttpStatusCode.NoContent;
                 }
             }
         }
@@ -196,19 +158,15 @@ namespace ClientExample
         public static async Task<bool> DeleteItem(Item item)
         {
             Console.WriteLine($"Deleting {item.Name}: {item.Maker} - {item.Description}");
-            using (var scope = tracer.BuildSpan("DeleteItem").StartActive(finishSpanOnDispose: true))
-            {
-                scope.Span.SetTag("item.name", item.Name);
 
-                using (var client = new HttpClient())
+            using (var client = new HttpClient())
+            {
+                using (var responseMessage = await client.DeleteAsync($"{exampleUrl}/{item.Id}"))
                 {
-                    using (var responseMessage = await client.DeleteAsync($"{exampleUrl}/{item.Id}"))
-                    {
-                        var responseContent = await responseMessage.Content.ReadAsStringAsync();
-                        var responseStatus = responseMessage.StatusCode;
-                        Console.WriteLine($"DeleteItem response - {responseStatus}: {responseContent}");
-                        return responseStatus == HttpStatusCode.NoContent;
-                    }
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var responseStatus = responseMessage.StatusCode;
+                    Console.WriteLine($"DeleteItem response - {responseStatus}: {responseContent}");
+                    return responseStatus == HttpStatusCode.NoContent;
                 }
             }
         }
