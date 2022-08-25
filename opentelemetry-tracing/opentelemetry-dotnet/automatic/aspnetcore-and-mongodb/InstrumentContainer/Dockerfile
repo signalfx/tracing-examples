@@ -2,7 +2,7 @@ ARG SOURCE_CONTAINER
 FROM ${SOURCE_CONTAINER}
 
 # Add the OpenTelemetry .NET Automatic Instrumentation
-ARG OTEL_DOTNET_AUTO_VERSION=v0.2.0-beta.1
+ARG OTEL_DOTNET_AUTO_VERSION=v0.3.0-beta.1
 ADD https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation/releases/download/${OTEL_DOTNET_AUTO_VERSION}/opentelemetry-dotnet-instrumentation-linux-glibc.zip ./opentelemetry-dotnet-autoinstrumentation.zip
 
 RUN apt update
