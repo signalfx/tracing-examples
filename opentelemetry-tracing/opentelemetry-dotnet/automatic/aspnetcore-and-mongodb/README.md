@@ -1,7 +1,7 @@
 # ASP.NET Core and MongoDB Auto-Instrumentation Example
 
 In this example, distributed traces are produced automatically using the
-[OpenTelemetry .NET Automatic Instrumentation](https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation#opentelemetry-net-automatic-instrumentation).
+[Splunk Distribution of OpenTelemetry .NET](https://github.com/signalfx/splunk-otel-dotnet#splunk-distribution-of-opentelemetry-net).
 Look at the
 [HttpClient](../../../../shared/applications/dotnet/aspnetcore-and-mongodb/src/ClientExample/Program.cs)
 and

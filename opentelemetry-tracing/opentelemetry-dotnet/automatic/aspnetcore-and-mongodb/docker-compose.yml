@@ -1,7 +1,7 @@
 version: '3.7'
 services:
   aspnetcore:
-    image: otel-dotnet-auto-aspnetcore-and-mongodb/server-app
+    image: splunk-otel-dotnet-aspnetcore-and-mongodb/server-app
     build:
       context: InstrumentContainer
       args:
@@ -10,25 +10,23 @@ services:
      - "5000:5000"
     environment:
       - OTEL_SERVICE_NAME=asp.net-core
-      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=otel-dotnet-auto-tracing-examples,service.version=1.0.0
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=splunk-otel-dotnet-tracing-examples,service.version=1.0.0
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://splunk-otel-collector:4318
-      - OTEL_DOTNET_AUTO_TRACES_ENABLED_INSTRUMENTATIONS=AspNet,HttpClient,MongoDB
     depends_on:
       - client
       - mongo
       - splunk-otel-collector
     user: 'root'
   client:
-    image: otel-dotnet-auto-aspnetcore-and-mongodb/client-app
+    image: splunk-otel-dotnet-aspnetcore-and-mongodb/client-app
     build:
       context: InstrumentContainer
       args:
         - SOURCE_CONTAINER=aspnetcore-and-mongodb-client-app
     environment:
       - OTEL_SERVICE_NAME=example-client
-      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=otel-dotnet-auto-tracing-examples,service.version=1.0.0
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=splunk-otel-dotnet-tracing-examples,service.version=1.0.0
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://splunk-otel-collector:4318
-      - OTEL_DOTNET_AUTO_TRACES_ENABLED_INSTRUMENTATIONS=HttpClient
     depends_on:
       - splunk-otel-collector
     user: 'root'
@@ -40,7 +38,7 @@ services:
     ports:
       - "27017:27017"
   splunk-otel-collector:
-    image: quay.io/signalfx/splunk-otel-collector:0.52.1
+    image: quay.io/signalfx/splunk-otel-collector:0.62.0
     environment:
       # Provide the values below if you want to submit the data to the APM ingest.
       - SPLUNK_ACCESS_TOKEN

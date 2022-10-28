@@ -1,17 +1,17 @@
 ARG SOURCE_CONTAINER
 FROM ${SOURCE_CONTAINER}
 
-# Add the OpenTelemetry .NET Automatic Instrumentation
-ARG OTEL_DOTNET_AUTO_VERSION=v0.3.0-beta.1
-ADD https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation/releases/download/${OTEL_DOTNET_AUTO_VERSION}/opentelemetry-dotnet-instrumentation-linux-glibc.zip ./opentelemetry-dotnet-autoinstrumentation.zip
+# Add the Splunk Distribution of OpenTelemetry .NET
+ARG SPLUNK_OTEL_DOTNET_VERSION=v0.0.1-alpha.2
+ADD https://github.com/signalfx/splunk-otel-dotnet/releases/download/${SPLUNK_OTEL_DOTNET_VERSION}/splunk-opentelemetry-dotnet-linux-glibc.zip ./splunk-otel-dotnet.zip
 
 RUN apt update
 RUN apt -y install zip
 
-ARG INSTALL_DIR=/opt/opentelemetry/dotnet/autoinstrumentation
+ARG INSTALL_DIR=/opt/splunk/otel/dotnet
 RUN mkdir -p ${INSTALL_DIR}
-RUN unzip opentelemetry-dotnet-autoinstrumentation.zip -d ${INSTALL_DIR}
-RUN rm opentelemetry-dotnet-autoinstrumentation.zip
+RUN unzip splunk-otel-dotnet.zip -d ${INSTALL_DIR}
+RUN rm splunk-otel-dotnet.zip
 RUN mkdir -p /var/log/opentelemetry/dotnet
 
 ENV CORECLR_ENABLE_PROFILING=1

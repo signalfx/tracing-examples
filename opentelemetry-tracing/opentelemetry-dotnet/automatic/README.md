@@ -1,7 +1,7 @@
-# OpenTelemetry .NET automatic instrumentation examples
+# Splunk Distribution of OpenTelemetry .NET examples
 
 This folder contains sample applications that are instrumented using
-[OpenTelemetry .NET Automatic Instrumentation](https://github.com/open-telemetry/opentelemetry-dotnet-instrumentation#opentelemetry-net-automatic-instrumentation).
+[Splunk Distribution of OpenTelemetry .NET](https://github.com/signalfx/splunk-otel-dotnet).
 
 ## Libraries and Framework Examples
 
