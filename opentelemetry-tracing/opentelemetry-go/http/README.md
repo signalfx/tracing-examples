@@ -7,10 +7,7 @@ using:
 - [OpenTelemetry Go](https://github.com/open-telemetry/opentelemetry-go)
 - [OpenTelemetry Go Contrib](https://github.com/open-telemetry/opentelemetry-go-contrib)
 
-The example instruments the following libraries:
-
-- [`http`](https://pkg.go.dev/http)
-- [`github.com/gorilla/mux`](https://pkg.go.dev/github.com/gorilla/mux)
+The example instruments the [`net/http`](https://pkg.go.dev/http) package.
 
 Both applications are configured to send spans to a local instance
 of the [Splunk OpenTelemetry Collector](https://github.com/signalfx/splunk-otel-collector),

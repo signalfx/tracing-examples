@@ -16,20 +16,23 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
-	"time"
-
-	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 
 	"github.com/signalfx/splunk-otel-go/distro"
+	"github.com/signalfx/splunk-otel-go/instrumentation/net/http/splunkhttp"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 )
 
 func main() {
+	exitCode := 0
+	defer func() {
+		os.Exit(exitCode)
+	}()
+
 	// handle CTRL+C gracefully
 	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
 	defer stop()
@@ -41,37 +44,42 @@ func main() {
 	}
 	defer func() {
 		if err := sdk.Shutdown(context.Background()); err != nil {
-			panic(err)
+			log.Println(err)
+			exitCode = 1
 		}
 	}()
 
-	// instrument http.Client
-	client := &http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
+	var handler http.Handler = http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		_, _ = io.WriteString(rw, "Hello there.") // ignore the error
+	})
+	// instrument http.Handler
+	handler = splunkhttp.NewHandler(handler)
+	handler = otelhttp.NewHandler(handler, "hello")
 
-	for {
-		select {
-		case <-ctx.Done():
-			stop() // stop receiving signal notifications; next interrupt signal should kill the application
-			return
-		case <-time.After(time.Second):
-			call(ctx, client)
+	srv := &http.Server{
+		Addr:    ":8080",
+		Handler: handler,
+	}
+	srvErrCh := make(chan error, 1)
+	go func() {
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			srvErrCh <- err
+		} else {
+			srvErrCh <- nil
 		}
-	}
-}
+	}()
 
-func call(ctx context.Context, client *http.Client) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost:8080/hello", http.NoBody)
-	if err != nil {
-		panic(err)
-	}
-	resp, err := client.Do(req)
-	if err != nil {
+	<-ctx.Done()
+	stop() // stop receiving signal notifications; next interrupt signal should kill the application
+
+	if err := srv.Shutdown(context.Background()); err != nil {
 		log.Println(err)
+		exitCode = 1
 		return
 	}
-	defer resp.Body.Close()
-	if _, err := io.Copy(os.Stdout, resp.Body); err != nil {
+	if err := <-srvErrCh; err != nil {
 		log.Println(err)
+		exitCode = 1
+		return
 	}
-	fmt.Printf(" HTTP Headers: %v\n", resp.Header)
 }
