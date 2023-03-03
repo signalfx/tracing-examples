@@ -1,12 +1,12 @@
 # Splunk distribution of OpenTelemetry Go
 
 This repository contains sample applications that use instrumentation for
-supported Go HTTP libraries.
+[`net/http`](https://pkg.go.dev/net/http) package.
 
-For more information on the tracer and instrumentation configuration, see the
+For more information on the instrumentation configuration, see the
 
 [Splunk distribution of OpenTelemetry Go instrumentation project](https://github.com/signalfx/splunk-otel-go).
 
 ## Libraries and framework examples
 
-- [gorilla/mux, http](./gorilla-mux)
+- [http](http)
