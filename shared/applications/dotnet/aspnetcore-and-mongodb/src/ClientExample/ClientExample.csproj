@@ -10,7 +10,7 @@
     <!-- with the OpenTelelemetry .NET AutoInstrumentation v0.1.0-beta.1 / this should be removed when  -->
     <!-- the auto instrumentation version is updated.                                                   -->
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
 </Project>
