@@ -1,17 +1,9 @@
 using AspNetCoreExample.Models;
 using AspNetCoreExample.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 using OpenTelemetry.Trace;
@@ -20,7 +12,7 @@ namespace AspNetCoreExample
 {
     public class Startup
     {
-        private const string defaultActivitySourceName = "AspNetCoreExample.*";
+        private const string DefaultActivitySourceName = "AspNetCoreExample.*";
 
         public Startup(IConfiguration configuration)
         {
@@ -43,13 +35,13 @@ namespace AspNetCoreExample
                 .AddNewtonsoftJson(options => options.UseMemberCasing());
 
             // Configure OpenTelemetry tracing
-            services.AddOpenTelemetryTracing(builder =>
+            services.AddOpenTelemetry().WithTracing(builder =>
             {
                 builder
                     .AddOtlpExporter()
                     .AddAspNetCoreInstrumentation()
                     .AddMongoDBInstrumentation()
-                    .AddSource(defaultActivitySourceName);
+                    .AddSource(DefaultActivitySourceName);
             });
         }
 

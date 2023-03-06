@@ -120,10 +120,10 @@ namespace ClientExample
                        itemStore.Remove(item.Key);
                    }
 
-                    if (activity != null)
-                    {
-                        activity.AddEvent(new ActivityEvent(deleted ? $"Deleted {item.Key}." : $"Failed to delete {item.Key}."));
-                    }
+                   if (activity != null)
+                   {
+                       activity.AddEvent(new ActivityEvent(deleted ? $"Deleted {item.Key}." : $"Failed to delete {item.Key}."));
+                   }
                 }
             }
         }
