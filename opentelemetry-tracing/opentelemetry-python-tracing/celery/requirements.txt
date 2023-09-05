@@ -1,6 +1,6 @@
 amqp==5.0.6
 billiard==3.6.4.0
-celery==5.2.0
+celery==5.2.2
 click==8.0.3
 click-didyoumean==0.3.0
 click-plugins==1.1.1
