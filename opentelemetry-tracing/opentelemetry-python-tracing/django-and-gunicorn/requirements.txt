@@ -7,6 +7,6 @@ protobuf==3.18.3
 pytz==2021.1
 six==1.15.0
 splunk-opentelemetry[all]==1.2.0
-sqlparse==0.4.1
+sqlparse==0.4.4
 thrift==0.13.0
 wrapt==1.12.1
