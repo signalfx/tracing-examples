@@ -9,6 +9,4 @@ environment of choice than general documentation can sometimes be.
 ## SignalFx Tracing Supported Languages and Platforms
 
 - [.NET](./signalfx-dotnet-tracing)
-- [Go](./signalfx-go-tracing)
 - [PHP](./signalfx-php-tracing)
-
