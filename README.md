@@ -13,7 +13,6 @@ Splunk Observability Cloud and the Splunk Distribution of OpenTelemetry Collecto
 can ingest spans in the following formats:
 
 - OpenTelemetry Protocol or OTLP (Preferred)
-- Jaeger gRPC and Thrift
 - Zipkin v1 and v2 JSON
 - Splunk APM Protocol (SAPM)
 
