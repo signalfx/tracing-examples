@@ -10,7 +10,7 @@ see [the official documentation](https://docs.splunk.com/Observability).
 ## Supported formats
 
 Splunk Observability Cloud and the Splunk Distribution of OpenTelemetry Collector
-can ingest spans in the following formats:
+can ingest tracing data in the following formats:
 
 - OpenTelemetry Protocol or OTLP (Preferred)
 - Zipkin v1 and v2 JSON
