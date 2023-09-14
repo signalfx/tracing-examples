@@ -59,26 +59,26 @@ high value transactions and critical paths - instrument enough of these.
 ## Examples
 
 This repository contains a set of simple example applications that demonstrate
-using OpenTelemetry or SignalFx with various open source tracers.
+using OpenTelemetry or SignalFx with various open source instrumentations.
 They are broken down by language/platform.
 
 ### .NET
 
- - [SignalFx.Tracing](./dotnet-manual-instrumentation/README.md): An example using the
+- [SignalFx.Tracing](./dotnet-manual-instrumentation/README.md): An example using the
 [SignalFx.Tracing.OpenTracing NuGet Package](https://www.nuget.org/packages/SignalFx.Tracing.OpenTracing/) to
 instrument .NET libraries and applications.
 
 ### Java
 
-- [OpenTelemetry Java](./opentelemetry-tracing/opentelemetry-java-tracing): our recommended tracer for Java.
+- [OpenTelemetry Java](./opentelemetry-tracing/opentelemetry-java-tracing): our recommended instrumentation for Java.
 
 ### Python
 
-- [OpenTelemetry Python](./opentelemetry-tracing/opentelemetry-python-tracing): our recommended tracer for Python.
+- [OpenTelemetry Python](./opentelemetry-tracing/opentelemetry-python-tracing): our recommended instrumentation for Python.
 
 ### Go
 
-- [SignalFx Go](./signalfx-tracing/signalfx-go-tracing): SignalFx tracer for Golang.
+- [OpenTelemetry Go](./opentelemetry-tracing/opentelemetry-go): our recommended instrumentation for Go.
 
 ### Service Meshes
 
@@ -99,7 +99,6 @@ an OpenTracing-compatible fashion, we offer several SignalFx Tracing libraries.
 Their detailed documentation is available in their respective source locations:
 
 - [.NET](https://github.com/signalfx/signalfx-dotnet-tracing)
-- [Go](https://github.com/signalfx/signalfx-go-tracing)
 - [PHP](https://github.com/signalfx/signalfx-php-tracing)
 
 Examples of those auto-instrumentation techniques are available in this
