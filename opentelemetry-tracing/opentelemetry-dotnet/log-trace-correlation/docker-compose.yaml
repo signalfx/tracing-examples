@@ -6,7 +6,7 @@ services:
       - ./otel-config.yaml:/etc/otel/config.yaml
     command: --config /etc/otel/config.yaml
     environment:
-      # used by sapm/signalfx exporters
+      # used by otlphttp exporter
        - SPLUNK_ACCESS_TOKEN
        - SPLUNK_REALM
       # used by splunk_hec exporter
