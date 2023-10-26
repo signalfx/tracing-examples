@@ -10,5 +10,5 @@ six==1.15.0
 splunk-opentelemetry[all]==1.2.0
 thrift==0.13.0
 uWSGI==2.0.22
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 wrapt==1.12.1
