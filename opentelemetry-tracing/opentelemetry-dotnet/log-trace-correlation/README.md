@@ -10,6 +10,12 @@ a trace context.
 This multi-container application assumes you have [Docker Compose](https://docs.docker.com/compose/) installed on your system.
 To build and run the example services, clone this repository, move to this folder and from there do the following:
 
+[`Example.LogTraceCorrelation.Console`](./Example.LogTraceCorrelation.Console/Program.cs) is an example console application
+ using `ILogger` with additional manual correlation for `Serilog`.
+
+ [`Example.LogTraceCorrelation.Web`](./Example.LogTraceCorrelation.Web/Program.cs) is an example ASP.NET Core application
+  using `ILogger` with additional manual correlation for `NLog`.
+
 ```sh
 docker-compose build
 SPLUNK_ACCESS_TOKEN=<access_token> SPLUNK_REALM=<realm> SPLUNK_HEC_URL=<splunk_hec_url> SPLUNK_HEC_TOKEN=<splunk_hec_token> docker-compose up
