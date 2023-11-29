@@ -20,6 +20,5 @@ ENV CORECLR_PROFILER_PATH=${INSTALL_DIR}/linux-x64/OpenTelemetry.AutoInstrumenta
 ENV DOTNET_ADDITIONAL_DEPS=${INSTALL_DIR}/AdditionalDeps
 ENV DOTNET_SHARED_STORE=${INSTALL_DIR}/store
 ENV DOTNET_STARTUP_HOOKS=${INSTALL_DIR}/net/OpenTelemetry.AutoInstrumentation.StartupHook.dll
-ENV OTEL_DOTNET_AUTO_INTEGRATIONS_FILE=${INSTALL_DIR}/integrations.json
 ENV OTEL_DOTNET_AUTO_HOME=${INSTALL_DIR}
 ENV OTEL_DOTNET_AUTO_PLUGINS="Splunk.OpenTelemetry.AutoInstrumentation.Plugin, Splunk.OpenTelemetry.AutoInstrumentation"
