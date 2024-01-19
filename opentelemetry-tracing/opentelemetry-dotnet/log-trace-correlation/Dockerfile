@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
 
-ARG SPLUNK_OTEL_DOTNET_VERSION=v1.2.0
+ARG SPLUNK_OTEL_DOTNET_VERSION=v1.3.0
 ADD https://github.com/signalfx/splunk-otel-dotnet/releases/download/${SPLUNK_OTEL_DOTNET_VERSION}/splunk-otel-dotnet-install.sh splunk-otel-dotnet-install.sh
 
 RUN apt-get update && apt-get install -y unzip && \
