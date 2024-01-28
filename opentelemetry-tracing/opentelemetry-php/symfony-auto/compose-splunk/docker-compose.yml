@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  php:
+    image: splunk-otel-php-symfony/php
+    build:
+      context: ../image-php
+    ports:
+     - "8080:80"
+    environment:
+      - OTEL_SERVICE_NAME=php-symfony
+      - OTEL_RESOURCE_ATTRIBUTES=deployment.environment=splunk-otel-php-tracing-examples,service.version=1.0.0
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://splunk-otel-collector:4318
+    depends_on:
+      - splunk-otel-collector
+  splunk-otel-collector:
+    image: quay.io/signalfx/splunk-otel-collector:0.92.0
+    environment:
+      # Provide the following values via command line or fill them in here
+      - SPLUNK_ACCESS_TOKEN
+      - SPLUNK_REALM
+    expose:
+      - "4318"
