@@ -1,5 +1,5 @@
 FROM golang:1.22 AS builder
-RUN addgroup gouser &&  \
+RUN addgroup gouser && \
      adduser --ingroup gouser --uid 10001 --shell /bin/false gouser && \
      grep gouser /etc/passwd > /etc/passwd_gouser
 WORKDIR /app
