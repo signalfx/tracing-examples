@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0-jammy
+FROM mcr.microsoft.com/dotnet/sdk:8.0-jammy
 
 ARG SPLUNK_OTEL_DOTNET_VERSION=v1.4.0
 ADD https://github.com/signalfx/splunk-otel-dotnet/releases/download/${SPLUNK_OTEL_DOTNET_VERSION}/splunk-otel-dotnet-install.sh splunk-otel-dotnet-install.sh
