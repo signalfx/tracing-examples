@@ -1,0 +1,9 @@
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-apache
+
+COPY files /files
+RUN chmod +x /files/setup-php.sh
+RUN /files/setup-php.sh
+RUN a2enmod rewrite
+
+ENTRYPOINT ["apache2-foreground"]

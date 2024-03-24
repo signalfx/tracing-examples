@@ -1,0 +1,14 @@
+ARG PHP_VERSION
+FROM php:${PHP_VERSION}-fpm
+
+COPY files /files
+RUN chmod +x /files/setup-php.sh
+RUN /files/setup-php.sh
+
+ENV OTEL_PHP_AUTOLOAD_ENABLED=true
+ENV OTEL_PHP_PSR3_MODE=export
+ENV OTEL_TRACES_EXPORTER=otlp
+ENV OTEL_METRICS_EXPORTER=otlp
+ENV OTEL_LOGS_EXPORTER=otlp
+
+ENTRYPOINT ["php-fpm"]
