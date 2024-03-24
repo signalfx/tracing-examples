@@ -13,12 +13,26 @@ SPLUNK_ACCESS_TOKEN=<access_token> SPLUNK_REALM=<realm> docker-compose up
 ```
 
 The value for `SPLUNK_ACCESS_TOKEN` can be found
-[here](https://app.signalfx.com/o11y/#/organization/current?selectedKeyValue=sf_section:accesstokens).
+[here](https://app.signalfx.com/o11y/#/organization/current?selectedKeyValue=sf_section:accesstokens) (must have `INGEST` authorization scope).
 Reference: [docs](https://docs.splunk.com/Observability/admin/authentication-tokens/api-access-tokens.html#admin-api-access-tokens).
 
 The value for `SPLUNK_REALM` can be found
 [here](https://app.signalfx.com/o11y/#/myprofile).
 Reference: [docs](https://docs.splunk.com/Observability/admin/allow-services.html).
+
+#### Example with RUM
+
+To test integration with Splunk RUM, run the following command in `compose-rum` directory:
+
+```sh
+SPLUNK_RUM_ACCESS_TOKEN=<rum_access_token> SPLUNK_ACCESS_TOKEN=<access_token> SPLUNK_REALM=<realm> docker-compose up
+```
+
+This adds RUM script to the page, to demonstrate linking of server-side spans to RUM spans.
+
+The value for `SPLUNK_RUM_ACCESS_TOKEN` can be found
+[here](https://app.signalfx.com/o11y/#/organization/current?selectedKeyValue=sf_section:accesstokens) (must have `RUM` authorization scope).
+Reference: [docs](https://docs.splunk.com/Observability/admin/authentication-tokens/api-access-tokens.html#admin-api-access-tokens).
 
 ### Data logged to console
 
