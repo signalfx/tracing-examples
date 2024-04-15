@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.3" />
-    <PackageReference Include="NLog" Version="5.2.3" />
-    <PackageReference Include="NLog.DiagnosticSource" Version="5.0.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.8" />
+    <PackageReference Include="NLog" Version="5.2.8" />
+    <PackageReference Include="NLog.DiagnosticSource" Version="5.2.1" />
   </ItemGroup>
 
 </Project>
