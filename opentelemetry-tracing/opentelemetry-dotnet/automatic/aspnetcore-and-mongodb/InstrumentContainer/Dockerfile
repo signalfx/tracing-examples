@@ -2,7 +2,7 @@ ARG SOURCE_CONTAINER
 FROM ${SOURCE_CONTAINER}
 
 # Add the Splunk Distribution of OpenTelemetry .NET
-ARG SPLUNK_OTEL_DOTNET_VERSION=v1.4.0
+ARG SPLUNK_OTEL_DOTNET_VERSION=v1.5.0
 ADD https://github.com/signalfx/splunk-otel-dotnet/releases/download/${SPLUNK_OTEL_DOTNET_VERSION}/splunk-opentelemetry-dotnet-linux-glibc.zip ./splunk-otel-dotnet.zip
 
 RUN apt update
