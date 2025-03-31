@@ -9,5 +9,5 @@ Manual instrumentation requires adding and initializing the
 [OpenTelemetry .NET SDK](https://github.com/open-telemetry/opentelemetry-dotnet/blob/main/src/OpenTelemetry/README.md).
 Follow the links below for examples of these two instrumentation modes:
 
-- [Automatic](./automatic/README.md) currently in alpha.
+- [Automatic](./automatic/README.md) stable.
 - [Manual](./manual/README.md) stable.
