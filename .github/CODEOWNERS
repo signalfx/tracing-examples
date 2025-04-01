@@ -1,4 +1,3 @@
 # Locations owned by the GDI .NET Team
 /opentelemetry-tracing/opentelemetry-dotnet/ @signalfx/gdi-dotnet-approvers
 /shared/applications/dotnet/                 @signalfx/gdi-dotnet-approvers
-/signalfx-tracing/signalfx-dotnet-tracing/   @signalfx/gdi-dotnet-approvers
