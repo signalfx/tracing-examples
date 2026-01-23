@@ -3,7 +3,7 @@ Django==3.2.25
 googleapis-common-protos==1.52.0
 grpcio==1.53.2
 gunicorn==22.0.0
-protobuf==3.18.3
+protobuf==7.34.0rc1
 pytz==2021.1
 six==1.15.0
 splunk-opentelemetry[all]==1.2.0
