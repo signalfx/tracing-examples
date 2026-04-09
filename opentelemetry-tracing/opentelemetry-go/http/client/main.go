@@ -44,6 +44,11 @@ func main() {
 		}
 	}()
 
+	var url = os.Getenv("SERVER_URL")
+	if url == "" {
+		url = "http://localhost:8080"
+	}
+
 	// instrument http.Client
 	client := &http.Client{Transport: otelhttp.NewTransport(http.DefaultTransport)}
 
@@ -53,13 +58,13 @@ func main() {
 			stop() // stop receiving signal notifications; next interrupt signal should kill the application
 			return
 		case <-time.After(time.Second):
-			call(ctx, client)
+			call(ctx, client, url)
 		}
 	}
 }
 
-func call(ctx context.Context, client *http.Client) {
-	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "http://localhost:8080", http.NoBody)
+func call(ctx context.Context, client *http.Client, url string) {
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, http.NoBody)
 	if err != nil {
 		panic(err)
 	}
