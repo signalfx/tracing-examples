@@ -1,19 +1,25 @@
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using AspNetCoreExample.Models;
+using AspNetCoreExample.Services;
+using Microsoft.Extensions.Options;
 
-namespace AspNetCoreExample
-{
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+var builder = WebApplication.CreateBuilder(args);
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseUrls($"http://+:5000")
-                .UseStartup<Startup>()
-                .Build();
-    }
-}
+builder.WebHost.UseUrls("http://+:5000");
+
+builder.Services.Configure<ItemsDatabaseSettings>(
+    builder.Configuration.GetSection(nameof(ItemsDatabaseSettings)));
+
+builder.Services.AddSingleton<ItemsDatabaseSettings>(sp =>
+    sp.GetRequiredService<IOptions<ItemsDatabaseSettings>>().Value);
+
+builder.Services.AddSingleton<ItemService>();
+
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options => options.UseMemberCasing());
+
+var app = builder.Build();
+
+app.UseDeveloperExceptionPage();
+app.MapControllers();
+
+app.Run();

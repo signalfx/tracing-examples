@@ -3,7 +3,6 @@ using MongoDB.Driver;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using MongoDB.Driver.Core.Extensions.DiagnosticSources;
 
 namespace AspNetCoreExample.Services
 {

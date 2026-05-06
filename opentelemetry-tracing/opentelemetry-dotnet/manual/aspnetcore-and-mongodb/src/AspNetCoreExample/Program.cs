@@ -1,19 +1,39 @@
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
+using AspNetCoreExample.Models;
+using AspNetCoreExample.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Options;
+using OpenTelemetry.Trace;
 
-namespace AspNetCoreExample
+var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseUrls("http://+:5000");
+
+builder.Services.Configure<ItemsDatabaseSettings>(
+    builder.Configuration.GetSection(nameof(ItemsDatabaseSettings)));
+
+builder.Services.AddSingleton<ItemsDatabaseSettings>(sp =>
+    sp.GetRequiredService<IOptions<ItemsDatabaseSettings>>().Value);
+
+builder.Services.AddSingleton<ItemService>();
+
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options => options.UseMemberCasing());
+
+const string DefaultActivitySourceName = "AspNetCoreExample.*";
+const string MongoDBDriverActivitySourceName = "MongoDB.Driver";
+
+builder.Services.AddOpenTelemetry().WithTracing(tracing =>
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            BuildWebHost(args).Run();
-        }
+    tracing
+        .AddOtlpExporter()
+        .AddAspNetCoreInstrumentation()
+        .AddSource(MongoDBDriverActivitySourceName)
+        .AddSource(DefaultActivitySourceName);
+});
 
-        public static IWebHost BuildWebHost(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseUrls($"http://+:5000")
-                .UseStartup<Startup>()
-                .Build();
-    }
-}
+var app = builder.Build();
+
+app.UseDeveloperExceptionPage();
+app.MapControllers();
+
+app.Run();
