@@ -13,7 +13,7 @@ namespace AspNetCoreExample
     public class Startup
     {
         private const string DefaultActivitySourceName = "AspNetCoreExample.*";
-        private const string MongoDBDriverActivitySourceName = "MongoDB.Driver.Core.Extensions.DiagnosticSources";
+        private const string MongoDBDriverActivitySourceName = "MongoDB.Driver";
 
         public Startup(IConfiguration configuration)
         {
