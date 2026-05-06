@@ -18,7 +18,6 @@ namespace AspNetCoreExample.Services
             {
                 // Subscribe to the Mongo activities for OpenTelemetry.
                 var clientSettings = MongoClientSettings.FromConnectionString(settings.ConnectionString);
-                clientSettings.ClusterConfigurator = cb => cb.Subscribe(new DiagnosticsActivityEventSubscriber());
 
                 var client = new MongoClient(clientSettings);
                 var database = client.GetDatabase(settings.DatabaseName);

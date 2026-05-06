@@ -1,6 +1,7 @@
 using AspNetCoreExample.Models;
 using AspNetCoreExample.Services;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Options;
 using OpenTelemetry.Trace;
 
