@@ -21,15 +21,14 @@ pip install -r requirements.txt
 ## 4. Install instrumentation packages
 
 ```
-splunk-py-trace-bootstrap
+opentelemetry-bootstrap -a install
 ```
 
 ## 5. Run the Flask app with uWSGI
 
 ```
 export OTEL_SERVICE_NAME=my-flask-app
-uwsgi --http 127.0.0.1:8000 --wsgi-file app.py --callable app --master --processes 4 --enable-threads
+opentelemetry-instrument uwsgi --http 127.0.0.1:8000 --wsgi-file app.py --callable app --master --processes 4 --enable-threads
 ```
 
 Open http://localhost:8000/hello/ to access the app.
-
