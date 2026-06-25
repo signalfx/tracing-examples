@@ -9,6 +9,6 @@ protobuf==6.33.5
 six==1.15.0
 splunk-opentelemetry==2.11.0
 thrift==0.13.0
-uWSGI==2.0.22
+uWSGI==2.0.31
 Werkzeug==3.1.6
 wrapt==2.2.2
