@@ -21,7 +21,7 @@ pip install -r requirements.txt
 ## 4. Install instrumentation packages
 
 ```
-splunk-py-trace-bootstrap
+opentelemetry-bootstrap -a install
 ```
 
 ## 5. Run the Django app with Gunicorn
@@ -29,10 +29,10 @@ splunk-py-trace-bootstrap
 ```
 export DJANGO_SETTINGS_MODULE=djtest.settings
 export OTEL_SERVICE_NAME=my-django-service
-splunk-py-trace gunicorn -b 127.0.0.1:8000 --threads 2 --workers 4 djtest.wsgi
+opentelemetry-instrument gunicorn -b 127.0.0.1:8000 --threads 2 --workers 4 djtest.wsgi
 ```
 
-Open http://localhost:8000/hello to access the app.
+Open http://localhost:8000/hello/ to access the app.
 
 
 Refer to `gunicorn.config.py` to see how tracing is setup.
