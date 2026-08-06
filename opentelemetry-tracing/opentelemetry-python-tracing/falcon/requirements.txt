@@ -1,2 +1,2 @@
-falcon==2.0.0
+falcon~=3.0
 splunk-opentelemetry[all]>=0.17.0
