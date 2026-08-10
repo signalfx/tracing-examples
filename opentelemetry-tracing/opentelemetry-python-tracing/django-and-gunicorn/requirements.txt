@@ -1,5 +1,5 @@
 asgiref==3.8.1
-Django==4.2.30
+Django==5.2.16
 googleapis-common-protos==1.75.0
 grpcio==1.75.1
 gunicorn==22.0.0
