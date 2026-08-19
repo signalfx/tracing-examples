@@ -5,7 +5,7 @@
 >
 > See the [OpenTelemetry website](https://opentelemetry.io) 
 and the [OpenTelemetry Demo](https://opentelemetry.io/ecosystem/demo/) 
-for information and and examples of tracing with OpenTelemetry.
+for information and examples of tracing with OpenTelemetry.
 
 ---
 
